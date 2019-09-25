@@ -3,13 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              mc:Ignorable="d"
-             x:Class="GlitchedEpistle.Client.Mobile.Views.AboutPage"
-             xmlns:vm="clr-namespace:GlitchedEpistle.Client.Mobile.ViewModels"
+             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.AboutPage"
              Title="{Binding Title}">
     
     <ContentPage.BindingContext>
-        <vm:AboutViewModel />
+        <viewModels:AboutViewModel />
     </ContentPage.BindingContext>
     
     <ContentPage.Resources>
