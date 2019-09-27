@@ -16,5 +16,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             InitializeComponent();
         }
+
+        private void UserIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void TotpTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

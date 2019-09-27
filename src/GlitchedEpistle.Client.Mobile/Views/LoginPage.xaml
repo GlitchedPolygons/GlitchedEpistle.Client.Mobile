@@ -4,44 +4,43 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Page1">
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center" 
-                     Margin="20 0 0 0"
-                     IsEnabled="{Binding UIEnabled}">
+        <StackLayout HorizontalOptions="Center"
+                     IsEnabled="{Binding UIEnabled}" 
+                     Margin="0,32,0,0">
             <Label FontSize="16" 
                    FontAttributes="Bold"
-                   Text="Welcome to Glitched Epistle."/>
+                   Text="{i:Translate WelcomeLabel}"/>
             <Label Text="{Binding ErrorMessage}"
                    TextColor="{DynamicResource ErrorMessageColor}"
-                   Margin="5 0 0 0"
                    LineBreakMode="WordWrap"
                    HorizontalOptions="Start"
                    FontSize="14" />
             
             <Label FontSize="14" 
-                   Text="Please login:" 
-                   Margin="0 0 10 0"/>
+                   Text="Please login:"/>
             
             <Label Text="User ID"/>
             <Entry MinimumWidthRequest="250" 
                    IsPassword="False"
                    x:Name="UserIdTextBox"
-                   Text="{Binding UserId}"
-                   TextChanged="UserIdTextBox_OnTextChanged" />
+                   Text="{Binding UserId}" 
+                   TextChanged="UserIdTextBox_TextChanged" />
             
             <Label Text="Password"/>
             <Entry x:Name="PasswordBox" 
                    IsPassword="True"
                    MinimumWidthRequest="250"
-                   TextChanged="PasswordTextBox_OnTextChanged"/>
+                   TextChanged="PasswordBox_TextChanged"/>
 
 
             <Label Text="2FA TOTP" />
-            <Entry MinimumWidthRequest="250"
-                   x:Name="TotpTextBox"
-                   Text="{Binding Totp}"
-                   TextChanged="TotpTextBox_OnTextChanged" />
+            <Entry  x:Name="TotpTextBox"
+                    MinimumWidthRequest="250"
+                    Text="{Binding Totp}"
+                    TextChanged="TotpTextBox_TextChanged" />
 
             <StackLayout Orientation="Horizontal"
                          HorizontalOptions="Center"
