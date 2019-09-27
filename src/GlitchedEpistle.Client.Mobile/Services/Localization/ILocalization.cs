@@ -20,9 +20,20 @@ using System.Globalization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization
 {
+    /// <summary>
+    /// Localization provider.
+    /// </summary>
     public interface ILocalization
     {
+        /// <summary>
+        /// Gets the current device's preferred <see cref="CultureInfo"/>.
+        /// </summary>
         CultureInfo GetCurrentCultureInfo();
+
+        /// <summary>
+        /// Sets the <see cref="CultureInfo"/> for this app.
+        /// </summary>
+        /// <param name="ci">The target <see cref="CultureInfo"/> to apply.</param>
         void SetCurrentCultureInfo(CultureInfo ci);
     }
 }

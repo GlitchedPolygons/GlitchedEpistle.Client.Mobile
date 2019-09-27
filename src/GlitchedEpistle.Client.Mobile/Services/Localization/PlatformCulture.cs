@@ -21,9 +21,9 @@ using System;
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization
 {
     /// <summary>
-	/// Helper class for splitting locales like for example:<para> </para>
-	///   iOS: it_CH <para> </para>
-	///   Android: it-CH <para> </para>
+	/// Helper class for splitting locales like for example:    <para> </para>
+	///   iOS: it_CH        <para> </para>
+	///   Android: it-CH    <para> </para>
 	/// into parts that are more suitable for the creation of a .NET culture (or fallback culture).
 	/// </summary>
     public class PlatformCulture
@@ -48,7 +48,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization
         /// from a platform-specific culture string. <para> </para>
         /// iOS uses underscores as language/locale separator; Android uses dashes. Lovely.
         /// </summary>
-        /// <param name="platformCultureString"></param>
+        /// <param name="platformCultureString">Platform-specific culture identifier <c>string</c>.</param>
         public PlatformCulture(string platformCultureString)
         {
             if (string.IsNullOrEmpty(platformCultureString))
