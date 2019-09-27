@@ -10,9 +10,11 @@
         <StackLayout HorizontalOptions="Center"
                      IsEnabled="{Binding UIEnabled}" 
                      Margin="0,32,0,0">
+            
             <Label FontSize="16" 
                    FontAttributes="Bold"
                    Text="{i:Translate WelcomeLabel}"/>
+            
             <Label Text="{Binding ErrorMessage}"
                    TextColor="{DynamicResource ErrorMessageColor}"
                    LineBreakMode="WordWrap"
