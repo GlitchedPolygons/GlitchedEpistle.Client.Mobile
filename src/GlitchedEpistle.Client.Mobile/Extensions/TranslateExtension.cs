@@ -32,7 +32,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions
     public class TranslateExtension : IMarkupExtension
     {
         private readonly CultureInfo ci = null;
-        private const string RESOURCE_ID = "Resources.LocalizedStrings";
+        private const string RESOURCE_ID = "GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.LocalizedStrings";
 
         private static readonly Lazy<ResourceManager> RESOURCES = new Lazy<ResourceManager>(() => new ResourceManager(RESOURCE_ID, IntrospectionExtensions.GetTypeInfo(typeof(TranslateExtension)).Assembly));
 

@@ -23,6 +23,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization
     public interface ILocalization
     {
         CultureInfo GetCurrentCultureInfo();
-        void SetLocale(CultureInfo ci);
+        void SetCurrentCultureInfo(CultureInfo ci);
     }
 }
