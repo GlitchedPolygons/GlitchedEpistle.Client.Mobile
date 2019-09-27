@@ -6,62 +6,58 @@
              mc:Ignorable="d"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Page1">
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center"
+        <StackLayout HorizontalOptions="Center" 
+                     Margin="20 0 0 0"
                      IsEnabled="{Binding UIEnabled}">
             <Label FontSize="16" 
                    FontAttributes="Bold"
                    Text="Welcome to Glitched Epistle."/>
             <Label Text="{Binding ErrorMessage}"
                    TextColor="{DynamicResource ErrorMessageColor}"
-                   Margin="5,0,0,0"
+                   Margin="5 0 0 0"
                    LineBreakMode="WordWrap"
                    HorizontalOptions="Start"
                    FontSize="14" />
+            
             <Label FontSize="14" 
                    Text="Please login:" 
                    Margin="0 0 10 0"/>
+            
             <Label Text="User ID"/>
             <Entry MinimumWidthRequest="250" 
                    IsPassword="False"
-                   Name="UserIdTextBox"
+                   x:Name="UserIdTextBox"
                    Text="{Binding UserId}"
                    TextChanged="UserIdTextBox_OnTextChanged" />
+            
             <Label Text="Password"/>
-            <Entry Name="PasswordBox" 
+            <Entry x:Name="PasswordBox" 
                    IsPassword="True"
                    MinimumWidthRequest="250"
-                   TextChanged="PasswordTextBox_OnTextChanged">
-                <!--
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PasswordChanged">
-                        <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}"
-                                           CommandParameter="{Binding ElementName=PasswordBox}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                -->
-            </Entry>
+                   TextChanged="PasswordTextBox_OnTextChanged"/>
+
 
             <Label Text="2FA TOTP" />
             <Entry MinimumWidthRequest="250"
-                   Name="TotpTextBox"
+                   x:Name="TotpTextBox"
+                   Text="{Binding Totp}"
                    TextChanged="TotpTextBox_OnTextChanged" />
-            <StackLayout Orientation="Horizontal" 
-                         HorizontalOptions="CenterAndExpand"
-                         Margin="0,15,0,0">
-                <Button Text="Quit"
-                        Command="{Binding QuitCommand}" />
+
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         Margin="0,10,0,0">
+
+                <Button Text="Change Server"
+                        Command="{Binding EditServerUrlCommand}"/>
+
                 <Button Text="Register" 
-                        Name="RegisterButton"
+                        x:Name="RegisterButton"
                         Command="{Binding RegisterCommand}" />
             </StackLayout>
-            <Button Text="Change Server"
-                    Command="{Binding EditServerUrlCommand}"/>
-            <Button Width="250" 
-                    Margin="0,15,0,0"
-                    Text="Login"
-                    Name="LoginButton"
+            
+            <Button Text="Login"
+                    x:Name="LoginButton"
                     Command="{Binding LoginCommand}"
-                    CommandParameter="{Binding Text, ElementName=TotpTextBox }"
                     IsEnabled="False" />
         </StackLayout>
     </ContentPage.Content>
