@@ -10,9 +10,9 @@
         <StackLayout HorizontalOptions="Center" 
                      VerticalOptions="Center"
                      IsEnabled="{Binding UIEnabled}" 
-                     Margin="0,32,0,75">
+                     Margin="0,32,0,50">
             
-            <Label FontSize="16" 
+            <Label FontSize="20" 
                    FontAttributes="Bold"
                    Text="{i:Translate WelcomeLabel}"/>
             
@@ -22,46 +22,42 @@
                    HorizontalOptions="Start"
                    FontSize="14" />
             
-            <Label FontSize="14" 
+            <Label FontSize="16" 
                    Margin="0,0,0,10" 
                    Text="{i:Translate PleaseLoginLabel}"/>
 
-            <Label Text="{i:Translate UserIdLabel}"/>
             <Entry MinimumWidthRequest="250"
                    IsPassword="False"
                    x:Name="UserIdTextBox"
+                   Placeholder="{i:Translate UserIdLabel}"
                    Text="{Binding UserId}" 
                    TextChanged="UserIdTextBox_TextChanged" />
 
-            <Label Text="{i:Translate PasswordLabel}"/>
             <Entry x:Name="PasswordBox" 
                    IsPassword="True"
                    MinimumWidthRequest="250"
+                   Placeholder="{i:Translate PasswordLabel}"
                    TextChanged="PasswordBox_TextChanged"/>
 
-
-            <Label Text="{i:Translate TotpLabel}" />
             <Entry  x:Name="TotpTextBox"
                     MinimumWidthRequest="250"
+                    Placeholder="{i:Translate TotpLabel}"
                     Text="{Binding Totp}"
                     TextChanged="TotpTextBox_TextChanged" />
 
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="Center"
-                         Margin="0,10,0,0">
-
+            <StackLayout Margin="0,20,0,0">
                 <Button Text="{i:Translate ChangeServerButton}"
                         Command="{Binding EditServerUrlCommand}"/>
 
                 <Button Text="{i:Translate RegisterButton}" 
                         x:Name="RegisterButton"
                         Command="{Binding RegisterCommand}" />
-            </StackLayout>
 
-            <Button Text="{i:Translate LoginButton}"
-                    x:Name="LoginButton"
-                    Command="{Binding LoginCommand}"
-                    IsEnabled="False" />
+                <Button Text="{i:Translate LoginButton}"
+                        x:Name="LoginButton"
+                        Command="{Binding LoginCommand}"
+                        IsEnabled="False" />
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
