@@ -56,10 +56,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions
             var translation = RESOURCES.Value.GetString(Text, ci);
             if (translation == null)
             {
-#if DEBUG
-                throw new ArgumentException(string.Format("Key '{0}' was not found in resources '{1}' for culture '{2}'.", Text, RESOURCE_ID, ci.Name),"Text");
-#else
                 translation = Text;
+#if DEBUG
+                Console.WriteLine(string.Format("Key '{0}' was not found in resources '{1}' for culture '{2}'.", Text, RESOURCE_ID, ci.Name));
 #endif
             }
 

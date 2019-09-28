@@ -117,8 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChangeServerButton" xml:space="preserve">
+    <value>Change Server</value>
+  </data>
+  <data name="LoginButton" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="PasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
   <data name="PleaseLoginLabel" xml:space="preserve">
     <value>Please login:</value>
+  </data>
+  <data name="RegisterButton" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="TotpLabel" xml:space="preserve">
+    <value>Two-Factor Authentication</value>
+  </data>
+  <data name="UserIdLabel" xml:space="preserve">
+    <value>User ID</value>
   </data>
   <data name="WelcomeLabel" xml:space="preserve">
     <value>Welcome to Glitched Epistle.</value>
