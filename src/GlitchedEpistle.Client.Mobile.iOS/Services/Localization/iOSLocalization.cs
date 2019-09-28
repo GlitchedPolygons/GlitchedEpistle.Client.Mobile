@@ -41,7 +41,7 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
             { "de-DE", new CultureInfo("de-DE") }, // German from Germany.
             { "de-CH", new CultureInfo("de-CH") }, // German from Switzerland.
             { "gsw", new CultureInfo("gsw") }, // Swiss German from Switzerland.
-            { "gsw-CH", new CultureInfo("gsw-CH") },
+            { "gsw-CH", new CultureInfo("gsw") },
             { "it", new CultureInfo("it") }, // Italian.
             { "it-IT", new CultureInfo("it-IT") }, // Italian from Italy.
             { "it-CH", new CultureInfo("it-CH") }, // Italian from Ticino.

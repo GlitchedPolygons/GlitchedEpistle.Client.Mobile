@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Page1">
+             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage">
     <ContentPage.Content>
         <StackLayout HorizontalOptions="Center"
                      IsEnabled="{Binding UIEnabled}" 
@@ -22,7 +22,7 @@
                    FontSize="14" />
             
             <Label FontSize="14" 
-                   Text="Please login:"/>
+                   Text="{i:Translate PleaseLoginLabel}"/>
             
             <Label Text="User ID"/>
             <Entry MinimumWidthRequest="250" 

@@ -16,9 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using Xamarin.Forms;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 {
@@ -30,11 +30,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+
             MainPage = new MainPage();
         }
 
         protected override void OnStart()
         {
+            // TODO: Load settings here.
+            //       Call ILocalization.SetCurrentCultureInfo;
+            //       If a custom language setting is found inside the config, use that as parameter. 
+            //       Otherwise ILocalize.GetCurrentCultureInfo
+
+            MainPage = new LoginPage();
             // Handle when your app starts
         }
 
