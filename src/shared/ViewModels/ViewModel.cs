@@ -75,7 +75,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 errorMsgResetTimer.Stop();
                 errorMsgResetTimer.Start();
 
-                Set(ref errorMessage, value);
+                ExecUI(() => Set(ref errorMessage, value));
             }
         }
 
@@ -94,7 +94,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 successMsgResetTimer.Stop();
                 successMsgResetTimer.Start();
 
-                Set(ref successMessage, value);
+                ExecUI(() => Set(ref successMessage, value));
             }
         }
 

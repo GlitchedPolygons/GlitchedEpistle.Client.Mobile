@@ -16,24 +16,38 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using Xamarin.Forms;
+
 using Unity;
 using Unity.Lifetime;
 
 using System;
+using System.IO;
 using System.Reflection;
 
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
+using GlitchedPolygons.Services.JwtService;
 using GlitchedPolygons.Services.CompressionUtility;
+using GlitchedPolygons.Services.Cryptography.Symmetric;
+using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Logging;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.ServerHealth;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 
-using Xamarin.Forms;
+using Prism.Events;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 {
@@ -48,7 +62,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// Gets the currently active GUI theme (appearance of the app).
         /// </summary>
         /// <value>The current theme.</value>
-        public string CurrentTheme { get; private set; } = "Dark";
+        public string CurrentTheme { get; private set; } = Themes.DARK_THEME;
 
         /// <summary>
         /// Dependency injection container.
@@ -58,25 +72,52 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         public App()
         {
             InitializeComponent();
+            Directory.CreateDirectory(Paths.ROOT_DIRECTORY);
 
             DependencyService.Register<MockDataStore>();
 
-            // Transient injections:
-            container.RegisterType<ILogger, TextLogger>();
+            // Register transient types:
+            container.RegisterType<JwtService>();
+            container.RegisterType<IUserService, UserService>();
+            container.RegisterType<IConvoService, ConvoService>();
+            container.RegisterType<ICompressionUtility, GZipUtility>();
             container.RegisterType<ICompressionUtilityAsync, GZipUtilityAsync>();
-            container.RegisterType<IViewModelFactory, ViewModelFactory>();
+            container.RegisterType<IAsymmetricKeygenRSA, AsymmetricKeygenRSA>();
+            container.RegisterType<ISymmetricCryptography, SymmetricCryptography>();
+            container.RegisterType<IAsymmetricCryptographyRSA, AsymmetricCryptographyRSA>();
+            container.RegisterType<IMessageCryptography, MessageCryptography>();
+            container.RegisterType<IServerConnectionTest, ServerConnectionTest>();
+            container.RegisterType<IMessageSender, MessageSender>();
+            container.RegisterType<ILoginService, LoginService>();
+            container.RegisterType<IPasswordChanger, PasswordChanger>();
+            container.RegisterType<IRegistrationService, RegistrationService>();
 
-            // IoC singletons:
-            container.RegisterType<User>(new ContainerControlledLifetimeManager());
+            // Register IoC singletons:
+            container.RegisterType<User>(new ContainerControlledLifetimeManager()); // This is the application's user.
             container.RegisterType<IMethodQ, MethodQ>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ILogger, TextLogger>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IAppSettings, AppSettingsJson>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IUserSettings, UserSettingsJson>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IEventAggregator, EventAggregator>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IViewModelFactory, ViewModelFactory>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IConvoPasswordProvider, ConvoPasswordProvider>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IMessageFetcher, MessageFetcher>(new ContainerControlledLifetimeManager());
         }
 
         protected override void OnStart()
         {
-            // TODO: Load settings here.
-            //       Call ILocalization.SetCurrentCultureInfo;
-            //       If a custom language setting is found inside the config, use that as parameter. 
-            //       Otherwise ILocalize.GetCurrentCultureInfo
+            IAppSettings settings = container.Resolve<IAppSettings>();
+            ILocalization localization = DependencyService.Get<ILocalization>();
+
+            ChangeTheme(settings["Theme", Themes.DARK_THEME]);
+
+            string lang = settings["Language"];
+            if (lang.NullOrEmpty())
+            {
+                lang = localization.GetCurrentCultureInfo()?.ToString() ?? "en";
+            }
+
+            localization.SetCurrentCultureInfo(new System.Globalization.CultureInfo(lang));
 
             var vm = Resolve<LoginViewModel>();
             MainPage = new LoginPage { BindingContext = vm };
@@ -112,7 +153,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             if (theme.NullOrEmpty() || theme.Equals(CurrentTheme))
             {
 #if DEBUG
-                throw new ArgumentException($"{nameof(App)}::{nameof(ChangeTheme)}: Attempted to change theme with a null or empty theme identifier parameter. Please only provide a valid theme parameter to this method!", nameof(theme));
+                if (theme.NullOrEmpty()) throw new ArgumentException($"{nameof(App)}::{nameof(ChangeTheme)}: Attempted to change theme with a null or empty theme identifier parameter. Please only provide a valid theme parameter to this method!", nameof(theme));
 #else
                 return false;
 #endif
@@ -123,13 +164,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
             switch (theme)
             {
-                case "Dark":
+                case Themes.DARK_THEME:
                     path = "/Resources/Themes/DarkTheme.xaml";
                     break;
-                case "Light":
+                case Themes.LIGHT_THEME:
                     path = "/Resources/Themes/LightTheme.xaml";
                     break;
-                case "OLED":
+                case Themes.OLED_THEME:
                     path = "/Resources/Themes/OLEDTheme.xaml";
                     break;
             }
