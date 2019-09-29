@@ -8,27 +8,28 @@
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center"
+        <ScrollView>
+            <StackLayout HorizontalOptions="Center"
                      VerticalOptions="Center"
                      IsEnabled="{Binding UIEnabled}" 
                      Margin="0,32,0,50">
-            
-            <Label Style="{DynamicResource TitleLabelStyle}"
+
+                <Label Style="{DynamicResource TitleLabelStyle}"
                    FontAttributes="Bold"
                    Text="{i:Translate WelcomeLabel}"/>
 
-            <Label Text="{Binding ErrorMessage}"
+                <Label Text="{Binding ErrorMessage}"
                    TextColor="{DynamicResource ErrorMessageColor}"
                    LineBreakMode="WordWrap"
                    HorizontalOptions="Start"
                    FontSize="14" />
-            
-            <Label FontSize="16" 
+
+                <Label FontSize="16" 
                    Margin="0,0,0,10" 
                    Style="{DynamicResource SubLabelStyle}"
                    Text="{i:Translate PleaseLoginLabel}"/>
 
-            <Entry MinimumWidthRequest="250"
+                <Entry MinimumWidthRequest="250"
                    IsPassword="False"
                    x:Name="UserIdTextBox"
                    Style="{DynamicResource EntryStyle}"
@@ -36,35 +37,36 @@
                    Text="{Binding UserId}" 
                    TextChanged="UserIdTextBox_TextChanged" />
 
-            <Entry x:Name="PasswordBox" 
+                <Entry x:Name="PasswordBox" 
                    IsPassword="True"
                    MinimumWidthRequest="250"
                    Style="{DynamicResource EntryStyle}"
                    Placeholder="{i:Translate PasswordLabel}"
                    TextChanged="PasswordBox_TextChanged"/>
 
-            <Entry  x:Name="TotpTextBox"
+                <Entry  x:Name="TotpTextBox"
                     MinimumWidthRequest="250"
                     Style="{DynamicResource EntryStyle}"
                     Placeholder="{i:Translate TotpLabel}"
                     Text="{Binding Totp}"
                     TextChanged="TotpTextBox_TextChanged" />
 
-            <StackLayout Margin="0,20,0,0">
-                
-                <Button Text="{i:Translate ChangeServerButton}" 
+                <StackLayout Margin="0,20,0,0">
+
+                    <Button Text="{i:Translate ChangeServerButton}" 
                         Command="{Binding EditServerUrlCommand}"/>
 
-                <Button Text="{i:Translate RegisterButton}" 
+                    <Button Text="{i:Translate RegisterButton}" 
                         x:Name="RegisterButton"
                         Command="{Binding RegisterCommand}" />
 
-                <Button Text="{i:Translate LoginButton}"
+                    <Button Text="{i:Translate LoginButton}"
                         x:Name="LoginButton"
                         Command="{Binding LoginCommand}"
                         IsEnabled="False" />
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
     
