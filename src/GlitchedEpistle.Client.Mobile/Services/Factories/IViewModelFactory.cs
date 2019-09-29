@@ -16,21 +16,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Windows.Input;
-using Xamarin.Forms;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories
 {
-    public class AboutViewModel : ViewModel
+    /// <summary>
+    /// Interface for the <see cref="ViewModel"/> factory.
+    /// </summary>
+    public interface IViewModelFactory
     {
-        public AboutViewModel()
-        {
-            Title = "About";
-
-            OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://xamarin.com/platform")));
-        }
-
-        public ICommand OpenWebCommand { get; }
+        /// <summary>
+        /// Gets a <see cref="ViewModel"/> with resolved dependencies through the <see cref="App"/>'s <see cref="UnityContainer"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see cref="ViewModel"/> you want to get.</typeparam>
+        /// <returns>The retrieved <see cref="ViewModel"/> instance, ready to be assigned to a <see cref="Window.DataContext"/>.</returns>
+        T Create<T>() where T : ViewModel;
     }
 }

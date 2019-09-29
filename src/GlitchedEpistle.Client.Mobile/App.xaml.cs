@@ -16,10 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using DryIoc;
-using Xamarin.Forms;
+using Unity;
+using Unity.Lifetime;
+
 using System;
 using System.Reflection;
+
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.Services.CompressionUtility;
@@ -27,7 +29,11 @@ using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Logging;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
+
+using Xamarin.Forms;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 {
@@ -47,7 +53,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// <summary>
         /// Dependency injection container.
         /// </summary>
-        private readonly Container container = new Container();
+        private readonly IUnityContainer container = new UnityContainer();
 
         public App()
         {
@@ -56,14 +62,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             DependencyService.Register<MockDataStore>();
 
             // Transient injections:
-            container.Register<ILogger, TextLogger>();
-            container.Register<ICompressionUtilityAsync, GZipUtilityAsync>();
+            container.RegisterType<ILogger, TextLogger>();
+            container.RegisterType<ICompressionUtilityAsync, GZipUtilityAsync>();
+            container.RegisterType<IViewModelFactory, ViewModelFactory>();
 
             // IoC singletons:
-            container.Register<User>(new SingletonReuse());
-            container.Register<IMethodQ, MethodQ>(new SingletonReuse());
-
-            MainPage = new MainPage();
+            container.RegisterType<User>(new ContainerControlledLifetimeManager());
+            container.RegisterType<IMethodQ, MethodQ>(new ContainerControlledLifetimeManager());
         }
 
         protected override void OnStart()
@@ -73,8 +78,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             //       If a custom language setting is found inside the config, use that as parameter. 
             //       Otherwise ILocalize.GetCurrentCultureInfo
 
-            MainPage = new LoginPage();
-            // Handle when your app starts
+            MainPage = new LoginPage { BindingContext = Resolve<LoginViewModel>() };
         }
 
         protected override void OnSleep()

@@ -16,17 +16,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using Xamarin.Forms;
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
+using System.Collections.ObjectModel;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
-using Xamarin.Forms;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class ItemsViewModel : ViewModel
     {
         public ObservableCollection<Item> Items { get; set; }
         public Command LoadItemsCommand { get; set; }

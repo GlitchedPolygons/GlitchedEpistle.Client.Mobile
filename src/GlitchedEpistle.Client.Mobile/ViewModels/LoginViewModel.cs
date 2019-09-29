@@ -17,20 +17,13 @@
 */
 
 using System;
-using System.Windows.Input;
-using Xamarin.Forms;
+using System.Text;
+using System.Collections.Generic;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class AboutViewModel : ViewModel
+    public class LoginViewModel : ViewModel
     {
-        public AboutViewModel()
-        {
-            Title = "About";
 
-            OpenWebCommand = new Command(() => Device.OpenUri(new Uri("https://xamarin.com/platform")));
-        }
-
-        public ICommand OpenWebCommand { get; }
     }
 }

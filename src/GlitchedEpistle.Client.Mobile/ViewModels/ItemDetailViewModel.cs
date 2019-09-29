@@ -20,7 +20,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class ItemDetailViewModel : BaseViewModel
+    public class ItemDetailViewModel : ViewModel
     {
         public Item Item { get; set; }
         public ItemDetailViewModel(Item item = null)
