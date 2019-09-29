@@ -78,7 +78,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             //       If a custom language setting is found inside the config, use that as parameter. 
             //       Otherwise ILocalize.GetCurrentCultureInfo
 
-            MainPage = new LoginPage { BindingContext = Resolve<LoginViewModel>() };
+            var vm = Resolve<LoginViewModel>();
+            MainPage = new LoginPage { BindingContext = vm };
         }
 
         protected override void OnSleep()

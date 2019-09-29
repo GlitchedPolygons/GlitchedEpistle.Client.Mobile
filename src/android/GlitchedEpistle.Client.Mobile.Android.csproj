@@ -100,7 +100,7 @@
     <Folder Include="Resources\drawable-xxxhdpi\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GlitchedEpistle.Client.Mobile\GlitchedEpistle.Client.Mobile.csproj">
+    <ProjectReference Include="..\shared\GlitchedEpistle.Client.Mobile.csproj">
       <Project>{D4794D1A-A044-4B4B-BE8F-83F4A32A53F1}</Project>
       <Name>GlitchedEpistle.Client.Mobile</Name>
     </ProjectReference>
