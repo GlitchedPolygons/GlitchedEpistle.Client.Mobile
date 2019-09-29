@@ -16,13 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
+using UIKit;
 using Foundation;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile;
-using UIKit;
 
 namespace GlitchedEpistle.Client.Mobile.iOS
 {

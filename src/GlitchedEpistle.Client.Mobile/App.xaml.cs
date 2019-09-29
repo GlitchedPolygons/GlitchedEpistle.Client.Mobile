@@ -21,13 +21,13 @@ using Xamarin.Forms;
 using System;
 using System.Reflection;
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
-using GlitchedPolygons.Services.MethodQ;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 {
@@ -36,7 +36,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// <summary>
         /// The client version number.
         /// </summary>
-        public static string Version => Assembly.GetEntryAssembly()?.GetName().Version.ToString();
+        public static string Version => Assembly.GetEntryAssembly()?.GetName()?.Version?.ToString();
 
         /// <summary>
         /// Gets the currently active GUI theme (appearance of the app).

@@ -26,9 +26,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Themes/DarkTheme.xaml" />
-                <ResourceDictionary Source="Resources/Themes/Base/Theme.xaml" />
-                <ResourceDictionary Source="Resources/Themes/Base/ControlTemplates.xaml"/>
+                <ResourceDictionary Source="/Resources/Themes/DarkTheme.xaml" />
+                <ResourceDictionary Source="/Resources/Themes/Base/Theme.xaml" />
+                <ResourceDictionary Source="/Resources/Themes/Base/ControlTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
