@@ -24,6 +24,9 @@
     <!--Dark Green-->
     <Color x:Key="PrimaryDarkColor">#22a009</Color>
 
+    <!--Red-->
+    <Color x:Key="ErrorMessageColor">Red</Color>
+
     <!--White-->
     <Color x:Key="PrimaryTintColor">#FFFFFF</Color>
 

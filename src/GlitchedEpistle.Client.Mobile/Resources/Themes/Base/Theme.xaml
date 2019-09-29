@@ -41,6 +41,11 @@
         <Setter Property="TextColor" Value="{DynamicResource SecondaryTextColor}"/>
     </Style>
 
+    <Style x:Key="ErrorMessageStyle" TargetType="Label">
+        <Setter Property="FontSize" Value=""/>
+        <Setter Property="TextColor" Value="{DynamicResource ErrorTextColor}"/>
+    </Style>
+
     <Style x:Key="OverlayTitleLabelStyle" TargetType="Label">
         <Setter Property="FontSize" Value="20"/>
         <Setter Property="TextColor" Value="{DynamicResource OverlayTextColor}"/>

@@ -16,7 +16,7 @@
             <Label Style="{DynamicResource TitleLabelStyle}"
                    FontAttributes="Bold"
                    Text="{i:Translate WelcomeLabel}"/>
-            
+
             <Label Text="{Binding ErrorMessage}"
                    TextColor="{DynamicResource ErrorMessageColor}"
                    LineBreakMode="WordWrap"
