@@ -21,6 +21,9 @@
          colorControlHighlight and colorSwitchThumbNormal. -->
     <item name="windowActionModeOverlay">true</item>
 
+    <!-- Set the bottom line color for text entries. -->
+    <item name="android:textColorSecondary">#a3a3a3</item>
+
     <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
   </style>
 
