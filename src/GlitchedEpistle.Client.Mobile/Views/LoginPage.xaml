@@ -3,16 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
+             mc:Ignorable="d" 
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage">
+             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ContentPage.Content>
-        <StackLayout HorizontalOptions="Center" 
+        <StackLayout HorizontalOptions="Center"
                      VerticalOptions="Center"
                      IsEnabled="{Binding UIEnabled}" 
                      Margin="0,32,0,50">
             
-            <Label FontSize="20" 
+            <Label Style="{DynamicResource TitleLabelStyle}"
                    FontAttributes="Bold"
                    Text="{i:Translate WelcomeLabel}"/>
             
@@ -24,11 +25,13 @@
             
             <Label FontSize="16" 
                    Margin="0,0,0,10" 
+                   Style="{DynamicResource SubLabelStyle}"
                    Text="{i:Translate PleaseLoginLabel}"/>
 
             <Entry MinimumWidthRequest="250"
                    IsPassword="False"
                    x:Name="UserIdTextBox"
+                   Style="{DynamicResource EntryStyle}"
                    Placeholder="{i:Translate UserIdLabel}"
                    Text="{Binding UserId}" 
                    TextChanged="UserIdTextBox_TextChanged" />
@@ -36,11 +39,13 @@
             <Entry x:Name="PasswordBox" 
                    IsPassword="True"
                    MinimumWidthRequest="250"
+                   Style="{DynamicResource EntryStyle}"
                    Placeholder="{i:Translate PasswordLabel}"
                    TextChanged="PasswordBox_TextChanged"/>
 
             <Entry  x:Name="TotpTextBox"
                     MinimumWidthRequest="250"
+                    Style="{DynamicResource EntryStyle}"
                     Placeholder="{i:Translate TotpLabel}"
                     Text="{Binding Totp}"
                     TextChanged="TotpTextBox_TextChanged" />
