@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
+using System.Timers;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -40,18 +41,61 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>() ?? new MockDataStore();
 
-        bool isBusy = false;
-        public bool IsBusy
+        private bool isBusy = false;
+        public bool IsBusy { get => isBusy; set => Set(ref isBusy, value); }
+
+        private string title = string.Empty;
+        public string Title { get => title; set => Set(ref title, value); }
+
+        /// <summary>
+        /// The interval (in milliseconds) between error message resets.
+        /// </summary>
+        public int ErrorMessageResetInterval { get; set; } = 7000;
+
+        /// <summary>
+        /// The interval (in milliseconds) between success message resets.
+        /// </summary>
+        public int SuccessMessageResetInterval { get; set; } = 7000;
+
+        private Timer errorMsgResetTimer = null;
+        private Timer successMsgResetTimer = null;
+
+        private string errorMessage = string.Empty;
+        public string ErrorMessage
         {
-            get => isBusy;
-            set => SetProperty(ref isBusy, value);
+            get => errorMessage;
+            set
+            {
+                if (errorMsgResetTimer is null)
+                {
+                    errorMsgResetTimer = new Timer { Interval = ErrorMessageResetInterval, AutoReset = true };
+                    errorMsgResetTimer.Elapsed += (sender, e) => ErrorMessage = null;
+                }
+
+                errorMsgResetTimer.Stop();
+                errorMsgResetTimer.Start();
+
+                Set(ref errorMessage, value);
+            }
         }
 
-        string title = string.Empty;
-        public string Title
+        private string successMessage = string.Empty;
+        public string SuccessMessage
         {
-            get => title;
-            set => SetProperty(ref title, value);
+            get => successMessage;
+            set
+            {
+                if (successMsgResetTimer is null)
+                {
+                    successMsgResetTimer = new Timer { Interval = SuccessMessageResetInterval, AutoReset = true };
+                    successMsgResetTimer.Elapsed += (sender, e) => SuccessMessage = null;
+                }
+
+                successMsgResetTimer.Stop();
+                successMsgResetTimer.Start();
+
+                Set(ref successMessage, value);
+            }
         }
 
         /// <summary>
@@ -62,7 +106,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         /// <param name="newValue">The new value to give to the field.</param>
         /// <param name="propertyName">Name of the property (use the nameof operator when possible).</param>
         /// <returns><c>true</c> if the property needed to be updated (and thus received a new value), <c>false</c> otherwise.</returns>
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = "", Action onChanged = null)
+        protected bool Set<T>(ref T field, T newValue, [CallerMemberName] string propertyName = "", Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, newValue))
             {

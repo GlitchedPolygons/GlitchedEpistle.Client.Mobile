@@ -16,14 +16,45 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Text;
-using System.Collections.Generic;
+using System.Windows.Input;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
     public class LoginViewModel : ViewModel
     {
+        #region Constants
+        // Injections:
+        private readonly ILoginService loginService;
+        //private readonly IEventAggregator eventAggregator;
+        #endregion
 
+        #region Commands
+        public ICommand LoginCommand { get; }
+        public ICommand RegisterCommand { get; }
+        public ICommand EditServerUrlCommand { get; }
+        #endregion
+
+        #region UI Bindings
+        private string userId = string.Empty;
+        public string UserId { get => userId; set => Set(ref userId, value); }
+
+        private string password = string.Empty;
+        public string Password { get => password; set => Set(ref password, value); }
+
+        private string totp = string.Empty;
+        public string Totp { get => totp; set => Set(ref totp, value); }
+
+        private bool uiEnabled = true;
+        public bool UIEnabled { get => uiEnabled; set => Set(ref uiEnabled, value); }
+        #endregion
+
+        private volatile int failedAttempts;
+        private volatile bool pendingAttempt;
+
+        public LoginViewModel(ILoginService loginService)
+        {
+            this.loginService = loginService;
+        }
     }
 }

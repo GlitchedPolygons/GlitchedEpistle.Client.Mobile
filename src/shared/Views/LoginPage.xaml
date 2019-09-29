@@ -42,6 +42,7 @@
                    MinimumWidthRequest="250"
                    Style="{DynamicResource EntryStyle}"
                    Placeholder="{i:Translate PasswordLabel}"
+                   Text="{Binding Password}"
                    TextChanged="PasswordBox_TextChanged"/>
 
                 <Entry  x:Name="TotpTextBox"
