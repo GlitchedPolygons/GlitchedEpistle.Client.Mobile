@@ -51,7 +51,8 @@
                     TextChanged="TotpTextBox_TextChanged" />
 
             <StackLayout Margin="0,20,0,0">
-                <Button Text="{i:Translate ChangeServerButton}"
+                
+                <Button Text="{i:Translate ChangeServerButton}" 
                         Command="{Binding EditServerUrlCommand}"/>
 
                 <Button Text="{i:Translate RegisterButton}" 
