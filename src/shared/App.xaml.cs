@@ -111,7 +111,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         {
             IAppSettings settings = container.Resolve<IAppSettings>();
             ILocalization localization = DependencyService.Get<ILocalization>();
-
+            
             ChangeTheme(settings["Theme", Themes.DARK_THEME]);
 
             string lang = settings["Language"];
