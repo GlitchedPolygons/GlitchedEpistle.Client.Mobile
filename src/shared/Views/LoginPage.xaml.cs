@@ -16,10 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using GlitchedPolygons.ExtensionMethods;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using GlitchedPolygons.ExtensionMethods;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {

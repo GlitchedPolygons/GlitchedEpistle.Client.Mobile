@@ -24,11 +24,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout HorizontalOptions="Center"
+            <StackLayout HorizontalOptions="Center" 
                          VerticalOptions="Center"
                          Margin="0,32,0,50">
 
@@ -75,16 +76,22 @@
                 <StackLayout Margin="0,20,0,0">
 
                     <Button Text="{i:Translate ChangeServerButton}"
+                            x:Name="ChangeServerButton"
+                            IsEnabled="{Binding UIEnabled}"
                             Command="{Binding EditServerUrlCommand}"/>
 
-                    <Button Text="{i:Translate RegisterButton}" 
+                    <Button Text="{i:Translate RegisterButton}"
                             x:Name="RegisterButton"
                             Command="{Binding RegisterCommand}" />
 
                     <Button Text="{i:Translate LoginButton}"
-                            x:Name="LoginButton"
-                            Command="{Binding LoginCommand}"
-                            IsEnabled="False" />
+                            x:Name="LoginButton" 
+                            IsVisible="{Binding UIEnabled}"
+                            Command="{Binding LoginCommand}"/>
+
+                    <Button Text="{i:Translate AttemptingLoginButton}"
+                            IsEnabled="False"
+                            IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
