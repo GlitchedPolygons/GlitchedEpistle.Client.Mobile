@@ -109,20 +109,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         protected override void OnStart()
         {
-            IAppSettings settings = container.Resolve<IAppSettings>();
+            IAppSettings appSettings = container.Resolve<IAppSettings>();
             ILocalization localization = DependencyService.Get<ILocalization>();
-            
-            ChangeTheme(settings["Theme", Themes.DARK_THEME]);
 
-            string lang = settings["Language"];
+            ChangeTheme(appSettings["Theme", Themes.DARK_THEME]);
+
+            string lang = appSettings["Language"];
             if (lang.NullOrEmpty())
             {
-                lang = settings["Language"] = localization.GetCurrentCultureInfo()?.ToString() ?? "en";
+                lang = appSettings["Language"] = localization.GetCurrentCultureInfo()?.ToString() ?? "en";
             }
 
             localization.SetCurrentCultureInfo(new System.Globalization.CultureInfo(lang));
 
             var vm = Resolve<LoginViewModel>();
+            vm.UserId = appSettings.LastUserId;
             MainPage = new LoginPage { BindingContext = vm };
         }
 
