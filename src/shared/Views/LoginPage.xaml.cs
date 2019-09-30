@@ -17,6 +17,7 @@
 */
 
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -37,8 +38,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             {
                 PasswordBox.Focus();
             }
+        }
 
-            RegisterButton.IsEnabled = UserIdTextBox.Text.NullOrEmpty();
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            UserIdTextBox_TextChanged(this, null);
+            PasswordBox_TextChanged(this, null);
+            TotpTextBox_TextChanged(this, null);
         }
 
         private void UserIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
