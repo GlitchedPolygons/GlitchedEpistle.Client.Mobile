@@ -21,6 +21,7 @@ using Xamarin.Forms;
 using System.Threading;
 using System.Globalization;
 using System.Collections.Generic;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 [assembly: Dependency(typeof(GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localization.AndroidLocalization))]
@@ -32,6 +33,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localiza
     /// </summary>
     public class AndroidLocalization : ILocalization
     {
+        private CultureInfo currentCulture = null;
+
         private readonly IDictionary<string, CultureInfo> cachedCultures = new Dictionary<string, CultureInfo>(16)
         {
             { "en", new CultureInfo("en") }, // English.
@@ -53,6 +56,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localiza
         /// <param name="ci">The target <see cref="CultureInfo"/> to apply.</param>
         public void SetCurrentCultureInfo(CultureInfo ci)
         {
+            currentCulture = ci;
+            LocalizedStrings.Culture = ci;
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
         }
@@ -62,6 +67,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localiza
         /// </summary>
         public CultureInfo GetCurrentCultureInfo()
         {
+            if (currentCulture != null)
+            {
+                return currentCulture;
+            }
+
             string androidLocale = Locale.Default.ToString();
             string dotnetLanguage = AndroidToDotnetLanguage(androidLocale);
 

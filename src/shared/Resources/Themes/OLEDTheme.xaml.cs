@@ -1,4 +1,4 @@
-﻿<!--
+﻿/*
     Glitched Epistle - Mobile Client
     Copyright (C) 2019 Raphael Beck
 
@@ -14,11 +14,19 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
+*/
 
-<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.Base.ControlTemplates">
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
-</ResourceDictionary>
-    
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class OLEDTheme : ResourceDictionary
+    {
+        public OLEDTheme()
+        {
+            InitializeComponent();
+        }
+    }
+}

@@ -21,6 +21,7 @@ using Xamarin.Forms;
 using System.Threading;
 using System.Globalization;
 using System.Collections.Generic;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 [assembly: Dependency(typeof(GlitchedEpistle.Client.Mobile.iOS.Services.Localization.iOSLocalization))]
@@ -32,6 +33,8 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
     /// </summary>
     public class iOSLocalization : ILocalization
     {
+        private CultureInfo currentCulture = null;
+
         private readonly IDictionary<string, CultureInfo> cachedCultures = new Dictionary<string, CultureInfo>(16)
         {
             { "en", new CultureInfo("en") }, // English.
@@ -53,6 +56,8 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
         /// <param name="ci">The target <see cref="CultureInfo"/> to apply.</param>
         public void SetCurrentCultureInfo(CultureInfo ci)
         {
+            currentCulture = ci;
+            LocalizedStrings.Culture = ci;
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
         }
@@ -62,6 +67,11 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
         /// </summary>
         public CultureInfo GetCurrentCultureInfo()
         {
+            if (currentCulture != null)
+            {
+                return currentCulture;
+            }
+
             string dotnetLanguage = "en";
 
             if (NSLocale.PreferredLanguages.Length > 0)

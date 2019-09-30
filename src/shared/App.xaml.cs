@@ -39,6 +39,10 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.Base;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
@@ -47,7 +51,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.ServerHealth;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 
 using Prism.Events;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 {
@@ -114,7 +117,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             string lang = settings["Language"];
             if (lang.NullOrEmpty())
             {
-                lang = localization.GetCurrentCultureInfo()?.ToString() ?? "en";
+                lang = settings["Language"] = localization.GetCurrentCultureInfo()?.ToString() ?? "en";
             }
 
             localization.SetCurrentCultureInfo(new System.Globalization.CultureInfo(lang));
@@ -159,23 +162,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 #endif
             }
 
-            string path = null;
+            ResourceDictionary themeDictionary = null;
             ILogger logger = container.Resolve<ILogger>();
 
             switch (theme)
             {
                 case Themes.DARK_THEME:
-                    path = "/Resources/Themes/DarkTheme.xaml";
+                    themeDictionary = new DarkTheme();
                     break;
                 case Themes.LIGHT_THEME:
-                    path = "/Resources/Themes/LightTheme.xaml";
+                    themeDictionary = new LightTheme();
                     break;
                 case Themes.OLED_THEME:
-                    path = "/Resources/Themes/OLEDTheme.xaml";
+                    themeDictionary = new OLEDTheme();
                     break;
             }
 
-            if (path.NullOrEmpty())
+            if (themeDictionary is null)
             {
                 logger?.LogWarning($"Theme \"{theme}\" couldn't be found/does not exist.");
                 return false;
@@ -184,16 +187,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             try
             {
                 Resources.Clear();
-                Resources.Add(new ResourceDictionary { Source = new Uri(path, UriKind.Relative) });
-                Resources.Add(new ResourceDictionary { Source = new Uri("/Resources/Themes/Base/Theme.xaml", UriKind.Relative) });
-                Resources.Add(new ResourceDictionary { Source = new Uri("/Resources/Themes/Base/ControlTemplates.xaml", UriKind.Relative) });
+                Resources.Add(themeDictionary);
+                Resources.Add(new Theme());
+                Resources.Add(new ControlTemplates());
 
                 CurrentTheme = theme;
                 return true;
             }
             catch (Exception e)
             {
-                logger?.LogWarning($"Theme \"{path}\" couldn't be applied. Reverting to default theme... Thrown exception: {e.ToString()}");
+                logger?.LogWarning($"Theme \"{themeDictionary}\" couldn't be applied. Reverting to default theme... Thrown exception: {e.ToString()}");
                 return false;
             }
         }

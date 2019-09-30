@@ -42,7 +42,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions
         {
             if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
             {
-                ci = DependencyService.Get<ILocalization>().GetCurrentCultureInfo();
+                DependencyService.Get<ILocalization>().GetCurrentCultureInfo();
             }
         }
 
