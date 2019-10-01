@@ -78,12 +78,12 @@
                             Command="{Binding ResetCommand}"/>
 
                     <Button Text="{i:Translate TestConnectionButton}"
-                            IsEnabled="{Binding Testing, Converter={converters:InverseBoolConverter}}"
-                            Command="{Binding TestConnectionCommand}"/>
+                            Command="{Binding TestConnectionCommand}"
+                            IsEnabled="{Binding Testing, Converter={converters:InverseBoolConverter}}"/>
 
                     <Button Text="{i:Translate ConnectButton}"
-                            IsEnabled="{Binding ConnectionOk}"
-                            Command="{Binding ConnectCommand}" />
+                            Command="{Binding ConnectCommand}" 
+                            IsEnabled="{Binding ConnectionOk}"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

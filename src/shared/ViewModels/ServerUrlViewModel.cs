@@ -78,8 +78,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             ResetCommand = new DelegateCommand(OnClickedReset);
             ConnectCommand = new DelegateCommand(OnClickedConnect);
             TestConnectionCommand = new DelegateCommand(OnClickedTestConnection);
-
-            ConnectionOk = false;
         }
 
         private void OnClickedReset(object commandParam)
@@ -114,7 +112,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnClickedConnect(object commandParam)
         {
+            Testing = true;
             ConnectionOk = false;
+
             Task.Run(async () =>
             {
                 bool success = await test.TestConnection();
@@ -125,7 +125,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     ExecUI(() => eventAggregator.GetEvent<LogoutEvent>().Publish());
                     return;
                 }
-                ExecUI(() => ErrorMessage = localization["ConnectionToServerFailed"]);
+                ExecUI(() => 
+                {
+                    Testing = ConnectionOk = false;
+                    ErrorMessage = localization["ConnectionToServerFailed"];
+                });
             });
         }
     }
