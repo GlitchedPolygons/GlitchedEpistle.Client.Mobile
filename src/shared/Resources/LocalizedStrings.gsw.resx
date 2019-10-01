@@ -123,6 +123,18 @@
   <data name="ChangeServerButton" xml:space="preserve">
     <value>Sörver wächsle</value>
   </data>
+  <data name="ConfigServerUrlSubLabel" xml:space="preserve">
+    <value>Mitem offizielle Epistle Server chame sech gratis verbinde.</value>
+  </data>
+  <data name="ConfigServerUrlTitleLabel" xml:space="preserve">
+    <value>Mit eme Epistle Sörver verbinde.</value>
+  </data>
+  <data name="ConnectButton" xml:space="preserve">
+    <value>Verbindig übernäh</value>
+  </data>
+  <data name="ConnectionToServerFailed" xml:space="preserve">
+    <value>Verbindig zum Epistle Server het nit chönne härgstellt wärde.</value>
+  </data>
   <data name="LoginButton" xml:space="preserve">
     <value>Iilogge</value>
   </data>
@@ -134,6 +146,12 @@
   </data>
   <data name="RegisterButton" xml:space="preserve">
     <value>Registriere</value>
+  </data>
+  <data name="ServerUrlEntry" xml:space="preserve">
+    <value>Glitched Epistle Server URL</value>
+  </data>
+  <data name="TestConnectionButton" xml:space="preserve">
+    <value>Verbindig teschte</value>
   </data>
   <data name="TotpLabel" xml:space="preserve">
     <value>Zwe-Faktor Outhentifizyerig</value>

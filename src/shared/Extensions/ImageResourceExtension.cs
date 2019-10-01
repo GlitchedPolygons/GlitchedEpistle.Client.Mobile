@@ -17,38 +17,25 @@
 */
 
 using System;
-
+using System.Reflection;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
-
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions
 {
-    [ContentProperty("Text")]
-    public class TranslateExtension : IMarkupExtension
+    [ContentProperty(nameof(Source))]
+    public class ImageResourceExtension : IMarkupExtension
     {
-        public string Text { get; set; }
-
-        private readonly ILocalization localization;
-
-        public TranslateExtension()
-        {
-            if (Device.RuntimePlatform != Device.iOS && Device.RuntimePlatform != Device.Android)
-            {
-                throw new PlatformNotSupportedException();
-            }
-            localization = DependencyService.Get<ILocalization>();
-        }
+        public string Source { get; set; }
 
         public object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (Text == null)
+            if (Source == null)
             {
-                return string.Empty;
+                return null;
             }
 
-            return localization[Text];
+            return ImageSource.FromResource(Source, typeof(ImageResourceExtension).GetTypeInfo().Assembly);
         }
     }
 }

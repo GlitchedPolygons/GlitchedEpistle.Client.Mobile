@@ -12,8 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\green_tick.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\green_tick.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="GlitchedPolygons.ExtensionMethods" Version="1.0.6" />
-    <PackageReference Include="GlitchedPolygons.GlitchedEpistle.Client" Version="2019.4.2" />
+    <PackageReference Include="GlitchedPolygons.GlitchedEpistle.Client" Version="2019.4.2.1" />
     <PackageReference Include="GlitchedPolygons.Services.Cryptography.Asymmetric" Version="1.0.1" />
     <PackageReference Include="GlitchedPolygons.Services.Cryptography.Symmetric" Version="1.0.0" />
     <PackageReference Include="GlitchedPolygons.Services.JwtService" Version="1.2.1" />
@@ -41,6 +49,9 @@
     </Compile>
     <Compile Update="Resources\Themes\Base\ControlTemplates.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ServerUrlPage.xaml.cs">
+      <DependentUpon>ServerUrlPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>

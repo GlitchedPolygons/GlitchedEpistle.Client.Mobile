@@ -24,6 +24,8 @@ using Unity.Lifetime;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Globalization;
+using System.Threading.Tasks;
 
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
@@ -32,9 +34,10 @@ using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.Services.Cryptography.Symmetric;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings;
@@ -49,6 +52,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.ServerHealth;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
+using GlitchedPolygons.GlitchedEpistle.Client.Utilities;
 
 using Prism.Events;
 
@@ -72,9 +76,29 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// </summary>
         private readonly IUnityContainer container = new UnityContainer();
 
+        private readonly User user;
+        private readonly IMethodQ methodQ;
+        private readonly IAppSettings appSettings;
+        private readonly IEventAggregator eventAggregator;
+        private readonly IViewModelFactory viewModelFactory;
+        private readonly IServerConnectionTest connectionTest;
+        private readonly IConvoPasswordProvider convoPasswordProvider;
+
+        private ulong? scheduledAuthRefresh;
+
+        /// <summary>
+        /// Shorthand for <c>Device.BeginInvokeOnMainThread(action);</c>
+        /// </summary>
+        /// <param name="action">What you want to execute on the UI thread.</param>
+        protected static void ExecUI(Action action)
+        {
+            Device.BeginInvokeOnMainThread(action);
+        }
+
         public App()
         {
             InitializeComponent();
+
             Directory.CreateDirectory(Paths.ROOT_DIRECTORY);
 
             DependencyService.Register<MockDataStore>();
@@ -105,36 +129,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             container.RegisterType<IViewModelFactory, ViewModelFactory>(new ContainerControlledLifetimeManager());
             container.RegisterType<IConvoPasswordProvider, ConvoPasswordProvider>(new ContainerControlledLifetimeManager());
             container.RegisterType<IMessageFetcher, MessageFetcher>(new ContainerControlledLifetimeManager());
-        }
 
-        protected override void OnStart()
-        {
-            IAppSettings appSettings = container.Resolve<IAppSettings>();
-            ILocalization localization = DependencyService.Get<ILocalization>();
+            user = container.Resolve<User>();
+            methodQ = container.Resolve<IMethodQ>();
+            appSettings = container.Resolve<IAppSettings>();
+            eventAggregator = container.Resolve<IEventAggregator>();
+            viewModelFactory = container.Resolve<IViewModelFactory>();
+            connectionTest = container.Resolve<IServerConnectionTest>();
+            convoPasswordProvider = container.Resolve<IConvoPasswordProvider>();
 
-            ChangeTheme(appSettings["Theme", Themes.DARK_THEME]);
-
-            string lang = appSettings["Language"];
-            if (lang.NullOrEmpty())
-            {
-                lang = appSettings["Language"] = localization.GetCurrentCultureInfo()?.ToString() ?? "en";
-            }
-
-            localization.SetCurrentCultureInfo(new System.Globalization.CultureInfo(lang));
-
-            var vm = Resolve<LoginViewModel>();
-            vm.UserId = appSettings.LastUserId;
-            MainPage = new LoginPage { BindingContext = vm };
-        }
-
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
+            // Subscribe to important IEventAggregator PubSubEvents.
+            eventAggregator.GetEvent<LogoutEvent>().Subscribe(Logout);
+            eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Subscribe(ShowConfigServerUrlPage);
         }
 
         /// <summary>
@@ -200,6 +206,92 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                 logger?.LogWarning($"Theme \"{themeDictionary}\" couldn't be applied. Reverting to default theme... Thrown exception: {e.ToString()}");
                 return false;
             }
+        }
+
+        protected override void OnStart()
+        {
+            ILocalization localization = DependencyService.Get<ILocalization>();
+
+            ChangeTheme(appSettings["Theme", Themes.DARK_THEME]);
+
+            string lang = appSettings["Language"];
+            if (lang.NullOrEmpty())
+            {
+                lang = appSettings["Language"] = localization.GetCurrentCultureInfo()?.ToString() ?? "en";
+            }
+
+            localization.SetCurrentCultureInfo(new CultureInfo(lang));
+
+            Logout();
+
+            Task.Run(async () =>
+            {
+                bool serverUrlConfigured = false;
+                string url = appSettings.ServerUrl;
+
+                if (url.NotNullNotEmpty())
+                {
+                    UrlUtility.SetEpistleServerUrl(url);
+                    serverUrlConfigured = await connectionTest.TestConnection();
+                }
+
+                if (serverUrlConfigured)
+                {
+                    ExecUI(ShowLoginPage);
+                }
+                else
+                {
+                    ExecUI(ShowConfigServerUrlPage);
+                }
+            });
+        }
+
+        protected override void OnSleep()
+        {
+            // Handle when your app sleeps
+        }
+
+        protected override void OnResume()
+        {
+            // Handle when your app resumes
+        }
+
+        private void Logout()
+        {
+            // If we're already logging in, nvm.
+            if (MainPage is LoginPage)
+            {
+                return;
+            }
+
+            // Nullify all stored user tokens, passwords and such...
+            user.Token = null;
+            user.PasswordSHA512 = user.PublicKeyPem = user.PrivateKeyPem = null;
+
+            // Show the login page.
+            ShowLoginPage();
+
+            if (scheduledAuthRefresh.HasValue)
+            {
+                methodQ.Cancel(scheduledAuthRefresh.Value);
+                scheduledAuthRefresh = null;
+            }
+
+            //convoProvider = null;
+            convoPasswordProvider?.Clear();
+        }
+
+        private void ShowLoginPage()
+        {
+            var viewModel = Resolve<LoginViewModel>();
+            viewModel.UserId = appSettings.LastUserId;
+            MainPage = new LoginPage { BindingContext = viewModel };
+        }
+
+        private void ShowConfigServerUrlPage()
+        {
+            var viewModel = viewModelFactory.Create<ServerUrlViewModel>();
+            MainPage = new ServerUrlPage { BindingContext = viewModel };
         }
     }
 }

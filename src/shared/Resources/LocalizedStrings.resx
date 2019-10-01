@@ -123,6 +123,18 @@
   <data name="ChangeServerButton" xml:space="preserve">
     <value>Change Server</value>
   </data>
+  <data name="ConfigServerUrlSubLabel" xml:space="preserve">
+    <value>You can connect to the official Epistle server for free or to a custom server.</value>
+  </data>
+  <data name="ConfigServerUrlTitleLabel" xml:space="preserve">
+    <value>Please connect to the Epistle server.</value>
+  </data>
+  <data name="ConnectButton" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="ConnectionToServerFailed" xml:space="preserve">
+    <value>The connection to the specified Epistle server could not be established.</value>
+  </data>
   <data name="LoginButton" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -134,6 +146,12 @@
   </data>
   <data name="RegisterButton" xml:space="preserve">
     <value>Register</value>
+  </data>
+  <data name="ServerUrlEntry" xml:space="preserve">
+    <value>Glitched Epistle Server URL</value>
+  </data>
+  <data name="TestConnectionButton" xml:space="preserve">
+    <value>Test connection</value>
   </data>
   <data name="TotpLabel" xml:space="preserve">
     <value>Two-Factor Authentication</value>

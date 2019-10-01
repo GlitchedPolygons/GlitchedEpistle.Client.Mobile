@@ -16,13 +16,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using Foundation;
-using Xamarin.Forms;
+using System;
+using System.Resources;
 using System.Threading;
+using System.Reflection;
 using System.Globalization;
 using System.Collections.Generic;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using Xamarin.Forms;
+using Foundation;
 
 [assembly: Dependency(typeof(GlitchedEpistle.Client.Mobile.iOS.Services.Localization.iOSLocalization))]
 
@@ -34,6 +38,9 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
     public class iOSLocalization : ILocalization
     {
         private CultureInfo currentCulture = null;
+
+        private const string RESOURCE_ID = "GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.LocalizedStrings";
+        private static readonly Lazy<ResourceManager> RESOURCES = new Lazy<ResourceManager>(() => new ResourceManager(RESOURCE_ID, IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly));
 
         private readonly IDictionary<string, CultureInfo> cachedCultures = new Dictionary<string, CultureInfo>(16)
         {
@@ -49,6 +56,31 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
             { "it-IT", new CultureInfo("it-IT") }, // Italian from Italy.
             { "it-CH", new CultureInfo("it-CH") }, // Italian from Ticino.
         };
+
+        /// <summary>
+        /// Translates the specified <c>string</c> identifier into the target <see cref="CultureInfo"/>.
+        /// </summary>
+        /// <param name="key">The localization lookup key (key <c>string</c> found in the .resx file).</param>
+        /// <param name="ci">The <see cref="CultureInfo"/> to localize into (if left out null, <see cref="GetCurrentCultureInfo"/> is used).</param>
+        /// <returns>Hopefully, the localized <c>string</c>.</returns>
+        public string this[string key, CultureInfo ci = null]
+        {
+            get
+            {
+                var culture = ci ?? GetCurrentCultureInfo();
+                var translation = RESOURCES.Value.GetString(key, culture);
+
+                if (translation == null)
+                {
+                    translation = key;
+#if DEBUG
+                    Console.WriteLine(string.Format("Key '{0}' was not found in resources '{1}' for culture '{2}'.", key, RESOURCE_ID, culture.Name));
+#endif
+                }
+
+                return translation;
+            }
+        }
 
         /// <summary>
         /// Sets the <see cref="CultureInfo"/> for this app.

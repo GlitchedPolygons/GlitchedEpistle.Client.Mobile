@@ -17,13 +17,15 @@
 */
 
 using Xamarin.Forms;
+
 using System;
+using System.Timers;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
-using System.Timers;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {

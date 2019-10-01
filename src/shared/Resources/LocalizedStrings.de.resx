@@ -123,6 +123,18 @@
   <data name="ChangeServerButton" xml:space="preserve">
     <value>Server Wechseln</value>
   </data>
+  <data name="ConfigServerUrlSubLabel" xml:space="preserve">
+    <value>Man kann sich mit dem offiziellen Epistle Server kostenlos verbinden oder auch mit fremden Third-Party Server.</value>
+  </data>
+  <data name="ConfigServerUrlTitleLabel" xml:space="preserve">
+    <value>Mit einem Epistle Server verbinden.</value>
+  </data>
+  <data name="ConnectButton" xml:space="preserve">
+    <value>Verbindung übernehmen</value>
+  </data>
+  <data name="ConnectionToServerFailed" xml:space="preserve">
+    <value>Die Verbindung zum gewählten Epistle Server konnte nicht hergestellt werden.</value>
+  </data>
   <data name="LoginButton" xml:space="preserve">
     <value>Einloggen</value>
   </data>
@@ -134,6 +146,12 @@
   </data>
   <data name="RegisterButton" xml:space="preserve">
     <value>Registrieren</value>
+  </data>
+  <data name="ServerUrlEntry" xml:space="preserve">
+    <value>Glitched Epistle Server URL</value>
+  </data>
+  <data name="TestConnectionButton" xml:space="preserve">
+    <value>Verbindung testen</value>
   </data>
   <data name="TotpLabel" xml:space="preserve">
     <value>Zwei-Faktor Authentifizierung</value>

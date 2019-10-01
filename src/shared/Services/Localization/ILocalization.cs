@@ -35,5 +35,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization
         /// </summary>
         /// <param name="ci">The target <see cref="CultureInfo"/> to apply.</param>
         void SetCurrentCultureInfo(CultureInfo ci);
+
+        /// <summary>
+        /// Translates the specified <c>string</c> identifier into the target <see cref="CultureInfo"/>.
+        /// </summary>
+        /// <param name="key">The localization lookup key (key <c>string</c> found in the .resx file).</param>
+        /// <param name="ci">The <see cref="CultureInfo"/> to localize into (if left out null, <see cref="GetCurrentCultureInfo"/> is used).</param>
+        /// <returns>Hopefully, the localized <c>string</c>.</returns>
+        string this[string key, CultureInfo ci = null] { get; }
     }
 }

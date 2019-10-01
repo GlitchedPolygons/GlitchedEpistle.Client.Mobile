@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+    Glitched Epistle - Mobile Client
+    Copyright (C) 2019 Raphael Beck
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
+             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ServerUrlPage"
+             mc:Ignorable="d" 
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HorizontalOptions="Center" 
+                         VerticalOptions="Center"
+                         WidthRequest="420" 
+                         Margin="32,32,32,50">
+
+                <Label Style="{DynamicResource TitleLabelStyle}"
+                       FontAttributes="Bold"
+                       Text="{i:Translate ConfigServerUrlTitleLabel}"/>
+
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="{DynamicResource ErrorMessageColor}"
+                       LineBreakMode="WordWrap"
+                       HorizontalOptions="Start"
+                       FontSize="14" />
+
+                <Label FontSize="16" 
+                       Margin="0,0,0,10" 
+                       Style="{DynamicResource SubLabelStyle}"
+                       Text="{i:Translate ConfigServerUrlSubLabel}"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Entry MinimumWidthRequest="250"
+                           Grid.Column="0"
+                           FontSize="16"
+                           Style="{DynamicResource EntryStyle}"
+                           Placeholder="{i:Translate ServerUrlEntry}"
+                           Text="{Binding ServerUrl, UpdateSourceEventName=PropertyChanged}" />
+
+                    <ActivityIndicator Grid.Column="1" 
+                                       IsVisible="{Binding Testing}" 
+                                       IsRunning="{Binding Testing}" />
+
+                    <Image Grid.Column="1" 
+                           Margin="3.5"
+                           IsVisible="{Binding ConnectionOk}"
+                           Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green_tick.png}" />
+                </Grid>
+
+                <StackLayout Margin="0,20,0,0">
+
+                    <Button Text="{i:Translate TestConnectionButton}"
+                            IsEnabled="{Binding Testing, Converter={converters:InverseBoolConverter}}"
+                            Command="{Binding TestConnectionCommand}"/>
+
+                    <Button Text="{i:Translate ConnectButton}"
+                            IsEnabled="{Binding ConnectionOk}"
+                            Command="{Binding ConnectCommand}" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
+    
