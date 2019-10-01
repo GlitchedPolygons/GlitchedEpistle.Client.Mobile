@@ -74,6 +74,9 @@
 
                 <StackLayout Margin="0,20,0,0">
 
+                    <Button Text="{i:Translate ResetButton}" 
+                            Command="{Binding ResetCommand}"/>
+
                     <Button Text="{i:Translate TestConnectionButton}"
                             IsEnabled="{Binding Testing, Converter={converters:InverseBoolConverter}}"
                             Command="{Binding TestConnectionCommand}"/>

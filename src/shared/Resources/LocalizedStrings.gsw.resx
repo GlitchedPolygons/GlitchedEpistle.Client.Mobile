@@ -147,6 +147,9 @@
   <data name="RegisterButton" xml:space="preserve">
     <value>Registriere</value>
   </data>
+  <data name="ResetButton" xml:space="preserve">
+    <value>Zruggsetze</value>
+  </data>
   <data name="ServerUrlEntry" xml:space="preserve">
     <value>Glitched Epistle Server URL</value>
   </data>

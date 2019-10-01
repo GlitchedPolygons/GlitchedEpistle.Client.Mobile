@@ -38,6 +38,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IEventAggregator eventAggregator;
 
         #region Commands
+        public ICommand ResetCommand { get; }
         public ICommand ConnectCommand { get; }
         public ICommand TestConnectionCommand { get; }
         #endregion
@@ -74,10 +75,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ServerUrl = url;
             }
 
+            ResetCommand = new DelegateCommand(OnClickedReset);
             ConnectCommand = new DelegateCommand(OnClickedConnect);
             TestConnectionCommand = new DelegateCommand(OnClickedTestConnection);
 
             ConnectionOk = false;
+        }
+
+        private void OnClickedReset(object commandParam)
+        {
+            ConnectionOk = Testing = false;
+            ServerUrl = appSettings.ServerUrl ?? "https://epistle.glitchedpolygons.com";
         }
 
         private void OnClickedTestConnection(object commandParam)
