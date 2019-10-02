@@ -140,6 +140,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
             // Subscribe to important IEventAggregator PubSubEvents.
             eventAggregator.GetEvent<LogoutEvent>().Subscribe(Logout);
+            eventAggregator.GetEvent<ClickedRegisterButtonEvent>().Subscribe(ShowRegistrationPage);
             eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Subscribe(ShowConfigServerUrlPage);
         }
 
@@ -286,6 +287,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             var viewModel = Resolve<LoginViewModel>();
             viewModel.UserId = appSettings.LastUserId;
             MainPage = new LoginPage { BindingContext = viewModel };
+        }
+
+        private void ShowRegistrationPage()
+        {
+            var viewModel = Resolve<RegisterViewModel>();
+            MainPage = new RegisterPage { BindingContext = viewModel };
         }
 
         private void ShowConfigServerUrlPage()
