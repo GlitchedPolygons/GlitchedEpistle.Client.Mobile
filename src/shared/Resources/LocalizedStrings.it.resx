@@ -120,6 +120,9 @@
   <data name="AttemptingLoginButton" xml:space="preserve">
     <value>Tento l'accesso...</value>
   </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
   <data name="ChangeServerButton" xml:space="preserve">
     <value>Cambia Server</value>
   </data>
@@ -135,14 +138,23 @@
   <data name="ConnectionToServerFailed" xml:space="preserve">
     <value>Tentativo di connessione al server specificato fallito.</value>
   </data>
+  <data name="GeneratingKeysLabel" xml:space="preserve">
+    <value>Generazione chiavi 4096-bit RSA...</value>
+  </data>
   <data name="LoginButton" xml:space="preserve">
     <value>Accedi</value>
+  </data>
+  <data name="PasswordConfirmationLabel" xml:space="preserve">
+    <value>Conferma password</value>
   </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>Password</value>
   </data>
   <data name="PleaseLoginLabel" xml:space="preserve">
     <value>Accedi ora:</value>
+  </data>
+  <data name="PleaseRegisterLabel" xml:space="preserve">
+    <value>Crea ora il tuo account:</value>
   </data>
   <data name="RegisterButton" xml:space="preserve">
     <value>Registrati</value>
@@ -159,8 +171,14 @@
   <data name="TotpLabel" xml:space="preserve">
     <value>Autentificazione a due fattori</value>
   </data>
+  <data name="UserCreationSecretLabel" xml:space="preserve">
+    <value>Segreto del server</value>
+  </data>
   <data name="UserIdLabel" xml:space="preserve">
     <value>ID utente</value>
+  </data>
+  <data name="UsernameLabel" xml:space="preserve">
+    <value>Nome utente</value>
   </data>
   <data name="WelcomeLabel" xml:space="preserve">
     <value>Benvenuto su Glitched Epistle.</value>

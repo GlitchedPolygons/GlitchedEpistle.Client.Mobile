@@ -284,14 +284,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void ShowLoginPage()
         {
-            var viewModel = Resolve<LoginViewModel>();
+            var viewModel = viewModelFactory.Create<LoginViewModel>();
             viewModel.UserId = appSettings.LastUserId;
             MainPage = new LoginPage { BindingContext = viewModel };
         }
 
         private void ShowRegistrationPage()
         {
-            var viewModel = Resolve<RegisterViewModel>();
+            var viewModel = viewModelFactory.Create<RegisterViewModel>();
             MainPage = new RegisterPage { BindingContext = viewModel };
         }
 

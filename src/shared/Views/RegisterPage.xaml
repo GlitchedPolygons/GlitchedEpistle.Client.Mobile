@@ -23,13 +23,84 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.RegisterPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout HorizontalOptions="Center" 
+                         VerticalOptions="Center"
+                         WidthRequest="275" 
+                         Margin="32,32,32,50">
+
+                <Label Style="{DynamicResource TitleLabelStyle}"
+                       FontAttributes="Bold"
+                       Text="{i:Translate WelcomeLabel}"/>
+
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="{DynamicResource ErrorMessageColor}"
+                       LineBreakMode="WordWrap"
+                       HorizontalOptions="Start"
+                       FontSize="14" />
+
+                <Label FontSize="16" 
+                       Margin="0,0,0,10" 
+                       Style="{DynamicResource SubLabelStyle}"
+                       Text="{i:Translate PleaseRegisterLabel}"/>
+
+                <Entry MinimumWidthRequest="250"
+                       IsPassword="False"
+                       x:Name="UsernameTextBox"
+                       MaxLength="256"
+                       Style="{DynamicResource EntryStyle}"
+                       Placeholder="{i:Translate UsernameLabel}"
+                       Text="{Binding Username}" />
+
+                <Entry x:Name="PasswordBox1" 
+                       IsPassword="True"
+                       MinimumWidthRequest="250"
+                       Style="{DynamicResource EntryStyle}"
+                       Placeholder="{i:Translate PasswordLabel}"
+                       Text="{Binding Password}"/>
+
+                <Entry x:Name="PasswordBox2" 
+                       IsPassword="True"
+                       MinimumWidthRequest="250"
+                       Style="{DynamicResource EntryStyle}"
+                       Placeholder="{i:Translate PasswordConfirmationLabel}"
+                       Text="{Binding PasswordConfirmation}"/>
+
+                <Entry  MinimumWidthRequest="250"
+                        MaxLength="128"
+                        Style="{DynamicResource EntryStyle}"
+                        Placeholder="{i:Translate UserCreationSecretLabel}"
+                        Text="{Binding UserCreationSecret}"/>
+
+                <StackLayout Margin="0,20,0,0">
+
+                    <Button Text="{i:Translate ChangeServerButton}"
+                            Command="{Binding EditServerUrlCommand}"/>
+
+                    <Button Text="{i:Translate CancelButton}"
+                            Command="{Binding CancelCommand}"/>
+
+                    <Button Text="{i:Translate RegisterButton}"
+                            Command="{Binding RegisterCommand}" />
+
+                    <StackLayout Orientation="Horizontal" 
+                                 IsVisible="{Binding GeneratingKeys}"
+                                 HorizontalOptions="CenterAndExpand">
+
+                        <Label Style="{DynamicResource SubLabelStyle}"
+                               Text="{i:Translate GeneratingKeysLabel}"/>
+                        
+                        <ActivityIndicator IsRunning="true"
+                                           WidthRequest="25" 
+                                           HeightRequest="25"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
