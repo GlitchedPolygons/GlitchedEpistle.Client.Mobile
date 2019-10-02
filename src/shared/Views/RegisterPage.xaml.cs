@@ -34,5 +34,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             InitializeComponent();
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            return false;// base.OnBackButtonPressed();
+        }
     }
 }
