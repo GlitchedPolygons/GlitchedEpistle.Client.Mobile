@@ -87,7 +87,7 @@
                             Command="{Binding CancelCommand}"/>
 
                     <Button Text="{i:Translate RegisterButton}"
-                            Command="{Binding RegisterCommand}" />
+                            Command="{Binding RegisterCommand}"/>
 
                     <StackLayout Orientation="Horizontal" 
                                  IsVisible="{Binding GeneratingKeys}"
