@@ -138,8 +138,14 @@
   <data name="ConnectionToServerFailed" xml:space="preserve">
     <value>The connection to the specified Epistle server could not be established.</value>
   </data>
+  <data name="ConnectionToServerFailedErrorMsg" xml:space="preserve">
+    <value>Could not connect to the Epistle server. Please make sure to have a working, active internet connection and double check the server url!</value>
+  </data>
   <data name="GeneratingKeysLabel" xml:space="preserve">
     <value>Generating 4096-bit RSA Key Pair...</value>
+  </data>
+  <data name="KeyGenerationFailed" xml:space="preserve">
+    <value>There was an unexpected error whilst generating the RSA key pair (during user creation process).</value>
   </data>
   <data name="LoginButton" xml:space="preserve">
     <value>Login</value>
@@ -170,6 +176,12 @@
   </data>
   <data name="TotpLabel" xml:space="preserve">
     <value>Two-Factor Authentication</value>
+  </data>
+  <data name="UserCreationFailedClientSideButSucceededServerSide" xml:space="preserve">
+    <value>The user creation succeeded server-side but there was an unexpected client-side error whilst handling the user creation server response.</value>
+  </data>
+  <data name="UserCreationFailedServerSide" xml:space="preserve">
+    <value>The user creation process failed server-side. Please double check the server URL and make sure that the user creation secret is correct!</value>
   </data>
   <data name="UserCreationSecretLabel" xml:space="preserve">
     <value>User creation secret</value>

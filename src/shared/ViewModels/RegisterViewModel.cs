@@ -17,16 +17,31 @@
 */
 
 using Prism.Events;
+using Xamarin.Forms;
+
+using System;
 using System.Windows.Input;
+using System.Threading.Tasks;
+
+using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
+using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
     public class RegisterViewModel : ViewModel
     {
         #region Injections
+        private readonly ILogger logger;
+        private readonly IUserSettings userSettings;
+        private readonly ILocalization localization;
         private readonly IEventAggregator eventAggregator;
+        private readonly IRegistrationService registrationService;
         #endregion
 
         #region UI Bindings
@@ -34,35 +49,58 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public string Username
         {
             get => username;
-            set => Set(ref username, value);
+            set
+            {
+                Set(ref username, value);
+                ValidateForm();
+            }
         }
 
         private string userCreationSecret = string.Empty;
         public string UserCreationSecret
         {
             get => userCreationSecret;
-            set => Set(ref userCreationSecret, value);
+            set
+            {
+                Set(ref userCreationSecret, value);
+                ValidateForm();
+            }
         }
 
         private string password = string.Empty;
         public string Password
         {
             get => password;
-            set => Set(ref password, value);
+            set
+            {
+                Set(ref password, value);
+                ValidateForm();
+            }
         }
 
         private string passwordConfirmation = string.Empty;
         public string PasswordConfirmation
         {
             get => passwordConfirmation;
-            set => Set(ref passwordConfirmation, value);
+            set
+            {
+                Set(ref passwordConfirmation, value);
+                ValidateForm();
+            }
         }
 
-        private bool generatingKeys;
-        public bool GeneratingKeys
+        private bool formValid;
+        public bool FormValid
         {
-            get => generatingKeys;
-            set => Set(ref generatingKeys, value);
+            get => formValid;
+            set => Set(ref formValid, value);
+        }
+
+        private bool pendingAttempt;
+        public bool PendingAttempt
+        {
+            get => pendingAttempt;
+            set => Set(ref pendingAttempt, value);
         }
         #endregion
 
@@ -72,9 +110,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand EditServerUrlCommand { get; }
         #endregion
 
-        public RegisterViewModel(IEventAggregator eventAggregator)
+        public RegisterViewModel(IEventAggregator eventAggregator, IRegistrationService registrationService, IUserSettings userSettings, ILogger logger)
         {
+            this.logger = logger;
+            this.userSettings = userSettings;
             this.eventAggregator = eventAggregator;
+            this.registrationService = registrationService;
+
+            localization = DependencyService.Get<ILocalization>();
 
             CancelCommand = new DelegateCommand(OnClickedCancel);
             RegisterCommand = new DelegateCommand(OnClickedRegister);
@@ -91,7 +134,72 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnClickedRegister(object commandParam)
         {
-            // TODO: handle user registration here
+            if (PendingAttempt == true
+                || Username.NullOrEmpty()
+                || Password.NullOrEmpty()
+                || PasswordConfirmation.NullOrEmpty()
+                || Password != PasswordConfirmation 
+                || Password.Length < 7)
+            {
+                return;
+            }
+
+            FormValid = false;
+            PendingAttempt = true;
+
+            Task.Run(async () =>
+            {
+                Tuple<int, UserCreationResponseDto> result = await registrationService.CreateUser(Password, UserCreationSecret);
+
+                switch (result.Item1)
+                {
+                    case 0: // Success!
+                        ExecUI(() =>
+                        {
+                            // Handle this event back in the main view model,
+                            // since it's there where the backup codes + 2FA secret will be shown.
+                            eventAggregator.GetEvent<UserCreationSucceededEvent>().Publish(result.Item2);
+                            logger?.LogMessage($"Created user {result.Item2.Id}.");
+                            userSettings.Username = Username;
+                        });
+                        break;
+                    case 1: // Epistle backend connectivity issues
+                        var errorMsg = localization["ConnectionToServerFailedErrorMsg"];
+                        logger?.LogError(errorMsg);
+                        ErrorMessage = errorMsg;
+                        break;
+                    case 2: // RSA failure
+                        errorMsg = localization["KeyGenerationFailed"];
+                        logger?.LogError(errorMsg);
+                        ErrorMessage = errorMsg;
+                        break;
+                    case 3: // Server-side failure
+                        logger?.LogError("The user creation process failed server-side. Reason unknown; please make an admin check out the server's log files!");
+                        ErrorMessage = localization["UserCreationFailedServerSide"];
+                        break;
+                    case 4: // Client-side failure
+                        errorMsg = localization["UserCreationFailedClientSideButSucceededServerSide"];
+                        logger?.LogError(errorMsg);
+                        ErrorMessage = errorMsg;
+                        break;
+                }
+
+                ExecUI(() => 
+                {
+                    ValidateForm();
+                    PendingAttempt = false;
+                    Password = PasswordConfirmation = null;
+                });
+            });
+        }
+
+        private void ValidateForm()
+        {
+            FormValid = Username.NotNullNotEmpty() &&
+                        Password.NotNullNotEmpty() &&
+                        PasswordConfirmation.NotNullNotEmpty() &&
+                        Password == PasswordConfirmation &&
+                        Password.Length > 7;
         }
     }
 }

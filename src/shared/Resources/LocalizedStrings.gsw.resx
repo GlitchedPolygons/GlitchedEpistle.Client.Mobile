@@ -138,8 +138,14 @@
   <data name="ConnectionToServerFailed" xml:space="preserve">
     <value>Verbindig zum Epistle Server het nit chönne härgstellt wärde.</value>
   </data>
+  <data name="ConnectionToServerFailedErrorMsg" xml:space="preserve">
+    <value>Verbindig mitem Sörver fäuhgschlage. Bitte überprüefe ob d internetverbindig funktioniert u stabil isch. U.a. luege ob d Server URL richtig isch!</value>
+  </data>
   <data name="GeneratingKeysLabel" xml:space="preserve">
     <value>Generiere 4096-bit RSA Schlüssel...</value>
+  </data>
+  <data name="KeyGenerationFailed" xml:space="preserve">
+    <value>E unerwartete Fähler isch ufträtte während em 4096-bit RSA Schlüssel generiere... schaad!</value>
   </data>
   <data name="LoginButton" xml:space="preserve">
     <value>Iilogge</value>
@@ -170,6 +176,12 @@
   </data>
   <data name="TotpLabel" xml:space="preserve">
     <value>Zwe-Faktor Outhentifizyerig</value>
+  </data>
+  <data name="UserCreationFailedClientSideButSucceededServerSide" xml:space="preserve">
+    <value>D Nutzererstellig het ufem Server wunderbar klappt, aber isch leider lokal (Client-Side) fählgschlage.</value>
+  </data>
+  <data name="UserCreationFailedServerSide" xml:space="preserve">
+    <value>Nutzerregistrierig isch ufem Sörver fäugschlage; bitte überprüefeh ob d Server URL korrekt isch u s' Server Passwort stimmt!</value>
   </data>
   <data name="UserCreationSecretLabel" xml:space="preserve">
     <value>Nutzererstelligs Passwort</value>

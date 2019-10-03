@@ -138,8 +138,14 @@
   <data name="ConnectionToServerFailed" xml:space="preserve">
     <value>Tentativo di connessione al server specificato fallito.</value>
   </data>
+  <data name="ConnectionToServerFailedErrorMsg" xml:space="preserve">
+    <value>Connessione col server di Epistle fallita. P.f. assicurarsi di avere una connessione internet stabile e funzionante, e che l'indirizzo del server sia corretto.</value>
+  </data>
   <data name="GeneratingKeysLabel" xml:space="preserve">
     <value>Generazione chiavi 4096-bit RSA...</value>
+  </data>
+  <data name="KeyGenerationFailed" xml:space="preserve">
+    <value>Si è verificato un errore durante la generazione della chiave RSA 4096-bit.</value>
   </data>
   <data name="LoginButton" xml:space="preserve">
     <value>Accedi</value>
@@ -170,6 +176,12 @@
   </data>
   <data name="TotpLabel" xml:space="preserve">
     <value>Autentificazione a due fattori</value>
+  </data>
+  <data name="UserCreationFailedClientSideButSucceededServerSide" xml:space="preserve">
+    <value>La creazione dell'utente è avvenuta con successo sul server, ma purtroppo è fallita localmente.</value>
+  </data>
+  <data name="UserCreationFailedServerSide" xml:space="preserve">
+    <value>La creazione dell'utente è fallita: verificare che l'indirizzo e segreto del server sono validi.</value>
   </data>
   <data name="UserCreationSecretLabel" xml:space="preserve">
     <value>Segreto del server</value>

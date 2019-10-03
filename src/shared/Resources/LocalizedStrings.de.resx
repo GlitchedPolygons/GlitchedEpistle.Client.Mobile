@@ -138,8 +138,14 @@
   <data name="ConnectionToServerFailed" xml:space="preserve">
     <value>Die Verbindung zum gewählten Epistle Server konnte nicht hergestellt werden.</value>
   </data>
+  <data name="ConnectionToServerFailedErrorMsg" xml:space="preserve">
+    <value>Verbindung mit dem Epistle Server fehlgeschlagen. Bitte sicherstellen, dass eine aktive und stabile Internetverbindung vorhanden ist. Ausserdem überprüfen, ob die Server URL richtig ist.</value>
+  </data>
   <data name="GeneratingKeysLabel" xml:space="preserve">
     <value>Generiere 4096-bit RSA Schlüssel...</value>
+  </data>
+  <data name="KeyGenerationFailed" xml:space="preserve">
+    <value>Es ist ein unerwarteter Fehler aufgetreten während der Generierung der 4096-bit RSA Schlüssel.</value>
   </data>
   <data name="LoginButton" xml:space="preserve">
     <value>Einloggen</value>
@@ -170,6 +176,12 @@
   </data>
   <data name="TotpLabel" xml:space="preserve">
     <value>Zwei-Faktor Authentifizierung</value>
+  </data>
+  <data name="UserCreationFailedClientSideButSucceededServerSide" xml:space="preserve">
+    <value>Der Nutzer konnte erfolgreich erstellt werden auf dem Server, allerdings ist ein unerwarteter Fehler lokal (Client-side) aufgetreten.</value>
+  </data>
+  <data name="UserCreationFailedServerSide" xml:space="preserve">
+    <value>Nutzerregistrierung fehlgeschlagen: bitte sicherstellen, dass die Server URL korrekt ist und das Nutzererstellungspasswort stimmt!</value>
   </data>
   <data name="UserCreationSecretLabel" xml:space="preserve">
     <value>Nutzererstellungspasswort</value>

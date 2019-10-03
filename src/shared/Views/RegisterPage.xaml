@@ -81,16 +81,19 @@
                 <StackLayout Margin="0,20,0,0">
 
                     <Button Text="{i:Translate ChangeServerButton}"
-                            Command="{Binding EditServerUrlCommand}"/>
+                            Command="{Binding EditServerUrlCommand}"
+                            IsEnabled="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}"/>
 
                     <Button Text="{i:Translate CancelButton}"
-                            Command="{Binding CancelCommand}"/>
+                            Command="{Binding CancelCommand}"
+                            IsEnabled="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}"/>
 
                     <Button Text="{i:Translate RegisterButton}"
-                            Command="{Binding RegisterCommand}"/>
+                            Command="{Binding RegisterCommand}"
+                            IsEnabled="{Binding FormValid}"/>
 
                     <StackLayout Orientation="Horizontal" 
-                                 IsVisible="{Binding GeneratingKeys}"
+                                 IsVisible="{Binding PendingAttempt}"
                                  HorizontalOptions="CenterAndExpand">
 
                         <Label Style="{DynamicResource SubLabelStyle}"
