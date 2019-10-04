@@ -28,8 +28,10 @@
     <PackageReference Include="GlitchedPolygons.Services.MethodQ" Version="1.0.4" />
     <PackageReference Include="Prism.Core" Version="7.2.0.1367" />
     <PackageReference Include="Unity" Version="5.11.1" />
-    <PackageReference Include="Xamarin.Forms" Version="4.2.0.815419" />  
-    <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
+    <PackageReference Include="Xamarin.Forms" Version="4.2.0.848062" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />  
+    <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />  
+    <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +72,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\QR.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\UserCreationSuccessfulView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

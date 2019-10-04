@@ -34,6 +34,7 @@ using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.Services.Cryptography.Symmetric;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
+using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
@@ -43,7 +44,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.Base;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
@@ -142,6 +142,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             eventAggregator.GetEvent<LogoutEvent>().Subscribe(Logout);
             eventAggregator.GetEvent<ClickedRegisterButtonEvent>().Subscribe(ShowRegistrationPage);
             eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Subscribe(ShowConfigServerUrlPage);
+            eventAggregator.GetEvent<UserCreationSucceededEvent>().Subscribe(OnUserCreationSuccessful);
         }
 
         /// <summary>
@@ -280,6 +281,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
             //convoProvider = null;
             convoPasswordProvider?.Clear();
+        }
+
+        private void OnUserCreationSuccessful(UserCreationResponseDto userCreationResponseDto)
+        {
+            user.Id = userCreationResponseDto.Id;
+
+            var viewModel = viewModelFactory.Create<UserCreationSuccessfulViewModel>();
+            viewModel.Secret = userCreationResponseDto.TotpSecret;
+            viewModel.QR = $"otpauth://totp/GlitchedEpistle:{userCreationResponseDto.Id}?secret={userCreationResponseDto.TotpSecret}";
+            viewModel.BackupCodes = userCreationResponseDto.TotpEmergencyBackupCodes;
+
+            //MainControl = new UserCreationSuccessfulView { DataContext = viewModel };
         }
 
         private void ShowLoginPage()

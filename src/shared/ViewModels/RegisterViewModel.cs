@@ -174,7 +174,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         ErrorMessage = errorMsg;
                         break;
                     case 3: // Server-side failure
-                        logger?.LogError("The user creation process failed server-side. Reason unknown; please make an admin check out the server's log files!");
+                        logger?.LogError(localization["UserCreationFailedServerSide"]);
                         ErrorMessage = localization["UserCreationFailedServerSide"];
                         break;
                     case 4: // Client-side failure

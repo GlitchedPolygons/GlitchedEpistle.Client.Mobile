@@ -25,6 +25,8 @@
              mc:Ignorable="d" 
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ContentPage.Content>
@@ -94,6 +96,20 @@
                             IsEnabled="False"
                             IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}"/>
                 </StackLayout>
+
+                <!--
+                
+                <zxing:ZXingBarcodeImageView
+                            BarcodeValue="HELLO WORLD :D"
+                            BarcodeFormat="QR_CODE"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand" IsEnabled="False">
+                    <zxing:ZXingBarcodeImageView.BarcodeOptions>
+                        <zxcm:EncodingOptions Width="200" Height="200" />
+                    </zxing:ZXingBarcodeImageView.BarcodeOptions>
+                </zxing:ZXingBarcodeImageView>
+                
+                -->
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
