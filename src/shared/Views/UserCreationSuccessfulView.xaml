@@ -36,7 +36,7 @@
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand">
                     <zxing:ZXingBarcodeImageView.BarcodeOptions>
-                        <zxcm:EncodingOptions Width="200" Height="200" />
+                        <zxcm:EncodingOptions Width="256" Height="256" />
                     </zxing:ZXingBarcodeImageView.BarcodeOptions>
                 </zxing:ZXingBarcodeImageView>
             </StackLayout>
