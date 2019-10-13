@@ -97,17 +97,20 @@
                             IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}"/>
                 </StackLayout>
 
-                <zxing:ZXingBarcodeImageView
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <zxing:ZXingBarcodeImageView
                             IsVisible="true"
+                            WidthRequest="256"
+                            HeightRequest="256"
                             BarcodeFormat="QR_CODE"
                             BarcodeValue="HELLO WORLD"
-                            HorizontalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand" 
                             VerticalOptions="FillAndExpand">
-                    <zxing:ZXingBarcodeImageView.BarcodeOptions>
-                        <zxcm:EncodingOptions Width="256" Height="256" />
-                    </zxing:ZXingBarcodeImageView.BarcodeOptions>
-                </zxing:ZXingBarcodeImageView>
-                
+                        <zxing:ZXingBarcodeImageView.BarcodeOptions>
+                            <zxcm:EncodingOptions Width="256" Height="256" Margin="2" />
+                        </zxing:ZXingBarcodeImageView.BarcodeOptions>
+                    </zxing:ZXingBarcodeImageView>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
