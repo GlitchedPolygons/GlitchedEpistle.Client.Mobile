@@ -144,8 +144,20 @@
   <data name="ConnectionToServerFailedErrorMsg" xml:space="preserve">
     <value>Verbindig mitem Sörver fäuhgschlage. Bitte überprüefe ob d internetverbindig funktioniert u stabil isch. U.a. luege ob d Server URL richtig isch!</value>
   </data>
+  <data name="Copied" xml:space="preserve">
+    <value>Kopiert...</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopiere</value>
+  </data>
+  <data name="DoNotTellSecretToAnyone" xml:space="preserve">
+    <value>Verrat es nyemmerem, nid emau dene wo de vertrousch!</value>
+  </data>
   <data name="GeneratingKeysLabel" xml:space="preserve">
     <value>Generiere 4096-bit RSA Schlüssel...</value>
+  </data>
+  <data name="GoogleAuthRecommendedLabel" xml:space="preserve">
+    <value>(Google Authenticator empfählenswärt)</value>
   </data>
   <data name="KeyGenerationFailed" xml:space="preserve">
     <value>E unerwartete Fähler isch ufträtte während em 4096-bit RSA Schlüssel generiere... schaad!</value>
@@ -159,11 +171,21 @@
   <data name="PasswordLabel" xml:space="preserve">
     <value>Passwort</value>
   </data>
+  <data name="PleaseBackup2FASecret" xml:space="preserve">
+    <value>Das da hye isch dis Zwe-Faktor Outhentifizierigs Gheymniss. Schrib ders uuf u due das nöime spichere wo's sicher isch: du wirdsch es bruuche faus de dis Gräät verliersch!</value>
+    <comment>This is your two-factor authentication secret. Back it up somewhere safe, because you'll need it if you lose your 2FA device.</comment>
+  </data>
   <data name="PleaseLoginLabel" xml:space="preserve">
     <value>Hye unge iilogge:</value>
   </data>
   <data name="PleaseRegisterLabel" xml:space="preserve">
     <value>Hye unge aamäude für nes neus Nutzerkonto:</value>
+  </data>
+  <data name="PleaseSetUp2FALabel" xml:space="preserve">
+    <value>Bitte Zwe-Faktor Outhentifizierig jetzt konfiguriere.</value>
+  </data>
+  <data name="PleaseVerify2FA" xml:space="preserve">
+    <value>Zwe-Faktor Outhentifizierigstoken bitte hye unge bestätige:</value>
   </data>
   <data name="RegisterButton" xml:space="preserve">
     <value>Registriere</value>
@@ -194,6 +216,9 @@
   </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Nutzername</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Überprüefeh</value>
   </data>
   <data name="WelcomeLabel" xml:space="preserve">
     <value>Willkomme bi Glitched Epistle.</value>

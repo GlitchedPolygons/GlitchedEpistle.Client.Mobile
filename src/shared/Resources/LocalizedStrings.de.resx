@@ -144,8 +144,20 @@
   <data name="ConnectionToServerFailedErrorMsg" xml:space="preserve">
     <value>Verbindung mit dem Epistle Server fehlgeschlagen. Bitte sicherstellen, dass eine aktive und stabile Internetverbindung vorhanden ist. Ausserdem überprüfen, ob die Server URL richtig ist.</value>
   </data>
+  <data name="Copied" xml:space="preserve">
+    <value>Kopiert...</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Kopieren</value>
+  </data>
+  <data name="DoNotTellSecretToAnyone" xml:space="preserve">
+    <value>Verrate niemandem diesen Code!</value>
+  </data>
   <data name="GeneratingKeysLabel" xml:space="preserve">
     <value>Generiere 4096-bit RSA Schlüssel...</value>
+  </data>
+  <data name="GoogleAuthRecommendedLabel" xml:space="preserve">
+    <value>(Google Authenticator ist empfehlenswert)</value>
   </data>
   <data name="KeyGenerationFailed" xml:space="preserve">
     <value>Es ist ein unerwarteter Fehler aufgetreten während der Generierung der 4096-bit RSA Schlüssel.</value>
@@ -159,11 +171,21 @@
   <data name="PasswordLabel" xml:space="preserve">
     <value>Passwort</value>
   </data>
+  <data name="PleaseBackup2FASecret" xml:space="preserve">
+    <value>Dies ist dein Zwei-Faktor Authentifizierungsgeheimnis. Schreib es dir auf und hinterlege es irgendwo wo's sicher ist: du wirst es brauchen falls du dein Authentifizierungsgerät verlierst!</value>
+    <comment>This is your two-factor authentication secret. Back it up somewhere safe, because you'll need it if you lose your 2FA device.</comment>
+  </data>
   <data name="PleaseLoginLabel" xml:space="preserve">
     <value>Hier unten einloggen:</value>
   </data>
   <data name="PleaseRegisterLabel" xml:space="preserve">
     <value>Erstelle hier ein neues Benutzerkonto:</value>
+  </data>
+  <data name="PleaseSetUp2FALabel" xml:space="preserve">
+    <value>Bitte Zwei-Faktor Authentifizierung jetzt konfigurieren.</value>
+  </data>
+  <data name="PleaseVerify2FA" xml:space="preserve">
+    <value>Bitte bestätige deinen Zwei-Faktor Authentifizierungstoken hier unten:</value>
   </data>
   <data name="RegisterButton" xml:space="preserve">
     <value>Registrieren</value>
@@ -194,6 +216,9 @@
   </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Benutzername</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Verifizieren</value>
   </data>
   <data name="WelcomeLabel" xml:space="preserve">
     <value>Willkommen bei Glitched Epistle.</value>

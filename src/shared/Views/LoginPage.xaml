@@ -1,118 +1,101 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<!--
-    Glitched Epistle - Mobile Client
-    Copyright (C) 2019 Raphael Beck
+    <!--
+         Glitched Epistle - Mobile Client
+         Copyright (C) 2019 Raphael Beck
+         
+         This program is free software: you can redistribute it and/or modify
+         it under the terms of the GNU General Public License as published by
+         the Free Software Foundation, either version 3 of the License, or
+         (at your option) any later version.
+         
+         This program is distributed in the hope that it will be useful,
+         but WITHOUT ANY WARRANTY; without even the implied warranty of
+         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+         GNU General Public License for more details.
+         
+         You should have received a copy of the GNU General Public License
+         along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    -->
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d" 
+                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+                 xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
+                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
+                 BackgroundColor="{DynamicResource PageBackgroundColor}">
+        <ContentPage.Content>
+            <ScrollView>
+                <StackLayout HorizontalOptions="Center" 
+                             VerticalOptions="Center"
+                             WidthRequest="275" 
+                             Margin="32,32,32,50">
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+                    <Label Style="{DynamicResource TitleLabelStyle}"
+                           FontAttributes="Bold"
+                           Text="{i:Translate WelcomeLabel}"/>
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="{DynamicResource ErrorMessageColor}"
+                           LineBreakMode="WordWrap"
+                           HorizontalOptions="Start"
+                           FontSize="14" />
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
-             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
-             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
-             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
-             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}">
-    <ContentPage.Content>
-        <ScrollView>
-            <StackLayout HorizontalOptions="Center" 
-                         VerticalOptions="Center"
-                         WidthRequest="275" 
-                         Margin="32,32,32,50">
+                    <Label FontSize="16" 
+                           Margin="0,0,0,10" 
+                           Style="{DynamicResource SubLabelStyle}"
+                           Text="{i:Translate PleaseLoginLabel}"/>
 
-                <Label Style="{DynamicResource TitleLabelStyle}"
-                       FontAttributes="Bold"
-                       Text="{i:Translate WelcomeLabel}"/>
+                    <Entry MinimumWidthRequest="250"
+                           IsPassword="False"
+                           x:Name="UserIdTextBox"
+                           MaxLength="256"
+                           Style="{DynamicResource EntryStyle}"
+                           Placeholder="{i:Translate UserIdLabel}"
+                           Text="{Binding UserId}" 
+                           TextChanged="UserIdTextBox_TextChanged" />
 
-                <Label Text="{Binding ErrorMessage}"
-                       TextColor="{DynamicResource ErrorMessageColor}"
-                       LineBreakMode="WordWrap"
-                       HorizontalOptions="Start"
-                       FontSize="14" />
+                    <Entry x:Name="PasswordBox" 
+                           IsPassword="True"
+                           MinimumWidthRequest="250"
+                           Style="{DynamicResource EntryStyle}"
+                           Placeholder="{i:Translate PasswordLabel}"
+                           Text="{Binding Password}"
+                           TextChanged="PasswordBox_TextChanged"/>
 
-                <Label FontSize="16" 
-                       Margin="0,0,0,10" 
-                       Style="{DynamicResource SubLabelStyle}"
-                       Text="{i:Translate PleaseLoginLabel}"/>
+                    <Entry  x:Name="TotpTextBox"
+                            MinimumWidthRequest="250"
+                            MaxLength="128"
+                            Style="{DynamicResource EntryStyle}"
+                            Placeholder="{i:Translate TotpLabel}"
+                            Text="{Binding Totp}"
+                            TextChanged="TotpTextBox_TextChanged" />
 
-                <Entry MinimumWidthRequest="250"
-                       IsPassword="False"
-                       x:Name="UserIdTextBox"
-                       MaxLength="256"
-                       Style="{DynamicResource EntryStyle}"
-                       Placeholder="{i:Translate UserIdLabel}"
-                       Text="{Binding UserId}" 
-                       TextChanged="UserIdTextBox_TextChanged" />
+                    <StackLayout Margin="0,20,0,0">
 
-                <Entry x:Name="PasswordBox" 
-                       IsPassword="True"
-                       MinimumWidthRequest="250"
-                       Style="{DynamicResource EntryStyle}"
-                       Placeholder="{i:Translate PasswordLabel}"
-                       Text="{Binding Password}"
-                       TextChanged="PasswordBox_TextChanged"/>
+                        <Button Text="{i:Translate ChangeServerButton}"
+                                x:Name="ChangeServerButton"
+                                IsEnabled="{Binding UIEnabled}"
+                                Command="{Binding EditServerUrlCommand}"/>
 
-                <Entry  x:Name="TotpTextBox"
-                        MinimumWidthRequest="250"
-                        MaxLength="128"
-                        Style="{DynamicResource EntryStyle}"
-                        Placeholder="{i:Translate TotpLabel}"
-                        Text="{Binding Totp}"
-                        TextChanged="TotpTextBox_TextChanged" />
+                        <Button Text="{i:Translate RegisterButton}"
+                                x:Name="RegisterButton"
+                                Command="{Binding RegisterCommand}" />
 
-                <StackLayout Margin="0,20,0,0">
+                        <Button Text="{i:Translate LoginButton}"
+                                x:Name="LoginButton" 
+                                IsVisible="{Binding UIEnabled}"
+                                Command="{Binding LoginCommand}"/>
 
-                    <Button Text="{i:Translate ChangeServerButton}"
-                            x:Name="ChangeServerButton"
-                            IsEnabled="{Binding UIEnabled}"
-                            Command="{Binding EditServerUrlCommand}"/>
-
-                    <Button Text="{i:Translate RegisterButton}"
-                            x:Name="RegisterButton"
-                            Command="{Binding RegisterCommand}" />
-
-                    <Button Text="{i:Translate LoginButton}"
-                            x:Name="LoginButton" 
-                            IsVisible="{Binding UIEnabled}"
-                            Command="{Binding LoginCommand}"/>
-
-                    <Button Text="{i:Translate AttemptingLoginButton}"
-                            IsEnabled="False"
-                            IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}"/>
+                        <Button Text="{i:Translate AttemptingLoginButton}"
+                                IsEnabled="False"
+                                IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}"/>
+                    </StackLayout>
                 </StackLayout>
-
-                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                    <zxing:ZXingBarcodeImageView
-                            IsVisible="true"
-                            WidthRequest="256"
-                            HeightRequest="256"
-                            BarcodeFormat="QR_CODE"
-                            BarcodeValue="HELLO WORLD"
-                            HorizontalOptions="FillAndExpand" 
-                            VerticalOptions="FillAndExpand">
-                        <zxing:ZXingBarcodeImageView.BarcodeOptions>
-                            <zxcm:EncodingOptions Width="256" Height="256" Margin="2" />
-                        </zxing:ZXingBarcodeImageView.BarcodeOptions>
-                    </zxing:ZXingBarcodeImageView>
-                </StackLayout>
-            </StackLayout>
-        </ScrollView>
-    </ContentPage.Content>
-</ContentPage>
+            </ScrollView>
+        </ContentPage.Content>
+    </ContentPage>
     
