@@ -88,7 +88,10 @@
                     <Button x:Name="CopyButton" 
                             Text="{i:Translate Copy}" 
                             Clicked="CopyButton_Clicked"/>
-
+                    
+                    <Button Text="{i:Translate ExportBackupCodesButton}"
+                            Clicked="{Binding ExportBackupCodesCommand}" />
+                    
                     <Label Text="{i:Translate PleaseVerify2FA}" 
                            Style="{DynamicResource MediumLabelStyle}"
                            LineBreakMode="WordWrap"

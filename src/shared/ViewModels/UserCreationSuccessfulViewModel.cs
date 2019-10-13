@@ -68,13 +68,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => qr;
             set => Set(ref qr, value);
         }
-
-        private string backup;
-        public string Backup
-        {
-            get => backup;
-            set => Set(ref backup, value);
-        }
         #endregion
 
         private volatile bool pendingAttempt;
@@ -95,7 +88,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnClickedExport(object commandParam)
         {
-            Backup = GetBackupString();
+            string backup = GetBackupString();
+            // TODO: copy or dl?
         }
 
         private void OnClickedVerify(object commandParam)

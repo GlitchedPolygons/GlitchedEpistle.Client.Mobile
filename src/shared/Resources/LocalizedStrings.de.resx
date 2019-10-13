@@ -153,6 +153,9 @@
   <data name="DoNotTellSecretToAnyone" xml:space="preserve">
     <value>Verrate niemandem diesen Code!</value>
   </data>
+  <data name="ExportBackupCodesButton" xml:space="preserve">
+    <value>Notfall-Codes exportieren</value>
+  </data>
   <data name="GeneratingKeysLabel" xml:space="preserve">
     <value>Generiere 4096-bit RSA Schlüssel...</value>
   </data>

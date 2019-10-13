@@ -292,13 +292,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             viewModel.QR = $"otpauth://totp/GlitchedEpistle:{userCreationResponseDto.Id}?secret={userCreationResponseDto.TotpSecret}";
             viewModel.BackupCodes = userCreationResponseDto.TotpEmergencyBackupCodes;
 
-            //MainControl = new UserCreationSuccessfulView { DataContext = viewModel };
+            MainPage = new UserCreationSuccessfulView { BindingContext = viewModel };
         }
 
         private void ShowLoginPage()
         {
             var viewModel = viewModelFactory.Create<LoginViewModel>();
             viewModel.UserId = appSettings.LastUserId;
+
             MainPage = new LoginPage { BindingContext = viewModel };
         }
 
