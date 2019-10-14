@@ -143,6 +143,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             eventAggregator.GetEvent<ClickedRegisterButtonEvent>().Subscribe(ShowRegistrationPage);
             eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Subscribe(ShowConfigServerUrlPage);
             eventAggregator.GetEvent<UserCreationSucceededEvent>().Subscribe(OnUserCreationSuccessful);
+            eventAggregator.GetEvent<UserCreationVerifiedEvent>().Subscribe(ShowLoginPage);
         }
 
         /// <summary>
