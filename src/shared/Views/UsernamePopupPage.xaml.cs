@@ -17,17 +17,22 @@
 */
 
 using Xamarin.Forms.Xaml;
-using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsernamePopupPage : PopupPage
     {
-        public UsernamePopupPage()
+        IUserSettings userSettings;
+
+        public UsernamePopupPage(IUserSettings userSettings)
         {
+            this.userSettings = userSettings;
             InitializeComponent();
         }
 
@@ -88,6 +93,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             return base.OnDisappearingAnimationEndAsync();
         }
 
+        private async void OkButton_Clicked(object sender, System.EventArgs e)
+        {
+            if (userSettings.Username.NullOrEmpty())
+                return;
+
+            await PopupNavigation.Instance.PopAsync();
+        }
+
         // ### Overrided methods which can prevent closing a popup page ###
 
         // Invoked when a hardware back button is pressed
@@ -110,6 +123,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private void Entry_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
         {
+            userSettings.Username = UsernameTextEntry.Text;
             OkButton.IsEnabled = UsernameTextEntry.Text.NotNullNotEmpty();
         }
     }

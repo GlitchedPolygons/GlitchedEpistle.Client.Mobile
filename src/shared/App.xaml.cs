@@ -266,12 +266,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         {
             if (userSettings.Username.NullOrEmpty())
             {
-                var view = new UsernamePopupPage();
+                var view = new UsernamePopupPage(userSettings);
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
-                //App.Current.MainPage.Navigation.PushModalAsync()
-                // TODO: prompt user for username using some mobile dialog
-                //var dialog = new UsernamePromptView { DataContext = viewModelFactory.Create<UsernamePromptViewModel>() };
-                //dialog.ShowDialog();
             }
         }
 
