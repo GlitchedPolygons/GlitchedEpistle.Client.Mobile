@@ -157,14 +157,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 switch (result.Item1)
                 {
                     case 0: // Success!
+                        user.Id = result.Item2.Id;
+                        userSettings.Username = Username;
                         ExecUI(() =>
                         {
-                            // Handle this event back in the main view model,
+                            // Handle this event back in the main view,
                             // since it's there where the backup codes + 2FA secret will be shown.
-                            user.Id = result.Item2.Id;
                             eventAggregator.GetEvent<UserCreationSucceededEvent>().Publish(result.Item2);
                             logger?.LogMessage($"Created user {result.Item2.Id}.");
-                            userSettings.Username = Username;
                         });
                         break;
                     case 1: // Epistle backend connectivity issues

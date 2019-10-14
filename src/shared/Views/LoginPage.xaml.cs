@@ -51,7 +51,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         private void UserIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             LoginButton.IsEnabled = FormReady;
-            RegisterButton.IsEnabled = UserIdTextBox.Text.NullOrEmpty();
         }
 
         private void PasswordBox_TextChanged(object sender, TextChangedEventArgs e)

@@ -65,8 +65,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
             scheduledCopyButtonReset = methodQ.Schedule(() =>
             {
-                CopyButton.IsEnabled = true;
-                CopyButton.Text = localization["Copy"];
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    CopyButton.IsEnabled = true;
+                    CopyButton.Text = localization["Copy"];
+                });
             }, DateTime.UtcNow.AddSeconds(3));
         }
     }

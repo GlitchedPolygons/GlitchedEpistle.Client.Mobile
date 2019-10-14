@@ -109,8 +109,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
                 else
                 {
-                    Totp = string.Empty;
-                    ErrorMessage = localization["2FA_Failure"];
+                    ExecUI(() =>
+                    {
+                        Totp = string.Empty;
+                        ErrorMessage = localization["2FA_Failure"];
+                    });
                 }
 
                 pendingAttempt = false;
