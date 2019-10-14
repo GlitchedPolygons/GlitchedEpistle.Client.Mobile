@@ -153,6 +153,9 @@
   <data name="DoNotTellSecretToAnyone" xml:space="preserve">
     <value>Do not tell this secret code to anyone!</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="ExportBackupCodesButton" xml:space="preserve">
     <value>Export backup codes</value>
   </data>

@@ -20,10 +20,12 @@ using Prism.Events;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using GlitchedPolygons.ExtensionMethods;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using Xamarin.Forms;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -31,6 +33,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
     {
         #region Constants
         // Injections:
+        private readonly ILocalization localization;
         private readonly ILoginService loginService;
         private readonly IEventAggregator eventAggregator;
         #endregion
@@ -60,6 +63,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public LoginViewModel(IAppSettings settings, ILoginService loginService, IEventAggregator eventAggregator)
         {
+            localization = DependencyService.Get<ILocalization>();
+
             this.loginService = loginService;
             this.eventAggregator = eventAggregator;
 
@@ -103,9 +108,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             pendingAttempt = false;
                             UIEnabled = true;
-                            // TODO: notify the user via some dialog that connection to the epistle server failed!
-                            //var errorView = new InfoDialogView { DataContext = new InfoDialogViewModel { OkButtonText = "Okay :/", Text = "ERROR: The Glitched Epistle server is unresponsive. It might be under maintenance, please try again later! Sorry.", Title = "Epistle Server Unresponsive" } };
-                            //errorView.ShowDialog();
+                            App.Current.MainPage.DisplayAlert(localization["Error"], localization["ConnectionToServerFailed"], "OK");
                         });
                         break;
                     case 2: // Login failed server-side.
