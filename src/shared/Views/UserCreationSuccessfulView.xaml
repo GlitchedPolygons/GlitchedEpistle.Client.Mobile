@@ -91,7 +91,7 @@
 
                     <Button x:Name="ExportButton"
                             Text="{i:Translate ExportBackupCodesButton}"
-                            Clicked="{Binding ExportBackupCodesCommand}"/>
+                            Command="{Binding ExportBackupCodesCommand}"/>
                     
                     <Label Text="{i:Translate PleaseVerify2FA}" 
                            Style="{DynamicResource MediumLabelStyle}"

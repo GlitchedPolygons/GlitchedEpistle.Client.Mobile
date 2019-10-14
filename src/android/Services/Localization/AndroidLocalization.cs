@@ -90,7 +90,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localiza
         public void SetCurrentCultureInfo(CultureInfo ci)
         {
             currentCulture = ci;
-            LocalizedStrings.Culture = ci;
+            //LocalizedStrings.Culture = ci;
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
         }

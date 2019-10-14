@@ -27,6 +27,7 @@ using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
+using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
@@ -37,6 +38,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
     public class RegisterViewModel : ViewModel
     {
         #region Injections
+        private readonly User user;
         private readonly ILogger logger;
         private readonly IUserSettings userSettings;
         private readonly ILocalization localization;
@@ -110,8 +112,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand EditServerUrlCommand { get; }
         #endregion
 
-        public RegisterViewModel(IEventAggregator eventAggregator, IRegistrationService registrationService, IUserSettings userSettings, ILogger logger)
+        public RegisterViewModel(IEventAggregator eventAggregator, IRegistrationService registrationService, IUserSettings userSettings, ILogger logger, User user)
         {
+            this.user = user;
             this.logger = logger;
             this.userSettings = userSettings;
             this.eventAggregator = eventAggregator;
@@ -158,6 +161,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             // Handle this event back in the main view model,
                             // since it's there where the backup codes + 2FA secret will be shown.
+                            user.Id = result.Item2.Id;
                             eventAggregator.GetEvent<UserCreationSucceededEvent>().Publish(result.Item2);
                             logger?.LogMessage($"Created user {result.Item2.Id}.");
                             userSettings.Username = Username;

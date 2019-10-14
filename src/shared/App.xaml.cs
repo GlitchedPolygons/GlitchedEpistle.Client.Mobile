@@ -286,8 +286,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void OnUserCreationSuccessful(UserCreationResponseDto userCreationResponseDto)
         {
-            user.Id = userCreationResponseDto.Id;
-
             var viewModel = viewModelFactory.Create<UserCreationSuccessfulViewModel>();
             viewModel.Secret = userCreationResponseDto.TotpSecret;
             viewModel.QR = $"otpauth://totp/GlitchedEpistle:{userCreationResponseDto.Id}?secret={userCreationResponseDto.TotpSecret}";
