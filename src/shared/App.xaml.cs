@@ -79,6 +79,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly User user;
         private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
+        private readonly IUserSettings userSettings;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelFactory viewModelFactory;
         private readonly IServerConnectionTest connectionTest;
@@ -133,6 +134,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             user = container.Resolve<User>();
             methodQ = container.Resolve<IMethodQ>();
             appSettings = container.Resolve<IAppSettings>();
+            userSettings = container.Resolve<IUserSettings>();
             eventAggregator = container.Resolve<IEventAggregator>();
             viewModelFactory = container.Resolve<IViewModelFactory>();
             connectionTest = container.Resolve<IServerConnectionTest>();
@@ -144,6 +146,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Subscribe(ShowConfigServerUrlPage);
             eventAggregator.GetEvent<UserCreationSucceededEvent>().Subscribe(OnUserCreationSuccessful);
             eventAggregator.GetEvent<UserCreationVerifiedEvent>().Subscribe(ShowLoginPage);
+            eventAggregator.GetEvent<LoginSucceededEvent>().Subscribe(OnLoginSuccessful);
         }
 
         /// <summary>
@@ -257,6 +260,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        private async void OnLoginSuccessful()
+        {
+            if (userSettings.Username.NullOrEmpty())
+            {
+                var view = new UsernamePopupPage();
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
+                //App.Current.MainPage.Navigation.PushModalAsync()
+                // TODO: prompt user for username using some mobile dialog
+                //var dialog = new UsernamePromptView { DataContext = viewModelFactory.Create<UsernamePromptViewModel>() };
+                //dialog.ShowDialog();
+            }
         }
 
         private void Logout()

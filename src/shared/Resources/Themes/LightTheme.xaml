@@ -39,7 +39,7 @@
 
     <!--Dark Grey-->
     <Color x:Key="PrimaryTextColor">#3f3f3f</Color>
-
+    
     <!--Mid Grey-->
     <Color x:Key="SecondaryTextColor">#6e6e6e</Color>
 

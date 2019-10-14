@@ -178,6 +178,13 @@
     <value>Dies ist dein Zwei-Faktor Authentifizierungsgeheimnis. Schreib es dir auf und hinterlege es irgendwo wo's sicher ist: du wirst es brauchen falls du dein Authentifizierungsgerät verlierst!</value>
     <comment>This is your two-factor authentication secret. Back it up somewhere safe, because you'll need it if you lose your 2FA device.</comment>
   </data>
+  <data name="PleaseEnterUsernameDialogTextLabel" xml:space="preserve">
+    <value>Deine Nachrichten werden mit diesem Namen unterschrieben. Du darfst ihn frei wählen und ändern nach belieben, aber denke daran: je weniger oft du ihn änderst desto einfacher können deine Empfänger dich identifizieren.</value>
+    <comment>Messages will be sent using this name. This can be anything, but it's recommended to keep the same username as long as possible for other convo participants to easily identify you.</comment>
+  </data>
+  <data name="PleaseEnterUsernameDialogTitleLabel" xml:space="preserve">
+    <value>Benutzername definieren</value>
+  </data>
   <data name="PleaseLoginLabel" xml:space="preserve">
     <value>Hier unten einloggen:</value>
   </data>

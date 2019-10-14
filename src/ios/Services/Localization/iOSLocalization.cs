@@ -89,7 +89,7 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
         public void SetCurrentCultureInfo(CultureInfo ci)
         {
             currentCulture = ci;
-            LocalizedStrings.Culture = ci;
+            //LocalizedStrings.Culture = ci;
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
         }

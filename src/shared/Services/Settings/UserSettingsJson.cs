@@ -23,6 +23,7 @@ using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
@@ -68,13 +69,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
             FilePath = Path.Combine(Paths.GetUserDirectory(user.Id), "Settings.json");
 
             Reload();
-
-            while (Username.NullOrEmpty())
-            {
-                // TODO: prompt user for username using some mobile dialog
-                //var dialog = new UsernamePromptView { DataContext = viewModelFactory.Create<UsernamePromptViewModel>() };
-                //dialog.ShowDialog();
-            }
 
             Username = Username; // Triggers the UsernameChangedEvent and refreshes the main view's username label...
         }
