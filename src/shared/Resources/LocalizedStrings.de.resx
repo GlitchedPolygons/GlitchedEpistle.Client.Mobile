@@ -162,6 +162,10 @@
   <data name="GoogleAuthRecommendedLabel" xml:space="preserve">
     <value>(Google Authenticator ist empfehlenswert)</value>
   </data>
+  <data name="HereAreYourBackupCodes" xml:space="preserve">
+    <value>Dies sind deine Notfall Backup-Codes für die Zwei-Faktor Authentifizierung. Speichere sie irgendwo in Sicherheit ab (am besten offline) und TEILE SIE NIEMANDEM MIT!</value>
+    <comment>Here is your 2FA backup text. Store this somewhere safe and DO NOT SHARE this with anybody.</comment>
+  </data>
   <data name="KeyGenerationFailed" xml:space="preserve">
     <value>Es ist ein unerwarteter Fehler aufgetreten während der Generierung der 4096-bit RSA Schlüssel.</value>
   </data>

@@ -162,6 +162,10 @@
   <data name="GoogleAuthRecommendedLabel" xml:space="preserve">
     <value>(Google Authenticator empfählenswärt)</value>
   </data>
+  <data name="HereAreYourBackupCodes" xml:space="preserve">
+    <value>Das sin dini Zwe-Faktor Outhentifizierig Backup-Codes. Schriib der die uuf u versteck se irgendwo wo's sicher isch (am beshte offline) u TEYL SE MIT NYEMMEREM!</value>
+    <comment>Here is your 2FA backup text. Store this somewhere safe and DO NOT SHARE this with anybody.</comment>
+  </data>
   <data name="KeyGenerationFailed" xml:space="preserve">
     <value>E unerwartete Fähler isch ufträtte während em 4096-bit RSA Schlüssel generiere... schaad!</value>
   </data>

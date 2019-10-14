@@ -162,6 +162,9 @@
   <data name="GoogleAuthRecommendedLabel" xml:space="preserve">
     <value>(Preferibilmente Google Authenticator)</value>
   </data>
+  <data name="HereAreYourBackupCodes" xml:space="preserve">
+    <value>Eccoti qua i tuoi codici d'emergenza per l'autentificazione a due fattori. Salvateli da qualche parte al sicuro, possibilmente disconnesso da internet e NON CONDIVIDERLI con nessuno!</value>
+  </data>
   <data name="KeyGenerationFailed" xml:space="preserve">
     <value>Si è verificato un errore durante la generazione della chiave RSA 4096-bit.</value>
   </data>
