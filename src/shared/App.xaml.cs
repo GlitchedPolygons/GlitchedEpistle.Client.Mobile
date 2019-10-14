@@ -262,13 +262,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             // Handle when your app resumes
         }
 
-        private async void OnLoginSuccessful()
+        private void OnLoginSuccessful()
         {
-            if (userSettings.Username.NullOrEmpty())
-            {
-                var view = new UsernamePopupPage(userSettings);
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
-            }
+            // TODO: show main page here
         }
 
         private void Logout()

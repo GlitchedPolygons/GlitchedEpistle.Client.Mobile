@@ -57,7 +57,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
         }
 
         // Reload user-specific settings on login or register (e.g. when switching accounts).
-        private void OnLoginOrRegister()
+        private async void OnLoginOrRegister()
         {
             if (user is null || user.Id.NullOrEmpty())
             {
@@ -69,6 +69,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
             FilePath = Path.Combine(Paths.GetUserDirectory(user.Id), "Settings.json");
 
             Reload();
+
+            if (Username.NullOrEmpty())
+            {
+                var view = new UsernamePopupPage();
+                view.Disappearing += (sender, e) => Username = view.Username;
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
+            }
 
             Username = Username; // Triggers the UsernameChangedEvent and refreshes the main view's username label...
         }

@@ -21,18 +21,16 @@ using System.Threading.Tasks;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using GlitchedPolygons.ExtensionMethods;
-using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsernamePopupPage : PopupPage
     {
-        IUserSettings userSettings;
+        public string Username { get; private set; }
 
-        public UsernamePopupPage(IUserSettings userSettings)
+        public UsernamePopupPage()
         {
-            this.userSettings = userSettings;
             InitializeComponent();
         }
 
@@ -95,9 +93,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private async void OkButton_Clicked(object sender, System.EventArgs e)
         {
-            if (userSettings.Username.NullOrEmpty())
+            if (UsernameTextEntry.Text.NullOrEmpty())
                 return;
 
+            Username = UsernameTextEntry.Text;
             await PopupNavigation.Instance.PopAsync();
         }
 
@@ -123,7 +122,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private void Entry_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
         {
-            userSettings.Username = UsernameTextEntry.Text;
             OkButton.IsEnabled = UsernameTextEntry.Text.NotNullNotEmpty();
         }
     }
