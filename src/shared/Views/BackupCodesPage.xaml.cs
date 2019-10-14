@@ -20,40 +20,35 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
-using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UserCreationSuccessfulView : ContentPage
+    public partial class BackupCodesPage : ContentPage
     {
         private readonly IMethodQ methodQ;
         private readonly ILocalization localization;
 
         private ulong? scheduledCopyButtonReset;
 
-        public UserCreationSuccessfulView()
+        public BackupCodesPage(string backupText)
         {
-            InitializeComponent();
-            methodQ = new MethodQ();
             localization = DependencyService.Get<ILocalization>();
+            methodQ = new MethodQ();
+            InitializeComponent();
+            BackupCodesText.Text = backupText;
         }
 
-        private void SecretTextBox_Focused(object sender, FocusEventArgs e)
+        private async void DismissButton_Clicked(object sender, EventArgs e)
         {
-            //nop
-        }
-
-        private void TotpTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            VerifyButton.IsEnabled = TotpTextBox.Text.NotNullNotEmpty();
+            await App.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void CopyButton_Clicked(object sender, EventArgs e)
         {
-            Clipboard.SetTextAsync(SecretTextBox.Text);
+            Clipboard.SetTextAsync(BackupCodesText.Text);
 
             CopyButton.IsEnabled = false;
             CopyButton.Text = localization["Copied"];
@@ -70,7 +65,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
                     CopyButton.IsEnabled = true;
                     CopyButton.Text = localization["Copy"];
                 });
-            }, DateTime.UtcNow.AddSeconds(3));
+            }, DateTime.UtcNow.AddSeconds(2.5));
         }
     }
 }

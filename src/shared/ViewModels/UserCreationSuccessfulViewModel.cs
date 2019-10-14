@@ -30,6 +30,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -86,10 +87,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             ExportBackupCodesCommand = new DelegateCommand(OnClickedExport);
         }
 
-        private void OnClickedExport(object commandParam)
+        private async void OnClickedExport(object commandParam)
         {
-            string backup = GetBackupString();
-            // TODO: copy or dl?
+            var view = new BackupCodesPage(GetBackupString());
+            await App.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private void OnClickedVerify(object commandParam)
