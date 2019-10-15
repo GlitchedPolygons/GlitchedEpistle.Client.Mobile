@@ -21,7 +21,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services
 {

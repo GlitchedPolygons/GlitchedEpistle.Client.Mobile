@@ -250,8 +250,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                 {
                     ExecUI(ShowConfigServerUrlPage);
                 }
-
-                ExecUI(() => MainPage = new MainPage());
             });
         }
 
@@ -267,7 +265,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void OnLoginSuccessful()
         {
-            MainPage = new MainPage();
+            // TODO: implement what comes after a successful login. Tabbed pages better?
+            //MainPage = new MainPage();
         }
 
         private void Logout()
