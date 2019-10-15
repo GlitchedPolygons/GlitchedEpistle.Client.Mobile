@@ -263,9 +263,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             // Handle when your app resumes
         }
 
-        private async void OnLoginSuccessful()
+        private void OnLoginSuccessful()
         {
-            // TODO: show main page here
+            MainPage = new MainPage();
         }
 
         private void Logout()
