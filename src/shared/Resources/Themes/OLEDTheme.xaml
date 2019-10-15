@@ -19,39 +19,16 @@
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.OLEDTheme">
-    <!--Pink-->
-    <Color x:Key="PrimaryColor">#dd004e</Color>
-
-    <!--Dark Pink-->
-    <Color x:Key="PrimaryDarkColor">#b70042</Color>
-
-    <!--Red-->
+    <Color x:Key="PrimaryColor">#00b6f2</Color>
+    <Color x:Key="PrimaryDarkColor">#009fb7</Color>
     <Color x:Key="ErrorMessageColor">Red</Color>
-
-    <!--White-->
     <Color x:Key="PrimaryTintColor">#FFFFFF</Color>
-
-    <!--OLED Black-->
     <Color x:Key="PageBackgroundColor">#000000</Color>
-
-    <!--Pink-->
     <Color x:Key="NavigationBarColor">#dd004e</Color>
-
-    <!--White-->
     <Color x:Key="PrimaryTextColor">#ffffff</Color>
-
-    <!--Smoke White-->
     <Color x:Key="SecondaryTextColor">#bdbdbd</Color>
-
-    <!--Dark Smoke White-->
     <Color x:Key="SubTextColor">#a5a5a5</Color>
-
-    <!--White-->
     <Color x:Key="OverlayTextColor">#FFFFFF</Color>
-
-    <!--Transperant Black-->
     <Color x:Key="TransperantBackgroundColor">#56000000</Color>
-
-    <!--Silver Light Grey-->
     <Color x:Key="SeparatorLineColor">#464646</Color>
 </ResourceDictionary>

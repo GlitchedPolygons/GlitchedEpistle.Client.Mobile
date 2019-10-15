@@ -24,21 +24,22 @@
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       xmlns:views="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
                       mc:Ignorable="d"
+                      BackgroundColor="{DynamicResource PageBackgroundColor}"
                       x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MainPage">
 
         <MasterDetailPage.Master>
-            <views:MenuPage />
+            <views:MenuPage BackgroundColor="{DynamicResource PageBackgroundColor}" />
         </MasterDetailPage.Master>
 
         <MasterDetailPage.Detail>
-            <NavigationPage>
+        <NavigationPage BackgroundColor="{DynamicResource PageBackgroundColor}">
                 <NavigationPage.Icon>
                     <OnPlatform x:TypeArguments="FileImageSource">
                         <On Platform="iOS" Value="tab_feed.png"/>
                     </OnPlatform>
                 </NavigationPage.Icon>
                 <x:Arguments>
-                    <views:ItemsPage />
+                    <views:ItemsPage BackgroundColor="{DynamicResource PageBackgroundColor}" />
                 </x:Arguments>
             </NavigationPage>
         </MasterDetailPage.Detail>

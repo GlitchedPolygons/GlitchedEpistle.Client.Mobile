@@ -250,6 +250,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                 {
                     ExecUI(ShowConfigServerUrlPage);
                 }
+
+                ExecUI(() => MainPage = new MainPage());
             });
         }
 
