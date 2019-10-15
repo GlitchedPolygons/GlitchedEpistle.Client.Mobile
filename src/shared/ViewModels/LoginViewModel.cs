@@ -26,6 +26,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -101,6 +102,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     case 0: // Login succeeded.
                         failedAttempts = 0;
+                        var _ = SecureStorage.SetAsync("pw:" + UserId, Password);
                         ExecUI(() => eventAggregator.GetEvent<LoginSucceededEvent>().Publish());
                         break;
                     case 1: // Connection to server failed.
@@ -113,6 +115,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         break;
                     case 2: // Login failed server-side.
                         failedAttempts++;
+                        SecureStorage.Remove("pw:" + UserId);
                         ErrorMessage = "Error! Invalid user id, password or 2FA.";
                         if (failedAttempts > 3)
                         {
@@ -121,6 +124,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         break;
                     case 3: // Login failed client-side.
                         failedAttempts++;
+                        SecureStorage.Remove("pw:" + UserId);
                         ErrorMessage = "Unexpected ERROR! Login succeeded server-side, but the returned response couldn't be handled properly (probably key decryption failure).";
                         break;
                 }

@@ -17,6 +17,7 @@
 */
 
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 using Unity;
 using Unity.Lifetime;
@@ -262,7 +263,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             // Handle when your app resumes
         }
 
-        private void OnLoginSuccessful()
+        private async void OnLoginSuccessful()
         {
             // TODO: show main page here
         }
@@ -292,9 +293,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             convoPasswordProvider?.Clear();
         }
 
-        private void OnUserCreationSuccessful(UserCreationResponseDto userCreationResponseDto)
+        private async void OnUserCreationSuccessful(UserCreationResponseDto userCreationResponseDto)
         {
             var viewModel = viewModelFactory.Create<UserCreationSuccessfulViewModel>();
+
+            await SecureStorage.SetAsync("totp:" + userCreationResponseDto.Id, userCreationResponseDto.TotpSecret);
+
             viewModel.Secret = userCreationResponseDto.TotpSecret;
             viewModel.QR = $"otpauth://totp/GlitchedEpistle:{userCreationResponseDto.Id}?secret={userCreationResponseDto.TotpSecret}";
             viewModel.BackupCodes = userCreationResponseDto.TotpEmergencyBackupCodes;
