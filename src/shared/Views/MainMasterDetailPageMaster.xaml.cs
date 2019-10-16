@@ -16,18 +16,23 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models
-{
-    public enum MenuItemType
-    {
-        Browse,
-        About
-    }
-    
-    public class HomeMenuItem
-    {
-        public MenuItemType Id { get; set; }
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 
-        public string Title { get; set; }
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class MainMasterDetailPageMaster : ContentPage
+    {
+        public ListView ListView;
+
+        public MainMasterDetailPageMaster()
+        {
+            InitializeComponent();
+
+            BindingContext = new MainMasterDetailPageMasterViewModel();
+            ListView = MenuItemsListView;
+        }
     }
 }

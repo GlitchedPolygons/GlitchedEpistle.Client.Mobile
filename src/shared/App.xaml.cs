@@ -265,8 +265,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void OnLoginSuccessful()
         {
-            // TODO: implement what comes after a successful login. Tabbed pages better?
-            //MainPage = new MainPage();
+            MainPage = new MainMasterDetailPage();
         }
 
         private void Logout()
