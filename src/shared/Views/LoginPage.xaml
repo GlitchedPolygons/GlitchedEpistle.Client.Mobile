@@ -83,6 +83,7 @@
 
                         <Button Text="{i:Translate RegisterButton}"
                                 x:Name="RegisterButton"
+                                IsEnabled="{Binding UIEnabled}"
                                 Command="{Binding RegisterCommand}" />
 
                         <Button Text="{i:Translate LoginButton}"

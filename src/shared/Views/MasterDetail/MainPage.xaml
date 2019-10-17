@@ -25,7 +25,8 @@
                       mc:Ignorable="d"
                       x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail.MainPage"
                       xmlns:pages="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views"
-                      xmlns:masterDetail="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
+                      xmlns:masterDetail="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+                      BackgroundColor="{DynamicResource PageBackgroundColor}">
         <MasterDetailPage.Master>
             <masterDetail:MasterPage x:Name="MasterPage" />
         </MasterDetailPage.Master>

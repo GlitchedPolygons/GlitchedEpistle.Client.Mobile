@@ -29,7 +29,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
         public MainPage()
         {
             InitializeComponent();
-            MasterPage.ListView.ItemSelected += ListView_ItemSelected;
         }
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -47,8 +46,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
 
             Detail = new NavigationPage(page);
             IsPresented = false;
-
-            MasterPage.ListView.SelectedItem = null;
         }
     }
 }

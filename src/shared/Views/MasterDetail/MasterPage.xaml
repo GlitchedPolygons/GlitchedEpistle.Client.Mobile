@@ -26,10 +26,10 @@
              mc:Ignorable="d" 
              
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail.MasterPage"
-             Title="Master">
+             Title="Master"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
     <StackLayout>
-        <ListView x:Name="MenuItemsListView"
-                  SeparatorVisibility="None"
+        <ListView SeparatorVisibility="None"
                   HasUnevenRows="true"
                   ItemsSource="{Binding MenuItems}">
             <ListView.Header>
@@ -58,9 +58,10 @@
                                      HorizontalOptions="FillAndExpand">
                             <Label VerticalOptions="FillAndExpand"
                                    VerticalTextAlignment="Center"
+                                   FontSize="24"
                                    Text="{Binding Title}"
                                    d:Text="{Binding .}"
-                                   FontSize="24" />
+                                   Style="{DynamicResource MediumLabelStyle}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
