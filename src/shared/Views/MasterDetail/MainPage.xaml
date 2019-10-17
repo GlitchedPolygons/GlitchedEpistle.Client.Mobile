@@ -23,15 +23,16 @@
                       xmlns:d="http://xamarin.com/schemas/2014/forms/design"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       mc:Ignorable="d"
-                      x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MainMasterDetailPage"
-                      xmlns:pages="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views">
+                      x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail.MainPage"
+                      xmlns:pages="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views"
+                      xmlns:masterDetail="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
         <MasterDetailPage.Master>
-            <pages:MainMasterDetailPageMaster x:Name="MasterPage" />
+            <masterDetail:MasterPage x:Name="MasterPage" />
         </MasterDetailPage.Master>
         <MasterDetailPage.Detail>
             <NavigationPage>
                 <x:Arguments>
-                    <pages:MainMasterDetailPageDetail />
+                    <masterDetail:ConvosDetailPage />
                 </x:Arguments>
             </NavigationPage>
         </MasterDetailPage.Detail>

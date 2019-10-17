@@ -17,17 +17,16 @@
 */
 
 using System;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainMasterDetailPage : MasterDetailPage
+    public partial class MainPage : MasterDetailPage
     {
-        public MainMasterDetailPage()
+        public MainPage()
         {
             InitializeComponent();
             MasterPage.ListView.ItemSelected += ListView_ItemSelected;
@@ -35,10 +34,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var item = e.SelectedItem as MainMasterDetailPageMasterMenuItem;
+            var item = e.SelectedItem as MasterMenuItem;
             if (item == null)
+            {
                 return;
+            }
 
+            // TODO: Handle on list item selected via commands in viewmodel!
+            
             var page = (Page)Activator.CreateInstance(item.TargetType);
             page.Title = item.Title;
 

@@ -20,11 +20,11 @@ using System;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models
 {
-    public class MainMasterDetailPageMasterMenuItem
+    public class MasterMenuItem
     {
-        public MainMasterDetailPageMasterMenuItem()
+        public MasterMenuItem()
         {
-            TargetType = typeof(MainMasterDetailPageMasterMenuItem);
+            TargetType = typeof(MasterMenuItem);
         }
         public int Id { get; set; }
         public string Title { get; set; }

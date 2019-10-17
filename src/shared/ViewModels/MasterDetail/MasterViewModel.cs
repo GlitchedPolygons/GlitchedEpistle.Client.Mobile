@@ -18,10 +18,11 @@
 
 using System.Collections.ObjectModel;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
+using Xamarin.Forms;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
 {
-    public class MainMasterDetailPageMasterViewModel : ViewModel
+    public class MasterViewModel : ViewModel
     {
         #region Constants
         #endregion
@@ -30,21 +31,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #endregion
 
         #region UI Bindings
-        public ObservableCollection<MainMasterDetailPageMasterMenuItem> MenuItems { get; set; }
+        public ObservableCollection<MasterMenuItem> MenuItems { get; set; }
+        
+        public ImageSource IconImageSource { get; set; }
 
         private string username;
         public string Username { get => username; set => Set(ref username, value); }
         #endregion
 
-        public MainMasterDetailPageMasterViewModel()
+        public MasterViewModel()
         {
-            MenuItems = new ObservableCollection<MainMasterDetailPageMasterMenuItem>(new[]
+            MenuItems = new ObservableCollection<MasterMenuItem>(new[]
             {
-                    new MainMasterDetailPageMasterMenuItem { Id = 0, Title = "Page 1" },
-                    new MainMasterDetailPageMasterMenuItem { Id = 1, Title = "Page 2" },
-                    new MainMasterDetailPageMasterMenuItem { Id = 2, Title = "Page 3" },
-                    new MainMasterDetailPageMasterMenuItem { Id = 3, Title = "Page 4" },
-                    new MainMasterDetailPageMasterMenuItem { Id = 4, Title = "Page 5" },
+                    new MasterMenuItem { Id = 0, Title = "Page 1" },
+                    new MasterMenuItem { Id = 1, Title = "Page 2" },
+                    new MasterMenuItem { Id = 2, Title = "Page 3" },
+                    new MasterMenuItem { Id = 3, Title = "Page 4" },
+                    new MasterMenuItem { Id = 4, Title = "Page 5" },
             });
         }
     }

@@ -16,23 +16,24 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
-
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainMasterDetailPageMaster : ContentPage
+    public class MainViewModel : ViewModel
     {
-        public ListView ListView;
+        #region Constants
+        #endregion
 
-        public MainMasterDetailPageMaster()
+        #region Commands
+        #endregion
+
+        #region UI Bindings
+        private string username;
+        public string Username { get => username; set => Set(ref username, value); }
+        #endregion
+
+        public MainViewModel()
         {
-            InitializeComponent();
-
-            BindingContext = new MainMasterDetailPageMasterViewModel();
-            ListView = MenuItemsListView;
+            
         }
     }
 }

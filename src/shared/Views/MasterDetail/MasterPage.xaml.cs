@@ -18,15 +18,23 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainMasterDetailPageDetail : ContentPage
+    public partial class MasterPage : ContentPage
     {
-        public MainMasterDetailPageDetail()
+        public ListView ListView;
+
+        public MasterPage()
         {
             InitializeComponent();
+
+            // TODO: use viewmodel factory instead!
+            BindingContext = new MasterViewModel();
+            ListView = MenuItemsListView;
         }
     }
 }

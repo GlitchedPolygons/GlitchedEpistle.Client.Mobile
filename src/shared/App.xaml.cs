@@ -18,16 +18,13 @@
 
 using Xamarin.Forms;
 using Xamarin.Essentials;
-
 using Unity;
 using Unity.Lifetime;
-
 using System;
 using System.IO;
 using System.Reflection;
 using System.Globalization;
 using System.Threading.Tasks;
-
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.Services.JwtService;
@@ -47,6 +44,8 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.Base;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
@@ -54,7 +53,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.ServerHealth;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 using GlitchedPolygons.GlitchedEpistle.Client.Utilities;
-
 using Prism.Events;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
@@ -265,7 +263,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void OnLoginSuccessful()
         {
-            MainPage = new MainMasterDetailPage();
+            MainPage = new MainPage
+            {
+                BindingContext = viewModelFactory.Create<MainViewModel>()
+            };
         }
 
         private void Logout()
@@ -303,7 +304,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             viewModel.QR = $"otpauth://totp/GlitchedEpistle:{userCreationResponseDto.Id}?secret={userCreationResponseDto.TotpSecret}";
             viewModel.BackupCodes = userCreationResponseDto.TotpEmergencyBackupCodes;
 
-            MainPage = new UserCreationSuccessfulView { BindingContext = viewModel };
+            MainPage = new UserCreationSuccessfulView {BindingContext = viewModel};
         }
 
         private void ShowLoginPage()
@@ -311,19 +312,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             var viewModel = viewModelFactory.Create<LoginViewModel>();
             viewModel.UserId = appSettings.LastUserId;
 
-            MainPage = new LoginPage { BindingContext = viewModel };
+            MainPage = new LoginPage {BindingContext = viewModel};
         }
 
         private void ShowRegistrationPage()
         {
             var viewModel = viewModelFactory.Create<RegisterViewModel>();
-            MainPage = new RegisterPage { BindingContext = viewModel };
+            MainPage = new RegisterPage {BindingContext = viewModel};
         }
 
         private void ShowConfigServerUrlPage()
         {
             var viewModel = viewModelFactory.Create<ServerUrlViewModel>();
-            MainPage = new ServerUrlPage { BindingContext = viewModel };
+            MainPage = new ServerUrlPage {BindingContext = viewModel};
         }
     }
 }
