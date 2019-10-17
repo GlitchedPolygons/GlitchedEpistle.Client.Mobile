@@ -25,29 +25,47 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
     public class MasterViewModel : ViewModel
     {
         #region Constants
+
         #endregion
 
         #region Commands
+
         #endregion
 
         #region UI Bindings
-        public ObservableCollection<MasterMenuItem> MenuItems { get; set; }
-        
-        public ImageSource IconImageSource { get; set; }
+
+        private ObservableCollection<MasterMenuItem> menuItems;
+        public ObservableCollection<MasterMenuItem> MenuItems
+        {
+            get => menuItems;
+            set => Set(ref menuItems, value);
+        }
+
+        private ImageSource iconImageSource;
+        public ImageSource IconImageSource
+        {
+            get => iconImageSource;
+            set => Set(ref iconImageSource, value);
+        }
 
         private string username;
-        public string Username { get => username; set => Set(ref username, value); }
+        public string Username
+        {
+            get => username;
+            set => Set(ref username, value);
+        }
+
         #endregion
 
         public MasterViewModel()
         {
             MenuItems = new ObservableCollection<MasterMenuItem>(new[]
             {
-                    new MasterMenuItem { Id = 0, Title = "Page 1" },
-                    new MasterMenuItem { Id = 1, Title = "Page 2" },
-                    new MasterMenuItem { Id = 2, Title = "Page 3" },
-                    new MasterMenuItem { Id = 3, Title = "Page 4" },
-                    new MasterMenuItem { Id = 4, Title = "Page 5" },
+                new MasterMenuItem {Id = 0, Title = "Page 1"},
+                new MasterMenuItem {Id = 1, Title = "Page 2"},
+                new MasterMenuItem {Id = 2, Title = "Page 3"},
+                new MasterMenuItem {Id = 3, Title = "Page 4"},
+                new MasterMenuItem {Id = 4, Title = "Page 5"},
             });
         }
     }

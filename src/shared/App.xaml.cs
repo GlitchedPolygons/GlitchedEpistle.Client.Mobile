@@ -263,9 +263,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void OnLoginSuccessful()
         {
+            var viewModel = viewModelFactory.Create<MainViewModel>();
+            
+            viewModel.MasterPage = new MasterPage
+            {
+                BindingContext = viewModelFactory.Create<MasterViewModel>()
+            };
+            
+            viewModel.DetailPage = new ConvosDetailPage
+            {
+                BindingContext = viewModelFactory.Create<ConvosViewModel>()
+            };
+            
             MainPage = new MainPage
             {
-                BindingContext = viewModelFactory.Create<MainViewModel>()
+                BindingContext = viewModel
             };
         }
 

@@ -16,24 +16,56 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using Xamarin.Forms;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
+
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
 {
     public class MainViewModel : ViewModel
     {
         #region Constants
+
+        private readonly IAppSettings appSettings;
+        private readonly IUserSettings userSettings;
+        private readonly IViewModelFactory viewModelFactory;
+        
         #endregion
 
         #region Commands
+
         #endregion
 
         #region UI Bindings
+
         private string username;
-        public string Username { get => username; set => Set(ref username, value); }
+        public string Username
+        {
+            get => username;
+            set => Set(ref username, value);
+        }
+
+        private ContentView masterPage;
+        public ContentView MasterPage
+        {
+            get => masterPage;
+            set => Set(ref masterPage, value);
+        }
+
+        private ContentView detailPage;
+        public ContentView DetailPage
+        {
+            get => detailPage;
+            set => Set(ref detailPage, value);
+        }
+
         #endregion
 
-        public MainViewModel()
+        public MainViewModel(IViewModelFactory viewModelFactory, IAppSettings appSettings, IUserSettings userSettings)
         {
-            
+            this.appSettings = appSettings;
+            this.userSettings = userSettings;
+            this.viewModelFactory = viewModelFactory;
         }
     }
 }

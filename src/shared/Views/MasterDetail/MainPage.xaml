@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
-    <!--
+<!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -18,23 +18,26 @@
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
     -->
 
-    <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                      xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      mc:Ignorable="d"
-                      x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail.MainPage"
-                      xmlns:pages="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views"
-                      xmlns:masterDetail="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
-                      BackgroundColor="{DynamicResource PageBackgroundColor}">
-        <MasterDetailPage.Master>
-            <masterDetail:MasterPage x:Name="MasterPage" />
-        </MasterDetailPage.Master>
-        <MasterDetailPage.Detail>
-            <NavigationPage>
-                <x:Arguments>
-                    <masterDetail:ConvosDetailPage />
-                </x:Arguments>
-            </NavigationPage>
-        </MasterDetailPage.Detail>
-    </MasterDetailPage>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  mc:Ignorable="d"
+                  x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail.MainPage"
+                  xmlns:pages="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views"
+                  xmlns:masterDetail="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+                  BackgroundColor="{DynamicResource PageBackgroundColor}">
+
+    <MasterDetailPage.Master>
+        <ContentPage Content="{Binding MasterPage}" Title="Glitched Epistle"/>
+    </MasterDetailPage.Master>
+
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <ContentPage Content="{Binding DetailPage}" Title="Glitched Epistle"/>
+            </x:Arguments>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+
+</MasterDetailPage>

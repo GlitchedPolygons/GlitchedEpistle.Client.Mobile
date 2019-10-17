@@ -18,20 +18,15 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterPage : ContentPage
+    public partial class MasterPage : ContentView
     {
         public MasterPage()
         {
             InitializeComponent();
-
-            // TODO: use viewmodel factory instead!
-            BindingContext = new MasterViewModel();
         }
     }
 }

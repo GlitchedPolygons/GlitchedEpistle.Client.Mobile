@@ -18,13 +18,12 @@
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
     -->
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail.ConvosDetailPage"
              mc:Ignorable="d"
-             Title="Detail"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <StackLayout Padding="10">
         <Label Style="{DynamicResource MediumLabelStyle}" 
@@ -32,4 +31,4 @@
                Margin="15"
                Text="This is a detail page. To get the 'triple' line icon on each platform add a icon to each platform and update the 'Master' page with an Icon that references it." />
     </StackLayout>
-</ContentPage>
+</ContentView>
