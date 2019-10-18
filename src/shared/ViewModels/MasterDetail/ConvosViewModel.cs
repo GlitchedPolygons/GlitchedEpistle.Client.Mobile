@@ -32,7 +32,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
-
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using Prism.Events;
 using Newtonsoft.Json;
 
@@ -46,8 +46,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
         #region Constants
         private readonly User user;
         private readonly ILogger logger;
-        private readonly ILocalization localization;
+        private readonly IUserService userService;
         private readonly IConvoService convoService;
+        private readonly ILocalization localization;
         private readonly IConvoPasswordProvider convoPasswordProvider;
         private readonly IEventAggregator eventAggregator;
         private readonly IAsymmetricCryptographyRSA crypto;
@@ -75,13 +76,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
         }
         #endregion
 
-        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger)
+        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService)
         {
             localization = DependencyService.Get<ILocalization>();
             
             this.user = user;
             this.crypto = crypto;
             this.logger = logger;
+            this.userService = userService;
             this.convoService = convoService;
             this.eventAggregator = eventAggregator;
             this.convoPasswordProvider = convoPasswordProvider;
@@ -100,24 +102,36 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
             eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList());
         }
         
-        private async void UpdateList()
+        private void UpdateList()
         {
-            string convosJson = await SecureStorage.GetAsync(user.Id + ":convos");
-
-            try
+            if (user.Token is null || user.Token.Item2.NullOrEmpty())
             {
-                Convos = new ObservableCollection<Convo>(
-                    JsonConvert.DeserializeObject<Convo[]>(convosJson ?? "{}")
+                return;
+            }
+
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var userConvos = (await userService.GetConvos(user.Id, user.Token.Item2))
+                        .Select(dto => (Convo)dto)
+                        .Distinct()
                         .Where(convo => !convo.IsExpired())
                         .OrderByDescending(convo => convo.ExpirationUTC)
-                        .ThenBy(convo => convo.Name.ToUpper())
-                );
-            }
-            catch (Exception e)
-            {
-                logger?.LogError($"{nameof(ConvosViewModel)}::{nameof(UpdateList)}: Couldn't deserialize convos list found on device's {nameof(SecureStorage)}. Thrown exception: {e.ToString()}''");
-                Convos = new ObservableCollection<Convo>();
-            }
+                        .ThenBy(convo => convo.Name.ToUpper());
+                    
+                    ExecUI(() =>
+                    {
+                        Convos = new ObservableCollection<Convo>(userConvos);
+                        eventAggregator.GetEvent<UpdatedUserConvosEvent>().Publish();
+                    });
+                }
+                catch (Exception e)
+                {
+                    logger?.LogError($"{nameof(ConvosViewModel)}::{nameof(UpdateList)}: User convos sync failed! Thrown exception: " + e.ToString());
+                    ExecUI(() => Convos = new ObservableCollection<Convo>());
+                }
+            });
         }
 
         private void OnClickedOnConvo(object commandParam)
