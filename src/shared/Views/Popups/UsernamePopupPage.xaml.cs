@@ -16,13 +16,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using Xamarin.Forms.Xaml;
 using System.Threading.Tasks;
+using GlitchedPolygons.ExtensionMethods;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-using GlitchedPolygons.ExtensionMethods;
+using Xamarin.Forms.Xaml;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class UsernamePopupPage : PopupPage

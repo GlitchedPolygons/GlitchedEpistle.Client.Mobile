@@ -29,6 +29,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;

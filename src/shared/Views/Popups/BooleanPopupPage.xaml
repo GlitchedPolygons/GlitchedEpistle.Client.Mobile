@@ -21,43 +21,25 @@
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.PasswordPopupPage"
-                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-                 BackgroundColor="{DynamicResource PageBackgroundColor}"
-                 CloseWhenBackgroundIsClicked="True">
-
+                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups.BooleanPopupPage"
+                 BackgroundColor="{DynamicResource PageBackgroundColor}">
     <StackLayout VerticalOptions="CenterAndExpand"
                  HorizontalOptions="CenterAndExpand"
                  Margin="32,32,32,64">
 
-        <Label Text="{i:Translate PleaseEnterConvoPasswordDialogTitleLabel}"
+        <Label x:Name="TitleLabel"
                Style="{DynamicResource TitleLabelStyle}" />
 
-        <Label Text="{i:Translate PleaseEnterConvoPasswordDialogTextLabel}"
+        <Label x:Name="DescriptionLabel"
                Style="{DynamicResource MediumLabelStyle}"
                LineBreakMode="WordWrap"
                FontSize="14" />
 
-        <Entry MaxLength="25"
-               Margin="0,20,0,0"
-               IsPassword="true"
-               x:Name="PasswordTextEntry"
-               Placeholder="{i:Translate Password}"
-               Style="{DynamicResource EntryStyle}"/>
-
         <StackLayout Orientation="Horizontal">
-
-            <Button x:Name="CancelButton"
-                    Text="{i:Translate CancelButton}"
-                    Margin="0,5,0,0"
-                    IsEnabled="true"
-                    Clicked="CancelButton_Clicked" />
-
-            <Button x:Name="OkButton"
-                    Text="OK"
-                    Margin="0,5,0,0"
-                    IsEnabled="true"
-                    Clicked="OkButton_Clicked" />
+            <Button x:Name="TrueButton"
+                    Clicked="TrueButton_Clicked" />
+            <Button x:Name="FalseButton"
+                    Clicked="FalseButton_Clicked" />
         </StackLayout>
     </StackLayout>
 </pages:PopupPage>

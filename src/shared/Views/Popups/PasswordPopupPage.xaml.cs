@@ -17,12 +17,12 @@
 */
 
 using System;
-using Xamarin.Forms.Xaml;
+using GlitchedPolygons.ExtensionMethods;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-using GlitchedPolygons.ExtensionMethods;
+using Xamarin.Forms.Xaml;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PasswordPopupPage : PopupPage
@@ -49,14 +49,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             PopupNavigation.Instance.PopAsync();
         }
 
-        // Invoked when a hardware back button is pressed
+        // Invoked when a hardware back button is pressed.
         protected override bool OnBackButtonPressed()
         {
             Password = null;
             return base.OnBackButtonPressed();
         }
 
-        // Invoked when background is clicked
+        // Invoked when background is clicked.
         protected override bool OnBackgroundClicked()
         {
             Password = null;

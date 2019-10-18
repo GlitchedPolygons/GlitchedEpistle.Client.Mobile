@@ -27,7 +27,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
-
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using Prism.Events;
 using Xamarin.Forms;
 

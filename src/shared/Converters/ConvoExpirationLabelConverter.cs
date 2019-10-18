@@ -46,10 +46,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
             DateTime exp = (DateTime)value;
             int days = (exp - DateTime.UtcNow).Days;
             
-            if (days > 5) 
-                return string.Empty;
-            
-            return string.Format(Localization["ConvoListEntryExpirationLabel"], days);
+            return days > 5 ? string.Empty : string.Format(Localization["ConvoListEntryExpirationLabel"], days);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
