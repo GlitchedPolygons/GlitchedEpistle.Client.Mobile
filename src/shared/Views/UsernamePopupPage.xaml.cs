@@ -100,7 +100,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             await PopupNavigation.Instance.PopAsync();
         }
 
-        // ### Overrided methods which can prevent closing a popup page ###
+        // ### Overridden methods which can prevent closing a popup page ###
 
         // Invoked when a hardware back button is pressed
         protected override bool OnBackButtonPressed()

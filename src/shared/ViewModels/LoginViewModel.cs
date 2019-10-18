@@ -110,7 +110,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             pendingAttempt = false;
                             UIEnabled = true;
-                            App.Current.MainPage.DisplayAlert(localization["Error"], localization["ConnectionToServerFailed"], "OK");
+                            Application.Current.MainPage.DisplayAlert(localization["Error"], localization["ConnectionToServerFailed"], "OK");
                         });
                         break;
                     case 2: // Login failed server-side.

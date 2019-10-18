@@ -26,9 +26,38 @@
              mc:Ignorable="d"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <StackLayout Padding="10">
-        <Label Style="{DynamicResource MediumLabelStyle}" 
-               FontSize="Medium" 
-               Margin="15"
-               Text="This is a detail page. To get the 'triple' line icon on each platform add a icon to each platform and update the 'Master' page with an Icon that references it." />
+        <ListView SeparatorVisibility="None"
+                  HasUnevenRows="true"
+                  ItemsSource="{Binding Convos}">
+            <ListView.Header>
+                <Grid BackgroundColor="#03A9F4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="80" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="10" />
+                    </Grid.RowDefinitions>
+                </Grid>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Padding="15,10"
+                                     HorizontalOptions="FillAndExpand">
+                            <Label VerticalOptions="FillAndExpand"
+                                   VerticalTextAlignment="Center"
+                                   FontSize="24"
+                                   Text="{Binding Name}"
+                                   Style="{DynamicResource MediumLabelStyle}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 </ContentView>
