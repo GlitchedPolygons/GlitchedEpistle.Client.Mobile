@@ -86,10 +86,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
             this.eventAggregator = eventAggregator;
             this.convoPasswordProvider = convoPasswordProvider;
             
-            if (user.Id.NotNullNotEmpty())
-            {
-                UpdateList();
-            }
+            UpdateList();
 
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
             EditConvoCommand = new DelegateCommand(OnClickedEditConvo);

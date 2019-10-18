@@ -24,7 +24,7 @@
     <Color x:Key="ErrorMessageColor">Red</Color>
     <Color x:Key="PrimaryTintColor">#FFFFFF</Color>
     <Color x:Key="PageBackgroundColor">#000000</Color>
-    <Color x:Key="NavigationBarColor">#dd004e</Color>
+    <Color x:Key="NavigationBarColor">#0095b7</Color>
     <Color x:Key="PrimaryTextColor">#ffffff</Color>
     <Color x:Key="SecondaryTextColor">#bdbdbd</Color>
     <Color x:Key="SubTextColor">#a5a5a5</Color>

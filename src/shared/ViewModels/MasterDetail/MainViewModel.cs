@@ -66,6 +66,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
             this.appSettings = appSettings;
             this.userSettings = userSettings;
             this.viewModelFactory = viewModelFactory;
+
+            Username = userSettings.Username;
         }
     }
 }
