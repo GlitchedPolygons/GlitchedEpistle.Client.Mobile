@@ -22,6 +22,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail.ConvosDetailPage"
              mc:Ignorable="d"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
@@ -30,30 +32,38 @@
                   HasUnevenRows="true"
                   ItemsSource="{Binding Convos}">
             <ListView.Header>
-                <Grid BackgroundColor="#03A9F4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="10" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30" />
-                        <RowDefinition Height="80" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="10" />
-                    </Grid.RowDefinitions>
-                </Grid>
+                <StackLayout Padding="10"
+                             HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal">
+                        
+                    </StackLayout>
+                </StackLayout>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Padding="15,10"
                                      HorizontalOptions="FillAndExpand">
-                            <Label VerticalOptions="FillAndExpand"
-                                   VerticalTextAlignment="Center"
-                                   FontSize="24"
-                                   Text="{Binding Name}"
-                                   Style="{DynamicResource MediumLabelStyle}" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label VerticalOptions="FillAndExpand"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Start"
+                                       FontSize="20"
+                                       Text="{Binding Name}"
+                                       Style="{DynamicResource MediumLabelStyle}" />
+                                <Label VerticalTextAlignment="Center" 
+                                       VerticalOptions="FillAndExpand"
+                                       HorizontalTextAlignment="End"
+                                       FontSize="20"
+                                       Text="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelConverter}}"
+                                       Style="{DynamicResource MediumLabelStyle}"/>
+                            </StackLayout>
+                            <Label VerticalTextAlignment="Center"
+                                   VerticalOptions="FillAndExpand"
+                                   FontSize="16"
+                                   Text="{Binding Id}"
+                                   Style="{DynamicResource SubLabelStyle}" />
+                            <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

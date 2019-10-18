@@ -237,4 +237,7 @@
   <data name="WelcomeLabel" xml:space="preserve">
     <value>Welcome to Glitched Epistle.</value>
   </data>
+  <data name="ConvoListEntryExpirationLabel" xml:space="preserve">
+    <value>(Remaining days: {0})</value>
+  </data>
 </root>

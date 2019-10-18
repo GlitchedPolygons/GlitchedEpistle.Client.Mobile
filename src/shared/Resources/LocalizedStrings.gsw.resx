@@ -240,4 +240,7 @@
   <data name="WelcomeLabel" xml:space="preserve">
     <value>Willkomme bi Glitched Epistle.</value>
   </data>
+  <data name="ConvoListEntryExpirationLabel" xml:space="preserve">
+    <value>(Verbliibendi Tääg: {0})</value>
+  </data>
 </root>
