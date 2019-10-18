@@ -226,7 +226,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             }
 
             localization.SetCurrentCultureInfo(new CultureInfo(lang));
-
+            
             Logout();
 
             Task.Run(async () =>

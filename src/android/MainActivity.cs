@@ -20,6 +20,7 @@ using Android.OS;
 using Android.App;
 using Android.Runtime;
 using Android.Content.PM;
+using Plugin.Fingerprint;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid
 {
@@ -39,6 +40,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid
 
             base.OnCreate(savedInstanceState);
 
+            CrossFingerprint.SetCurrentActivityResolver(() => this);
+            
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

@@ -33,21 +33,36 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
         {
         }
 
-        /// <summary>The Epistle client version.</summary>
+        /// <summary>
+        /// The Epistle client version.
+        /// </summary>
         public string ClientVersion => this["Version", App.Version];
 
-        /// <summary>The Epistle server URL to connect to.</summary>
+        /// <summary>
+        /// The Epistle server URL to connect to.
+        /// </summary>
         public string ServerUrl
         {
             get => this["ServerUrl"];
             set => this["ServerUrl"] = value;
         }
 
-        /// <summary>The last used user id.</summary>
+        /// <summary>
+        /// The last used user id.
+        /// </summary>
         public string LastUserId
         {
             get => this["LastUserId"];
             set => this["LastUserId"] = value;
+        }
+
+        /// <summary>
+        /// If available, should the fingerprint reader be used for logging in the user easily?
+        /// </summary>
+        public bool UseFingerprint
+        {
+            get => this["UseFingerprint", false];
+            set => this["UseFingerprint"] = value.ToString();
         }
     }
 }
