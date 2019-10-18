@@ -29,6 +29,6 @@
     <Color x:Key="SecondaryTextColor">#6e6e6e</Color>
     <Color x:Key="SubTextColor">#969696</Color>
     <Color x:Key="OverlayTextColor">#FFFFFF</Color>
-    <Color x:Key="TransperantBackgroundColor">#56000000</Color>
+    <Color x:Key="TransparentBackgroundColor">#56000000</Color>
     <Color x:Key="SeparatorLineColor">#ececec</Color>
 </ResourceDictionary>
