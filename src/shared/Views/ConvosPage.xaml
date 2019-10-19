@@ -23,6 +23,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvosPage"
              mc:Ignorable="d"
@@ -31,7 +32,7 @@
     <StackLayout HorizontalOptions="FillAndExpand">
 
         <StackLayout Padding="5,4,5,1">
-            
+
             <Label Style="{DynamicResource MediumLabelStyle}"
                    Text="{Binding Username}"
                    HorizontalOptions="CenterAndExpand"
@@ -42,48 +43,68 @@
                    Text="{Binding UserId}"
                    HorizontalOptions="CenterAndExpand"
                    HorizontalTextAlignment="Center"
-                   MaxLines="1" 
-                   Margin="0,-5,0,0"/>
+                   MaxLines="1"
+                   Margin="0,-5,0,0" />
         </StackLayout>
 
         <BoxView HeightRequest="4"
                  HorizontalOptions="FillAndExpand"
                  Color="{DynamicResource PrimaryColor}" />
 
-        <StackLayout Orientation="Horizontal" 
+        <StackLayout Orientation="Horizontal"
                      Padding="0"
                      Margin="0,3"
                      HorizontalOptions="CenterAndExpand">
-            
-            <ImageButton Command="{Binding CreateConvoCommand}"
-                         Aspect="Fill"
-                         WidthRequest="64"
-                         HeightRequest="64"
-                         Style="{DynamicResource CreateConvoButtonStyle}" />
-            
-            <ImageButton Command="{Binding JoinConvoCommand}"
-                         Aspect="Fill"
-                         WidthRequest="64"
-                         HeightRequest="64"
-                         Style="{DynamicResource JoinConvoButtonStyle}" />
-            
-            <ImageButton Command="{Binding ChangePasswordCommand}"
-                         Aspect="Fill"
-                         WidthRequest="64"
-                         HeightRequest="64"
-                         Style="{DynamicResource ChangePasswordButtonStyle}" />
-            
-            <ImageButton Command="{Binding SettingsCommand}"
-                         Aspect="Fill"
-                         WidthRequest="64"
-                         HeightRequest="64"
-                         Style="{DynamicResource SettingsButtonStyle}" />
-            
-            <ImageButton Command="{Binding LogoutCommand}"
-                         Aspect="Fill"
-                         WidthRequest="64"
-                         HeightRequest="64"
-                         Style="{DynamicResource LogoutButtonStyle}" />
+
+            <ff:CachedImage Aspect="Fill"
+                            WidthRequest="64"
+                            HeightRequest="64"
+                            DownsampleToViewSize="True"
+                            Style="{DynamicResource CreateConvoButtonStyle}">
+                <ff:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CreateConvoCommand}" />
+                </ff:CachedImage.GestureRecognizers>
+            </ff:CachedImage>
+
+            <ff:CachedImage Aspect="Fill"
+                            WidthRequest="64"
+                            HeightRequest="64"
+                            DownsampleToViewSize="True"
+                            Style="{DynamicResource JoinConvoButtonStyle}">
+                <ff:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding JoinConvoCommand}" />
+                </ff:CachedImage.GestureRecognizers>
+            </ff:CachedImage>
+
+            <ff:CachedImage Aspect="Fill"
+                            WidthRequest="64"
+                            HeightRequest="64"
+                            DownsampleToViewSize="True"
+                            Style="{DynamicResource ChangePasswordButtonStyle}">
+                <ff:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangePasswordCommand}" />
+                </ff:CachedImage.GestureRecognizers>
+            </ff:CachedImage>
+
+            <ff:CachedImage Aspect="Fill"
+                            WidthRequest="64"
+                            HeightRequest="64"
+                            DownsampleToViewSize="True"
+                            Style="{DynamicResource SettingsButtonStyle}">
+                <ff:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SettingsCommand}" />
+                </ff:CachedImage.GestureRecognizers>
+            </ff:CachedImage>
+
+            <ff:CachedImage Aspect="Fill"
+                            WidthRequest="64"
+                            HeightRequest="64"
+                            DownsampleToViewSize="True"
+                            Style="{DynamicResource LogoutButtonStyle}">
+                <ff:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LogoutCommand}" />
+                </ff:CachedImage.GestureRecognizers>
+            </ff:CachedImage>
         </StackLayout>
 
         <BoxView Margin="0,0,0,0"

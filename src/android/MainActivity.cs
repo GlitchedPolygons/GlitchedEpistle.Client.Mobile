@@ -21,6 +21,7 @@ using Android.App;
 using Android.Runtime;
 using Android.Content.PM;
 using Plugin.Fingerprint;
+using FFImageLoading.Forms.Platform;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid
 {
@@ -46,6 +47,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::ZXing.Net.Mobile.Forms.Android.Platform.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
+            CachedImageRenderer.InitImageViewHandler();
 
             LoadApplication(new App());
 

@@ -18,6 +18,7 @@
 
 using UIKit;
 using Foundation;
+using FFImageLoading.Forms.Platform;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile;
 
 namespace GlitchedEpistle.Client.Mobile.iOS
@@ -40,6 +41,9 @@ namespace GlitchedEpistle.Client.Mobile.iOS
             Rg.Plugins.Popup.Popup.Init();
             global::Xamarin.Forms.Forms.Init();
             global::ZXing.Net.Mobile.Forms.iOS.Platform.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+            CachedImageRenderer.InitImageSourceHandler();
+            
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
