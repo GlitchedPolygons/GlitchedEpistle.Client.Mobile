@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+    <!--
+         Glitched Epistle - Mobile Client
+         Copyright (C) 2019 Raphael Beck
+         
+         This program is free software: you can redistribute it and/or modify
+         it under the terms of the GNU General Public License as published by
+         the Free Software Foundation, either version 3 of the License, or
+         (at your option) any later version.
+         
+         This program is distributed in the hope that it will be useful,
+         but WITHOUT ANY WARRANTY; without even the implied warranty of
+         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+         GNU General Public License for more details.
+         
+         You should have received a copy of the GNU General Public License
+         along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    -->
+
+    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+                 xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvosPage"
+                 mc:Ignorable="d"
+                 BackgroundColor="{DynamicResource PageBackgroundColor}">
+
+        <StackLayout HorizontalOptions="FillAndExpand">
+
+            <StackLayout Padding="10,5,5,5">
+                <Label Style="{DynamicResource MediumLabelStyle}" 
+                       Text="raphu604"
+                       HorizontalOptions="CenterAndExpand"
+                       HorizontalTextAlignment="Center" 
+                       MaxLines="1"/>
+
+                <Label Style="{DynamicResource SubLabelStyle}"
+                       Text="16b4f566adeb45eda11de0e1a2ec458e"
+                       HorizontalOptions="CenterAndExpand"
+                       HorizontalTextAlignment="Center" 
+                       MaxLines="1"/>
+            </StackLayout>
+
+            <BoxView HeightRequest="4"
+                     HorizontalOptions="FillAndExpand" 
+                     Color="{DynamicResource PrimaryColor}"/>
+
+            <StackLayout Orientation="Horizontal" 
+                         Padding="5,0,0,0"
+                         HorizontalOptions="CenterAndExpand">
+                <Button/>
+                <Button/>
+                <Button/>
+                <Button/>
+            </StackLayout>
+
+            <BoxView Margin="4,0,0,0" 
+                     Style="{DynamicResource HorizontalSeparatorLineStyle}"/>
+
+            <ListView SeparatorVisibility="None"
+                      HasUnevenRows="true"
+                      ItemsSource="{Binding Convos}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="15,10"
+                                         HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label VerticalOptions="FillAndExpand"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalTextAlignment="Start"
+                                           FontSize="20"
+                                           Text="{Binding Name}"
+                                           Style="{DynamicResource MediumLabelStyle}" />
+                                    <Label VerticalTextAlignment="Center" 
+                                           VerticalOptions="FillAndExpand"
+                                           HorizontalTextAlignment="End"
+                                           FontSize="20"
+                                           Text="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelConverter}}"
+                                           Style="{DynamicResource MediumLabelStyle}"/>
+                                </StackLayout>
+                                <Label VerticalTextAlignment="Center"
+                                       VerticalOptions="FillAndExpand"
+                                       FontSize="16"
+                                       Text="{Binding Id}"
+                                       Style="{DynamicResource SubLabelStyle}" />
+                                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>

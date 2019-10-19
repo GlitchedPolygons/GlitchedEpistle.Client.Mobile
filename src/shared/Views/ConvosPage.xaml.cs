@@ -19,12 +19,12 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ConvosDetailPage : ContentView
+    public partial class ConvosPage : ContentPage
     {
-        public ConvosDetailPage()
+        public ConvosPage()
         {
             InitializeComponent();
         }

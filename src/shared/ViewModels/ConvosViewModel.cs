@@ -17,30 +17,27 @@
 */
 
 using System;
-using System.IO;
-using System.Linq;
-using System.Windows.Input;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using GlitchedPolygons.ExtensionMethods;
-using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
-using Prism.Events;
+using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using Newtonsoft.Json;
-using Xamarin.Forms;
+using Prism.Events;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
     public class ConvosViewModel : ViewModel
     {

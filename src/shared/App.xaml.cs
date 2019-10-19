@@ -44,8 +44,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.Base;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
@@ -226,7 +224,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             }
 
             localization.SetCurrentCultureInfo(new CultureInfo(lang));
-            
+
             Logout();
 
             Task.Run(async () =>
@@ -263,22 +261,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void OnLoginSuccessful()
         {
-            var viewModel = viewModelFactory.Create<MainViewModel>();
-            
-            viewModel.MasterPage = new MasterPage
-            {
-                BindingContext = viewModelFactory.Create<MasterViewModel>()
-            };
-            
-            viewModel.DetailPage = new ConvosDetailPage
-            {
-                BindingContext = viewModelFactory.Create<ConvosViewModel>()
-            };
-            
-            MainPage = new MainPage
-            {
-                BindingContext = viewModel
-            };
+            ShowConvosPage();
         }
 
         private void Logout()
@@ -337,6 +320,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         {
             var viewModel = viewModelFactory.Create<ServerUrlViewModel>();
             MainPage = new ServerUrlPage {BindingContext = viewModel};
+        }
+
+        private void ShowConvosPage()
+        {
+            var viewModel = viewModelFactory.Create<ConvosViewModel>();
+            MainPage = new ConvosPage {BindingContext = viewModel};
         }
     }
 }

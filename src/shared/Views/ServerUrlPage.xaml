@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <!--
     Glitched Epistle - Mobile Client
@@ -25,18 +25,18 @@
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ServerUrlPage"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout HorizontalOptions="Center" 
+            <StackLayout HorizontalOptions="Center"
                          VerticalOptions="Center"
-                         WidthRequest="420" 
+                         WidthRequest="420"
                          Margin="32,32,32,50">
 
                 <Label Style="{DynamicResource TitleLabelStyle}"
                        FontAttributes="Bold"
-                       Text="{i:Translate ConfigServerUrlTitleLabel}"/>
+                       Text="{i:Translate ConfigServerUrlTitleLabel}" />
 
                 <Label Text="{Binding ErrorMessage}"
                        TextColor="{DynamicResource ErrorMessageColor}"
@@ -44,17 +44,17 @@
                        HorizontalOptions="Start"
                        FontSize="14" />
 
-                <Label FontSize="16" 
-                       Margin="0,0,0,10" 
+                <Label FontSize="16"
+                       Margin="0,0,0,10"
                        Style="{DynamicResource SubLabelStyle}"
-                       Text="{i:Translate ConfigServerUrlSubLabel}"/>
+                       Text="{i:Translate ConfigServerUrlSubLabel}" />
 
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30" />
                     </Grid.ColumnDefinitions>
-                    
+
                     <Entry MinimumWidthRequest="250"
                            Grid.Column="0"
                            FontSize="16"
@@ -62,31 +62,30 @@
                            Placeholder="{i:Translate ServerUrlEntry}"
                            Text="{Binding ServerUrl, UpdateSourceEventName=PropertyChanged}" />
 
-                    <ActivityIndicator Grid.Column="1" 
-                                       IsVisible="{Binding Testing}" 
+                    <ActivityIndicator Grid.Column="1"
+                                       IsVisible="{Binding Testing}"
                                        IsRunning="{Binding Testing}" />
 
-                    <Image Grid.Column="1" 
+                    <Image Grid.Column="1"
                            Margin="3.5"
                            IsVisible="{Binding ConnectionOk}"
-                           Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green_tick.png}" />
+                           Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
                 </Grid>
 
                 <StackLayout Margin="0,20,0,0">
 
-                    <Button Text="{i:Translate ResetButton}" 
-                            Command="{Binding ResetCommand}"/>
+                    <Button Text="{i:Translate ResetButton}"
+                            Command="{Binding ResetCommand}" />
 
                     <Button Text="{i:Translate TestConnectionButton}"
                             Command="{Binding TestConnectionCommand}"
-                            IsEnabled="{Binding Testing, Converter={converters:InverseBoolConverter}}"/>
+                            IsEnabled="{Binding Testing, Converter={converters:InverseBoolConverter}}" />
 
                     <Button Text="{i:Translate ConnectButton}"
-                            Command="{Binding ConnectCommand}" 
-                            IsEnabled="{Binding ConnectionOk}"/>
+                            Command="{Binding ConnectCommand}"
+                            IsEnabled="{Binding ConnectionOk}" />
                 </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>
-    
