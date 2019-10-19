@@ -37,18 +37,16 @@
     <Style x:Key="CreateConvoButtonStyle" TargetType="ImageButton">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="WidthRequest" Value="64" />
-        <Setter Property="HeightRequest" Value="64" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList x:Name="CommonStates">
+            <VisualStateGroupList>
                 <VisualStateGroup>
-                    <VisualState x:Name="Pressed">
+                    <VisualState Name="Pressed">
                         <VisualState.Setters>
                             <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-selected.png}" />
                         </VisualState.Setters>
                     </VisualState>
-                    <VisualState x:Name="Normal">
+                    <VisualState Name="Normal">
                         <VisualState.Setters>
                             <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-white.png}" />
                         </VisualState.Setters>
@@ -61,8 +59,6 @@
     <Style x:Key="JoinConvoButtonStyle" TargetType="ImageButton">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="WidthRequest" Value="64" />
-        <Setter Property="HeightRequest" Value="64" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.join-icon-white.png}" />
     </Style>
@@ -70,8 +66,6 @@
     <Style x:Key="ChangePasswordButtonStyle" TargetType="ImageButton">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="WidthRequest" Value="64" />
-        <Setter Property="HeightRequest" Value="64" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-white.png}" />
     </Style>
@@ -79,8 +73,6 @@
     <Style x:Key="LogoutButtonStyle" TargetType="ImageButton">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="WidthRequest" Value="64" />
-        <Setter Property="HeightRequest" Value="64" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.logout-icon-white.png}" />
     </Style>
