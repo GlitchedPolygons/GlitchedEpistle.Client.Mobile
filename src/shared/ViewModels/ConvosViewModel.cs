@@ -56,6 +56,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #region Commands
 
+        // Header controls
+        public ICommand LogoutCommand { get; }
+        
+        // List controls
         public ICommand OpenConvoCommand { get; }
         public ICommand EditConvoCommand { get; }
         public ICommand CopyConvoIdCommand { get; }
@@ -94,6 +98,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             UpdateList();
 
+            LogoutCommand = new DelegateCommand(_ => eventAggregator.GetEvent<LogoutEvent>().Publish());
+            
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
             EditConvoCommand = new DelegateCommand(OnClickedEditConvo);
             CopyConvoIdCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
