@@ -73,6 +73,12 @@
                          HeightRequest="64"
                          Style="{DynamicResource ChangePasswordButtonStyle}" />
             
+            <ImageButton Command="{Binding SettingsCommand}"
+                         Aspect="Fill"
+                         WidthRequest="64"
+                         HeightRequest="64"
+                         Style="{DynamicResource SettingsButtonStyle}" />
+            
             <ImageButton Command="{Binding LogoutCommand}"
                          Aspect="Fill"
                          WidthRequest="64"

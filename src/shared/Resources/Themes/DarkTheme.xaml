@@ -69,6 +69,13 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-white.png}" />
     </Style>
+    
+    <Style x:Key="SettingsButtonStyle" TargetType="ImageButton">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.settings-icon-white.png}" />
+    </Style>
 
     <Style x:Key="LogoutButtonStyle" TargetType="ImageButton">
         <Setter Property="Margin" Value="0" />

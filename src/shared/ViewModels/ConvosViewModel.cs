@@ -62,6 +62,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand CreateConvoCommand { get; }
         public ICommand JoinConvoCommand { get; }
         public ICommand ChangePasswordCommand { get; }
+        public ICommand SettingsCommand { get; }
         public ICommand LogoutCommand { get; }
 
         // List controls
@@ -108,6 +109,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             CreateConvoCommand = new DelegateCommand(OnClickedCreateConvo);
             JoinConvoCommand = new DelegateCommand(OnClickedJoinConvo);
             ChangePasswordCommand = new DelegateCommand(OnClickedChangePassword);
+            SettingsCommand = new DelegateCommand(OnClickedSettings);
             LogoutCommand = new DelegateCommand(_ => eventAggregator.GetEvent<LogoutEvent>().Publish());
 
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
@@ -256,6 +258,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
         }
 
+        private void OnClickedSettings(object commandParam)
+        {
+        }
+        
         private void OnClickedCopyConvoIdToClipboard(object commandParam)
         {
             if (commandParam is Convo convo)
