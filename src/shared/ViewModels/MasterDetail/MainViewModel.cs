@@ -16,9 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using Xamarin.Forms;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail;
+using Prism.Events;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
 {
@@ -28,6 +31,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
 
         private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
+        private readonly IEventAggregator eventAggregator;
         private readonly IViewModelFactory viewModelFactory;
         
         #endregion
@@ -61,13 +65,39 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
 
         #endregion
 
-        public MainViewModel(IViewModelFactory viewModelFactory, IAppSettings appSettings, IUserSettings userSettings)
+        public MainViewModel(IViewModelFactory viewModelFactory, IAppSettings appSettings, IUserSettings userSettings, IEventAggregator eventAggregator)
         {
             this.appSettings = appSettings;
             this.userSettings = userSettings;
+            this.eventAggregator = eventAggregator;
             this.viewModelFactory = viewModelFactory;
 
             Username = userSettings.Username;
+        }
+
+        public void OnSelectedMasterMenuItem(int index)
+        {
+            switch (index)
+            {
+                case 0: // CONVOS
+                    DetailPage = new ConvosDetailPage
+                    {
+                        BindingContext = viewModelFactory.Create<ConvosViewModel>()
+                    };
+                    break;
+                case 1: // CHANGE PW
+                    // TODO: show change password popup dialog
+                    break;
+                case 2: // SETTINGS
+                    DetailPage = new SettingsDetailPage
+                    {
+                        BindingContext = viewModelFactory.Create<SettingsViewModel>()
+                    };
+                    break;
+                case 3: // LOGOUT
+                    eventAggregator.GetEvent<LogoutEvent>().Publish();
+                    break;
+            }
         }
     }
 }

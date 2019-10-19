@@ -242,4 +242,16 @@
   <data name="ConvoListEntryExpirationLabel" xml:space="preserve">
     <value>(Giorni rimanenti: {0})</value>
   </data>
+  <data name="MasterMenuItemChangePassword" xml:space="preserve">
+    <value>Cambia password</value>
+  </data>
+  <data name="MasterMenuItemLogout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="MasterMenuItemConvos" xml:space="preserve">
+    <value>Conversazioni</value>
+  </data>
+  <data name="MasterMenuItemSettings" xml:space="preserve">
+    <value>Impostazioni</value>
+  </data>
 </root>

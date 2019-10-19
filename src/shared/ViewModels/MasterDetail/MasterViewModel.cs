@@ -18,6 +18,7 @@
 
 using System.Collections.ObjectModel;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using Xamarin.Forms;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
@@ -25,7 +26,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
     public class MasterViewModel : ViewModel
     {
         #region Constants
-
+        private readonly ILocalization localization;
         #endregion
 
         #region Commands
@@ -59,13 +60,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
 
         public MasterViewModel()
         {
+            localization = DependencyService.Get<ILocalization>();
+            
             MenuItems = new ObservableCollection<MasterMenuItem>(new[]
             {
-                new MasterMenuItem {Id = 0, Title = "Page 1"},
-                new MasterMenuItem {Id = 1, Title = "Page 2"},
-                new MasterMenuItem {Id = 2, Title = "Page 3"},
-                new MasterMenuItem {Id = 3, Title = "Page 4"},
-                new MasterMenuItem {Id = 4, Title = "Page 5"},
+                new MasterMenuItem {Id = 0, Title = localization["MasterMenuItemConvos"]},
+                new MasterMenuItem {Id = 1, Title = localization["MasterMenuItemChangePassword"]},
+                new MasterMenuItem {Id = 2, Title = localization["MasterMenuItemSettings"]},
+                new MasterMenuItem {Id = 3, Title = localization["MasterMenuItemLogout"]},
             });
         }
     }

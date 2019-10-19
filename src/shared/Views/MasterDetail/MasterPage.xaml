@@ -30,7 +30,8 @@
     <StackLayout>
         <ListView SeparatorVisibility="None"
                   HasUnevenRows="true"
-                  ItemsSource="{Binding MenuItems}">
+                  ItemsSource="{Binding MenuItems}" 
+                  ItemSelected="ListView_OnItemSelected">
             <ListView.Header>
                 <Grid BackgroundColor="#03A9F4">
                     <Grid.ColumnDefinitions>

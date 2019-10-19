@@ -18,33 +18,15 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MasterPage : ContentView
+    public partial class SettingsDetailPage : ContentView
     {
-        public MasterPage()
+        public SettingsDetailPage()
         {
             InitializeComponent();
-        }
-
-        private void ListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            if (Application.Current.MainPage is MainPage mainPage)
-            {
-                mainPage.IsPresented = false;
-                
-                var item = e.SelectedItem as MasterMenuItem;
-                if (item is null)
-                {
-                    return;
-                }
-
-                (mainPage.BindingContext as MainViewModel)?.OnSelectedMasterMenuItem(item.Id);
-            }
         }
     }
 }

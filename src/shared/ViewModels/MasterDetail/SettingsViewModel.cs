@@ -16,17 +16,25 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.MasterDetail
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : MasterDetailPage
+    public class SettingsViewModel : ViewModel
     {
-        public MainPage()
+        #region Constants
+        
+        #endregion
+
+        #region Commands
+
+        #endregion
+
+        #region UI Bindings
+
+        #endregion
+
+        public SettingsViewModel()
         {
-            InitializeComponent();
+            
         }
     }
 }
