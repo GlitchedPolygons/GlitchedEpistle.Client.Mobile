@@ -31,7 +31,7 @@
         <ListView SeparatorVisibility="None"
                   HasUnevenRows="true"
                   ItemsSource="{Binding MenuItems}" 
-                  ItemSelected="ListView_OnItemSelected">
+                  ItemTapped="ListView_OnItemTapped">
             <ListView.Header>
                 <Grid BackgroundColor="#03A9F4">
                     <Grid.ColumnDefinitions>

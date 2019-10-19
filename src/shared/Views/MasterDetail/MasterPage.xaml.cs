@@ -46,5 +46,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MasterDetail
                 (mainPage.BindingContext as MainViewModel)?.OnSelectedMasterMenuItem(item.Id);
             }
         }
+
+        private void ListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            if (Application.Current.MainPage is MainPage mainPage)
+            {
+                mainPage.IsPresented = false;
+                
+                var item = e.Item as MasterMenuItem;
+                if (item is null)
+                {
+                    return;
+                }
+
+                (mainPage.BindingContext as MainViewModel)?.OnSelectedMasterMenuItem(item.Id);
+            }
+        }
     }
 }
