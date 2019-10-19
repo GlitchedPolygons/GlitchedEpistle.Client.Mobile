@@ -17,11 +17,12 @@
 */
 
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
@@ -29,13 +30,13 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
-using GlitchedPolygons.Services.Cryptography.Asymmetric;
-using Newtonsoft.Json;
 using Prism.Events;
-using Xamarin.Essentials;
+using Newtonsoft.Json;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -46,6 +47,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly User user;
         private readonly ILogger logger;
         private readonly IUserService userService;
+        private readonly IUserSettings userSettings;
         private readonly IConvoService convoService;
         private readonly ILocalization localization;
         private readonly IConvoPasswordProvider convoPasswordProvider;
@@ -57,8 +59,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region Commands
 
         // Header controls
+        public ICommand CreateConvoCommand { get; }
+        public ICommand JoinConvoCommand { get; }
+        public ICommand ChangePasswordCommand { get; }
         public ICommand LogoutCommand { get; }
-        
+
         // List controls
         public ICommand OpenConvoCommand { get; }
         public ICommand EditConvoCommand { get; }
@@ -69,22 +74,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region UI Bindings
 
         private ObservableCollection<Convo> convos;
-        public ObservableCollection<Convo> Convos
-        {
-            get => convos;
-            set => Set(ref convos, value);
-        }
+        public ObservableCollection<Convo> Convos { get => convos; set => Set(ref convos, value); }
 
         private bool canJoin = true;
-        public bool CanJoin
-        {
-            get => canJoin;
-            set => Set(ref canJoin, value);
-        }
-
+        public bool CanJoin { get => canJoin; set => Set(ref canJoin, value); }
+        
+        private string userId = string.Empty;
+        public string UserId { get => userId; set => Set(ref userId, value); }
+        
+        private string username = string.Empty;
+        public string Username { get => username; set => Set(ref username, value); }
+        
         #endregion
 
-        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService)
+        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings)
         {
             localization = DependencyService.Get<ILocalization>();
 
@@ -92,14 +95,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.crypto = crypto;
             this.logger = logger;
             this.userService = userService;
+            this.userSettings = userSettings;
             this.convoService = convoService;
             this.eventAggregator = eventAggregator;
             this.convoPasswordProvider = convoPasswordProvider;
 
             UpdateList();
 
+            UserId = user.Id;
+            Username = userSettings.Username;
+
+            CreateConvoCommand = new DelegateCommand(OnClickedCreateConvo);
+            JoinConvoCommand = new DelegateCommand(OnClickedJoinConvo);
+            ChangePasswordCommand = new DelegateCommand(OnClickedChangePassword);
             LogoutCommand = new DelegateCommand(_ => eventAggregator.GetEvent<LogoutEvent>().Publish());
-            
+
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
             EditConvoCommand = new DelegateCommand(OnClickedEditConvo);
             CopyConvoIdCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
@@ -110,6 +120,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             eventAggregator.GetEvent<DeletedConvoEvent>().Subscribe(_ => UpdateList());
             eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(_ => UpdateList());
             eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList());
+            eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);
         }
 
         private void UpdateList()
@@ -199,7 +210,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         CanJoin = true;
                         Application.Current.MainPage.DisplayAlert(localization["Error"], localization["JoinConvoFailed"], "OK");
                     });
-                    
+
                     return;
                 }
 
@@ -231,6 +242,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 //
 //            view.Show();
 //            view.Focus();
+        }
+
+        private void OnClickedJoinConvo(object commandParam)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnClickedCreateConvo(object commandParam)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnClickedChangePassword(object commandParam)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnClickedCopyConvoIdToClipboard(object commandParam)

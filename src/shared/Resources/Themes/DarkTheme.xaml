@@ -18,7 +18,9 @@
 
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
                     x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.DarkTheme">
+    
     <Color x:Key="PrimaryColor">#00b4dd</Color>
     <Color x:Key="PrimaryDarkColor">#009fb7</Color>
     <Color x:Key="ErrorMessageColor">Red</Color>
@@ -31,5 +33,20 @@
     <Color x:Key="OverlayTextColor">#FFFFFF</Color>
     <Color x:Key="TransparentBackgroundColor">#56000000</Color>
     <Color x:Key="SeparatorLineColor">#464646</Color>
+
+    <Style x:Key="CreateConvoButtonStyle" TargetType="ImageButton">
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-white.png}" />
+    </Style>
+
+    <Style x:Key="JoinConvoButtonStyle" TargetType="ImageButton">
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.join-icon-white.png}" />
+    </Style>
+
+    <Style x:Key="ChangePasswordButtonStyle" TargetType="ImageButton">
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-white.png}" />
+    </Style>
+
+    <Style x:Key="LogoutButtonStyle" TargetType="ImageButton">
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.logout-icon-white.png}" />
+    </Style>
 </ResourceDictionary>
-    

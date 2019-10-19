@@ -30,39 +30,47 @@
 
     <StackLayout HorizontalOptions="FillAndExpand">
 
-        <StackLayout Padding="10,5,5,5">
+        <StackLayout Padding="5,8,5,0">
             <Label Style="{DynamicResource MediumLabelStyle}"
-                   Text="raphu604"
+                   Text="{Binding Username}"
                    HorizontalOptions="CenterAndExpand"
                    HorizontalTextAlignment="Center"
                    MaxLines="1" />
 
             <Label Style="{DynamicResource SubLabelStyle}"
-                   Text="16b4f566adeb45eda11de0e1a2ec458e"
+                   Text="{Binding UserId}"
                    HorizontalOptions="CenterAndExpand"
                    HorizontalTextAlignment="Center"
-                   MaxLines="1" />
+                   MaxLines="1" 
+                   Margin="0,-5,0,0"/>
         </StackLayout>
 
         <BoxView HeightRequest="4"
                  HorizontalOptions="FillAndExpand"
                  Color="{DynamicResource PrimaryColor}" />
 
-        <StackLayout Orientation="Horizontal"
-                     Padding="5,0,0,0"
+        <StackLayout Orientation="Horizontal" 
+                     Padding="0"
                      HorizontalOptions="CenterAndExpand">
-            <Button WidthRequest="75" 
-                    HeightRequest="75"/>
-            <Button WidthRequest="75" 
-                    HeightRequest="75"/>
-            <Button WidthRequest="75" 
-                    HeightRequest="75"/>
-            <Button WidthRequest="75" 
-                    HeightRequest="75"
-                    Command="{Binding LogoutCommand}"/>
+            <ImageButton WidthRequest="75"
+                         HeightRequest="75"
+                         Command="{Binding CreateConvoCommand}"
+                         Style="{DynamicResource CreateConvoButtonStyle}" />
+            <ImageButton WidthRequest="75"
+                         HeightRequest="75"
+                         Command="{Binding JoinConvoCommand}"
+                         Style="{DynamicResource JoinConvoButtonStyle}" />
+            <ImageButton WidthRequest="75"
+                         HeightRequest="75"
+                         Command="{Binding ChangePasswordCommand}"
+                         Style="{DynamicResource ChangePasswordButtonStyle}" />
+            <ImageButton WidthRequest="75"
+                         HeightRequest="75"
+                         Command="{Binding LogoutCommand}"
+                         Style="{DynamicResource LogoutButtonStyle}" />
         </StackLayout>
 
-        <BoxView Margin="4,0,0,0"
+        <BoxView Margin="0,0,0,0"
                  Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
         <ListView SeparatorVisibility="None"
