@@ -31,6 +31,7 @@
     <StackLayout HorizontalOptions="FillAndExpand">
 
         <StackLayout Padding="5,4,5,1">
+            
             <Label Style="{DynamicResource MediumLabelStyle}"
                    Text="{Binding Username}"
                    HorizontalOptions="CenterAndExpand"
@@ -53,21 +54,25 @@
                      Padding="0"
                      Margin="0,3"
                      HorizontalOptions="CenterAndExpand">
+            
             <ImageButton Command="{Binding CreateConvoCommand}"
                          Aspect="Fill"
                          WidthRequest="64"
                          HeightRequest="64"
                          Style="{DynamicResource CreateConvoButtonStyle}" />
+            
             <ImageButton Command="{Binding JoinConvoCommand}"
                          Aspect="Fill"
                          WidthRequest="64"
                          HeightRequest="64"
                          Style="{DynamicResource JoinConvoButtonStyle}" />
+            
             <ImageButton Command="{Binding ChangePasswordCommand}"
                          Aspect="Fill"
                          WidthRequest="64"
                          HeightRequest="64"
                          Style="{DynamicResource ChangePasswordButtonStyle}" />
+            
             <ImageButton Command="{Binding LogoutCommand}"
                          Aspect="Fill"
                          WidthRequest="64"
