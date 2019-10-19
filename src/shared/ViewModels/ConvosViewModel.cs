@@ -246,17 +246,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnClickedJoinConvo(object commandParam)
         {
-            throw new NotImplementedException();
         }
 
         private void OnClickedCreateConvo(object commandParam)
         {
-            throw new NotImplementedException();
         }
 
         private void OnClickedChangePassword(object commandParam)
         {
-            throw new NotImplementedException();
         }
 
         private void OnClickedCopyConvoIdToClipboard(object commandParam)
