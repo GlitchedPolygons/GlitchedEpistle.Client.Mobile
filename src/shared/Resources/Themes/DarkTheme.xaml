@@ -40,7 +40,7 @@
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
-                <VisualStateGroup>
+                <VisualStateGroup Name="CommonStates">
                     <VisualState Name="Focused">
                         <VisualState.Setters>
                             <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-selected.png}" />
