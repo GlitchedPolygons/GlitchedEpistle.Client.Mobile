@@ -57,7 +57,7 @@
                      Margin="0,3"
                      x:Name="HeaderButtons"
                      HorizontalOptions="CenterAndExpand">
-            
+
             <ff:CachedImage Aspect="Fill"
                             WidthRequest="64"
                             HeightRequest="64"
@@ -74,7 +74,7 @@
                             DownsampleToViewSize="True"
                             Style="{DynamicResource JoinConvoButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding JoinConvoCommand}"  Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
+                    <TapGestureRecognizer Command="{Binding JoinConvoCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
             </ff:CachedImage>
 
@@ -84,7 +84,7 @@
                             DownsampleToViewSize="True"
                             Style="{DynamicResource ChangePasswordButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ChangePasswordCommand}"  Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
+                    <TapGestureRecognizer Command="{Binding ChangePasswordCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
             </ff:CachedImage>
 
@@ -94,7 +94,7 @@
                             DownsampleToViewSize="True"
                             Style="{DynamicResource SettingsButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding SettingsCommand}"  Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
+                    <TapGestureRecognizer Command="{Binding SettingsCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
             </ff:CachedImage>
 
@@ -104,7 +104,7 @@
                             DownsampleToViewSize="True"
                             Style="{DynamicResource LogoutButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding LogoutCommand}"  Tapped="LogoutHeaderButtonTapGestureRecognizer_OnTapped" />
+                    <TapGestureRecognizer Command="{Binding LogoutCommand}" Tapped="LogoutHeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
             </ff:CachedImage>
         </StackLayout>
