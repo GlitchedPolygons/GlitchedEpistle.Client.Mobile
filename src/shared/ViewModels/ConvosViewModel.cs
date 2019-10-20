@@ -25,7 +25,9 @@ using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
@@ -52,6 +54,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IUserSettings userSettings;
         private readonly IConvoService convoService;
         private readonly ILocalization localization;
+        private readonly IViewModelFactory viewModelFactory;
         private readonly IConvoPasswordProvider convoPasswordProvider;
         private readonly IEventAggregator eventAggregator;
         private readonly IAsymmetricCryptographyRSA crypto;
@@ -87,10 +90,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         private string username = string.Empty;
         public string Username { get => username; set => Set(ref username, value); }
+
+        private bool headerButtonsEnabled = true;
+        public bool HeaderButtonsEnabled { get => headerButtonsEnabled; set => Set(ref headerButtonsEnabled, value); }
         
         #endregion
 
-        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ)
+        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ, IViewModelFactory viewModelFactory)
         {
             localization = DependencyService.Get<ILocalization>();
 
@@ -102,6 +108,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.userSettings = userSettings;
             this.convoService = convoService;
             this.eventAggregator = eventAggregator;
+            this.viewModelFactory = viewModelFactory;
             this.convoPasswordProvider = convoPasswordProvider;
 
             UpdateList();
@@ -113,7 +120,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             JoinConvoCommand = new DelegateCommand(OnClickedJoinConvo);
             ChangePasswordCommand = new DelegateCommand(OnClickedChangePassword);
             SettingsCommand = new DelegateCommand(OnClickedSettings);
-            LogoutCommand = new DelegateCommand(_ => methodQ.Schedule(() => ExecUI(eventAggregator.GetEvent<LogoutEvent>().Publish), DateTime.UtcNow.AddSeconds(0.2)));
+            LogoutCommand = new DelegateCommand(_ =>
+            {
+                if (HeaderButtonsEnabled)
+                {
+                    HeaderButtonsEnabled = false;
+                    methodQ.Schedule(() => ExecUI(eventAggregator.GetEvent<LogoutEvent>().Publish), DateTime.UtcNow.AddSeconds(0.2));
+                }
+            });
 
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
             EditConvoCommand = new DelegateCommand(OnClickedEditConvo);
@@ -251,20 +265,39 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnClickedJoinConvo(object commandParam)
         {
+            if (!HeaderButtonsEnabled)
+            {
+                return;
+            }
         }
 
         private void OnClickedCreateConvo(object commandParam)
         {
+            if (!HeaderButtonsEnabled)
+            {
+                return;
+            }
         }
 
         private void OnClickedChangePassword(object commandParam)
         {
+            if (!HeaderButtonsEnabled)
+            {
+                return;
+            }
         }
 
-        private void OnClickedSettings(object commandParam)
+        private async void OnClickedSettings(object commandParam)
         {
+            if (!HeaderButtonsEnabled)
+            {
+                return;
+            }
+
+            var view = new SettingsPage {BindingContext = viewModelFactory.Create<SettingsViewModel>()};
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
-        
+
         private void OnClickedCopyConvoIdToClipboard(object commandParam)
         {
             if (commandParam is Convo convo)

@@ -60,6 +60,7 @@
 
             <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
+                            IsEnabled="{Binding HeaderButtonsEnabled}"
                             Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-white.png}"
                             Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
@@ -69,6 +70,7 @@
 
             <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
+                            IsEnabled="{Binding HeaderButtonsEnabled}"
                             Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.join-icon-white.png}"
                             Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
@@ -78,6 +80,7 @@
 
             <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
+                            IsEnabled="{Binding HeaderButtonsEnabled}"
                             Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-white.png}"
                             Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
@@ -87,6 +90,7 @@
 
             <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
+                            IsEnabled="{Binding HeaderButtonsEnabled}"
                             Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.settings-icon-white.png}"
                             Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
@@ -96,6 +100,7 @@
 
             <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
+                            IsEnabled="{Binding HeaderButtonsEnabled}"
                             Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.logout-icon-white.png}"
                             Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
