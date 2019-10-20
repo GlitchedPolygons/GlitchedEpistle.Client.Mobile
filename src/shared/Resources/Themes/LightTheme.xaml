@@ -21,8 +21,8 @@
                     xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
                     x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.LightTheme">
     
-    <Color x:Key="PrimaryColor">#2acd09</Color>
-    <Color x:Key="PrimaryDarkColor">#22a009</Color>
+    <Color x:Key="PrimaryColor">#00b4dd</Color>
+    <Color x:Key="PrimaryDarkColor">#009fb7</Color>
     <Color x:Key="ErrorMessageColor">Red</Color>
     <Color x:Key="PrimaryTintColor">#FFFFFF</Color>
     <Color x:Key="PageBackgroundColor">#FFFFFF</Color>
