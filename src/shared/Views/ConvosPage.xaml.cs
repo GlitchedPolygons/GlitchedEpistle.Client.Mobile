@@ -20,6 +20,7 @@ using System;
 using System.Threading.Tasks;
 using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
+using GlitchedPolygons.ExtensionMethods;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -37,6 +38,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             idle = new TintTransformation(Application.Current.Resources["HeaderButtonIdleColorHex"].ToString()) {EnableSolidColor = true};
             pressed = new TintTransformation(Application.Current.Resources["HeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
             pressedLogout = new TintTransformation(Application.Current.Resources["LogoutHeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ResetAllHeaderButtonColors();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            ResetAllHeaderButtonColors();
+        }
+
+        private void ResetAllHeaderButtonColors()
+        {
+            if (HeaderButtons is null || HeaderButtons.Children.NullOrEmpty())
+            {
+                return;
+            }
 
             foreach (var c in HeaderButtons.Children)
             {
@@ -75,9 +96,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             cachedImage.Transformations.Clear();
             cachedImage.Transformations.Add(pressedLogout);
             cachedImage.ReloadImage();
-
-            await Task.Delay(250);
-            ResetHeaderButtonColor(cachedImage);
         }
     }
 }
