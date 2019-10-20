@@ -58,51 +58,46 @@
                      x:Name="HeaderButtons"
                      HorizontalOptions="CenterAndExpand">
 
-            <ff:CachedImage Aspect="Fill"
-                            WidthRequest="64"
+            <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
-                            DownsampleToViewSize="True"
-                            Style="{DynamicResource CreateConvoButtonStyle}">
+                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-white.png}"
+                            Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding CreateConvoCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
             </ff:CachedImage>
 
-            <ff:CachedImage Aspect="Fill"
-                            WidthRequest="64"
+            <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
-                            DownsampleToViewSize="True"
-                            Style="{DynamicResource JoinConvoButtonStyle}">
+                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.join-icon-white.png}"
+                            Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding JoinConvoCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
             </ff:CachedImage>
 
-            <ff:CachedImage Aspect="Fill"
-                            WidthRequest="64"
+            <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
-                            DownsampleToViewSize="True"
-                            Style="{DynamicResource ChangePasswordButtonStyle}">
+                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-white.png}"
+                            Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ChangePasswordCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
             </ff:CachedImage>
 
-            <ff:CachedImage Aspect="Fill"
-                            WidthRequest="64"
+            <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
-                            DownsampleToViewSize="True"
-                            Style="{DynamicResource SettingsButtonStyle}">
+                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.settings-icon-white.png}"
+                            Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SettingsCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
             </ff:CachedImage>
 
-            <ff:CachedImage Aspect="Fill"
-                            WidthRequest="64"
+            <ff:CachedImage WidthRequest="64"
                             HeightRequest="64"
-                            DownsampleToViewSize="True"
-                            Style="{DynamicResource LogoutButtonStyle}">
+                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.logout-icon-white.png}"
+                            Style="{DynamicResource HeaderButtonStyle}">
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LogoutCommand}" Tapped="LogoutHeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
