@@ -25,6 +25,7 @@
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+             xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvosPage"
              mc:Ignorable="d"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
@@ -55,7 +56,7 @@
                      Padding="0"
                      Margin="0,3"
                      HorizontalOptions="CenterAndExpand">
-
+            
             <ff:CachedImage Aspect="Fill"
                             WidthRequest="64"
                             HeightRequest="64"
@@ -64,6 +65,10 @@
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding CreateConvoCommand}" />
                 </ff:CachedImage.GestureRecognizers>
+                <ff:CachedImage.Transformations>
+                    <!-- First two digits from HexColor = ALPHA channel -->
+                    <fft:TintTransformation HexColor="#00ff44" EnableSolidColor="true"/>
+                </ff:CachedImage.Transformations>
             </ff:CachedImage>
 
             <ff:CachedImage Aspect="Fill"
