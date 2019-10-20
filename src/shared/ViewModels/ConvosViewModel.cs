@@ -33,6 +33,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
+using GlitchedPolygons.Services.MethodQ;
 using Prism.Events;
 using Newtonsoft.Json;
 using Xamarin.Forms;
@@ -46,6 +47,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private readonly User user;
         private readonly ILogger logger;
+        private readonly IMethodQ methodQ;
         private readonly IUserService userService;
         private readonly IUserSettings userSettings;
         private readonly IConvoService convoService;
@@ -88,13 +90,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         #endregion
 
-        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings)
+        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ)
         {
             localization = DependencyService.Get<ILocalization>();
 
             this.user = user;
             this.crypto = crypto;
             this.logger = logger;
+            this.methodQ = methodQ;
             this.userService = userService;
             this.userSettings = userSettings;
             this.convoService = convoService;
@@ -110,7 +113,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             JoinConvoCommand = new DelegateCommand(OnClickedJoinConvo);
             ChangePasswordCommand = new DelegateCommand(OnClickedChangePassword);
             SettingsCommand = new DelegateCommand(OnClickedSettings);
-            LogoutCommand = new DelegateCommand(_ => eventAggregator.GetEvent<LogoutEvent>().Publish());
+            LogoutCommand = new DelegateCommand(_ => methodQ.Schedule(() => ExecUI(eventAggregator.GetEvent<LogoutEvent>().Publish), DateTime.UtcNow.AddSeconds(0.2)));
 
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
             EditConvoCommand = new DelegateCommand(OnClickedEditConvo);

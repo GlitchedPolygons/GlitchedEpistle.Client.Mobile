@@ -16,17 +16,51 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
+
+using FFImageLoading.Forms;
+using FFImageLoading.Transformations;
+
+using GlitchedPolygons.Services.MethodQ;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Forms.Internals;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ConvosPage : ContentPage
     {
+        private readonly IMethodQ methodQ = new MethodQ();
+
         public ConvosPage()
         {
             InitializeComponent();
+        }
+
+        private void HeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        {
+            var cachedImage = sender as CachedImage;
+            if (cachedImage is null) return;
+
+            var _ = cachedImage.Transformations[0];
+            cachedImage.Transformations[0] = new TintTransformation("#ff00b4dd");
+            cachedImage.ReloadImage();
+
+            methodQ.Schedule(() => { cachedImage.Transformations[0] = _; cachedImage.ReloadImage();}, DateTime.UtcNow.AddSeconds(0.2));
+        }
+
+        private void LogoutHeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        {
+            var cachedImage = sender as CachedImage;
+            if (cachedImage is null) return;
+
+            var _ = cachedImage.Transformations[0];
+            cachedImage.Transformations[0] = new TintTransformation("#cc0000");
+            cachedImage.ReloadImage();
+
+            methodQ.Schedule(() => { cachedImage.Transformations[0] = _; cachedImage.ReloadImage();}, DateTime.UtcNow.AddSeconds(0.2));
         }
     }
 }
