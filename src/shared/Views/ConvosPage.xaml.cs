@@ -17,15 +17,11 @@
 */
 
 using System;
-
 using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
-
 using GlitchedPolygons.Services.MethodQ;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Forms.Internals;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
@@ -45,10 +41,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             if (cachedImage is null) return;
 
             var _ = cachedImage.Transformations[0];
-            cachedImage.Transformations[0] = new TintTransformation("#ff00b4dd");
+            cachedImage.Transformations.Clear();
+            cachedImage.Transformations.Add(new TintTransformation("#00b4dd") {EnableSolidColor = true});
             cachedImage.ReloadImage();
-
-            methodQ.Schedule(() => { cachedImage.Transformations[0] = _; cachedImage.ReloadImage();}, DateTime.UtcNow.AddSeconds(0.2));
+            
+            methodQ.Schedule(() =>
+            {
+                cachedImage.Transformations.Clear();
+                cachedImage.Transformations.Add(_);
+                cachedImage.ReloadImage();
+            }, DateTime.UtcNow.AddSeconds(0.2));
         }
 
         private void LogoutHeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
@@ -57,10 +59,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             if (cachedImage is null) return;
 
             var _ = cachedImage.Transformations[0];
-            cachedImage.Transformations[0] = new TintTransformation("#cc0000");
+            cachedImage.Transformations.Clear();
+            cachedImage.Transformations.Add(new TintTransformation("#cc0000") {EnableSolidColor = true});
             cachedImage.ReloadImage();
 
-            methodQ.Schedule(() => { cachedImage.Transformations[0] = _; cachedImage.ReloadImage();}, DateTime.UtcNow.AddSeconds(0.2));
+            methodQ.Schedule(() =>
+            {
+                cachedImage.Transformations.Clear();
+                cachedImage.Transformations.Add(_);
+                cachedImage.ReloadImage();
+            }, DateTime.UtcNow.AddSeconds(0.25));
         }
     }
 }
