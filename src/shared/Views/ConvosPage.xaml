@@ -66,9 +66,6 @@
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding CreateConvoCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
-                <ff:CachedImage.Transformations>
-                    <fft:TintTransformation HexColor="#ffffff" EnableSolidColor="true"/>
-                </ff:CachedImage.Transformations>
             </ff:CachedImage>
 
             <ff:CachedImage Aspect="Fill"
@@ -79,9 +76,6 @@
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding JoinConvoCommand}"  Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
-                <ff:CachedImage.Transformations>
-                    <fft:TintTransformation HexColor="#ffffff" EnableSolidColor="true"/>
-                </ff:CachedImage.Transformations>
             </ff:CachedImage>
 
             <ff:CachedImage Aspect="Fill"
@@ -92,9 +86,6 @@
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ChangePasswordCommand}"  Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
-                <ff:CachedImage.Transformations>
-                    <fft:TintTransformation HexColor="#ffffff" EnableSolidColor="true"/>
-                </ff:CachedImage.Transformations>
             </ff:CachedImage>
 
             <ff:CachedImage Aspect="Fill"
@@ -105,9 +96,6 @@
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SettingsCommand}"  Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
-                <ff:CachedImage.Transformations>
-                    <fft:TintTransformation HexColor="#ffffff" EnableSolidColor="true"/>
-                </ff:CachedImage.Transformations>
             </ff:CachedImage>
 
             <ff:CachedImage Aspect="Fill"
@@ -118,9 +106,6 @@
                 <ff:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LogoutCommand}"  Tapped="LogoutHeaderButtonTapGestureRecognizer_OnTapped" />
                 </ff:CachedImage.GestureRecognizers>
-                <ff:CachedImage.Transformations>
-                    <fft:TintTransformation HexColor="#ffffff" EnableSolidColor="true"/>
-                </ff:CachedImage.Transformations>
             </ff:CachedImage>
         </StackLayout>
 

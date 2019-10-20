@@ -52,8 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\change-pw-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\change-pw-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\change-pw-icon-white.png" />
     <EmbeddedResource Include="Resources\Images\clipboard-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\clipboard-icon.png" />
@@ -65,29 +63,13 @@
     <EmbeddedResource Include="Resources\Images\glitched-polygons-white-1440p.png" />
     <EmbeddedResource Include="Resources\Images\glitched-polygons-white-2160p.png" />
     <EmbeddedResource Include="Resources\Images\green-tick.png" />
-    <EmbeddedResource Include="Resources\Images\help-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\help-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\help-icon-white.png" />
-    <EmbeddedResource Include="Resources\Images\join-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\join-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\join-icon-white.png" />
-    <EmbeddedResource Include="Resources\Images\logout-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\logout-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\logout-icon-white.png" />
-    <EmbeddedResource Include="Resources\Images\plus-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\plus-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\plus-icon-white.png" />
-    <EmbeddedResource Include="Resources\Images\reset-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\reset-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\reset-icon-white.png" />
-    <EmbeddedResource Include="Resources\Images\scroll-to-bottom-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\scroll-to-bottom-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\scroll-to-bottom-icon-white.png" />
-    <EmbeddedResource Include="Resources\Images\settings-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\settings-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\settings-icon-white.png" />
-    <EmbeddedResource Include="Resources\Images\trash-icon-black.png" />
-    <EmbeddedResource Include="Resources\Images\trash-icon-selected.png" />
     <EmbeddedResource Include="Resources\Images\trash-icon-white.png" />
   </ItemGroup>
   

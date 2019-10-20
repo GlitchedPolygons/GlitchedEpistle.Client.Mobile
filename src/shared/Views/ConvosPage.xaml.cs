@@ -49,9 +49,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private void ResetHeaderButtonColor(CachedImage cachedImage)
         {
-            cachedImage.Transformations.Clear();
-            cachedImage.Transformations.Add(idle);
-            cachedImage.ReloadImage();
+            cachedImage?.Transformations.Clear();
+            cachedImage?.Transformations.Add(idle);
+            cachedImage?.ReloadImage();
         }
 
         private async void HeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)

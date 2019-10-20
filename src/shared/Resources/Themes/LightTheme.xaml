@@ -18,6 +18,7 @@
 
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                     xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
                     x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.LightTheme">
     
@@ -38,19 +39,33 @@
     <x:String x:Key="HeaderButtonPressedColorHex">#00b4dd</x:String>
     <x:String x:Key="LogoutHeaderButtonPressedColorHex">#cc0000</x:String>
     
-    <Style x:Key="CreateConvoButtonStyle" TargetType="ImageButton">
-        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-black.png}" />
+    <Style x:Key="CreateConvoButtonStyle" TargetType="ff:CachedImage">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-white.png}" />
     </Style>
 
-    <Style x:Key="JoinConvoButtonStyle" TargetType="ImageButton">
-        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.join-icon-black.png}" />
+    <Style x:Key="JoinConvoButtonStyle" TargetType="ff:CachedImage">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.join-icon-white.png}" />
     </Style>
 
-    <Style x:Key="ChangePasswordButtonStyle" TargetType="ImageButton">
-        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-black.png}" />
+    <Style x:Key="ChangePasswordButtonStyle" TargetType="ff:CachedImage">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-white.png}" />
+    </Style>
+    
+    <Style x:Key="SettingsButtonStyle" TargetType="ff:CachedImage">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.settings-icon-white.png}" />
     </Style>
 
-    <Style x:Key="LogoutButtonStyle" TargetType="ImageButton">
-        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.logout-icon-black.png}" />
+    <Style x:Key="LogoutButtonStyle" TargetType="ff:CachedImage">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.logout-icon-white.png}" />
     </Style>
 </ResourceDictionary>
