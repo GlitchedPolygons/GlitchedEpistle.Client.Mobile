@@ -17,9 +17,9 @@
 */
 
 using System;
+using System.Threading.Tasks;
 using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
-using GlitchedPolygons.Services.MethodQ;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,47 +28,56 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ConvosPage : ContentPage
     {
-        private readonly IMethodQ methodQ = new MethodQ();
+        private readonly TintTransformation idle, pressed, pressedLogout;
 
         public ConvosPage()
         {
             InitializeComponent();
+
+            idle = new TintTransformation(Application.Current.Resources["HeaderButtonIdleColorHex"].ToString()) {EnableSolidColor = true};
+            pressed = new TintTransformation(Application.Current.Resources["HeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
+            pressedLogout = new TintTransformation(Application.Current.Resources["LogoutHeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
+
+            foreach (var c in HeaderButtons.Children)
+            {
+                if (c is CachedImage cachedImage)
+                {
+                    ResetHeaderButtonColor(cachedImage);
+                }
+            }
         }
 
-        private void HeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        private void ResetHeaderButtonColor(CachedImage cachedImage)
+        {
+            cachedImage.Transformations.Clear();
+            cachedImage.Transformations.Add(idle);
+            cachedImage.ReloadImage();
+        }
+
+        private async void HeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
         {
             var cachedImage = sender as CachedImage;
             if (cachedImage is null) return;
 
-            var _ = cachedImage.Transformations[0];
             cachedImage.Transformations.Clear();
-            cachedImage.Transformations.Add(new TintTransformation("#00b4dd") {EnableSolidColor = true});
+            cachedImage.Transformations.Add(pressed);
             cachedImage.ReloadImage();
-            
-            methodQ.Schedule(() =>
-            {
-                cachedImage.Transformations.Clear();
-                cachedImage.Transformations.Add(_);
-                cachedImage.ReloadImage();
-            }, DateTime.UtcNow.AddSeconds(0.2));
+
+            await Task.Delay(250);
+            ResetHeaderButtonColor(cachedImage);
         }
 
-        private void LogoutHeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        private async void LogoutHeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
         {
             var cachedImage = sender as CachedImage;
             if (cachedImage is null) return;
 
-            var _ = cachedImage.Transformations[0];
             cachedImage.Transformations.Clear();
-            cachedImage.Transformations.Add(new TintTransformation("#cc0000") {EnableSolidColor = true});
+            cachedImage.Transformations.Add(pressedLogout);
             cachedImage.ReloadImage();
 
-            methodQ.Schedule(() =>
-            {
-                cachedImage.Transformations.Clear();
-                cachedImage.Transformations.Add(_);
-                cachedImage.ReloadImage();
-            }, DateTime.UtcNow.AddSeconds(0.25));
+            await Task.Delay(250);
+            ResetHeaderButtonColor(cachedImage);
         }
     }
 }

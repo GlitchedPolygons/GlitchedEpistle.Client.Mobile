@@ -34,6 +34,10 @@
     <Color x:Key="TransparentBackgroundColor">#56000000</Color>
     <Color x:Key="SeparatorLineColor">#ececec</Color>
     
+    <x:String x:Key="HeaderButtonIdleColorHex">#383838</x:String>
+    <x:String x:Key="HeaderButtonPressedColorHex">#00b4dd</x:String>
+    <x:String x:Key="LogoutHeaderButtonPressedColorHex">#cc0000</x:String>
+    
     <Style x:Key="CreateConvoButtonStyle" TargetType="ImageButton">
         <Setter Property="Source" Value="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-black.png}" />
     </Style>

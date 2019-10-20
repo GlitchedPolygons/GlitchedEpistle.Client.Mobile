@@ -55,6 +55,7 @@
         <StackLayout Orientation="Horizontal"
                      Padding="0"
                      Margin="0,3"
+                     x:Name="HeaderButtons"
                      HorizontalOptions="CenterAndExpand">
             
             <ff:CachedImage Aspect="Fill"
