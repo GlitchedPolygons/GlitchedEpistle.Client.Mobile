@@ -98,6 +98,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 Set(ref language, value);
+                // TODO: fix this localization mess ASAP!
                 CultureInfo ci = LanguageLabelToCultureInfo(value);
                 localization.SetCurrentCultureInfo(ci);
                 UpdateLocalizedLabels();
