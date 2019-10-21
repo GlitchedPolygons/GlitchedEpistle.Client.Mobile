@@ -288,11 +288,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             convoPasswordProvider?.Clear();
         }
 
-        private async void OnUserCreationSuccessful(UserCreationResponseDto userCreationResponseDto)
+        private void OnUserCreationSuccessful(UserCreationResponseDto userCreationResponseDto)
         {
             var viewModel = viewModelFactory.Create<UserCreationSuccessfulViewModel>();
 
-            await SecureStorage.SetAsync("totp:" + userCreationResponseDto.Id, userCreationResponseDto.TotpSecret);
+            SecureStorage.SetAsync("totp:" + userCreationResponseDto.Id, userCreationResponseDto.TotpSecret);
 
             viewModel.Secret = userCreationResponseDto.TotpSecret;
             viewModel.QR = $"otpauth://totp/GlitchedEpistle:{userCreationResponseDto.Id}?secret={userCreationResponseDto.TotpSecret}";
