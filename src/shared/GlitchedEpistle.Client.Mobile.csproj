@@ -4,6 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>GlitchedPolygons.GlitchedEpistle.Client.Mobile</RootNamespace>
     <AssemblyName>GlitchedPolygons.GlitchedEpistle.Client.Mobile</AssemblyName>
+    <AssemblyVersion>2019.4.2</AssemblyVersion>
+    <FileVersion>2019.4.2</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

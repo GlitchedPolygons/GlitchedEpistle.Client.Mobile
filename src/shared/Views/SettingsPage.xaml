@@ -57,8 +57,8 @@
                        Style="{DynamicResource MediumLabelStyle}" />
 
                 <Picker Title="{i:Translate Theme}"
-                        ItemsSource="{Binding Themes}"
                         SelectedItem="{Binding Theme}"
+                        ItemsSource="{Binding Themes}"
                         Style="{DynamicResource PickerStyle}" />
 
                 <Label Text="{i:Translate LanguageLabel}"
@@ -66,8 +66,8 @@
                        Style="{DynamicResource MediumLabelStyle}" />
 
                 <Picker Title="{i:Translate Language}"
-                        ItemsSource="{Binding Languages}"
                         SelectedItem="{Binding Language}"
+                        ItemsSource="{Binding Languages}"
                         Style="{DynamicResource PickerStyle}" />
                 
                 <StackLayout Orientation="Horizontal" 
@@ -98,19 +98,36 @@
                            VerticalOptions="CenterAndExpand"/>
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="End"
-                             Spacing="12"
-                             Margin="0,10,0,0">
+                <StackLayout IsVisible="{Binding FingerprintAvailable}" 
+                             Orientation="Horizontal" 
+                             HorizontalOptions="FillAndExpand">
+
+                    <Switch IsToggled="{Binding ReplaceTotpWithFingerprint}"
+                            VerticalOptions="CenterAndExpand" 
+                            Scale="1.1"/>
+
+                    <Label Text="{i:Translate ReplaceTotpWithFingerprint}"
+                           Style="{DynamicResource MediumLabelStyle}"
+                           FontSize="16" 
+                           VerticalTextAlignment="Center" 
+                           VerticalOptions="CenterAndExpand"/>
+                </StackLayout>
+
+                <StackLayout HorizontalOptions="FillAndExpand"
+                             Margin="0,10,0,0"
+                             Spacing="12">
 
                     <Button Text="{i:Translate AboutButton}"
-                            Command="{Binding AboutCommand}" />
-                    
+                            Command="{Binding AboutCommand}" 
+                            HorizontalOptions="FillAndExpand" />
+
                     <Button Text="{i:Translate RevertButton}"
-                            Command="{Binding RevertCommand}" />
+                            Command="{Binding RevertCommand}" 
+                            HorizontalOptions="FillAndExpand" />
 
                     <Button Text="{i:Translate CloseButton}"
-                            Command="{Binding CloseCommand}" />
+                            Command="{Binding CloseCommand}" 
+                            HorizontalOptions="FillAndExpand" />
                 </StackLayout>
 
             </StackLayout>

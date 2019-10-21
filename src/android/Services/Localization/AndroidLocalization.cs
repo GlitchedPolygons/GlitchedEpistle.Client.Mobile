@@ -16,9 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using Java.Util;
-using Xamarin.Forms;
-
 using System;
 using System.Threading;
 using System.Resources;
@@ -26,12 +23,15 @@ using System.Reflection;
 using System.Globalization;
 using System.Collections.Generic;
 
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Localization;
 
-[assembly: Dependency(typeof(GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localization.AndroidLocalization))]
+using Java.Util;
+using Xamarin.Forms;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localization
+[assembly: Dependency(typeof(AndroidLocalization))]
+
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Localization
 {
     /// <summary>
     /// Localization provider for Android.
@@ -41,7 +41,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localiza
         private CultureInfo currentCulture = null;
 
         private const string RESOURCE_ID = "GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.LocalizedStrings";
-        private static readonly Lazy<ResourceManager> RESOURCES = new Lazy<ResourceManager>(() => new ResourceManager(RESOURCE_ID, IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly));
+        private static readonly Lazy<ResourceManager> RESOURCES = new Lazy<ResourceManager>(() => new ResourceManager(RESOURCE_ID, typeof(App).GetTypeInfo().Assembly));
 
         private readonly IDictionary<string, CultureInfo> cachedCultures = new Dictionary<string, CultureInfo>(16)
         {
@@ -90,7 +90,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid.Services.Localiza
         public void SetCurrentCultureInfo(CultureInfo ci)
         {
             currentCulture = ci;
-            //LocalizedStrings.Culture = ci;
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
         }

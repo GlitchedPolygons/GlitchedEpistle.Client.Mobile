@@ -23,7 +23,7 @@ using Android.Content.PM;
 using Plugin.Fingerprint;
 using FFImageLoading.Forms.Platform;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 {
     [Activity(
         Label = "Glitched Epistle", 
@@ -52,10 +52,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Droid
 
             LoadApplication(new App());
 
-            Window.SetStatusBarColor(Android.Graphics.Color.Argb(255, 0, 0, 0));
+            Window.SetStatusBarColor(global::Android.Graphics.Color.Argb(255, 0, 0, 0));
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] global::Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);

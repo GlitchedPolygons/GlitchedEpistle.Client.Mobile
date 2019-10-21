@@ -61,10 +61,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
         /// <summary>
         /// If available, should the fingerprint reader be used for logging in the user easily?
         /// </summary>
-        public bool UseFingerprint
+        public bool ReplaceTotpWithFingerprint
         {
-            get => this["UseFingerprint", false];
-            set => this["UseFingerprint"] = value.ToString();
+            get => this["ReplaceTotpWithFingerprint", false];
+            set => this["ReplaceTotpWithFingerprint"] = value.ToString();
         }
 
         /// <summary>

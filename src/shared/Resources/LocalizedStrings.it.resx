@@ -166,7 +166,8 @@
     <value>(Preferibilmente Google Authenticator)</value>
   </data>
   <data name="HereAreYourBackupCodes" xml:space="preserve">
-    <value>Eccoti qua i tuoi codici d'emergenza per l'autentificazione a due fattori. Salvateli da qualche parte al sicuro, possibilmente disconnesso da internet e NON CONDIVIDERLI con nessuno!</value>
+    <value>Eccoti qua i tuoi codici d'emergenza per l'autentificazione a due fattori. 
+Salvateli da qualche parte al sicuro, possibilmente disconnesso da internet e NON CONDIVIDERLI con nessuno!</value>
   </data>
   <data name="KeyGenerationFailed" xml:space="preserve">
     <value>Si è verificato un errore durante la generazione della chiave RSA 4096-bit.</value>
@@ -274,7 +275,9 @@
     <value>Sì</value>
   </data>
   <data name="SettingsAutoSaveReminder" xml:space="preserve">
-    <value>Queste impostazioni non richiedono il salvataggio manuale (vengono salvate automaticamente in diretta mentre le modifichi). Ripristinare i valori originali è irreversibile, sei sicuro di procedere?</value>
+    <value>Queste impostazioni non richiedono il salvataggio manuale (vengono salvate automaticamente in diretta mentre le modifichi). 
+
+Ripristinare i valori originali è irreversibile, sei sicuro di procedere?</value>
     <comment>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</comment>
   </data>
   <data name="ThemeLabel" xml:space="preserve">
@@ -322,6 +325,9 @@ https://glitchedpolygons.com</value>
   </data>
   <data name="SwissGerman" xml:space="preserve">
     <value>Svizzero tedesco</value>
+  </data>
+  <data name="ReplaceTotpWithFingerprint" xml:space="preserve">
+    <value>Usa impronta digitale al posto dell'autentificazione a due fattori</value>
   </data>
   <data name="SaveUserPassword" xml:space="preserve">
     <value>Salva password dell'utente</value>

@@ -60,7 +60,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// <summary>
         /// The client version number.
         /// </summary>
-        public static string Version => Assembly.GetEntryAssembly()?.GetName()?.Version?.ToString();
+        public static string Version => Assembly.GetCallingAssembly()?.GetName()?.Version?.ToString();
 
         /// <summary>
         /// Gets the currently active GUI theme (appearance of the app).
@@ -74,6 +74,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly IUnityContainer container = new UnityContainer();
 
         private readonly User user;
+        private readonly ILogger logger;
         private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
@@ -129,6 +130,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             container.RegisterType<IMessageFetcher, MessageFetcher>(new ContainerControlledLifetimeManager());
 
             user = container.Resolve<User>();
+            logger = container.Resolve<ILogger>();
             methodQ = container.Resolve<IMethodQ>();
             appSettings = container.Resolve<IAppSettings>();
             userSettings = container.Resolve<IUserSettings>();
@@ -166,13 +168,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             if (theme.NullOrEmpty() || theme.Equals(CurrentTheme))
             {
 #if DEBUG
-                if (theme.NullOrEmpty()) throw new ArgumentException($"{nameof(App)}::{nameof(ChangeTheme)}: Attempted to change theme with a null or empty theme identifier parameter. Please only provide a valid theme parameter to this method!", nameof(theme));
+                if (theme.NullOrEmpty()) logger.LogError($"{nameof(App)}::{nameof(ChangeTheme)}: Attempted to change theme with a null or empty theme identifier parameter. Please only provide a valid theme parameter to this method!");
 #endif
                 return false;
             }
 
             ResourceDictionary themeDictionary = null;
-            ILogger logger = container.Resolve<ILogger>();
 
             switch (theme)
             {

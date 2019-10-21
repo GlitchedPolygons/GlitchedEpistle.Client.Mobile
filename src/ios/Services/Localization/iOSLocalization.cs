@@ -40,7 +40,7 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
         private CultureInfo currentCulture = null;
 
         private const string RESOURCE_ID = "GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.LocalizedStrings";
-        private static readonly Lazy<ResourceManager> RESOURCES = new Lazy<ResourceManager>(() => new ResourceManager(RESOURCE_ID, IntrospectionExtensions.GetTypeInfo(typeof(App)).Assembly));
+        private static readonly Lazy<ResourceManager> RESOURCES = new Lazy<ResourceManager>(() => new ResourceManager(RESOURCE_ID, typeof(App).GetTypeInfo().Assembly));
 
         private readonly IDictionary<string, CultureInfo> cachedCultures = new Dictionary<string, CultureInfo>(16)
         {
@@ -89,7 +89,6 @@ namespace GlitchedEpistle.Client.Mobile.iOS.Services.Localization
         public void SetCurrentCultureInfo(CultureInfo ci)
         {
             currentCulture = ci;
-            //LocalizedStrings.Culture = ci;
             Thread.CurrentThread.CurrentCulture = ci;
             Thread.CurrentThread.CurrentUICulture = ci;
         }

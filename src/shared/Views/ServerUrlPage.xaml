@@ -58,16 +58,19 @@
                     <Entry MinimumWidthRequest="250"
                            Grid.Column="0"
                            FontSize="16"
+                           HeightRequest="42"
                            Style="{DynamicResource EntryStyle}"
                            Placeholder="{i:Translate ServerUrlEntry}"
                            Text="{Binding ServerUrl, UpdateSourceEventName=PropertyChanged}" />
 
                     <ActivityIndicator Grid.Column="1"
+                                       HeightRequest="30"
                                        IsVisible="{Binding Testing}"
                                        IsRunning="{Binding Testing}" />
 
                     <Image Grid.Column="1"
                            Margin="3.5"
+                           HeightRequest="30"
                            IsVisible="{Binding ConnectionOk}"
                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
                 </Grid>

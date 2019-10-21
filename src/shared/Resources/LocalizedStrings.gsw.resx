@@ -166,7 +166,8 @@
     <value>(Google Authenticator empfählenswärt)</value>
   </data>
   <data name="HereAreYourBackupCodes" xml:space="preserve">
-    <value>Das sin dini Zwe-Faktor Outhentifizierig Backup-Codes. Schriib der die uuf u versteck se irgendwo wo's sicher isch (am beshte offline) u TEYL SE MIT NYEMMEREM!</value>
+    <value>Das sin dini Zwe-Faktor Outhentifizierig Backup-Codes. 
+Schriib der die uuf u versteck se irgendwo wo's sicher isch (am beshte offline) u TEYL SE MIT NYEMMEREM!</value>
     <comment>Here is your 2FA backup text. Store this somewhere safe and DO NOT SHARE this with anybody.</comment>
   </data>
   <data name="KeyGenerationFailed" xml:space="preserve">
@@ -275,7 +276,8 @@
     <value>Ja</value>
   </data>
   <data name="SettingsAutoSaveReminder" xml:space="preserve">
-    <value>Dye iistellige sy säubst-spicherend (wärde loufend gspicheret, outomatisch!). Zruggsetze würd d' wärchsiistellige diräkt übernäh. Bisch dr sicher?</value>
+    <value>Dye iistellige sy säubst-spicherend (wärde loufend gspicheret, outomatisch!). 
+Zruggsetze würd d' wärchsiistellige diräkt übernäh. Bisch dr sicher?</value>
     <comment>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</comment>
   </data>
   <data name="ThemeLabel" xml:space="preserve">
@@ -323,6 +325,9 @@ https://glitchedpolygons.com</value>
   </data>
   <data name="SwissGerman" xml:space="preserve">
     <value>Schwiizerdütsch</value>
+  </data>
+  <data name="ReplaceTotpWithFingerprint" xml:space="preserve">
+    <value>Fingerabdruck anstatt 2-Faktor Outhentifizierig</value>
   </data>
   <data name="SaveUserPassword" xml:space="preserve">
     <value>Login Passwort spichere</value>

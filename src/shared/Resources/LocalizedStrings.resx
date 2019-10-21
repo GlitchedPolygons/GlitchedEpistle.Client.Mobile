@@ -166,7 +166,8 @@
     <value>(Google Authenticator is recommended)</value>
   </data>
   <data name="HereAreYourBackupCodes" xml:space="preserve">
-    <value>Here are your two-factor authentication emergency backup codes. Store these somewhere safe (possibly disconnected from the internet) and DO NOT SHARE them with anybody!</value>
+    <value>Here are your two-factor authentication emergency backup codes. 
+Store these somewhere safe (possibly disconnected from the internet) and DO NOT SHARE them with anybody!</value>
   </data>
   <data name="KeyGenerationFailed" xml:space="preserve">
     <value>There was an unexpected error whilst generating the RSA key pair (during user creation process).</value>
@@ -309,7 +310,9 @@ https://glitchedpolygons.com</value>
     <value>Save convo passwords</value>
   </data>
   <data name="SettingsAutoSaveReminder" xml:space="preserve">
-    <value>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</value>
+    <value>These settings don't require manual saving (they're saved automatically as you're editing them). 
+
+Reverting to default settings will also apply them immediately. Are you sure that you want this?</value>
   </data>
   <data name="SwissGerman" xml:space="preserve">
     <value>Swiss German</value>
@@ -319,6 +322,9 @@ https://glitchedpolygons.com</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="ReplaceTotpWithFingerprint" xml:space="preserve">
+    <value>Replace two-factor authentication with fingerprint</value>
   </data>
   <data name="SaveUserPassword" xml:space="preserve">
     <value>Save user password</value>

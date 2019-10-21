@@ -18,13 +18,14 @@
 
 using Prism.Events;
 using Xamarin.Forms;
+using Plugin.Fingerprint;
 using System.Windows.Input;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
@@ -77,17 +78,31 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => saveUserPassword;
             set => Set(ref saveUserPassword, value);
         }
+            
+        private bool replaceTotpWithFingerprint = false;
+        public bool ReplaceTotpWithFingerprint
+        {
+            get => replaceTotpWithFingerprint;
+            set
+            {
+                if (value is true)
+                {
+                    // TODO: check if TOTP secret is in SecureStorage (if not, prompt user) and then verify setting change by asking user for his fingerprint.
+                }
+                Set(ref replaceTotpWithFingerprint, value);
+            }
+        }
+        
+        public bool FingerprintAvailable => CrossFingerprint.Current.IsAvailableAsync().GetAwaiter().GetResult();
 
-        private string theme = Constants.Themes.DARK_THEME;
+        private string theme;
         public string Theme
         {
             get => theme;
             set
             {
                 Set(ref theme, value);
-                // TODO: localized strings do not match the theme name
                 (Application.Current as App)?.ChangeTheme(value);
-                appSettings["Theme"] = value;
             }
         }
 
@@ -98,11 +113,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 Set(ref language, value);
-                // TODO: fix this localization mess ASAP!
-                CultureInfo ci = LanguageLabelToCultureInfo(value);
-                localization.SetCurrentCultureInfo(ci);
-                UpdateLocalizedLabels();
-                appSettings["Language"] = ci.ToString();
+              //if (value.NotNullNotEmpty())
+              //{
+              //    var ci = new CultureInfo(value);
+              //    localization.SetCurrentCultureInfo(ci);
+              //    UpdateLocalizedLabels();
+              //}
             }
         }
 
@@ -140,34 +156,45 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public void OnAppearing()
         {
             Username = userSettings.Username;
-            Language = appSettings["Language", Languages[0]];
+            Language = appSettings["Language", "en"];
             Theme = appSettings["Theme", Constants.Themes.DARK_THEME];
             SaveUserPassword = appSettings["SaveUserPassword", true];
             SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
+            ReplaceTotpWithFingerprint = appSettings["ReplaceTotpWithFingerprint", false];
         }
 
         public void OnDisappearing()
         {
             userSettings.Username = Username;
+            appSettings["Theme"] = Theme;
+            appSettings["Language"] = Language;
             appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
             appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
+            appSettings["ReplaceTotpWithFingerprint"] = ReplaceTotpWithFingerprint.ToString();
         }
         
         private void UpdateLocalizedLabels()
         {
             Themes = new ObservableCollection<string>(new List<string>
             {
-                localization["LightTheme"],
-                localization["DarkTheme"],
-                localization["OLEDTheme"],
+                Constants.Themes.LIGHT_THEME,
+                Constants.Themes.DARK_THEME,
+                Constants.Themes.OLED_THEME,
+                //localization["LightTheme"],
+                //localization["DarkTheme"],
+                //localization["OLEDTheme"],
             });
 
             Languages = new ObservableCollection<string>(new List<string>
             {
-                localization["English"] + " (English)",
-                localization["German"] + " (Deutsch)",
-                localization["SwissGerman"] + " (Schwiizerdütsch)",
-                localization["Italian"] + " (Italiano)"
+                "en",
+                "de",
+                "gsw",
+                "it",
+                //localization["English"] + " (English)",
+                //localization["German"] + " (Deutsch)",
+                //localization["SwissGerman"] + " (Schwiizerdütsch)",
+                //localization["Italian"] + " (Italiano)"
             });
         }
 

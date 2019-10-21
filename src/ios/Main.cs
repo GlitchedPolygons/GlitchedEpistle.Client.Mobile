@@ -16,11 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Foundation;
 using UIKit;
 
 namespace GlitchedEpistle.Client.Mobile.iOS
@@ -30,8 +25,8 @@ namespace GlitchedEpistle.Client.Mobile.iOS
         // This is the main entry point of the application.
         static void Main(string[] args)
         {
-            // if you want to use a different Application Delegate class from "AppDelegate"
-            // you can specify it here.
+            // If you want to use a different Application Delegate
+            // class from "AppDelegate" you can specify it here.
             UIApplication.Main(args, null, "AppDelegate");
         }
     }
