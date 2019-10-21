@@ -74,9 +74,10 @@
                              HorizontalOptions="FillAndExpand">
                     
                     <Switch IsToggled="{Binding SaveConvoPasswords}"
-                            VerticalOptions="CenterAndExpand" Scale="1.1"/>
+                            VerticalOptions="CenterAndExpand" 
+                            Scale="1.1"/>
 
-                    <Label Text="{i:Translate SaveConvoPasswordsSwitch}"
+                    <Label Text="{i:Translate SaveConvoPasswords}"
                            Style="{DynamicResource MediumLabelStyle}"
                            FontSize="16" 
                            VerticalTextAlignment="Center" 
