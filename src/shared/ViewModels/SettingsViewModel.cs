@@ -85,10 +85,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 Set(ref theme, value);
-                if ((Application.Current as App)?.ChangeTheme(value) == true)
-                {
-                    appSettings["Theme"] = value;
-                }
+                // TODO: localized strings do not match the theme name
+                (Application.Current as App)?.ChangeTheme(value);
+                appSettings["Theme"] = value;
             }
         }
 
