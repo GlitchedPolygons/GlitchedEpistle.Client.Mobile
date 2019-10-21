@@ -30,13 +30,50 @@
     </Style>
 
     <Style TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundColor}" />
         <Setter Property="TextColor" Value="{DynamicResource ButtonForegroundColor}" />
+        <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundColor}" />
+        <Setter Property="BorderColor" Value="{DynamicResource ButtonBorderColor}" />
         <Setter Property="HeightRequest" Value="40" />
         <Setter Property="CornerRadius" Value="20" />
         <Setter Property="Padding" Value="24,6" />
-        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="BorderWidth" Value="1" />
         <Setter Property="MinimumWidthRequest" Value="128" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+                    <VisualState Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BorderColor" Value="{DynamicResource ButtonBorderColor}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonForegroundColor}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundColor}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <!--
+                    <VisualState Name="Focused">
+                        <VisualState.Setters>
+                            <Setter Property="BorderColor" Value="{DynamicResource ButtonBorderColorFocused}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonForegroundColorFocused}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundColorFocused}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    -->
+                    <VisualState Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BorderColor" Value="{DynamicResource ButtonBorderColorPressed}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonForegroundColorPressed}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundColorPressed}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BorderColor" Value="{DynamicResource ButtonBorderColorDisabled}" />
+                            <Setter Property="TextColor" Value="{DynamicResource ButtonForegroundColorDisabled}" />
+                            <Setter Property="BackgroundColor" Value="{DynamicResource ButtonBackgroundColorDisabled}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
     </Style>
 
     <Style x:Key="TitleLabelStyle" TargetType="Label">

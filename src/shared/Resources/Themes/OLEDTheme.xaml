@@ -38,13 +38,13 @@
     <!-- Button background color -->
     <Color x:Key="ButtonBackgroundColor">#FF343434</Color>
     <Color x:Key="ButtonBackgroundColorFocused">#FF343434</Color>
-    <Color x:Key="ButtonBackgroundColorDisabled">#FF212121</Color>
+    <Color x:Key="ButtonBackgroundColorDisabled">#cc252525</Color>
     <Color x:Key="ButtonBackgroundColorPressed">#699BAD</Color>
 
     <!-- Button foreground color -->
     <Color x:Key="ButtonForegroundColor">AliceBlue</Color>
     <Color x:Key="ButtonForegroundColorFocused">White</Color>
-    <Color x:Key="ButtonForegroundColorDisabled">#FF595959</Color>
+    <Color x:Key="ButtonForegroundColorDisabled">#525252</Color>
     <Color x:Key="ButtonForegroundColorPressed">White</Color>
 
     <!-- Button border color -->

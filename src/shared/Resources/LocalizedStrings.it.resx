@@ -283,6 +283,9 @@
   <data name="CloseButton" xml:space="preserve">
     <value>Chiudi</value>
   </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Scuro</value>
+  </data>
   <data name="English" xml:space="preserve">
     <value>Inglese</value>
   </data>
@@ -294,6 +297,15 @@
   </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Lingua</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Chiaro</value>
+  </data>
+  <data name="OLEDTheme" xml:space="preserve">
+    <value>OLED</value>
+  </data>
+  <data name="SaveConvoPasswords" xml:space="preserve">
+    <value>Salva password delle conversazioni</value>
   </data>
   <data name="SwissGerman" xml:space="preserve">
     <value>Svizzero tedesco</value>

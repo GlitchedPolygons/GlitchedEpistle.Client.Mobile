@@ -16,12 +16,12 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using Prism.Events;
+using Xamarin.Forms;
 using System.Windows.Input;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Prism.Events;
-using Xamarin.Forms;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
@@ -60,6 +60,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref username, value);
         }
 
+        private bool saveConvoPasswords = true;
+        public bool SaveConvoPasswords
+        {
+            get => saveConvoPasswords;
+            set => Set(ref saveConvoPasswords, value);
+        }
+
         private string theme = Constants.Themes.DARK_THEME;
         public string Theme
         {
@@ -81,19 +88,31 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
-        private string language = "en";
+        private string language;
         public string Language
         {
             get => language;
             set
             {
                 Set(ref language, value);
-                localization.SetCurrentCultureInfo(new CultureInfo(value));
+                localization.SetCurrentCultureInfo(LanguageLabelToCultureInfo(value));
+                UpdateLocalizedLabels();
             }
         }
 
-        public ObservableCollection<string> Themes { get; }
-        public ObservableCollection<string> Languages { get; }
+        private ObservableCollection<string> themes;
+        public ObservableCollection<string> Themes
+        {
+            get => themes;
+            set => Set(ref themes, value);
+        }
+
+        private ObservableCollection<string> languages;
+        public ObservableCollection<string> Languages
+        {
+            get => languages;
+            set => Set(ref languages, value);
+        }
 
         #endregion
 
@@ -108,11 +127,30 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             CloseCommand = new DelegateCommand(OnClickedClose);
             RevertCommand = new DelegateCommand(OnClickedRevert);
 
+            UpdateLocalizedLabels();
+        }
+
+        public void OnAppearing()
+        {
+            Username = userSettings.Username;
+            //Language = appSettings["Language"];
+            Theme = appSettings["Theme", Constants.Themes.DARK_THEME];
+            SaveConvoPasswords = appSettings["SaveConvoPasswords", "true"]?.ToLowerInvariant() == "true";
+        }
+
+        public void OnDisappearing()
+        {
+            userSettings.Username = Username;
+            appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
+        }
+        
+        private void UpdateLocalizedLabels()
+        {
             Themes = new ObservableCollection<string>(new List<string>
             {
-                Constants.Themes.LIGHT_THEME,
-                Constants.Themes.DARK_THEME,
-                Constants.Themes.OLED_THEME
+                localization["LightTheme"],
+                localization["DarkTheme"],
+                localization["OLEDTheme"],
             });
 
             Languages = new ObservableCollection<string>(new List<string>
@@ -124,16 +162,24 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
 
-        public void OnAppearing()
+        private CultureInfo LanguageLabelToCultureInfo(string language)
         {
-            Username = userSettings.Username;
-            //Language = appSettings["Language"];
-            Theme = appSettings["Theme", Constants.Themes.DARK_THEME];
-        }
-
-        public void OnDisappearing()
-        {
-            userSettings.Username = Username;
+            language = this.language.ToLowerInvariant();
+            
+            if (language.Contains("deutsch"))
+            {
+                return new CultureInfo("de");
+            }
+            if (language.Contains("schwiizerdütsch"))
+            {
+                return new CultureInfo("gsw");
+            }
+            if (language.Contains("italiano"))
+            {
+                return new CultureInfo("it");
+            }
+            
+            return new CultureInfo("en");
         }
 
         private async void OnClickedClose(object commandParam)
@@ -157,6 +203,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     ExecUI(() =>
                     {
                         Username = user?.Id ?? "user";
+                        SaveConvoPasswords = true;
                         Theme = Constants.Themes.DARK_THEME;
                         Language = localization["English"] + " (English)";
                     });

@@ -262,6 +262,9 @@
   <data name="CloseButton" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Dark</value>
+  </data>
   <data name="English" xml:space="preserve">
     <value>English</value>
   </data>
@@ -274,14 +277,23 @@
   <data name="LanguageLabel" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Light</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="OLEDTheme" xml:space="preserve">
+    <value>OLED</value>
   </data>
   <data name="RevertButton" xml:space="preserve">
     <value>Revert</value>
   </data>
   <data name="SaveButton" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SaveConvoPasswords" xml:space="preserve">
+    <value>Save convo passwords</value>
   </data>
   <data name="SettingsAutoSaveReminder" xml:space="preserve">
     <value>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</value>

@@ -284,6 +284,9 @@
   <data name="CloseButton" xml:space="preserve">
     <value>Schlyesse</value>
   </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Dunku</value>
+  </data>
   <data name="English" xml:space="preserve">
     <value>Änglisch</value>
   </data>
@@ -295,6 +298,15 @@
   </data>
   <data name="LanguageLabel" xml:space="preserve">
     <value>Spraach</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Häu</value>
+  </data>
+  <data name="OLEDTheme" xml:space="preserve">
+    <value>OLED</value>
+  </data>
+  <data name="SaveConvoPasswords" xml:space="preserve">
+    <value>Ungerhautigs-Passwörter spichere</value>
   </data>
   <data name="SwissGerman" xml:space="preserve">
     <value>Schwiizerdütsch</value>
