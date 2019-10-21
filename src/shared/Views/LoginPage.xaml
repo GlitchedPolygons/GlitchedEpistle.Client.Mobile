@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
-    <!--
+<!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -16,87 +16,86 @@
          
          You should have received a copy of the GNU General Public License
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    -->
+-->
 
-    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 mc:Ignorable="d" 
-                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-                 xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
-                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
-                 BackgroundColor="{DynamicResource PageBackgroundColor}">
-        <ContentPage.Content>
-            <ScrollView>
-                <StackLayout HorizontalOptions="Center" 
-                             VerticalOptions="Center"
-                             WidthRequest="275" 
-                             Margin="32,32,32,50">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
+             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         WidthRequest="275"
+                         Margin="32,32,32,50">
 
-                    <Label Style="{DynamicResource TitleLabelStyle}"
-                           FontAttributes="Bold"
-                           Text="{i:Translate WelcomeLabel}"/>
+                <Label Style="{DynamicResource TitleLabelStyle}"
+                       FontAttributes="Bold"
+                       Text="{i:Translate WelcomeLabel}" />
 
-                    <Label Text="{Binding ErrorMessage}"
-                           TextColor="{DynamicResource ErrorMessageColor}"
-                           LineBreakMode="WordWrap"
-                           HorizontalOptions="Start"
-                           FontSize="14" />
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="{DynamicResource ErrorMessageColor}"
+                       LineBreakMode="WordWrap"
+                       HorizontalOptions="Start"
+                       FontSize="14" />
 
-                    <Label FontSize="16" 
-                           Margin="0,0,0,10" 
-                           Style="{DynamicResource SubLabelStyle}"
-                           Text="{i:Translate PleaseLoginLabel}"/>
+                <Label FontSize="16"
+                       Margin="0,0,0,10"
+                       Style="{DynamicResource SubLabelStyle}"
+                       Text="{i:Translate PleaseLoginLabel}" />
 
-                    <Entry MinimumWidthRequest="250"
-                           IsPassword="False"
-                           x:Name="UserIdTextBox"
-                           MaxLength="256"
-                           Style="{DynamicResource EntryStyle}"
-                           Placeholder="{i:Translate UserIdLabel}"
-                           Text="{Binding UserId}" 
-                           TextChanged="UserIdTextBox_TextChanged" />
+                <Entry MinimumWidthRequest="250"
+                       IsPassword="False"
+                       x:Name="UserIdTextBox"
+                       MaxLength="256"
+                       Style="{DynamicResource EntryStyle}"
+                       Placeholder="{i:Translate UserIdLabel}"
+                       Text="{Binding UserId}"
+                       TextChanged="UserIdTextBox_TextChanged" />
 
-                    <Entry x:Name="PasswordBox" 
-                           IsPassword="True"
-                           MinimumWidthRequest="250"
-                           Style="{DynamicResource EntryStyle}"
-                           Placeholder="{i:Translate PasswordLabel}"
-                           Text="{Binding Password}"
-                           TextChanged="PasswordBox_TextChanged"/>
+                <Entry x:Name="PasswordBox"
+                       IsPassword="True"
+                       MinimumWidthRequest="250"
+                       Style="{DynamicResource EntryStyle}"
+                       Placeholder="{i:Translate PasswordLabel}"
+                       Text="{Binding Password}"
+                       TextChanged="PasswordBox_TextChanged" />
 
-                    <Entry  x:Name="TotpTextBox"
-                            MinimumWidthRequest="250"
-                            MaxLength="128"
-                            Style="{DynamicResource EntryStyle}"
-                            Placeholder="{i:Translate TotpLabel}"
-                            Text="{Binding Totp}"
-                            TextChanged="TotpTextBox_TextChanged" />
+                <Entry x:Name="TotpTextBox"
+                       MinimumWidthRequest="250"
+                       MaxLength="128"
+                       Style="{DynamicResource EntryStyle}"
+                       Placeholder="{i:Translate TotpLabel}"
+                       Text="{Binding Totp}"
+                       TextChanged="TotpTextBox_TextChanged" />
 
-                    <StackLayout Margin="0,20,0,0">
+                <StackLayout Margin="0,20,0,0" Spacing="10">
 
-                        <Button Text="{i:Translate ChangeServerButton}"
-                                x:Name="ChangeServerButton"
-                                IsEnabled="{Binding UIEnabled}"
-                                Command="{Binding EditServerUrlCommand}"/>
+                    <Button Text="{i:Translate ChangeServerButton}"
+                            x:Name="ChangeServerButton"
+                            IsEnabled="{Binding UIEnabled}"
+                            Command="{Binding EditServerUrlCommand}" />
 
-                        <Button Text="{i:Translate RegisterButton}"
-                                x:Name="RegisterButton"
-                                IsEnabled="{Binding UIEnabled}"
-                                Command="{Binding RegisterCommand}" />
+                    <Button Text="{i:Translate RegisterButton}"
+                            x:Name="RegisterButton"
+                            IsEnabled="{Binding UIEnabled}"
+                            Command="{Binding RegisterCommand}" />
 
-                        <Button Text="{i:Translate LoginButton}"
-                                x:Name="LoginButton" 
-                                IsVisible="{Binding UIEnabled}"
-                                Command="{Binding LoginCommand}"/>
+                    <Button Text="{i:Translate LoginButton}"
+                            x:Name="LoginButton"
+                            IsVisible="{Binding UIEnabled}"
+                            Command="{Binding LoginCommand}" />
 
-                        <Button Text="{i:Translate AttemptingLoginButton}"
-                                IsEnabled="False"
-                                IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}"/>
-                    </StackLayout>
+                    <Button Text="{i:Translate AttemptingLoginButton}"
+                            IsEnabled="False"
+                            IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
                 </StackLayout>
-            </ScrollView>
-        </ContentPage.Content>
-    </ContentPage>
-    
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

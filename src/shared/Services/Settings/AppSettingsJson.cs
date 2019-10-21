@@ -17,6 +17,7 @@
 */
 
 using System.IO;
+using System.Globalization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
@@ -63,6 +64,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
         {
             get => this["UseFingerprint", false];
             set => this["UseFingerprint"] = value.ToString();
+        }
+
+        /// <summary>
+        /// The application's language setting.
+        /// Needs to be a <see cref="CultureInfo"/>-valid culture identifier (such as "en" for English).
+        /// </summary>
+        public string Language
+        {
+            get => this["Language", "en"];
+            set => this["Language"] = value;
         }
     }
 }

@@ -23,8 +23,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants
     /// </summary>
     public static class Themes
     {
-        public const string DARK_THEME = "Dark polygons";
-        public const string LIGHT_THEME = "Light polygons";
+        public const string DARK_THEME = "Dark";
+        public const string LIGHT_THEME = "Light";
         public const string OLED_THEME = "OLED";
     }
 }

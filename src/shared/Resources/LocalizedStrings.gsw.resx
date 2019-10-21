@@ -255,4 +255,48 @@
   <data name="MasterMenuItemSettings" xml:space="preserve">
     <value>Iistellige</value>
   </data>
+  <data name="PleaseEnterGoodUsernameLabel" xml:space="preserve">
+    <value>Tipp: E guete Nutzername isch ir regu churz u knackig, weshaub me di denne o lyechter identifiziere cha inere ungerhautig.</value>
+    <comment>Hint: A good username is short, catchy and one that makes you easily recognizable by other convo participants.</comment>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Bisch sicher?</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Ney</value>
+  </data>
+  <data name="RevertButton" xml:space="preserve">
+    <value>Zruggsetze</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Spichere</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="SettingsAutoSaveReminder" xml:space="preserve">
+    <value>Dye iistellige sy säubst-spicherend (wärde loufend gspicheret, outomatisch!). Zruggsetze würd d' wärchsiistellige diräkt übernäh. Bisch dr sicher?</value>
+    <comment>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</comment>
+  </data>
+  <data name="ThemeLabel" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+    <value>Schlyesse</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Änglisch</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>Hochdütsch</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>Italiänisch</value>
+  </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Spraach</value>
+  </data>
+  <data name="SwissGerman" xml:space="preserve">
+    <value>Schwiizerdütsch</value>
+  </data>
 </root>

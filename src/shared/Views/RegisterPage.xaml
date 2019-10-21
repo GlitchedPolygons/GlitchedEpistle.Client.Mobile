@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <!--
     Glitched Epistle - Mobile Client
@@ -30,14 +30,14 @@
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.RegisterPage">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout HorizontalOptions="Center" 
+            <StackLayout HorizontalOptions="Center"
                          VerticalOptions="Center"
-                         WidthRequest="275" 
+                         WidthRequest="275"
                          Margin="32,32,32,50">
 
                 <Label Style="{DynamicResource TitleLabelStyle}"
                        FontAttributes="Bold"
-                       Text="{i:Translate WelcomeLabel}"/>
+                       Text="{i:Translate WelcomeLabel}" />
 
                 <Label Text="{Binding ErrorMessage}"
                        TextColor="{DynamicResource ErrorMessageColor}"
@@ -45,10 +45,10 @@
                        HorizontalOptions="Start"
                        FontSize="14" />
 
-                <Label FontSize="16" 
-                       Margin="0,0,0,10" 
+                <Label FontSize="16"
+                       Margin="0,0,0,10"
                        Style="{DynamicResource SubLabelStyle}"
-                       Text="{i:Translate PleaseRegisterLabel}"/>
+                       Text="{i:Translate PleaseRegisterLabel}" />
 
                 <Entry MinimumWidthRequest="250"
                        IsPassword="False"
@@ -58,50 +58,50 @@
                        Placeholder="{i:Translate UsernameLabel}"
                        Text="{Binding Username}" />
 
-                <Entry x:Name="PasswordBox1" 
+                <Entry x:Name="PasswordBox1"
                        IsPassword="True"
                        MinimumWidthRequest="250"
                        Style="{DynamicResource EntryStyle}"
                        Placeholder="{i:Translate PasswordLabel}"
-                       Text="{Binding Password}"/>
+                       Text="{Binding Password}" />
 
-                <Entry x:Name="PasswordBox2" 
+                <Entry x:Name="PasswordBox2"
                        IsPassword="True"
                        MinimumWidthRequest="250"
                        Style="{DynamicResource EntryStyle}"
                        Placeholder="{i:Translate PasswordConfirmationLabel}"
-                       Text="{Binding PasswordConfirmation}"/>
+                       Text="{Binding PasswordConfirmation}" />
 
-                <Entry  MinimumWidthRequest="250"
-                        MaxLength="128"
-                        Style="{DynamicResource EntryStyle}"
-                        Placeholder="{i:Translate UserCreationSecretLabel}"
-                        Text="{Binding UserCreationSecret}"/>
+                <Entry MinimumWidthRequest="250"
+                       MaxLength="128"
+                       Style="{DynamicResource EntryStyle}"
+                       Placeholder="{i:Translate UserCreationSecretLabel}"
+                       Text="{Binding UserCreationSecret}" />
 
-                <StackLayout Margin="0,20,0,0">
+                <StackLayout Margin="0,20,0,0" Spacing="10">
 
                     <Button Text="{i:Translate ChangeServerButton}"
                             Command="{Binding EditServerUrlCommand}"
-                            IsEnabled="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}"/>
+                            IsEnabled="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}" />
 
                     <Button Text="{i:Translate CancelButton}"
                             Command="{Binding CancelCommand}"
-                            IsEnabled="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}"/>
+                            IsEnabled="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}" />
 
                     <Button Text="{i:Translate RegisterButton}"
                             Command="{Binding RegisterCommand}"
-                            IsEnabled="{Binding FormValid}"/>
+                            IsEnabled="{Binding FormValid}" />
 
-                    <StackLayout Orientation="Horizontal" 
+                    <StackLayout Orientation="Horizontal"
                                  IsVisible="{Binding PendingAttempt}"
                                  HorizontalOptions="CenterAndExpand">
 
                         <Label Style="{DynamicResource SubLabelStyle}"
-                               Text="{i:Translate GeneratingKeysLabel}"/>
-                        
+                               Text="{i:Translate GeneratingKeysLabel}" />
+
                         <ActivityIndicator IsRunning="true"
-                                           WidthRequest="25" 
-                                           HeightRequest="25"/>
+                                           WidthRequest="25"
+                                           HeightRequest="25" />
                     </StackLayout>
                 </StackLayout>
             </StackLayout>

@@ -254,4 +254,48 @@
   <data name="MasterMenuItemSettings" xml:space="preserve">
     <value>Impostazioni</value>
   </data>
+  <data name="PleaseEnterGoodUsernameLabel" xml:space="preserve">
+    <value>N.B.: Un buon nome utente è solitamente breve e conciso, in grado di renderti facilmente identificabile come mittente.</value>
+    <comment>Hint: A good username is short, catchy and one that makes you easily recognizable by other convo participants.</comment>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Sei sicuro?</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="RevertButton" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Salva</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="SettingsAutoSaveReminder" xml:space="preserve">
+    <value>Queste impostazioni non richiedono il salvataggio manuale (vengono salvate automaticamente in diretta mentre le modifichi). Ripristinare i valori originali è irreversibile, sei sicuro di procedere?</value>
+    <comment>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</comment>
+  </data>
+  <data name="ThemeLabel" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+    <value>Chiudi</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Inglese</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>Tedesco</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>Italiano</value>
+  </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+  <data name="SwissGerman" xml:space="preserve">
+    <value>Svizzero tedesco</value>
+  </data>
 </root>

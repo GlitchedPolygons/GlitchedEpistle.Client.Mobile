@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
-    <!--
+<!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -18,38 +18,41 @@
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
     -->
 
-    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 mc:Ignorable="d"
-                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-                 BackgroundColor="{DynamicResource PageBackgroundColor}"
-                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.BackupCodesPage">
-        <ContentPage.Content>
-            <ScrollView>
-                <StackLayout VerticalOptions="CenterAndExpand" 
-                             HorizontalOptions="FillAndExpand"
-                             Margin="32,32,32,64">
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.BackupCodesPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         Margin="32,32,32,64">
 
-                    <Label Text="{i:Translate HereAreYourBackupCodes}" 
-                           HorizontalTextAlignment="Center"
-                           Style="{DynamicResource TitleLabelStyle}"/>
+                <Label Text="{i:Translate HereAreYourBackupCodes}"
+                       FontSize="16"
+                       HorizontalTextAlignment="Center"
+                       Style="{DynamicResource TitleLabelStyle}" />
 
-                    <Editor x:Name="BackupCodesText" 
-                            Margin="0,16,0,0" 
-                            IsReadOnly="True"
-                            Style="{DynamicResource EntryStyle}"/>
+                <Editor x:Name="BackupCodesText"
+                        Margin="0,16,0,0"
+                        IsReadOnly="True"
+                        Style="{DynamicResource EntryStyle}" />
 
-                    <Button x:Name="CopyButton" 
-                            Clicked="CopyButton_Clicked" 
-                            Text="{i:Translate Copy}"/>
+                <StackLayout Spacing="10">
+                    
+                    <Button x:Name="CopyButton"
+                            Clicked="CopyButton_Clicked"
+                            Text="{i:Translate Copy}" />
 
-                    <Button x:Name="DismissButton" 
-                            Clicked="DismissButton_Clicked" 
-                            Text="{i:Translate Dismiss}"/>
+                    <Button x:Name="DismissButton"
+                            Clicked="DismissButton_Clicked"
+                            Text="{i:Translate Dismiss}" />
                 </StackLayout>
-            </ScrollView>
-        </ContentPage.Content>
-    </ContentPage>
-    
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

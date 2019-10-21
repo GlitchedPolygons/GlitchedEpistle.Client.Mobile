@@ -255,4 +255,48 @@
   <data name="MasterMenuItemSettings" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
+  <data name="PleaseEnterGoodUsernameLabel" xml:space="preserve">
+    <value>Tipp: Ein guter Nutzername ist in der Regel kurz und knackig, wodurch man dich innerhalb einer Unterhaltung leichter identifizeren kann.</value>
+    <comment>Hint: A good username is short, catchy and one that makes you easily recognizable by other convo participants.</comment>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Bist du sicher?</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="RevertButton" xml:space="preserve">
+    <value>Zurücksetzen</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="SettingsAutoSaveReminder" xml:space="preserve">
+    <value>Diese Einstellungen benötigen keine manuelle Speicherung (sie werden laufend gespeichert während der Bearbeitung). Zurücksetzen würde die Werkseinstellungen direkt übernehmen. Bist du dir sicher, dass du das willst?</value>
+    <comment>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</comment>
+  </data>
+  <data name="ThemeLabel" xml:space="preserve">
+    <value>Design</value>
+  </data>
+  <data name="CloseButton" xml:space="preserve">
+    <value>Schliessen</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>Italienisch</value>
+  </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="SwissGerman" xml:space="preserve">
+    <value>Schweizerdeutsch</value>
+  </data>
 </root>

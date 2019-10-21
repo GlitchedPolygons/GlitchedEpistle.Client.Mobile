@@ -34,9 +34,28 @@
     <Color x:Key="OverlayTextColor">#FFFFFF</Color>
     <Color x:Key="TransparentBackgroundColor">#56000000</Color>
     <Color x:Key="SeparatorLineColor">#464646</Color>
-    
+
+    <!-- Button background color -->
+    <Color x:Key="ButtonBackgroundColor">#FF343434</Color>
+    <Color x:Key="ButtonBackgroundColorFocused">#FF343434</Color>
+    <Color x:Key="ButtonBackgroundColorDisabled">#FF212121</Color>
+    <Color x:Key="ButtonBackgroundColorPressed">#699BAD</Color>
+
+    <!-- Button foreground color -->
+    <Color x:Key="ButtonForegroundColor">AliceBlue</Color>
+    <Color x:Key="ButtonForegroundColorFocused">White</Color>
+    <Color x:Key="ButtonForegroundColorDisabled">#FF595959</Color>
+    <Color x:Key="ButtonForegroundColorPressed">White</Color>
+
+    <!-- Button border color -->
+    <Color x:Key="ButtonBorderColor">#FF404040</Color>
+    <Color x:Key="ButtonBorderColorFocused">#FF57A9D8</Color>
+    <Color x:Key="ButtonBorderColorDisabled">#FF292929</Color>
+    <Color x:Key="ButtonBorderColorMouseOver">#FF6297B6</Color>
+    <Color x:Key="ButtonBorderColorPressed">#FF5798D8</Color>
+
     <x:String x:Key="HeaderButtonIdleColorHex">#ffffff</x:String>
     <x:String x:Key="HeaderButtonPressedColorHex">#00b4dd</x:String>
     <x:String x:Key="LogoutHeaderButtonPressedColorHex">#cc0000</x:String>
-    
+
 </ResourceDictionary>

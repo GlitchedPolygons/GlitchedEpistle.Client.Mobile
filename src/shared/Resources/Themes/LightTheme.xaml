@@ -21,7 +21,7 @@
                     xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
                     xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
                     x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.LightTheme">
-    
+
     <Color x:Key="PrimaryColor">#00b4dd</Color>
     <Color x:Key="PrimaryDarkColor">#009fb7</Color>
     <Color x:Key="ErrorMessageColor">Red</Color>
@@ -34,9 +34,27 @@
     <Color x:Key="OverlayTextColor">#FFFFFF</Color>
     <Color x:Key="TransparentBackgroundColor">#56000000</Color>
     <Color x:Key="SeparatorLineColor">#ececec</Color>
-    
+
+    <!-- Button background color -->
+    <Color x:Key="ButtonBackgroundColor">#e0e0e0</Color>
+    <Color x:Key="ButtonBackgroundColorFocused">#e0e0e0</Color>
+    <Color x:Key="ButtonBackgroundColorDisabled">#FFA5A5A5</Color>
+    <Color x:Key="ButtonBackgroundColorPressed">#FF86BDD1</Color>
+
+    <!-- Button foreground color -->
+    <Color x:Key="ButtonForegroundColor">Black</Color>
+    <Color x:Key="ButtonForegroundColorFocused">Black</Color>
+    <Color x:Key="ButtonForegroundColorDisabled">#FF595959</Color>
+    <Color x:Key="ButtonForegroundColorPressed">Black</Color>
+
+    <!-- Button border color -->
+    <Color x:Key="ButtonBorderColor">#FFAEAEAE</Color>
+    <Color x:Key="ButtonBorderColorFocused">#FF57A9D8</Color>
+    <Color x:Key="ButtonBorderColorDisabled">#FF707070</Color>
+    <Color x:Key="ButtonBorderColorPressed">#FF68AAEC</Color>
+
     <x:String x:Key="HeaderButtonIdleColorHex">#383838</x:String>
     <x:String x:Key="HeaderButtonPressedColorHex">#00b4dd</x:String>
     <x:String x:Key="LogoutHeaderButtonPressedColorHex">#cc0000</x:String>
-    
+
 </ResourceDictionary>

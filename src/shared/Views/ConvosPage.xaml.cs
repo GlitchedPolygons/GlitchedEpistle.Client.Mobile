@@ -88,7 +88,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             ResetHeaderButtonColor(cachedImage);
         }
 
-        private async void LogoutHeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
+        private void LogoutHeaderButtonTapGestureRecognizer_OnTapped(object sender, EventArgs e)
         {
             var cachedImage = sender as CachedImage;
             if (cachedImage is null) return;

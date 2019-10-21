@@ -72,7 +72,7 @@
                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
                 </Grid>
 
-                <StackLayout Margin="0,20,0,0">
+                <StackLayout Margin="0,20,0,0" Spacing="10">
 
                     <Button Text="{i:Translate ResetButton}"
                             Command="{Binding ResetCommand}" />

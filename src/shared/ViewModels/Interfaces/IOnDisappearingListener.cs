@@ -16,30 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
-
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingsPage : ContentPage
+    public interface IOnDisappearingListener
     {
-        public SettingsPage()
-        {
-            InitializeComponent();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            (BindingContext as IOnAppearingListener)?.OnAppearing();
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            (BindingContext as IOnDisappearingListener)?.OnDisappearing();
-        }
+        void OnDisappearing();
     }
 }

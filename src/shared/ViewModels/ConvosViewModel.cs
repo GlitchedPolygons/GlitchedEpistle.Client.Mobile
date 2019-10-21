@@ -294,7 +294,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            var view = new SettingsPage {BindingContext = viewModelFactory.Create<SettingsViewModel>()};
+            var view = new SettingsPage { BindingContext = viewModelFactory.Create<SettingsViewModel>() };
             await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
