@@ -27,6 +27,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
@@ -43,7 +44,7 @@ using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class ConvosViewModel : ViewModel
+    public class ConvosViewModel : ViewModel, IOnAppearingListener
     {
         #region Constants
 
@@ -51,6 +52,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ILogger logger;
         private readonly IMethodQ methodQ;
         private readonly IUserService userService;
+        private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
         private readonly IConvoService convoService;
         private readonly ILocalization localization;
@@ -96,7 +98,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         #endregion
 
-        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ, IViewModelFactory viewModelFactory)
+        public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ, IViewModelFactory viewModelFactory, IAppSettings appSettings)
         {
             localization = DependencyService.Get<ILocalization>();
 
@@ -105,16 +107,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.logger = logger;
             this.methodQ = methodQ;
             this.userService = userService;
+            this.appSettings = appSettings;
             this.userSettings = userSettings;
             this.convoService = convoService;
             this.eventAggregator = eventAggregator;
             this.viewModelFactory = viewModelFactory;
             this.convoPasswordProvider = convoPasswordProvider;
-
-            UpdateList();
-
-            UserId = user.Id;
-            Username = userSettings.Username;
 
             CreateConvoCommand = new DelegateCommand(OnClickedCreateConvo);
             JoinConvoCommand = new DelegateCommand(OnClickedJoinConvo);
@@ -140,6 +138,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(_ => UpdateList());
             eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList());
             eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);
+        }
+        
+        public void OnAppearing()
+        {
+            UpdateList();
+
+            UserId = user.Id;
+            Username = userSettings.Username;
         }
 
         private void UpdateList()
@@ -174,7 +180,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
 
-        private void OnClickedOnConvo(object commandParam)
+        private async void OnClickedOnConvo(object commandParam)
         {
             var _convo = commandParam as Convo;
             if (_convo is null || !CanJoin)
@@ -183,9 +189,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
 
             CanJoin = false;
-            string cachedPwSHA512 = convoPasswordProvider.GetPasswordSHA512(_convo.Id);
 
-            if (cachedPwSHA512.NotNullNotEmpty())
+            bool useSavedPw = appSettings["SaveConvoPasswords", "true"].Equals("true", StringComparison.InvariantCultureIgnoreCase);
+            string cachedPwSHA512 = convoPasswordProvider.GetPasswordSHA512(_convo.Id);
+            
+            if (cachedPwSHA512.NullOrEmpty() && useSavedPw)
+            {
+                cachedPwSHA512 = await SecureStorage.GetAsync($"convo:{_convo.Id}_pw:SHA512");
+            }
+
+            if (cachedPwSHA512.NotNullNotEmpty() && useSavedPw)
             {
                 JoinConvo(_convo.Id, cachedPwSHA512);
             }
@@ -199,7 +212,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         JoinConvo(_convo.Id, view.Password.SHA512());
                     }
                 };
-                Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
             }
         }
 
@@ -223,6 +236,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (!await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem)))
                 {
                     convoPasswordProvider.RemovePasswordSHA512(convoId);
+                    SecureStorage.Remove($"convo:{convoId}_pw:SHA512");
 
                     ExecUI(() =>
                     {
@@ -231,6 +245,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     });
 
                     return;
+                }
+                
+                bool savePw = appSettings["SaveConvoPasswords", "true"].Equals("true", StringComparison.InvariantCultureIgnoreCase);
+                if (savePw)
+                {
+                    convoPasswordProvider.SetPasswordSHA512(convoId, pwSHA512);
+                    var _ = SecureStorage.SetAsync($"convo:{convoId}_pw:SHA512", pwSHA512);
                 }
 
                 ConvoMetadataDto metadata = await convoService.GetConvoMetadata(convoId, pwSHA512, user.Id, user.Token.Item2);

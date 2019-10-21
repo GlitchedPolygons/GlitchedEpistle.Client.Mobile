@@ -167,9 +167,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             {
 #if DEBUG
                 if (theme.NullOrEmpty()) throw new ArgumentException($"{nameof(App)}::{nameof(ChangeTheme)}: Attempted to change theme with a null or empty theme identifier parameter. Please only provide a valid theme parameter to this method!", nameof(theme));
-#else
-                return false;
 #endif
+                return false;
             }
 
             ResourceDictionary themeDictionary = null;

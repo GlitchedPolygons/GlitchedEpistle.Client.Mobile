@@ -18,6 +18,7 @@
 
 using System.IO;
 using System.Globalization;
+using Xamarin.Essentials;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
@@ -64,6 +65,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
         {
             get => this["UseFingerprint", false];
             set => this["UseFingerprint"] = value.ToString();
+        }
+
+        /// <summary>
+        /// Should convo passwords be saved for easy access? No worries: they're saved in <see cref="SecureStorage"/>.
+        /// </summary>
+        public bool SaveConvoPasswords
+        {
+            get => this["SaveConvoPasswords", true];
+            set => this["SaveConvoPasswords"] = value.ToString();
         }
 
         /// <summary>

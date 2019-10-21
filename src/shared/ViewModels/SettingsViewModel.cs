@@ -31,6 +31,9 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
+    /// <summary>
+    /// View-Model for the Settings page.
+    /// </summary>
     public class SettingsViewModel : ViewModel, IOnAppearingListener, IOnDisappearingListener
     {
         #region Constants
@@ -75,14 +78,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 Set(ref theme, value);
-
-                var app = Application.Current as App;
-                if (app is null)
-                {
-                    return;
-                }
-
-                if (app.ChangeTheme(value))
+                if ((Application.Current as App)?.ChangeTheme(value) == true)
                 {
                     appSettings["Theme"] = value;
                 }
@@ -96,8 +92,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 Set(ref language, value);
-                localization.SetCurrentCultureInfo(LanguageLabelToCultureInfo(value));
+                CultureInfo ci = LanguageLabelToCultureInfo(value);
+                localization.SetCurrentCultureInfo(ci);
                 UpdateLocalizedLabels();
+                appSettings["Language"] = ci.ToString();
             }
         }
 
@@ -135,7 +133,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public void OnAppearing()
         {
             Username = userSettings.Username;
-            //Language = appSettings["Language"];
+            Language = appSettings["Language", Languages[0]];
             Theme = appSettings["Theme", Constants.Themes.DARK_THEME];
             SaveConvoPasswords = appSettings["SaveConvoPasswords", "true"]?.ToLowerInvariant() == "true";
         }
@@ -191,12 +189,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnClickedAbout(object obj)
         {
-            Application.Current.MainPage.DisplayAlert(localization["AboutButton"], localization["AboutText"], localization["Dismiss"]);
+            Application.Current.MainPage.DisplayAlert(
+                title: localization["AboutButton"], 
+                message: string.Format(localization["AboutText"], App.Version), 
+                cancel: localization["Dismiss"]
+            );
         }
 
         private async void OnClickedRevert(object commandParam)
         {
-            if (await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["SettingsAutoSaveReminder"], localization["Yes"], localization["No"]))
+            bool confirmed = await Application.Current.MainPage.DisplayAlert(
+                title: localization["AreYouSure"], 
+                message: localization["SettingsAutoSaveReminder"], 
+                cancel: localization["No"],
+                accept: localization["Yes"] 
+            );
+            
+            if (confirmed)
             {
                 Username = user?.Id ?? "user";
                 SaveConvoPasswords = true;

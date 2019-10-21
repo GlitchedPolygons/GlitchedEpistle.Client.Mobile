@@ -1,320 +1,345 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
+    <!--
+      Glitched Epistle - Mobile Client
+      Copyright (C) 2019 Raphael Beck
+      
+      This program is free software: you can redistribute it and/or modify
+      it under the terms of the GNU General Public License as published by
+      the Free Software Foundation, either version 3 of the License, or
+      (at your option) any later version.
+      
+      This program is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+      GNU General Public License for more details.
+      
+      You should have received a copy of the GNU General Public License
+      along with this program.  If not, see <https://www.gnu.org/licenses/>.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
+
+    <!-- 
+      Microsoft ResX Schema 
+      
+      Version 2.0
+      
+      The primary goals of this format is to allow a simple XML format 
+      that is mostly human readable. The generation and parsing of the 
+      various data types are done through the TypeConverter classes 
+      associated with the data types.
+      
+      Example:
+      
+      ... ado.net/XML headers & schema ...
+      <resheader name="resmimetype">text/microsoft-resx</resheader>
+      <resheader name="version">2.0</resheader>
+      <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+      <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+      <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+      <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+      <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+          <value>[base64 mime encoded serialized .NET Framework object]</value>
+      </data>
+      <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+          <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+          <comment>This is a comment</comment>
+      </data>
+                  
+      There are any number of "resheader" rows that contain simple 
+      name/value pairs.
+      
+      Each data row contains a name, and value. The row also contains a 
+      type or mimetype. Type corresponds to a .NET class that support 
+      text/value conversion through the TypeConverter architecture. 
+      Classes that don't support this are serialized and stored with the 
+      mimetype set.
+      
+      The mimetype is used for serialized objects, and tells the 
+      ResXResourceReader how to depersist the object. This is currently not 
+      extensible. For a given mimetype the value must be set accordingly:
+      
+      Note - application/x-microsoft.net.object.binary.base64 is the format 
+      that the ResXResourceWriter will generate, however the reader can 
+      read any of the formats listed below.
+      
+      mimetype: application/x-microsoft.net.object.binary.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+              : and then encoded with base64 encoding.
+      
+      mimetype: application/x-microsoft.net.object.soap.base64
+      value   : The object must be serialized with 
+              : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+              : and then encoded with base64 encoding.
+  
+      mimetype: application/x-microsoft.net.object.bytearray.base64
+      value   : The object must be serialized into a byte array 
+              : using a System.ComponentModel.TypeConverter
+              : and then encoded with base64 encoding.
+      -->
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+        <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string"/>
+                            <xsd:attribute name="type" type="xsd:string"/>
+                            <xsd:attribute name="mimetype" type="xsd:string"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string"/>
+                            <xsd:attribute name="name" type="xsd:string"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
             </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <data name="2FA_Failure" xml:space="preserve">
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="2FA_Failure" xml:space="preserve">
     <value>Zwei-Faktor Authentifizierung fehlgeschlagen!</value>
   </data>
-  <data name="AttemptingLoginButton" xml:space="preserve">
+    <data name="AttemptingLoginButton" xml:space="preserve">
     <value>Überprüfe...</value>
   </data>
-  <data name="CancelButton" xml:space="preserve">
+    <data name="CancelButton" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
-  <data name="ChangeServerButton" xml:space="preserve">
+    <data name="ChangeServerButton" xml:space="preserve">
     <value>Server Wechseln</value>
   </data>
-  <data name="ConfigServerUrlSubLabel" xml:space="preserve">
+    <data name="ConfigServerUrlSubLabel" xml:space="preserve">
     <value>Man kann sich mit dem offiziellen Epistle Server kostenlos verbinden oder auch mit fremden Third-Party Server.</value>
   </data>
-  <data name="ConfigServerUrlTitleLabel" xml:space="preserve">
+    <data name="ConfigServerUrlTitleLabel" xml:space="preserve">
     <value>Mit einem Epistle Server verbinden.</value>
   </data>
-  <data name="ConnectButton" xml:space="preserve">
+    <data name="ConnectButton" xml:space="preserve">
     <value>Verbindung übernehmen</value>
   </data>
-  <data name="ConnectionToServerFailed" xml:space="preserve">
+    <data name="ConnectionToServerFailed" xml:space="preserve">
     <value>Die Verbindung zum gewählten Epistle Server konnte nicht hergestellt werden.</value>
   </data>
-  <data name="ConnectionToServerFailedErrorMsg" xml:space="preserve">
+    <data name="ConnectionToServerFailedErrorMsg" xml:space="preserve">
     <value>Verbindung mit dem Epistle Server fehlgeschlagen. Bitte sicherstellen, dass eine aktive und stabile Internetverbindung vorhanden ist. Ausserdem überprüfen, ob die Server URL richtig ist.</value>
   </data>
-  <data name="Copied" xml:space="preserve">
+    <data name="Copied" xml:space="preserve">
     <value>Kopiert...</value>
   </data>
-  <data name="Copy" xml:space="preserve">
+    <data name="Copy" xml:space="preserve">
     <value>Kopieren</value>
   </data>
-  <data name="DoNotTellSecretToAnyone" xml:space="preserve">
+    <data name="DoNotTellSecretToAnyone" xml:space="preserve">
     <value>Verrate niemandem diesen Code!</value>
   </data>
-  <data name="Error" xml:space="preserve">
+    <data name="Error" xml:space="preserve">
     <value>Fehler</value>
   </data>
-  <data name="ExportBackupCodesButton" xml:space="preserve">
+    <data name="ExportBackupCodesButton" xml:space="preserve">
     <value>Notfall-Codes exportieren</value>
   </data>
-  <data name="GeneratingKeysLabel" xml:space="preserve">
+    <data name="GeneratingKeysLabel" xml:space="preserve">
     <value>Generiere 4096-bit RSA Schlüssel...</value>
   </data>
-  <data name="GoogleAuthRecommendedLabel" xml:space="preserve">
+    <data name="GoogleAuthRecommendedLabel" xml:space="preserve">
     <value>(Google Authenticator ist empfehlenswert)</value>
   </data>
-  <data name="HereAreYourBackupCodes" xml:space="preserve">
+    <data name="HereAreYourBackupCodes" xml:space="preserve">
     <value>Dies sind deine Notfall Backup-Codes für die Zwei-Faktor Authentifizierung. Speichere sie irgendwo in Sicherheit ab (am besten offline) und TEILE SIE NIEMANDEM MIT!</value>
-    <comment>Here is your 2FA backup text. Store this somewhere safe and DO NOT SHARE this with anybody.</comment>
+        <comment>Here is your 2FA backup text. Store this somewhere safe and DO NOT SHARE this with anybody.</comment>
   </data>
-  <data name="KeyGenerationFailed" xml:space="preserve">
+    <data name="KeyGenerationFailed" xml:space="preserve">
     <value>Es ist ein unerwarteter Fehler aufgetreten während der Generierung der 4096-bit RSA Schlüssel.</value>
   </data>
-  <data name="LoginButton" xml:space="preserve">
+    <data name="LoginButton" xml:space="preserve">
     <value>Einloggen</value>
   </data>
-  <data name="PasswordConfirmationLabel" xml:space="preserve">
+    <data name="PasswordConfirmationLabel" xml:space="preserve">
     <value>Passwort bestätigen</value>
   </data>
-  <data name="PasswordLabel" xml:space="preserve">
+    <data name="PasswordLabel" xml:space="preserve">
     <value>Passwort</value>
   </data>
-  <data name="PleaseBackup2FASecret" xml:space="preserve">
+    <data name="PleaseBackup2FASecret" xml:space="preserve">
     <value>Dies ist dein Zwei-Faktor Authentifizierungsgeheimnis. Schreib es dir auf und hinterlege es irgendwo wo's sicher ist: du wirst es brauchen falls du dein Authentifizierungsgerät verlierst!</value>
-    <comment>This is your two-factor authentication secret. Back it up somewhere safe, because you'll need it if you lose your 2FA device.</comment>
+        <comment>This is your two-factor authentication secret. Back it up somewhere safe, because you'll need it if you lose your 2FA device.</comment>
   </data>
-  <data name="PleaseEnterUsernameDialogTextLabel" xml:space="preserve">
+    <data name="PleaseEnterUsernameDialogTextLabel" xml:space="preserve">
     <value>Deine Nachrichten werden mit diesem Namen unterschrieben. Du darfst ihn frei wählen und ändern nach belieben, aber denke daran: je weniger oft du ihn änderst desto einfacher können deine Empfänger dich identifizieren.</value>
-    <comment>Messages will be sent using this name. This can be anything, but it's recommended to keep the same username as long as possible for other convo participants to easily identify you.</comment>
+        <comment>Messages will be sent using this name. This can be anything, but it's recommended to keep the same username as long as possible for other convo participants to easily identify you.</comment>
   </data>
-  <data name="PleaseEnterUsernameDialogTitleLabel" xml:space="preserve">
+    <data name="PleaseEnterUsernameDialogTitleLabel" xml:space="preserve">
     <value>Benutzername definieren</value>
   </data>
-  <data name="PleaseLoginLabel" xml:space="preserve">
+    <data name="PleaseLoginLabel" xml:space="preserve">
     <value>Hier unten einloggen:</value>
   </data>
-  <data name="PleaseRegisterLabel" xml:space="preserve">
+    <data name="PleaseRegisterLabel" xml:space="preserve">
     <value>Erstelle hier ein neues Benutzerkonto:</value>
   </data>
-  <data name="PleaseSetUp2FALabel" xml:space="preserve">
+    <data name="PleaseSetUp2FALabel" xml:space="preserve">
     <value>Bitte Zwei-Faktor Authentifizierung jetzt konfigurieren.</value>
   </data>
-  <data name="PleaseVerify2FA" xml:space="preserve">
+    <data name="PleaseVerify2FA" xml:space="preserve">
     <value>Bitte bestätige deinen Zwei-Faktor Authentifizierungstoken hier unten:</value>
   </data>
-  <data name="RegisterButton" xml:space="preserve">
+    <data name="RegisterButton" xml:space="preserve">
     <value>Registrieren</value>
   </data>
-  <data name="ResetButton" xml:space="preserve">
+    <data name="ResetButton" xml:space="preserve">
     <value>Zurücksetzen</value>
   </data>
-  <data name="ServerUrlEntry" xml:space="preserve">
+    <data name="ServerUrlEntry" xml:space="preserve">
     <value>Glitched Epistle Server URL</value>
   </data>
-  <data name="TestConnectionButton" xml:space="preserve">
+    <data name="TestConnectionButton" xml:space="preserve">
     <value>Verbindung testen</value>
   </data>
-  <data name="TotpLabel" xml:space="preserve">
+    <data name="TotpLabel" xml:space="preserve">
     <value>Zwei-Faktor Authentifizierung</value>
   </data>
-  <data name="UserCreationFailedClientSideButSucceededServerSide" xml:space="preserve">
+    <data name="UserCreationFailedClientSideButSucceededServerSide" xml:space="preserve">
     <value>Der Nutzer konnte erfolgreich erstellt werden auf dem Server, allerdings ist ein unerwarteter Fehler lokal (Client-side) aufgetreten.</value>
   </data>
-  <data name="UserCreationFailedServerSide" xml:space="preserve">
+    <data name="UserCreationFailedServerSide" xml:space="preserve">
     <value>Nutzerregistrierung fehlgeschlagen: bitte sicherstellen, dass die Server URL korrekt ist und das Nutzererstellungspasswort stimmt!</value>
   </data>
-  <data name="UserCreationSecretLabel" xml:space="preserve">
+    <data name="UserCreationSecretLabel" xml:space="preserve">
     <value>Nutzererstellungspasswort</value>
   </data>
-  <data name="UserIdLabel" xml:space="preserve">
+    <data name="UserIdLabel" xml:space="preserve">
     <value>Nutzer ID</value>
   </data>
-  <data name="UsernameLabel" xml:space="preserve">
+    <data name="UsernameLabel" xml:space="preserve">
     <value>Benutzername</value>
   </data>
-  <data name="Verify" xml:space="preserve">
+    <data name="Verify" xml:space="preserve">
     <value>Verifizieren</value>
   </data>
-  <data name="WelcomeLabel" xml:space="preserve">
+    <data name="WelcomeLabel" xml:space="preserve">
     <value>Willkommen bei Glitched Epistle.</value>
   </data>
-  <data name="ConvoListEntryExpirationLabel" xml:space="preserve">
+    <data name="ConvoListEntryExpirationLabel" xml:space="preserve">
     <value>(Verbleibende Tage: {0})</value>
   </data>
-  <data name="MasterMenuItemChangePassword" xml:space="preserve">
+    <data name="MasterMenuItemChangePassword" xml:space="preserve">
     <value>Passwort ändern</value>
   </data>
-  <data name="MasterMenuItemLogout" xml:space="preserve">
+    <data name="MasterMenuItemLogout" xml:space="preserve">
     <value>Ausloggen</value>
   </data>
-  <data name="MasterMenuItemConvos" xml:space="preserve">
+    <data name="MasterMenuItemConvos" xml:space="preserve">
     <value>Unterhaltungen</value>
   </data>
-  <data name="MasterMenuItemSettings" xml:space="preserve">
+    <data name="MasterMenuItemSettings" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
-  <data name="PleaseEnterGoodUsernameLabel" xml:space="preserve">
+    <data name="PleaseEnterGoodUsernameLabel" xml:space="preserve">
     <value>Tipp: Ein guter Nutzername ist in der Regel kurz und knackig, wodurch man dich innerhalb einer Unterhaltung leichter identifizeren kann.</value>
-    <comment>Hint: A good username is short, catchy and one that makes you easily recognizable by other convo participants.</comment>
+        <comment>Hint: A good username is short, catchy and one that makes you easily recognizable by other convo participants.</comment>
   </data>
-  <data name="AreYouSure" xml:space="preserve">
+    <data name="AreYouSure" xml:space="preserve">
     <value>Bist du sicher?</value>
   </data>
-  <data name="No" xml:space="preserve">
+    <data name="No" xml:space="preserve">
     <value>Nein</value>
   </data>
-  <data name="RevertButton" xml:space="preserve">
+    <data name="RevertButton" xml:space="preserve">
     <value>Zurücksetzen</value>
   </data>
-  <data name="SaveButton" xml:space="preserve">
+    <data name="SaveButton" xml:space="preserve">
     <value>Speichern</value>
   </data>
-  <data name="Yes" xml:space="preserve">
+    <data name="Yes" xml:space="preserve">
     <value>Ja</value>
   </data>
-  <data name="SettingsAutoSaveReminder" xml:space="preserve">
+    <data name="SettingsAutoSaveReminder" xml:space="preserve">
     <value>Diese Einstellungen benötigen keine manuelle Speicherung (sie werden laufend gespeichert während der Bearbeitung). Zurücksetzen würde die Werkseinstellungen direkt übernehmen. Bist du dir sicher, dass du das willst?</value>
-    <comment>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</comment>
+        <comment>These settings don't require manual saving (they're saved automatically as you're editing them). Reverting to default settings will also apply them immediately. Are you sure that you want this?</comment>
   </data>
-  <data name="ThemeLabel" xml:space="preserve">
+    <data name="ThemeLabel" xml:space="preserve">
     <value>Design</value>
   </data>
-  <data name="AboutButton" xml:space="preserve">
+    <data name="AboutButton" xml:space="preserve">
     <value>Info</value>
   </data>
-  <data name="CloseButton" xml:space="preserve">
+    <data name="AboutText" xml:space="preserve">
+    <value>Glitched Epistle
+Mobile Client v{0}
+
+Glitched Polygons, 2019
+https://glitchedpolygons.com</value>
+  </data>
+    <data name="CloseButton" xml:space="preserve">
     <value>Schliessen</value>
   </data>
-  <data name="DarkTheme" xml:space="preserve">
+    <data name="DarkTheme" xml:space="preserve">
     <value>Dunkel</value>
   </data>
-  <data name="Dismiss" xml:space="preserve">
+    <data name="Dismiss" xml:space="preserve">
     <value>Schliessen</value>
   </data>
-  <data name="English" xml:space="preserve">
+    <data name="English" xml:space="preserve">
     <value>Englisch</value>
   </data>
-  <data name="German" xml:space="preserve">
+    <data name="German" xml:space="preserve">
     <value>Deutsch</value>
   </data>
-  <data name="Italian" xml:space="preserve">
+    <data name="Italian" xml:space="preserve">
     <value>Italienisch</value>
   </data>
-  <data name="LanguageLabel" xml:space="preserve">
+    <data name="LanguageLabel" xml:space="preserve">
     <value>Sprache</value>
   </data>
-  <data name="LightTheme" xml:space="preserve">
+    <data name="LightTheme" xml:space="preserve">
     <value>Hell</value>
   </data>
-  <data name="OLEDTheme" xml:space="preserve">
+    <data name="OLEDTheme" xml:space="preserve">
     <value>OLED</value>
   </data>
-  <data name="SaveConvoPasswords" xml:space="preserve">
+    <data name="SaveConvoPasswords" xml:space="preserve">
     <value>Unterhaltungspasswörter speichern</value>
   </data>
-  <data name="SwissGerman" xml:space="preserve">
+    <data name="SwissGerman" xml:space="preserve">
     <value>Schweizerdeutsch</value>
   </data>
 </root>

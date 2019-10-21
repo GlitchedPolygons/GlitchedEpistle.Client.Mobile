@@ -20,29 +20,28 @@ using System;
 using System.Threading.Tasks;
 using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
-using GlitchedPolygons.ExtensionMethods;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ConvosPage : ContentPage
     {
-        private readonly TintTransformation idle, pressed, pressedLogout;
+        private TintTransformation idle, pressed, pressedLogout;
 
         public ConvosPage()
         {
             InitializeComponent();
-
-            idle = new TintTransformation(Application.Current.Resources["HeaderButtonIdleColorHex"].ToString()) {EnableSolidColor = true};
-            pressed = new TintTransformation(Application.Current.Resources["HeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
-            pressedLogout = new TintTransformation(Application.Current.Resources["LogoutHeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
+            RefreshTintTransformations();
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            (BindingContext as IOnAppearingListener)?.OnAppearing();
             ResetAllHeaderButtonColors();
         }
 
@@ -52,12 +51,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             ResetAllHeaderButtonColors();
         }
 
+        private void RefreshTintTransformations()
+        {
+            idle = new TintTransformation(Application.Current.Resources["HeaderButtonIdleColorHex"].ToString()) {EnableSolidColor = true};
+            pressed = new TintTransformation(Application.Current.Resources["HeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
+            pressedLogout = new TintTransformation(Application.Current.Resources["LogoutHeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
+        }
+
         private void ResetAllHeaderButtonColors()
         {
             if (HeaderButtons is null || HeaderButtons.Children.NullOrEmpty())
             {
                 return;
             }
+
+            RefreshTintTransformations();
 
             foreach (var c in HeaderButtons.Children)
             {
