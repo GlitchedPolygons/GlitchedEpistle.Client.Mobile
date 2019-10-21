@@ -280,11 +280,17 @@
   <data name="ThemeLabel" xml:space="preserve">
     <value>Design</value>
   </data>
+  <data name="AboutButton" xml:space="preserve">
+    <value>Info</value>
+  </data>
   <data name="CloseButton" xml:space="preserve">
     <value>Chiudi</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Scuro</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Chiudi</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>Inglese</value>

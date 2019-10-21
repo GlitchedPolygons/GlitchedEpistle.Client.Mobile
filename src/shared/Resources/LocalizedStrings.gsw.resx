@@ -281,11 +281,17 @@
   <data name="ThemeLabel" xml:space="preserve">
     <value>Design</value>
   </data>
+  <data name="AboutButton" xml:space="preserve">
+    <value>Info</value>
+  </data>
   <data name="CloseButton" xml:space="preserve">
     <value>Schlyesse</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Dunku</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>Änglisch</value>

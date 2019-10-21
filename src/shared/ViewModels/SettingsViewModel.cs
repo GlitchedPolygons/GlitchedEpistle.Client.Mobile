@@ -46,6 +46,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #region Commands
 
+        public ICommand AboutCommand { get; }
         public ICommand CloseCommand { get; }
         public ICommand RevertCommand { get; }
 
@@ -124,6 +125,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.eventAggregator = eventAggregator;
             this.localization = DependencyService.Get<ILocalization>();
 
+            AboutCommand = new DelegateCommand(OnClickedAbout);
             CloseCommand = new DelegateCommand(OnClickedClose);
             RevertCommand = new DelegateCommand(OnClickedRevert);
 
@@ -187,30 +189,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
+        private void OnClickedAbout(object obj)
+        {
+            Application.Current.MainPage.DisplayAlert(localization["AboutButton"], localization["AboutText"], localization["Dismiss"]);
+        }
+
         private async void OnClickedRevert(object commandParam)
         {
-            var view = new BooleanPopupPage(
-                title: localization["AreYouSure"],
-                description: localization["SettingsAutoSaveReminder"],
-                trueButtonLabel: localization["Yes"],
-                falseButtonLabel: localization["No"]
-            );
-
-            view.Disappearing += (sender, e) =>
+            if (await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["SettingsAutoSaveReminder"], localization["Yes"], localization["No"]))
             {
-                if (view.Result == true)
-                {
-                    ExecUI(() =>
-                    {
-                        Username = user?.Id ?? "user";
-                        SaveConvoPasswords = true;
-                        Theme = Constants.Themes.DARK_THEME;
-                        Language = localization["English"] + " (English)";
-                    });
-                }
-            };
-
-            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
+                Username = user?.Id ?? "user";
+                SaveConvoPasswords = true;
+                Theme = Constants.Themes.DARK_THEME;
+                Language = localization["English"] + " (English)";
+            }
         }
     }
 }
