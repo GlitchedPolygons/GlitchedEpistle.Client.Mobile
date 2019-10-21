@@ -69,6 +69,20 @@
                         ItemsSource="{Binding Languages}"
                         SelectedItem="{Binding Language}"
                         Style="{DynamicResource PickerStyle}" />
+                
+                <StackLayout Orientation="Horizontal" 
+                             HorizontalOptions="FillAndExpand">
+                    
+                    <Switch IsToggled="{Binding SaveUserPassword}"
+                            VerticalOptions="CenterAndExpand" 
+                            Scale="1.1"/>
+
+                    <Label Text="{i:Translate SaveUserPassword}"
+                           Style="{DynamicResource MediumLabelStyle}"
+                           FontSize="16" 
+                           VerticalTextAlignment="Center" 
+                           VerticalOptions="CenterAndExpand"/>
+                </StackLayout>
 
                 <StackLayout Orientation="Horizontal" 
                              HorizontalOptions="FillAndExpand">

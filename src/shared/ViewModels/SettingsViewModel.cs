@@ -70,6 +70,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => saveConvoPasswords;
             set => Set(ref saveConvoPasswords, value);
         }
+        
+        private bool saveUserPassword = true;
+        public bool SaveUserPassword
+        {
+            get => saveUserPassword;
+            set => Set(ref saveUserPassword, value);
+        }
 
         private string theme = Constants.Themes.DARK_THEME;
         public string Theme
@@ -135,12 +142,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             Username = userSettings.Username;
             Language = appSettings["Language", Languages[0]];
             Theme = appSettings["Theme", Constants.Themes.DARK_THEME];
-            SaveConvoPasswords = appSettings["SaveConvoPasswords", "true"]?.ToLowerInvariant() == "true";
+            SaveUserPassword = appSettings["SaveUserPassword", true];
+            SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
         }
 
         public void OnDisappearing()
         {
             userSettings.Username = Username;
+            appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
             appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
         }
         

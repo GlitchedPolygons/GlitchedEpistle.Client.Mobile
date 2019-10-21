@@ -53,9 +53,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private void RefreshTintTransformations()
         {
-            idle = new TintTransformation(Application.Current.Resources["HeaderButtonIdleColorHex"].ToString()) {EnableSolidColor = true};
-            pressed = new TintTransformation(Application.Current.Resources["HeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
-            pressedLogout = new TintTransformation(Application.Current.Resources["LogoutHeaderButtonPressedColorHex"].ToString()) {EnableSolidColor = true};
+            Application.Current.Resources.TryGetValue("HeaderButtonIdleColorHex", out var idleColorHex);
+            Application.Current.Resources.TryGetValue("HeaderButtonPressedColorHex", out var pressedColorHex);
+            Application.Current.Resources.TryGetValue("LogoutHeaderButtonPressedColorHex", out var pressedLogoutColorHex);
+            
+            idle = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") {EnableSolidColor = true};
+            pressed = new TintTransformation(pressedColorHex?.ToString() ?? "#00b4dd") {EnableSolidColor = true};
+            pressedLogout = new TintTransformation(pressedLogoutColorHex?.ToString() ?? "#cc0000") {EnableSolidColor = true};
         }
 
         private void ResetAllHeaderButtonColors()

@@ -19,6 +19,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
@@ -43,6 +44,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             base.OnAppearing();
 
+            (BindingContext as IOnAppearingListener)?.OnAppearing();
+            
             UserIdTextBox_TextChanged(this, null);
             PasswordBox_TextChanged(this, null);
             TotpTextBox_TextChanged(this, null);

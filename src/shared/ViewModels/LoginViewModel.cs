@@ -25,63 +25,91 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class LoginViewModel : ViewModel
+    public class LoginViewModel : ViewModel, IOnAppearingListener
     {
         #region Constants
+
         // Injections:
+        private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
         private readonly ILoginService loginService;
         private readonly IEventAggregator eventAggregator;
+
         #endregion
 
         #region Commands
+
         public ICommand LoginCommand { get; }
         public ICommand RegisterCommand { get; }
         public ICommand EditServerUrlCommand { get; }
+
         #endregion
 
         #region UI Bindings
+
         private string userId = string.Empty;
-        public string UserId { get => userId; set => Set(ref userId, value); }
+        public string UserId
+        {
+            get => userId;
+            set => Set(ref userId, value);
+        }
 
         private string password = string.Empty;
-        public string Password { get => password; set => Set(ref password, value); }
+        public string Password
+        {
+            get => password;
+            set => Set(ref password, value);
+        }
 
         private string totp = string.Empty;
-        public string Totp { get => totp; set => Set(ref totp, value); }
+        public string Totp
+        {
+            get => totp;
+            set => Set(ref totp, value);
+        }
 
         private bool uiEnabled = true;
-        public bool UIEnabled { get => uiEnabled; set => Set(ref uiEnabled, value); }
+        public bool UIEnabled
+        {
+            get => uiEnabled;
+            set => Set(ref uiEnabled, value);
+        }
+
         #endregion
 
         private volatile int failedAttempts;
         private volatile bool pendingAttempt;
 
-        public LoginViewModel(IAppSettings settings, ILoginService loginService, IEventAggregator eventAggregator)
+        public LoginViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator)
         {
             localization = DependencyService.Get<ILocalization>();
 
+            this.appSettings = appSettings;
             this.loginService = loginService;
             this.eventAggregator = eventAggregator;
 
             LoginCommand = new DelegateCommand(OnClickedLogin);
 
-            RegisterCommand = new DelegateCommand(_ =>
-            {
-                eventAggregator.GetEvent<ClickedRegisterButtonEvent>().Publish();
-            });
+            RegisterCommand = new DelegateCommand(_ => { eventAggregator.GetEvent<ClickedRegisterButtonEvent>().Publish(); });
 
-            EditServerUrlCommand = new DelegateCommand(_ =>
-            {
-                eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Publish();
-            });
+            EditServerUrlCommand = new DelegateCommand(_ => { eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Publish(); });
+        }
 
-            UserId = settings.LastUserId;
+        public async void OnAppearing()
+        {
+            UserId = appSettings.LastUserId;
+            
+            if (appSettings["SaveUserPassword", true])
+            {
+                var storedPw = await SecureStorage.GetAsync("pw:" + UserId);
+                Password = storedPw.NotNullNotEmpty() ? storedPw : null;
+            }
         }
 
         private void OnClickedLogin(object commandParam)
@@ -102,7 +130,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     case 0: // Login succeeded.
                         failedAttempts = 0;
-                        var _ = SecureStorage.SetAsync("pw:" + UserId, Password);
+                        if (appSettings["SaveUserPassword", true])
+                        {
+                            var _ = SecureStorage.SetAsync("pw:" + UserId, Password);
+                        }
+
                         ExecUI(() => eventAggregator.GetEvent<LoginSucceededEvent>().Publish());
                         break;
                     case 1: // Connection to server failed.
@@ -121,6 +153,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             ErrorMessage += "\nNote that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!\nPlease try again in 15 minutes.";
                         }
+
                         break;
                     case 3: // Login failed client-side.
                         failedAttempts++;

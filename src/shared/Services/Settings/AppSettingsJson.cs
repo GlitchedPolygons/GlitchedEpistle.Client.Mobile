@@ -75,6 +75,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
             get => this["SaveConvoPasswords", true];
             set => this["SaveConvoPasswords"] = value.ToString();
         }
+        
+        /// <summary>
+        /// Should user login passwords be saved for easy login? No worries: they're saved in <see cref="SecureStorage"/>.
+        /// </summary>
+        public bool SaveUserPassword
+        {
+            get => this["SaveUserPassword", true];
+            set => this["SaveUserPassword"] = value.ToString();
+        }
 
         /// <summary>
         /// The application's language setting.
