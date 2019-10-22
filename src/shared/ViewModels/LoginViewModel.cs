@@ -30,6 +30,7 @@ using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Essentials;
+using OtpNet;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -115,10 +116,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             if (Password.NotNullNotEmpty() /*&& appSettings["ReplaceTotpWithFingerprint", false]*/)
             {
-                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") { UseDialog = false });
-                if (fingerprintAuthenticationResult.Authenticated)
+                string totpSecret = await SecureStorage.GetAsync("totp:" + UserId);
+                if (totpSecret.NotNullNotEmpty())
                 {
-                    // TODO: finish this!
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") { UseDialog = false });
+                    if (fingerprintAuthenticationResult.Authenticated)
+                    {
+                        Totp = new Totp(Base32Encoding.ToBytes(totpSecret)).ComputeTotp();
+                        OnClickedLogin(null);
+                    }
                 }
             }
         }
