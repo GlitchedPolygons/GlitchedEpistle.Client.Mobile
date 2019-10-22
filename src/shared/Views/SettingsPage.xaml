@@ -59,6 +59,7 @@
                 <Picker Title="{i:Translate Theme}"
                         SelectedItem="{Binding Theme}"
                         ItemsSource="{Binding Themes}"
+                        ItemDisplayBinding="{Binding Item2}"
                         Style="{DynamicResource PickerStyle}" />
 
                 <Label Text="{i:Translate LanguageLabel}"
@@ -68,6 +69,7 @@
                 <Picker Title="{i:Translate Language}"
                         SelectedItem="{Binding Language}"
                         ItemsSource="{Binding Languages}"
+                        ItemDisplayBinding="{Binding Item2}"
                         Style="{DynamicResource PickerStyle}" />
                 
                 <StackLayout Orientation="Horizontal" 

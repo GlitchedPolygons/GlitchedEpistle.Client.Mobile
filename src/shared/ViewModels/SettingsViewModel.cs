@@ -19,10 +19,12 @@
 using Prism.Events;
 using Xamarin.Forms;
 using Plugin.Fingerprint;
+using System;
 using System.Windows.Input;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
@@ -95,42 +97,42 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         public bool FingerprintAvailable => CrossFingerprint.Current.IsAvailableAsync().GetAwaiter().GetResult();
 
-        private string theme;
-        public string Theme
+        private Tuple<string,string> theme;
+        public Tuple<string,string> Theme
         {
             get => theme;
             set
             {
                 Set(ref theme, value);
-                (Application.Current as App)?.ChangeTheme(value);
+                (Application.Current as App)?.ChangeTheme(value.Item1);
             }
         }
 
-        private string language;
-        public string Language
+        private Tuple<string,string> language;
+        public Tuple<string,string> Language
         {
             get => language;
             set
             {
                 Set(ref language, value);
-              //if (value.NotNullNotEmpty())
-              //{
-              //    var ci = new CultureInfo(value);
-              //    localization.SetCurrentCultureInfo(ci);
-              //    UpdateLocalizedLabels();
-              //}
+                //if (value.NotNullNotEmpty())
+                //{
+                //    var ci = new CultureInfo(value);
+                //    localization.SetCurrentCultureInfo(ci);
+                //    UpdateLocalizedLabels();
+                //}
             }
         }
 
-        private ObservableCollection<string> themes;
-        public ObservableCollection<string> Themes
+        private ObservableCollection<Tuple<string,string>> themes;
+        public ObservableCollection<Tuple<string,string>> Themes
         {
             get => themes;
             set => Set(ref themes, value);
         }
 
-        private ObservableCollection<string> languages;
-        public ObservableCollection<string> Languages
+        private ObservableCollection<Tuple<string,string>> languages;
+        public ObservableCollection<Tuple<string,string>> Languages
         {
             get => languages;
             set => Set(ref languages, value);
@@ -156,18 +158,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public void OnAppearing()
         {
             Username = userSettings.Username;
-            Language = appSettings["Language", "en"];
-            Theme = appSettings["Theme", Constants.Themes.DARK_THEME];
             SaveUserPassword = appSettings["SaveUserPassword", true];
             SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
             ReplaceTotpWithFingerprint = appSettings["ReplaceTotpWithFingerprint", false];
+            Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]);
+            Theme = Themes.FirstOrDefault(tuple => tuple.Item1 == appSettings["Theme", Constants.Themes.DARK_THEME]);
         }
 
         public void OnDisappearing()
         {
             userSettings.Username = Username;
-            appSettings["Theme"] = Theme;
-            appSettings["Language"] = Language;
+            appSettings["Theme"] = Theme.Item1;
+            appSettings["Language"] = Language.Item1;
             appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
             appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
             appSettings["ReplaceTotpWithFingerprint"] = ReplaceTotpWithFingerprint.ToString();
@@ -175,47 +177,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         private void UpdateLocalizedLabels()
         {
-            Themes = new ObservableCollection<string>(new List<string>
+            Themes = new ObservableCollection<Tuple<string, string>>(new List<Tuple<string, string>>
             {
-                Constants.Themes.LIGHT_THEME,
-                Constants.Themes.DARK_THEME,
-                Constants.Themes.OLED_THEME,
-                //localization["LightTheme"],
-                //localization["DarkTheme"],
-                //localization["OLEDTheme"],
+                new Tuple<string, string>(Constants.Themes.LIGHT_THEME, localization["LightTheme"]),
+                new Tuple<string, string>(Constants.Themes.DARK_THEME, localization["DarkTheme"]),
+                new Tuple<string, string>(Constants.Themes.OLED_THEME, localization["OLEDTheme"]),
             });
 
-            Languages = new ObservableCollection<string>(new List<string>
+            Languages = new ObservableCollection<Tuple<string, string>>(new List<Tuple<string, string>>
             {
-                "en",
-                "de",
-                "gsw",
-                "it",
-                //localization["English"] + " (English)",
-                //localization["German"] + " (Deutsch)",
-                //localization["SwissGerman"] + " (Schwiizerdütsch)",
-                //localization["Italian"] + " (Italiano)"
+                new Tuple<string, string>("en", localization["English"] + " (English)"),
+                new Tuple<string, string>("de", localization["German"] + " (Deutsch)"),
+                new Tuple<string, string>("gsw", localization["SwissGerman"] + " (Schwiizerdütsch)"),
+                new Tuple<string, string>("it", localization["Italian"] + " (Italiano)")
             });
-        }
-
-        private CultureInfo LanguageLabelToCultureInfo(string language)
-        {
-            language = this.language.ToLowerInvariant();
-            
-            if (language.Contains("deutsch"))
-            {
-                return new CultureInfo("de");
-            }
-            if (language.Contains("schwiizerdütsch"))
-            {
-                return new CultureInfo("gsw");
-            }
-            if (language.Contains("italiano"))
-            {
-                return new CultureInfo("it");
-            }
-            
-            return new CultureInfo("en");
         }
 
         private async void OnClickedClose(object commandParam)
@@ -244,9 +219,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (confirmed)
             {
                 Username = user?.Id ?? "user";
+                SaveUserPassword = true;
                 SaveConvoPasswords = true;
-                Theme = Constants.Themes.DARK_THEME;
-                Language = localization["English"] + " (English)";
+                ReplaceTotpWithFingerprint = false;
+                Theme = Themes[1];
+                Language = Languages[0];
             }
         }
     }
