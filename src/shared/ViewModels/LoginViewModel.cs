@@ -83,6 +83,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => uiEnabled;
             set => Set(ref uiEnabled, value);
         }
+        
+        private bool showTotpField = true;
+        public bool ShowTotpField
+        {
+            get => showTotpField;
+            set => Set(ref showTotpField, value);
+        }
 
         #endregion
 
@@ -114,17 +121,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 Password = storedPw.NotNullNotEmpty() ? storedPw : null;
             }
 
-            if (Password.NotNullNotEmpty() /*&& appSettings["ReplaceTotpWithFingerprint", false]*/)
+            string totpSecret = await SecureStorage.GetAsync("totp:" + UserId);
+            bool replaceTotpWithFingerprint = appSettings["ReplaceTotpWithFingerprint", false];
+
+            if (replaceTotpWithFingerprint && (!await CrossFingerprint.Current.IsAvailableAsync() || totpSecret.NullOrEmpty()))
             {
-                string totpSecret = await SecureStorage.GetAsync("totp:" + UserId);
-                if (totpSecret.NotNullNotEmpty())
+                replaceTotpWithFingerprint = false;
+                appSettings["ReplaceTotpWithFingerprint"] = "false";
+            }
+            
+            ShowTotpField = !replaceTotpWithFingerprint;
+
+            // TODO: execute this only on login clicked (no auto appear fingerprint prompt pls!)
+            
+            if (Password.NotNullNotEmpty() && totpSecret.NotNullNotEmpty() /*&& appSettings["ReplaceTotpWithFingerprint", false]*/)
+            {
+                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") { UseDialog = false });
+                if (fingerprintAuthenticationResult.Authenticated)
                 {
-                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") { UseDialog = false });
-                    if (fingerprintAuthenticationResult.Authenticated)
-                    {
-                        Totp = new Totp(Base32Encoding.ToBytes(totpSecret)).ComputeTotp();
-                        OnClickedLogin(null);
-                    }
+                    Totp = new Totp(Base32Encoding.ToBytes(totpSecret)).ComputeTotp();
+                    OnClickedLogin(null);
                 }
             }
         }
@@ -151,13 +167,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             var _ = SecureStorage.SetAsync("pw:" + UserId, Password);
                         }
-
                         ExecUI(() => eventAggregator.GetEvent<LoginSucceededEvent>().Publish());
                         break;
                     case 1: // Connection to server failed.
+                        pendingAttempt = false;
                         ExecUI(() =>
                         {
-                            pendingAttempt = false;
                             UIEnabled = true;
                             Application.Current.MainPage.DisplayAlert(localization["Error"], localization["ConnectionToServerFailed"], "OK");
                         });
@@ -179,11 +194,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         break;
                 }
 
-                ExecUI(() =>
-                {
-                    pendingAttempt = false;
-                    UIEnabled = true;
-                });
+                pendingAttempt = false;
+                ExecUI(() => UIEnabled = true);
             });
         }
     }

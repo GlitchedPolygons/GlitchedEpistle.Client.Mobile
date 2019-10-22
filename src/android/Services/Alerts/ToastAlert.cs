@@ -35,7 +35,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Alerts
         /// <summary>
         /// Shows a small alert message overlay to the user for a short amount of time.
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="message">The message <c>string</c> to display to the user.</param>
         public void AlertShort(string message)
         {
             Toast.MakeText(Application.Context, message, ToastLength.Short).Show();
