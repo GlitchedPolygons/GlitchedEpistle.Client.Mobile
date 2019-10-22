@@ -26,6 +26,8 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
+using Plugin.Fingerprint;
+using Plugin.Fingerprint.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
@@ -109,6 +111,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 var storedPw = await SecureStorage.GetAsync("pw:" + UserId);
                 Password = storedPw.NotNullNotEmpty() ? storedPw : null;
+            }
+
+            if (Password.NotNullNotEmpty() /*&& appSettings["ReplaceTotpWithFingerprint", false]*/)
+            {
+                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") { UseDialog = false });
+                if (fingerprintAuthenticationResult.Authenticated)
+                {
+                    // TODO: finish this!
+                }
             }
         }
 
