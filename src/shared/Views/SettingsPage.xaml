@@ -46,6 +46,7 @@
 
                 <Label Text="{i:Translate UsernameLabel}"
                        FontSize="16"
+                       HorizontalOptions="End"
                        Style="{DynamicResource MediumLabelStyle}" />
 
                 <Entry Style="{DynamicResource EntryStyle}"
@@ -54,6 +55,7 @@
 
                 <Label Text="{i:Translate ThemeLabel}"
                        FontSize="16"
+                       HorizontalOptions="End"
                        Style="{DynamicResource MediumLabelStyle}" />
 
                 <Picker Title="{i:Translate Theme}"
@@ -64,6 +66,7 @@
 
                 <Label Text="{i:Translate LanguageLabel}"
                        FontSize="16"
+                       HorizontalOptions="End"
                        Style="{DynamicResource MediumLabelStyle}" />
 
                 <Picker Title="{i:Translate Language}"
