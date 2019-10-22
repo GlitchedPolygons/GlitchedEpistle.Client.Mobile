@@ -64,23 +64,35 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public string Username
         {
             get => username;
-            set => Set(ref username, value);
+            set
+            {
+                if (Set(ref username, value))
+                    userSettings.Username = Username;
+            }
         }
 
         private bool saveConvoPasswords = true;
         public bool SaveConvoPasswords
         {
             get => saveConvoPasswords;
-            set => Set(ref saveConvoPasswords, value);
+            set
+            {
+                if (Set(ref saveConvoPasswords, value))
+                    appSettings["SaveConvoPasswords"] = value.ToString();
+            }
         }
-        
+
         private bool saveUserPassword = true;
         public bool SaveUserPassword
         {
             get => saveUserPassword;
-            set => Set(ref saveUserPassword, value);
+            set
+            {
+                if(Set(ref saveUserPassword, value))
+                    appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
+            }
         }
-            
+
         private bool replaceTotpWithFingerprint = false;
         public bool ReplaceTotpWithFingerprint
         {
@@ -91,54 +103,62 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     // TODO: check if TOTP secret is in SecureStorage (if not, prompt user) and then verify setting change by asking user for his fingerprint.
                 }
+
                 Set(ref replaceTotpWithFingerprint, value);
             }
         }
-        
+
         public bool FingerprintAvailable => CrossFingerprint.Current.IsAvailableAsync().GetAwaiter().GetResult();
 
-        private Tuple<string,string> theme;
-        public Tuple<string,string> Theme
+        private Tuple<string, string> theme;
+        public Tuple<string, string> Theme
         {
             get => theme;
             set
             {
                 Set(ref theme, value);
                 (Application.Current as App)?.ChangeTheme(value.Item1);
+                appSettings["Theme"] = value.Item1;
             }
         }
 
-        private Tuple<string,string> language;
-        public Tuple<string,string> Language
+        private Tuple<string, string> language;
+        public Tuple<string, string> Language
         {
             get => language;
             set
             {
                 Set(ref language, value);
-                //if (value.NotNullNotEmpty())
-                //{
-                //    var ci = new CultureInfo(value);
-                //    localization.SetCurrentCultureInfo(ci);
-                //    UpdateLocalizedLabels();
-                //}
+                appSettings["Language"] = value.Item1;
+                if (initialized) ShowLanguageRestartRequiredWarning = true;
             }
         }
 
-        private ObservableCollection<Tuple<string,string>> themes;
-        public ObservableCollection<Tuple<string,string>> Themes
+        private bool showLanguageRestartRequiredWarning = false;
+        public bool ShowLanguageRestartRequiredWarning
+        {
+            get => showLanguageRestartRequiredWarning;
+            set => Set(ref showLanguageRestartRequiredWarning, value);
+        }
+
+        private ObservableCollection<Tuple<string, string>> themes;
+        public ObservableCollection<Tuple<string, string>> Themes
         {
             get => themes;
             set => Set(ref themes, value);
         }
 
-        private ObservableCollection<Tuple<string,string>> languages;
-        public ObservableCollection<Tuple<string,string>> Languages
+        private ObservableCollection<Tuple<string, string>> languages;
+
+        public ObservableCollection<Tuple<string, string>> Languages
         {
             get => languages;
             set => Set(ref languages, value);
         }
 
         #endregion
+        
+        private bool initialized = false;
 
         public SettingsViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, IUserSettings userSettings, User user)
         {
@@ -152,31 +172,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             CloseCommand = new DelegateCommand(OnClickedClose);
             RevertCommand = new DelegateCommand(OnClickedRevert);
 
-            UpdateLocalizedLabels();
-        }
-
-        public void OnAppearing()
-        {
-            Username = userSettings.Username;
-            SaveUserPassword = appSettings["SaveUserPassword", true];
-            SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
-            ReplaceTotpWithFingerprint = appSettings["ReplaceTotpWithFingerprint", false];
-            Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]);
-            Theme = Themes.FirstOrDefault(tuple => tuple.Item1 == appSettings["Theme", Constants.Themes.DARK_THEME]);
-        }
-
-        public void OnDisappearing()
-        {
-            userSettings.Username = Username;
-            appSettings["Theme"] = Theme.Item1;
-            appSettings["Language"] = Language.Item1;
-            appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
-            appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
-            appSettings["ReplaceTotpWithFingerprint"] = ReplaceTotpWithFingerprint.ToString();
-        }
-        
-        private void UpdateLocalizedLabels()
-        {
             Themes = new ObservableCollection<Tuple<string, string>>(new List<Tuple<string, string>>
             {
                 new Tuple<string, string>(Constants.Themes.LIGHT_THEME, localization["LightTheme"]),
@@ -193,6 +188,28 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
 
+        public void OnAppearing()
+        {
+            Username = userSettings.Username;
+            SaveUserPassword = appSettings["SaveUserPassword", true];
+            SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
+            ReplaceTotpWithFingerprint = appSettings["ReplaceTotpWithFingerprint", false];
+            Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]);
+            Theme = Themes.FirstOrDefault(tuple => tuple.Item1 == appSettings["Theme", Constants.Themes.DARK_THEME]);
+
+            initialized = true;
+        }
+
+        public void OnDisappearing()
+        {
+            userSettings.Username = Username;
+            appSettings["Theme"] = Theme.Item1;
+            appSettings["Language"] = Language.Item1;
+            appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
+            appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
+            appSettings["ReplaceTotpWithFingerprint"] = ReplaceTotpWithFingerprint.ToString();
+        }
+
         private async void OnClickedClose(object commandParam)
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
@@ -201,8 +218,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private void OnClickedAbout(object obj)
         {
             Application.Current.MainPage.DisplayAlert(
-                title: localization["AboutButton"], 
-                message: string.Format(localization["AboutText"], App.Version), 
+                title: localization["AboutButton"],
+                message: string.Format(localization["AboutText"], App.Version),
                 cancel: localization["Dismiss"]
             );
         }
@@ -210,12 +227,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private async void OnClickedRevert(object commandParam)
         {
             bool confirmed = await Application.Current.MainPage.DisplayAlert(
-                title: localization["AreYouSure"], 
-                message: localization["SettingsAutoSaveReminder"], 
+                title: localization["AreYouSure"],
+                message: localization["SettingsAutoSaveReminder"],
                 cancel: localization["No"],
-                accept: localization["Yes"] 
+                accept: localization["Yes"]
             );
-            
+
             if (confirmed)
             {
                 Username = user?.Id ?? "user";

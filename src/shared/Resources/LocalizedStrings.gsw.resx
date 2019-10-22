@@ -332,4 +332,8 @@ https://glitchedpolygons.com</value>
   <data name="SaveUserPassword" xml:space="preserve">
     <value>Login Passwort spichere</value>
   </data>
+  <data name="LanguageChangeRestartRequiredLabel" xml:space="preserve">
+    <value>E Änderig a der Spraach-iistellig benötigt e App-Neustart um i chraft z trätte!</value>
+    <comment>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</comment>
+  </data>
 </root>

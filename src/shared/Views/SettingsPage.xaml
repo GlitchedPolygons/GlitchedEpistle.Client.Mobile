@@ -23,6 +23,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              mc:Ignorable="d"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.SettingsPage">
@@ -73,49 +74,62 @@
                         SelectedItem="{Binding Language}"
                         ItemsSource="{Binding Languages}"
                         ItemDisplayBinding="{Binding Item2}"
-                        Style="{DynamicResource PickerStyle}" />
-                
+                        Style="{DynamicResource PickerStyle}">
+                </Picker>
+
                 <StackLayout Orientation="Horizontal" 
+                             Margin="0,5" 
+                             IsVisible="{Binding ShowLanguageRestartRequiredWarning}">
+                    <ff:CachedImage WidthRequest="32"
+                                    HeightRequest="32"
+                                    DownsampleToViewSize="True"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.warning.png}" />
+                    <Label Text="{i:Translate LanguageChangeRestartRequiredLabel}"
+                           FontSize="12"
+                           Style="{DynamicResource SubLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
-                    
+
                     <Switch IsToggled="{Binding SaveUserPassword}"
-                            VerticalOptions="CenterAndExpand" 
-                            Scale="1.1"/>
+                            VerticalOptions="CenterAndExpand"
+                            Scale="1.1" />
 
                     <Label Text="{i:Translate SaveUserPassword}"
                            Style="{DynamicResource MediumLabelStyle}"
-                           FontSize="16" 
-                           VerticalTextAlignment="Center" 
-                           VerticalOptions="CenterAndExpand"/>
+                           FontSize="16"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="CenterAndExpand" />
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal" 
+                <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
-                    
+
                     <Switch IsToggled="{Binding SaveConvoPasswords}"
-                            VerticalOptions="CenterAndExpand" 
-                            Scale="1.1"/>
+                            VerticalOptions="CenterAndExpand"
+                            Scale="1.1" />
 
                     <Label Text="{i:Translate SaveConvoPasswords}"
                            Style="{DynamicResource MediumLabelStyle}"
-                           FontSize="16" 
-                           VerticalTextAlignment="Center" 
-                           VerticalOptions="CenterAndExpand"/>
+                           FontSize="16"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="CenterAndExpand" />
                 </StackLayout>
 
-                <StackLayout IsVisible="{Binding FingerprintAvailable}" 
-                             Orientation="Horizontal" 
+                <StackLayout IsVisible="{Binding FingerprintAvailable}"
+                             Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 
                     <Switch IsToggled="{Binding ReplaceTotpWithFingerprint}"
-                            VerticalOptions="CenterAndExpand" 
-                            Scale="1.1"/>
+                            VerticalOptions="CenterAndExpand"
+                            Scale="1.1" />
 
                     <Label Text="{i:Translate ReplaceTotpWithFingerprint}"
                            Style="{DynamicResource MediumLabelStyle}"
-                           FontSize="16" 
-                           VerticalTextAlignment="Center" 
-                           VerticalOptions="CenterAndExpand"/>
+                           FontSize="16"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="CenterAndExpand" />
                 </StackLayout>
 
                 <StackLayout HorizontalOptions="FillAndExpand"
@@ -123,15 +137,15 @@
                              Spacing="12">
 
                     <Button Text="{i:Translate AboutButton}"
-                            Command="{Binding AboutCommand}" 
+                            Command="{Binding AboutCommand}"
                             HorizontalOptions="FillAndExpand" />
 
                     <Button Text="{i:Translate RevertButton}"
-                            Command="{Binding RevertCommand}" 
+                            Command="{Binding RevertCommand}"
                             HorizontalOptions="FillAndExpand" />
 
                     <Button Text="{i:Translate CloseButton}"
-                            Command="{Binding CloseCommand}" 
+                            Command="{Binding CloseCommand}"
                             HorizontalOptions="FillAndExpand" />
                 </StackLayout>
 

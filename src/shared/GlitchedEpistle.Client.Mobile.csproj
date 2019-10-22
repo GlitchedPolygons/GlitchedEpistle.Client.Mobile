@@ -73,6 +73,8 @@
     <EmbeddedResource Include="Resources\Images\scroll-to-bottom-icon-white.png" />
     <EmbeddedResource Include="Resources\Images\settings-icon-white.png" />
     <EmbeddedResource Include="Resources\Images\trash-icon-white.png" />
+    <None Remove="Resources\Images\warning.png" />
+    <EmbeddedResource Include="Resources\Images\warning.png" />
   </ItemGroup>
   
   <ItemGroup>
