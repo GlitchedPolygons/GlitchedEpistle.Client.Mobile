@@ -91,7 +91,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// <param name="action">What you want to execute on the UI thread.</param>
         protected static void ExecUI(Action action)
         {
-            Device.BeginInvokeOnMainThread(action);
+            if (action != null) Device.BeginInvokeOnMainThread(action);
         }
 
         public App()

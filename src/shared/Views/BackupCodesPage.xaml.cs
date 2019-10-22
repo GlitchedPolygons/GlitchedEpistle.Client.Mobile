@@ -17,6 +17,7 @@
 */
 
 using System;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
@@ -43,17 +44,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private async void DismissButton_Clicked(object sender, EventArgs e)
         {
-            await App.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void CopyButton_Clicked(object sender, EventArgs e)
         {
             Clipboard.SetTextAsync(BackupCodesText.Text);
 
+            DependencyService.Get<IAlertService>()?.AlertShort(localization["Copied"]);
+            
             CopyButton.IsEnabled = false;
             CopyButton.Text = localization["Copied"];
 
-            if (scheduledCopyButtonReset != null && scheduledCopyButtonReset.HasValue)
+            if (scheduledCopyButtonReset != null)
             {
                 methodQ.Cancel(scheduledCopyButtonReset.Value);
             }

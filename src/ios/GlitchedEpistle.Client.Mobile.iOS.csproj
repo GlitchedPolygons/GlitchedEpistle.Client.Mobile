@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Services\Alerts\iOSAlerts.cs" />
     <Compile Include="Services\Localization\iOSLocalization.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />

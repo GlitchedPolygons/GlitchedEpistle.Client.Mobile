@@ -21,6 +21,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
@@ -55,10 +56,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             Clipboard.SetTextAsync(SecretTextBox.Text);
 
+            DependencyService.Get<IAlertService>()?.AlertShort(localization["Copied"]);
+            
             CopyButton.IsEnabled = false;
             CopyButton.Text = localization["Copied"];
 
-            if (scheduledCopyButtonReset != null && scheduledCopyButtonReset.HasValue)
+            if (scheduledCopyButtonReset != null)
             {
                 methodQ.Cancel(scheduledCopyButtonReset.Value);
             }

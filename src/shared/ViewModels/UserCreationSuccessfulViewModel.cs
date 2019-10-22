@@ -90,7 +90,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private async void OnClickedExport(object commandParam)
         {
             var view = new BackupCodesPage(GetBackupString());
-            await App.Current.MainPage.Navigation.PushModalAsync(view);
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private void OnClickedVerify(object commandParam)
