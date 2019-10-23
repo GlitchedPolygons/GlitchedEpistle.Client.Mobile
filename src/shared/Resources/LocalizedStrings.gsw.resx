@@ -336,6 +336,9 @@ https://glitchedpolygons.com</value>
     <value>E Änderig a der Spraach-iistellig benötigt e App-Neustart um i chraft z trätte!</value>
     <comment>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</comment>
   </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Abbrocheh...</value>
+  </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Fähler! Nutzer-ID, Passwort odr Zwe-Faktor Outhentifizierig lätz.</value>
   </data>

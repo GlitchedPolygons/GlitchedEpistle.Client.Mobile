@@ -336,6 +336,9 @@ https://glitchedpolygons.com</value>
     <value>La modifica dell'impostazione di lingua necessita di un riavvio dell'applicazione per applicare il cambiamento!</value>
     <comment>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</comment>
   </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Azione annullata...</value>
+  </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Errore! ID utente, password o token d'autentificazione a due fattori invalido.</value>
   </data>

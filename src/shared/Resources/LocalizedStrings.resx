@@ -332,6 +332,9 @@ Reverting to default settings will also apply them immediately. Are you sure tha
   <data name="LanguageChangeRestartRequiredLabel" xml:space="preserve">
     <value>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</value>
   </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled...</value>
+  </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Error! Invalid user id, password or 2FA.</value>
   </data>

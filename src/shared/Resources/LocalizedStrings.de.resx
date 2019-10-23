@@ -337,6 +337,9 @@ https://glitchedpolygons.com</value>
     <value>Eine Änderung an der Spracheinstellung benötigt einen App-Neustart um in Kraft zu treten!</value>
     <comment>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</comment>
   </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Abgebrochen...</value>
+  </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Fehler! Nutzer-ID, Passwort oder Zwei-Faktor Authentifizierungstoken ungültig.</value>
   </data>
