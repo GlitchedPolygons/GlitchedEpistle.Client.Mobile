@@ -18,24 +18,28 @@
 
 using Prism.Events;
 using Xamarin.Forms;
-using Plugin.Fingerprint;
+using Xamarin.Essentials;
 
 using System;
 using System.Linq;
 using System.Windows.Input;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
-using GlitchedPolygons.Services.MethodQ;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using OtpNet;
+using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
-using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -50,8 +54,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly User user;
         private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
+        private readonly IUserService userService;
         private readonly IUserSettings userSettings;
         private readonly ILocalization localization;
+        private readonly IAlertService alertService;
         private readonly IEventAggregator eventAggregator;
 
         private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Config") {UseDialog = false};
@@ -106,21 +112,69 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => saveTotpSecret;
             set
             {
+                // When the setter is not invoked by user but by the settings page
+                // during construction, set the initial state without asking questions.
+                if (!initialized)
+                {
+                    Set(ref saveTotpSecret, value);
+                    return;
+                }
+                
+                // Disabling this option should always be possible.
                 if (value == false)
                 {
                     Set(ref saveTotpSecret, false);
                     appSettings["SaveTotpSecret"] = "false";
+                    return;
                 }
-                else
+
+                // Enabling requires the device to already have the user's TOTP secret in its SecureStorage.
+                // If this is the case, fine, enable this option... but if not, prompt the user to enter his 2FA secret.
+                string totpSecret = SecureStorage.GetAsync("totp:" + user.Id).GetAwaiter().GetResult();
+                if (totpSecret.NotNullNotEmpty())
                 {
-                    string totpSecret = SecureStorage.GetAsync("totp:" + user.Id).GetAwaiter().GetResult();
-                    if (totpSecret.NullOrEmpty())
-                    {
-                        // TODO: show user prompt for totp secret dialog here; if cancelled/aborted, reset to false!
-                    }
                     Set(ref saveTotpSecret, true);
                     appSettings["SaveTotpSecret"] = "true";
+                    return;
                 }
+
+                var view = new TextPromptPopupPage(
+                    title: localization["PleaseEnterTotpSecretDialogTitleLabel"],
+                    description: localization["PleaseEnterTotpSecretDialogTextLabel"],
+                    allowCancel: true, 
+                    allowNullOrEmptyString: true
+                );
+                
+                view.Disappearing += async (sender, e) =>
+                {
+                    string input = view.Text;
+                    if (input.NullOrEmpty())
+                    {
+                        alertService.AlertShort(localization["Cancelled"]);
+                        SaveTotpSecret = false;
+                        return;
+                    }        
+                    
+                    var totp = new Totp(Base32Encoding.ToBytes(input));
+                    if (totp.RemainingSeconds() < 2)
+                    {
+                        await Task.Delay(1250);
+                    }
+                            
+                    bool success = await userService.Validate2FA(user.Id, totp.ComputeTotp());
+                    if (!success)
+                    {
+                        alertService.AlertShort(localization["TwoFactorAuthTokenVerificationFailed"]);
+                        SaveTotpSecret = false;
+                        return;
+                    }
+                            
+                    alertService.AlertShort(localization["Success"]);
+                    Set(ref saveTotpSecret, true);
+                    appSettings["SaveTotpSecret"] = "true";
+                };
+                
+                Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
             }
         }
 
@@ -132,7 +186,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 if (Set(ref useFingerprint, value))
                     appSettings["UseFingerprint"] = value.ToString();
-                /*if (FingerprintAvailable)
+
+                if (!initialized) 
+                    return;
+                
+                if (FingerprintAvailable)
                 {
                     Task.Run(async () =>
                     {
@@ -146,7 +204,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 else
                 {
                     Set(ref useFingerprint, false);
-                }*/
+                }
             }
         }
 
@@ -204,13 +262,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         private volatile bool initialized = false;
 
-        public SettingsViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, IUserSettings userSettings, User user, IMethodQ methodQ)
+        public SettingsViewModel(User user, IAppSettings appSettings, IEventAggregator eventAggregator, IUserSettings userSettings, IMethodQ methodQ, IUserService userService)
         {
             this.user = user;
             this.methodQ = methodQ;
+            this.userService = userService;
             this.appSettings = appSettings;
             this.userSettings = userSettings;
             this.eventAggregator = eventAggregator;
+            this.alertService = DependencyService.Get<IAlertService>();
             this.localization = DependencyService.Get<ILocalization>();
 
             AboutCommand = new DelegateCommand(OnClickedAbout);

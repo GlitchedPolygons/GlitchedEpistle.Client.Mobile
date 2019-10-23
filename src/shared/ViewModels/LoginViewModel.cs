@@ -149,30 +149,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             pendingAttempt = true;
             UIEnabled = false;
-            
+
             Task.Run(async () =>
             {
-                if (appSettings["SaveTotpSecret", false])
-                {
-                    string totpSecret = await SecureStorage.GetAsync("totp:" + UserId);
-                    
-                    if (totpSecret.NotNullNotEmpty())
-                    {
-                        Totp = new Totp(Base32Encoding.ToBytes(totpSecret)).ComputeTotp();
-                    }
-                    else
-                    {
-                        appSettings["SaveTotpSecret"] = "false";
-                    }
-                }
-                
                 if (appSettings["UseFingerprint", false])
                 {
                     if (!await CrossFingerprint.Current.IsAvailableAsync())
                     {
                         appSettings["UseFingerprint"] = "false";
                     }
-                    
+
                     var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
                     if (!fingerprintAuthenticationResult.Authenticated)
                     {
@@ -181,7 +167,27 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         return;
                     }
                 }
-                
+
+                if (appSettings["SaveTotpSecret", false])
+                {
+                    string totpSecret = await SecureStorage.GetAsync("totp:" + UserId);
+
+                    if (totpSecret.NotNullNotEmpty())
+                    {
+                        var totp = new Totp(Base32Encoding.ToBytes(totpSecret));
+                        if (totp.RemainingSeconds() < 2)
+                        {
+                            await Task.Delay(1250);
+                        }
+
+                        Totp = totp.ComputeTotp();
+                    }
+                    else
+                    {
+                        appSettings["SaveTotpSecret"] = "false";
+                    }
+                }
+
                 int result = await loginService.Login(UserId, Password, Totp);
 
                 switch (result)
@@ -192,6 +198,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             var saveUserPwTask = SecureStorage.SetAsync("pw:" + UserId, Password);
                         }
+
                         ExecUI(() => eventAggregator.GetEvent<LoginSucceededEvent>().Publish());
                         break;
                     case 1: // Connection to server failed.
@@ -207,6 +214,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             ErrorMessage += "\n" + localization["LoginMultiFailedAttemptsErrorMessage"];
                         }
+
                         break;
                     case 3: // Login failed client-side.
                         failedAttempts++;
