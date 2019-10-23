@@ -26,14 +26,15 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
-
+using OtpNet;
 using Plugin.Fingerprint.Abstractions;
+using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -103,10 +104,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => saveTotpSecret;
             set
             {
-                if (Set(ref saveTotpSecret, value))
-                    appSettings["SaveTotpSecret"] = value.ToString();
-                
-                // TODO: check if device has the secret in secure storage, or else prompt user for it!
+                if (value == false)
+                {
+                    Set(ref saveTotpSecret, false);
+                    appSettings["SaveTotpSecret"] = "false";
+                }
+                else
+                {
+                    string totpSecret = SecureStorage.GetAsync("totp:" + user.Id).GetAwaiter().GetResult();
+                    if (totpSecret.NullOrEmpty())
+                    {
+                        // TODO: show user prompt for totp secret dialog here; if cancelled/aborted, reset to false!
+                    }
+                    Set(ref saveTotpSecret, true);
+                    appSettings["SaveTotpSecret"] = "true";
+                }
             }
         }
 
@@ -225,7 +237,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             SaveTotpSecret = appSettings["SaveTotpSecret", false];
             SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
             UseFingerprint = appSettings["UseFingerprint", false];
-            Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]);
+            Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]) ?? Languages[0];
             Theme = Themes.FirstOrDefault(tuple => tuple.Item1 == appSettings["Theme", Constants.Themes.DARK_THEME]);
 
             initialized = true;

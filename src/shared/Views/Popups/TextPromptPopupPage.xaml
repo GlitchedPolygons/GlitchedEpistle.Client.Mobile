@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+         Glitched Epistle - Mobile Client
+         Copyright (C) 2019 Raphael Beck
+         
+         This program is free software: you can redistribute it and/or modify
+         it under the terms of the GNU General Public License as published by
+         the Free Software Foundation, either version 3 of the License, or
+         (at your option) any later version.
+         
+         This program is distributed in the hope that it will be useful,
+         but WITHOUT ANY WARRANTY; without even the implied warranty of
+         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+         GNU General Public License for more details.
+         
+         You should have received a copy of the GNU General Public License
+         along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    -->
+
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups.TextPromptPopupPage"
+                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+                 BackgroundColor="{DynamicResource PageBackgroundColor}"
+                 CloseWhenBackgroundIsClicked="False">
+    <StackLayout VerticalOptions="CenterAndExpand"
+                 HorizontalOptions="CenterAndExpand"
+                 Margin="32,32,32,64">
+
+        <Label x:Name="TitleLabel"
+               Style="{DynamicResource TitleLabelStyle}" />
+
+        <Label x:Name="DescriptionLabel"
+               Style="{DynamicResource MediumLabelStyle}"
+               LineBreakMode="WordWrap"
+               FontSize="14" />
+
+        <Entry MaxLength="25"
+               Margin="0,20,0,0"
+               x:Name="TextEntry"
+               Style="{DynamicResource EntryStyle}"
+               TextChanged="Entry_TextChanged" />
+
+        <Button x:Name="CancelButton"
+                Margin="0,5,0,0"
+                Text="{i:Translate CancelButton}"
+                Clicked="CancelButton_OnClicked" />
+
+        <Button x:Name="OkButton"
+                Text="OK"
+                Margin="0,5,0,0"
+                IsEnabled="false"
+                Clicked="OkButton_Clicked" />
+    </StackLayout>
+</pages:PopupPage>

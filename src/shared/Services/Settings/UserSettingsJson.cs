@@ -18,7 +18,6 @@
 
 using System;
 using System.IO;
-
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
@@ -27,6 +26,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using Prism.Events;
 using Xamarin.Forms;
@@ -42,6 +42,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
     {
         private readonly User user;
         private readonly ILogger logger;
+        private readonly ILocalization localization;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelFactory viewModelFactory;
 
@@ -51,6 +52,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
             this.logger = logger;
             this.eventAggregator = eventAggregator;
             this.viewModelFactory = viewModelFactory;
+            this.localization = DependencyService.Get<ILocalization>();
 
             eventAggregator.GetEvent<LoginSucceededEvent>().Subscribe(OnLoginOrRegister);
             eventAggregator.GetEvent<UserCreationSucceededEvent>().Subscribe(_ => OnLoginOrRegister());
@@ -72,8 +74,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
 
             if (Username.NullOrEmpty())
             {
-                var view = new UsernamePopupPage();
-                view.Disappearing += (sender, e) => Username = view.Username;
+                var view = new TextPromptPopupPage(localization["PleaseEnterUsernameDialogTitleLabel"], localization["PleaseEnterUsernameDialogTextLabel"], allowCancel:false);
+                view.Disappearing += (sender, e) => Username = view.Text;
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
             }
 

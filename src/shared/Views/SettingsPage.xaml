@@ -93,6 +93,7 @@
                              HorizontalOptions="FillAndExpand">
 
                     <Switch IsToggled="{Binding SaveUserPassword}"
+                            Style="{DynamicResource SwitchStyle}"
                             VerticalOptions="CenterAndExpand"
                             Scale="1.1" />
 
@@ -107,6 +108,7 @@
                              HorizontalOptions="FillAndExpand">
 
                     <Switch IsToggled="{Binding SaveTotpSecret}"
+                            Style="{DynamicResource SwitchStyle}"
                             VerticalOptions="CenterAndExpand"
                             Scale="1.1" />
 
@@ -121,6 +123,7 @@
                              HorizontalOptions="FillAndExpand">
 
                     <Switch IsToggled="{Binding SaveConvoPasswords}"
+                            Style="{DynamicResource SwitchStyle}"
                             VerticalOptions="CenterAndExpand"
                             Scale="1.1" />
 
@@ -136,6 +139,7 @@
                              HorizontalOptions="FillAndExpand">
 
                     <Switch IsToggled="{Binding UseFingerprint}"
+                            Style="{DynamicResource SwitchStyle}"
                             VerticalOptions="CenterAndExpand"
                             Scale="1.1" />
 

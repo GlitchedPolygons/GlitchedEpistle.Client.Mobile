@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
 using System.Threading.Tasks;
 using GlitchedPolygons.ExtensionMethods;
 using Rg.Plugins.Popup.Pages;
@@ -25,13 +26,36 @@ using Xamarin.Forms.Xaml;
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class UsernamePopupPage : PopupPage
+    public partial class TextPromptPopupPage : PopupPage
     {
-        public string Username { get; private set; }
+        public string Text { get; private set; }
 
-        public UsernamePopupPage()
+        private readonly bool allowCancel, allowNullOrEmptyString;
+
+        public TextPromptPopupPage(string title, string description, string okButtonText = null, string cancelButtonText = null, bool allowCancel = true, bool allowNullOrEmptyString = false)
         {
             InitializeComponent();
+
+            this.allowCancel = allowCancel;
+            this.allowNullOrEmptyString = allowNullOrEmptyString;
+
+            TitleLabel.Text = title;
+            DescriptionLabel.Text = description;
+
+            if (okButtonText.NotNullNotEmpty())
+            {
+                OkButton.Text = okButtonText;
+            }
+
+            if (cancelButtonText.NotNullNotEmpty())
+            {
+                CancelButton.Text = cancelButtonText;
+            }
+
+            if (!allowCancel)
+            {
+                CancelButton.IsVisible = CancelButton.IsEnabled = false;
+            }
         }
 
         protected override void OnAppearing()
@@ -93,10 +117,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 
         private async void OkButton_Clicked(object sender, System.EventArgs e)
         {
-            if (UsernameTextEntry.Text.NullOrEmpty())
+            if (TextEntry.Text.NullOrEmpty() && !allowNullOrEmptyString)
+            {
                 return;
+            }
 
-            Username = UsernameTextEntry.Text;
+            Text = TextEntry.Text;
+            await PopupNavigation.Instance.PopAsync();
+        }
+
+        private async void CancelButton_OnClicked(object sender, EventArgs e)
+        {
+            if (!allowCancel)
+            {
+                return;
+            }
+            
+            Text = TextEntry.Text = null;
             await PopupNavigation.Instance.PopAsync();
         }
 
@@ -122,7 +159,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 
         private void Entry_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)
         {
-            OkButton.IsEnabled = UsernameTextEntry.Text.NotNullNotEmpty();
+            OkButton.IsEnabled = allowNullOrEmptyString || TextEntry.Text.NotNullNotEmpty();
         }
     }
 }

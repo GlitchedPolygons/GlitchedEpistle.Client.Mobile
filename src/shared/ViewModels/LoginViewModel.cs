@@ -118,7 +118,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public async void OnAppearing()
         {
             UserId = appSettings.LastUserId;
-
+            
             if (appSettings["SaveUserPassword", true])
             {
                 var storedPw = await SecureStorage.GetAsync("pw:" + UserId);
