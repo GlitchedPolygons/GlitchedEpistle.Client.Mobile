@@ -218,6 +218,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             Username = userSettings.Username;
             SaveUserPassword = appSettings["SaveUserPassword", true];
+            SaveTotpSecret = appSettings["SaveTotpSecret", false];
             SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
             UseFingerprint = appSettings["UseFingerprint", false];
             Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]);
@@ -231,6 +232,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             userSettings.Username = Username;
             appSettings["Theme"] = Theme.Item1;
             appSettings["Language"] = Language.Item1;
+            appSettings["SaveTotpSecret"] = SaveTotpSecret.ToString();
             appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
             appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
             appSettings["UseFingerprint"] = UseFingerprint.ToString();
