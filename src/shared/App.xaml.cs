@@ -144,7 +144,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             eventAggregator.GetEvent<ClickedRegisterButtonEvent>().Subscribe(ShowRegistrationPage);
             eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Subscribe(ShowConfigServerUrlPage);
             eventAggregator.GetEvent<UserCreationSucceededEvent>().Subscribe(OnUserCreationSuccessful);
-            eventAggregator.GetEvent<UserCreationVerifiedEvent>().Subscribe(ShowLoginPage);
+            eventAggregator.GetEvent<UserCreationVerifiedEvent>().Subscribe(()=>ShowLoginPage(false));
             eventAggregator.GetEvent<LoginSucceededEvent>().Subscribe(OnLoginSuccessful);
         }
 
@@ -238,14 +238,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                     serverUrlConfigured = await connectionTest.TestConnection();
                 }
 
-                if (serverUrlConfigured)
+                ExecUI(delegate
                 {
-                    ExecUI(ShowLoginPage);
-                }
-                else
-                {
-                    ExecUI(ShowConfigServerUrlPage);
-                }
+                    if (serverUrlConfigured)
+                    {
+                        ShowLoginPage();
+                    }
+                    else
+                    {
+                        ExecUI(ShowConfigServerUrlPage);
+                    }
+                });
             });
         }
 
@@ -277,7 +280,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             user.PasswordSHA512 = user.PublicKeyPem = user.PrivateKeyPem = null;
 
             // Show the login page.
-            ShowLoginPage();
+            ShowLoginPage(false);
 
             if (scheduledAuthRefresh.HasValue)
             {
@@ -302,10 +305,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             MainPage = new UserCreationSuccessfulView {BindingContext = viewModel};
         }
 
-        private void ShowLoginPage()
+        private void ShowLoginPage(bool autoPromptForFingerprint = true)
         {
             var viewModel = viewModelFactory.Create<LoginViewModel>();
+            
             viewModel.UserId = appSettings.LastUserId;
+            viewModel.AutoPromptForFingerprint = autoPromptForFingerprint;
 
             MainPage = new LoginPage {BindingContext = viewModel};
         }

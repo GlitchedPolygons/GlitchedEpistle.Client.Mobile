@@ -61,10 +61,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
         /// <summary>
         /// If available, should the fingerprint reader be used for logging in the user easily?
         /// </summary>
-        public bool ReplaceTotpWithFingerprint
+        public bool UseFingerprint
         {
-            get => this["ReplaceTotpWithFingerprint", false];
-            set => this["ReplaceTotpWithFingerprint"] = value.ToString();
+            get => this["UseFingerprint", false];
+            set => this["UseFingerprint"] = value.ToString();
         }
 
         /// <summary>
@@ -83,6 +83,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
         {
             get => this["SaveUserPassword", true];
             set => this["SaveUserPassword"] = value.ToString();
+        }
+
+        /// <summary>
+        /// Should the TOTP-Secret that is needed to generate 2FA tokens
+        /// for server request authentication be securely saved for automation purposes?
+        /// </summary>
+        public bool SaveTotpSecret
+        {
+            get => this["SaveTotpSecret", false];
+            set => this["SaveTotpSecret"] = value.ToString();
         }
 
         /// <summary>

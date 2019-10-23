@@ -25,6 +25,7 @@ using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
@@ -166,16 +167,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         .OrderByDescending(convo => convo.ExpirationUTC)
                         .ThenBy(convo => convo.Name.ToUpper());
 
-                    ExecUI(() =>
-                    {
-                        Convos = new ObservableCollection<Convo>(userConvos);
-                        eventAggregator.GetEvent<UpdatedUserConvosEvent>().Publish();
-                    });
+                    Convos = new ObservableCollection<Convo>(userConvos);
+                    ExecUI(eventAggregator.GetEvent<UpdatedUserConvosEvent>().Publish);
                 }
                 catch (Exception e)
                 {
                     logger?.LogError($"{nameof(ConvosViewModel)}::{nameof(UpdateList)}: User convos sync failed! Thrown exception: " + e.ToString());
-                    ExecUI(() => Convos = new ObservableCollection<Convo>());
+                    Convos = new ObservableCollection<Convo>();
                 }
             });
         }
@@ -238,17 +236,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     convoPasswordProvider.RemovePasswordSHA512(convoId);
                     SecureStorage.Remove($"convo:{convoId}_pw:SHA512");
 
-                    ExecUI(() =>
-                    {
-                        CanJoin = true;
-                        Application.Current.MainPage.DisplayAlert(localization["Error"], localization["JoinConvoFailed"], "OK");
-                    });
+                    CanJoin = true;
+                    var _ = Application.Current.MainPage.DisplayAlert(localization["Error"], localization["JoinConvoFailed"], "OK");
 
                     return;
                 }
                 
-                bool savePw = appSettings["SaveConvoPasswords", "true"].Equals("true", StringComparison.InvariantCultureIgnoreCase);
-                if (savePw)
+                if (appSettings["SaveConvoPasswords", true])
                 {
                     convoPasswordProvider.SetPasswordSHA512(convoId, pwSHA512);
                     var _ = SecureStorage.SetAsync($"convo:{convoId}_pw:SHA512", pwSHA512);
@@ -257,12 +251,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ConvoMetadataDto metadata = await convoService.GetConvoMetadata(convoId, pwSHA512, user.Id, user.Token.Item2);
                 if (metadata != null)
                 {
-                    ExecUI(() =>
-                    {
-                        CanJoin = true;
-                        convoPasswordProvider.SetPasswordSHA512(convoId, pwSHA512);
-                        eventAggregator.GetEvent<JoinedConvoEvent>().Publish(metadata);
-                    });
+                    CanJoin = true;
+                    convoPasswordProvider.SetPasswordSHA512(convoId, pwSHA512);
+                    ExecUI(() => eventAggregator.GetEvent<JoinedConvoEvent>().Publish(metadata));
                 }
             });
         }
@@ -324,6 +315,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (commandParam is Convo convo)
             {
                 Clipboard.SetTextAsync(convo.Id);
+                DependencyService.Get<IAlertService>()?.AlertShort(localization["Copied"]);
             }
         }
     }

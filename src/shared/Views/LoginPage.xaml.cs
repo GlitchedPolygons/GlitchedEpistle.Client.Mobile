@@ -67,7 +67,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         }
 
         private bool FormReady => UserIdTextBox.Text.NotNullNotEmpty()
-                                  && PasswordBox.Text.NotNullNotEmpty()
-                                  && TotpTextBox.Text.NotNullNotEmpty();
+                                  && PasswordBox.Text.NotNullNotEmpty();
     }
 }

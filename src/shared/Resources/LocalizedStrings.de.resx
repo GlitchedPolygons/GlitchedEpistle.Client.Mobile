@@ -337,4 +337,20 @@ https://glitchedpolygons.com</value>
     <value>Eine Änderung an der Spracheinstellung benötigt einen App-Neustart um in Kraft zu treten!</value>
     <comment>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</comment>
   </data>
+  <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
+    <value>Fehler! Nutzer-ID, Passwort oder Zwei-Faktor Authentifizierungstoken ungültig.</value>
+  </data>
+  <data name="LoginFailedClientSide" xml:space="preserve">
+    <value>Unerwarteter FEHLER! Der Anmeldeversuch war auf dem Server erfolgreich, konnte jedoch lokal nicht weiterverarbeitet werden (wahrscheinlich ein Problem mit der Entzifferung der retournierten Schlüssel).</value>
+    <comment>Unexpected ERROR! Login succeeded server-side, but the returned response couldn't be handled properly (probably key decryption failure).</comment>
+  </data>
+  <data name="LoginMultiFailedAttemptsErrorMessage" xml:space="preserve">
+    <value>Bedenke dass wenn deine Login-Daten korrekt sind und deine Anmeldung dennoch fehlschlägt, kann es sein, dass es daran liegt dass du dich aus deinem Konto rausgesperrt hast durch zu viele Fehlversuche und/oder abgelaufene (oder bereits benutzte) zwei-Faktor Authentifizierungstoken.
+Bitte versuche es in 15 Minuten nochmal!</value>
+    <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
+Please try again in 15 minutes.</comment>
+  </data>
+  <data name="UseFingerprint" xml:space="preserve">
+    <value>Fingerabdruck benutzen</value>
+  </data>
 </root>

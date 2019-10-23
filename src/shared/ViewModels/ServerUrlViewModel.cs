@@ -100,13 +100,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             Task.Run(async () =>
             {
                 bool success = await test.TestConnection(ServerUrl);
-                if (success) UrlUtility.SetEpistleServerUrl(ServerUrl);
-                ExecUI(() =>
+                if (success)
                 {
-                    Testing = false;
-                    ConnectionOk = success;
-                    ErrorMessage = ConnectionOk ? null : localization["ConnectionToServerFailed"];
-                });
+                    UrlUtility.SetEpistleServerUrl(ServerUrl);
+                }
+
+                Testing = false;
+                ConnectionOk = success;
+                ErrorMessage = ConnectionOk ? null : localization["ConnectionToServerFailed"];
             });
         }
 
@@ -125,11 +126,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     ExecUI(() => eventAggregator.GetEvent<LogoutEvent>().Publish());
                     return;
                 }
-                ExecUI(() => 
-                {
-                    Testing = ConnectionOk = false;
-                    ErrorMessage = localization["ConnectionToServerFailed"];
-                });
+                
+                Testing = ConnectionOk = false;
+                ErrorMessage = localization["ConnectionToServerFailed"];
             });
         }
     }

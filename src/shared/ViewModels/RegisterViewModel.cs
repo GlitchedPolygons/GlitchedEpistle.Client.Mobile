@@ -188,12 +188,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         break;
                 }
 
-                ExecUI(() => 
-                {
-                    ValidateForm();
-                    PendingAttempt = false;
-                    Password = PasswordConfirmation = null;
-                });
+                ValidateForm();
+                PendingAttempt = false;
+                Password = PasswordConfirmation = null;
             });
         }
 

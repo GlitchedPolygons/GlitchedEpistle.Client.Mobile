@@ -77,7 +77,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 errorMsgResetTimer.Stop();
                 errorMsgResetTimer.Start();
 
-                ExecUI(() => Set(ref errorMessage, value));
+                Set(ref errorMessage, value);
             }
         }
 
@@ -96,7 +96,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 successMsgResetTimer.Stop();
                 successMsgResetTimer.Start();
 
-                ExecUI(() => Set(ref successMessage, value));
+                Set(ref successMessage, value);
             }
         }
 
@@ -107,6 +107,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         /// <param name="field">The field to update.</param>
         /// <param name="newValue">The new value to give to the field.</param>
         /// <param name="propertyName">Name of the property (use the nameof operator when possible).</param>
+        /// <param name="onChanged">Optional <paramref name="onChanged"/> callback to invoke if the field was changed.</param>
         /// <returns><c>true</c> if the property needed to be updated (and thus received a new value), <c>false</c> otherwise.</returns>
         protected bool Set<T>(ref T field, T newValue, [CallerMemberName] string propertyName = "", Action onChanged = null)
         {
@@ -119,8 +120,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             field = newValue;
 
             // Raise events.
-            onChanged?.Invoke();
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            ExecUI(() =>
+            {
+                onChanged?.Invoke();
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            });
 
             return true;
         }

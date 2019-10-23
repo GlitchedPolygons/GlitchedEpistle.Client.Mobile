@@ -332,4 +332,19 @@ Reverting to default settings will also apply them immediately. Are you sure tha
   <data name="LanguageChangeRestartRequiredLabel" xml:space="preserve">
     <value>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</value>
   </data>
+  <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
+    <value>Error! Invalid user id, password or 2FA.</value>
+  </data>
+  <data name="LoginFailedClientSide" xml:space="preserve">
+    <value>Unexpected ERROR! Login succeeded server-side, but the returned response couldn't be handled properly (probably key decryption failure).</value>
+  </data>
+  <data name="LoginMultiFailedAttemptsErrorMessage" xml:space="preserve">
+    <value>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
+Please try again in 15 minutes.</value>
+    <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
+Please try again in 15 minutes.</comment>
+  </data>
+  <data name="UseFingerprint" xml:space="preserve">
+    <value>Use fingerprint</value>
+  </data>
 </root>

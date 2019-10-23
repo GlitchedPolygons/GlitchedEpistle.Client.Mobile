@@ -72,6 +72,7 @@
                        Style="{DynamicResource EntryStyle}"
                        Placeholder="{i:Translate TotpLabel}"
                        Text="{Binding Totp}"
+                       IsVisible="{Binding ShowTotpField}"
                        TextChanged="TotpTextBox_TextChanged" />
 
                 <StackLayout Margin="0,20,0,0" Spacing="10">
@@ -95,6 +96,12 @@
                             IsEnabled="False"
                             IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
                 </StackLayout>
+
+                <ActivityIndicator Margin="0,5,0,0" 
+                                   WidthRequest="32"
+                                   HeightRequest="32"
+                                   HorizontalOptions="Center"
+                                   IsRunning="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

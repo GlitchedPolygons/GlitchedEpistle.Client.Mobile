@@ -44,6 +44,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ILoginService loginService;
         private readonly IEventAggregator eventAggregator;
 
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") {UseDialog = false};
+
         #endregion
 
         #region Commands
@@ -95,6 +97,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private volatile int failedAttempts;
         private volatile bool pendingAttempt;
+        
+        public bool AutoPromptForFingerprint { get; set; } = true;
 
         public LoginViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator)
         {
@@ -114,49 +118,68 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public async void OnAppearing()
         {
             UserId = appSettings.LastUserId;
-            
+
             if (appSettings["SaveUserPassword", true])
             {
                 var storedPw = await SecureStorage.GetAsync("pw:" + UserId);
                 Password = storedPw.NotNullNotEmpty() ? storedPw : null;
             }
 
-            string totpSecret = await SecureStorage.GetAsync("totp:" + UserId);
-            bool replaceTotpWithFingerprint = appSettings["ReplaceTotpWithFingerprint", false];
-
-            if (replaceTotpWithFingerprint && (!await CrossFingerprint.Current.IsAvailableAsync() || totpSecret.NullOrEmpty()))
+            if (!await CrossFingerprint.Current.IsAvailableAsync())
             {
-                replaceTotpWithFingerprint = false;
-                appSettings["ReplaceTotpWithFingerprint"] = "false";
+                appSettings["UseFingerprint"] = "false";
             }
-            
-            ShowTotpField = !replaceTotpWithFingerprint;
 
-            // TODO: execute this only on login clicked (no auto appear fingerprint prompt pls!)
+            bool saveTotpSecret = appSettings["SaveTotpSecret", false];
             
-            if (Password.NotNullNotEmpty() && totpSecret.NotNullNotEmpty() /*&& appSettings["ReplaceTotpWithFingerprint", false]*/)
+            ShowTotpField = !saveTotpSecret;
+
+            if (AutoPromptForFingerprint && saveTotpSecret && appSettings["UseFingerprint", false])
             {
-                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") { UseDialog = false });
-                if (fingerprintAuthenticationResult.Authenticated)
-                {
-                    Totp = new Totp(Base32Encoding.ToBytes(totpSecret)).ComputeTotp();
-                    OnClickedLogin(null);
-                }
+                OnClickedLogin(null);
             }
         }
 
         private void OnClickedLogin(object commandParam)
         {
-            if (pendingAttempt || UserId.NullOrEmpty() || Password.NullOrEmpty() || Totp.NullOrEmpty())
+            if (pendingAttempt || UserId.NullOrEmpty() || Password.NullOrEmpty())
             {
                 return;
             }
 
             pendingAttempt = true;
             UIEnabled = false;
-
+            
             Task.Run(async () =>
             {
+                if (appSettings["SaveTotpSecret", false])
+                {
+                    string totpSecret = await SecureStorage.GetAsync("totp:" + UserId);
+                    
+                    if (totpSecret.NotNullNotEmpty())
+                    {
+                        Totp = new Totp(Base32Encoding.ToBytes(totpSecret)).ComputeTotp();
+                    }
+                    else
+                    {
+                        appSettings["SaveTotpSecret"] = "false";
+                    }
+                }
+                
+                if (appSettings["UseFingerprint", false])
+                {
+                    if (!await CrossFingerprint.Current.IsAvailableAsync())
+                    {
+                        appSettings["UseFingerprint"] = "false";
+                    }
+                    
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    if (!fingerprintAuthenticationResult.Authenticated)
+                    {
+                        goto end;
+                    }
+                }
+                
                 int result = await loginService.Login(UserId, Password, Totp);
 
                 switch (result)
@@ -165,37 +188,34 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         failedAttempts = 0;
                         if (appSettings["SaveUserPassword", true])
                         {
-                            var _ = SecureStorage.SetAsync("pw:" + UserId, Password);
+                            var saveUserPwTask = SecureStorage.SetAsync("pw:" + UserId, Password);
                         }
                         ExecUI(() => eventAggregator.GetEvent<LoginSucceededEvent>().Publish());
                         break;
                     case 1: // Connection to server failed.
                         pendingAttempt = false;
-                        ExecUI(() =>
-                        {
-                            UIEnabled = true;
-                            Application.Current.MainPage.DisplayAlert(localization["Error"], localization["ConnectionToServerFailed"], "OK");
-                        });
+                        UIEnabled = true;
+                        var serverSideFailureAlertTask = Application.Current.MainPage.DisplayAlert(localization["Error"], localization["ConnectionToServerFailed"], "OK");
                         break;
                     case 2: // Login failed server-side.
                         failedAttempts++;
                         SecureStorage.Remove("pw:" + UserId);
-                        ErrorMessage = "Error! Invalid user id, password or 2FA.";
+                        ErrorMessage = localization["InvalidUserIdPwOrTOTP"];
                         if (failedAttempts > 3)
                         {
-                            ErrorMessage += "\nNote that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!\nPlease try again in 15 minutes.";
+                            ErrorMessage += "\n" + localization["LoginMultiFailedAttemptsErrorMessage"];
                         }
-
                         break;
                     case 3: // Login failed client-side.
                         failedAttempts++;
                         SecureStorage.Remove("pw:" + UserId);
-                        ErrorMessage = "Unexpected ERROR! Login succeeded server-side, but the returned response couldn't be handled properly (probably key decryption failure).";
+                        ErrorMessage = localization["LoginFailedClientSide"];
                         break;
                 }
 
+                end:
+                UIEnabled = true;
                 pendingAttempt = false;
-                ExecUI(() => UIEnabled = true);
             });
         }
     }

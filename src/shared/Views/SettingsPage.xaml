@@ -121,11 +121,11 @@
                              Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 
-                    <Switch IsToggled="{Binding ReplaceTotpWithFingerprint}"
+                    <Switch IsToggled="{Binding UseFingerprint}"
                             VerticalOptions="CenterAndExpand"
                             Scale="1.1" />
 
-                    <Label Text="{i:Translate ReplaceTotpWithFingerprint}"
+                    <Label Text="{i:Translate UseFingerprint}"
                            Style="{DynamicResource MediumLabelStyle}"
                            FontSize="16"
                            VerticalTextAlignment="Center"

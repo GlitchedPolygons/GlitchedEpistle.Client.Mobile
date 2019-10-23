@@ -25,12 +25,14 @@ using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using Plugin.Fingerprint.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -48,6 +50,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ILocalization localization;
         private readonly IEventAggregator eventAggregator;
 
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Config") {UseDialog = false};
         #endregion
 
         #region Commands
@@ -93,18 +96,27 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
-        private bool replaceTotpWithFingerprint = false;
-        public bool ReplaceTotpWithFingerprint
+        private bool useFingerprint = false;
+        public bool UseFingerprint
         {
-            get => replaceTotpWithFingerprint;
+            get => useFingerprint;
             set
             {
-                if (value is true)
+                if (FingerprintAvailable)
                 {
-                    // TODO: check if TOTP secret is in SecureStorage (if not, prompt user) and then verify setting change by asking user for his fingerprint.
+                    Task.Run(async () =>
+                    {
+                        var auth = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                        if (auth.Authenticated)
+                        {
+                            Set(ref useFingerprint, value);
+                        }
+                    });
                 }
-
-                Set(ref replaceTotpWithFingerprint, value);
+                else
+                {
+                    Set(ref useFingerprint, false);
+                }
             }
         }
 
@@ -149,7 +161,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         }
 
         private ObservableCollection<Tuple<string, string>> languages;
-
         public ObservableCollection<Tuple<string, string>> Languages
         {
             get => languages;
@@ -193,7 +204,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             Username = userSettings.Username;
             SaveUserPassword = appSettings["SaveUserPassword", true];
             SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
-            ReplaceTotpWithFingerprint = appSettings["ReplaceTotpWithFingerprint", false];
+            UseFingerprint = appSettings["UseFingerprint", false];
             Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]);
             Theme = Themes.FirstOrDefault(tuple => tuple.Item1 == appSettings["Theme", Constants.Themes.DARK_THEME]);
 
@@ -207,7 +218,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             appSettings["Language"] = Language.Item1;
             appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
             appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
-            appSettings["ReplaceTotpWithFingerprint"] = ReplaceTotpWithFingerprint.ToString();
+            appSettings["UseFingerprint"] = UseFingerprint.ToString();
         }
 
         private async void OnClickedClose(object commandParam)
@@ -238,7 +249,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 Username = user?.Id ?? "user";
                 SaveUserPassword = true;
                 SaveConvoPasswords = true;
-                ReplaceTotpWithFingerprint = false;
+                UseFingerprint = false;
                 Theme = Themes[1];
                 Language = Languages[0];
             }
