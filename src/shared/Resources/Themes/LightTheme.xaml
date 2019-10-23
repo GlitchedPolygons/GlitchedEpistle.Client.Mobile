@@ -53,11 +53,6 @@
     <Color x:Key="ButtonBorderColorDisabled">#FF707070</Color>
     <Color x:Key="ButtonBorderColorPressed">#FF68AAEC</Color>
 
-    <!-- Toggleable switch color -->
-    <Color x:Key="SwitchOnColor">#d5eef5</Color>
-    <Color x:Key="SwitchOnThumbColor">#51d2f5</Color>
-    <Color x:Key="SwitchOffThumbColor">#e0e0e0</Color>
-
     <x:String x:Key="HeaderButtonIdleColorHex">#383838</x:String>
     <x:String x:Key="HeaderButtonPressedColorHex">#00b4dd</x:String>
     <x:String x:Key="LogoutHeaderButtonPressedColorHex">#cc0000</x:String>

@@ -74,11 +74,10 @@
                         SelectedItem="{Binding Language}"
                         ItemsSource="{Binding Languages}"
                         ItemDisplayBinding="{Binding Item2}"
-                        Style="{DynamicResource PickerStyle}">
-                </Picker>
+                        Style="{DynamicResource PickerStyle}" />
 
-                <StackLayout Orientation="Horizontal" 
-                             Margin="0,5" 
+                <StackLayout Orientation="Horizontal"
+                             Margin="0,5"
                              IsVisible="{Binding ShowLanguageRestartRequiredWarning}">
                     <ff:CachedImage WidthRequest="32"
                                     HeightRequest="32"
@@ -92,10 +91,9 @@
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 
-                    <Switch IsToggled="{Binding SaveUserPassword}"
-                            Style="{DynamicResource SwitchStyle}"
-                            VerticalOptions="CenterAndExpand"
-                            Scale="1.1" />
+                    <CheckBox IsChecked="{Binding SaveUserPassword}"
+                              VerticalOptions="CenterAndExpand"
+                              Scale="1.1" />
 
                     <Label Text="{i:Translate SaveUserPassword}"
                            Style="{DynamicResource MediumLabelStyle}"
@@ -107,10 +105,9 @@
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 
-                    <Switch IsToggled="{Binding SaveTotpSecret}"
-                            Style="{DynamicResource SwitchStyle}"
-                            VerticalOptions="CenterAndExpand"
-                            Scale="1.1" />
+                    <CheckBox IsChecked="{Binding SaveTotpSecret}"
+                              VerticalOptions="CenterAndExpand"
+                              Scale="1.1" />
 
                     <Label Text="{i:Translate SaveTotpSecret}"
                            Style="{DynamicResource MediumLabelStyle}"
@@ -121,11 +118,9 @@
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
-
-                    <Switch IsToggled="{Binding SaveConvoPasswords}"
-                            Style="{DynamicResource SwitchStyle}"
-                            VerticalOptions="CenterAndExpand"
-                            Scale="1.1" />
+                    <CheckBox IsChecked="{Binding SaveConvoPasswords}"
+                              VerticalOptions="CenterAndExpand"
+                              Scale="1.1" />
 
                     <Label Text="{i:Translate SaveConvoPasswords}"
                            Style="{DynamicResource MediumLabelStyle}"
@@ -138,10 +133,9 @@
                              Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 
-                    <Switch IsToggled="{Binding UseFingerprint}"
-                            Style="{DynamicResource SwitchStyle}"
-                            VerticalOptions="CenterAndExpand"
-                            Scale="1.1" />
+                    <CheckBox IsChecked="{Binding UseFingerprint}"
+                              VerticalOptions="CenterAndExpand"
+                              Scale="1.1" />
 
                     <Label Text="{i:Translate UseFingerprint}"
                            Style="{DynamicResource MediumLabelStyle}"
