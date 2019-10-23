@@ -52,6 +52,8 @@
     <Color x:Key="ButtonBorderColorFocused">#FF57A9D8</Color>
     <Color x:Key="ButtonBorderColorDisabled">#FF292929</Color>
     <Color x:Key="ButtonBorderColorPressed">#FF5798D8</Color>
+    
+    <Color x:Key="SwitchOnColor">#b5dae6</Color>
 
     <x:String x:Key="HeaderButtonIdleColorHex">#ffffff</x:String>
     <x:String x:Key="HeaderButtonPressedColorHex">#00b4dd</x:String>

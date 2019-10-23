@@ -124,6 +124,18 @@
         <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
         <Setter Property="TitleColor" Value="{DynamicResource PrimaryTextColor}" />
     </Style>
+    
+    <Style TargetType="Switch">
+        <Setter Property="OnColor" Value="{DynamicResource SwitchOnColor}"/>
+        <Style.Triggers>
+            <Trigger TargetType="Switch" Property="IsToggled" Value="True">
+                <Setter Property="ThumbColor" Value="#51d2f5"/>
+            </Trigger>
+            <Trigger TargetType="Switch" Property="IsToggled" Value="False">
+                <Setter Property="ThumbColor" Value="#e0e0e0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
     <Style x:Key="HeaderButtonStyle" TargetType="ff:CachedImage">
         <Setter Property="Margin" Value="0" />

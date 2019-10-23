@@ -53,6 +53,8 @@
     <Color x:Key="ButtonBorderColorDisabled">#FF707070</Color>
     <Color x:Key="ButtonBorderColorPressed">#FF68AAEC</Color>
 
+    <Color x:Key="SwitchOnColor">#d5eef5</Color>
+    
     <x:String x:Key="HeaderButtonIdleColorHex">#383838</x:String>
     <x:String x:Key="HeaderButtonPressedColorHex">#00b4dd</x:String>
     <x:String x:Key="LogoutHeaderButtonPressedColorHex">#cc0000</x:String>

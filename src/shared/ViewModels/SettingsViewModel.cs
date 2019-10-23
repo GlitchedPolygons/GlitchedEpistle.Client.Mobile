@@ -19,19 +19,20 @@
 using Prism.Events;
 using Xamarin.Forms;
 using Plugin.Fingerprint;
+
 using System;
+using System.Linq;
 using System.Windows.Input;
-using System.Globalization;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using GlitchedPolygons.ExtensionMethods;
+
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+
 using Plugin.Fingerprint.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
@@ -92,7 +93,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 if (Set(ref saveUserPassword, value))
-                    appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
+                    appSettings["SaveUserPassword"] = value.ToString();
             }
         }
         
@@ -103,7 +104,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 if (Set(ref saveTotpSecret, value))
-                    appSettings["SaveTotpSecret"] = SaveTotpSecret.ToString();
+                    appSettings["SaveTotpSecret"] = value.ToString();
+                
                 // TODO: check if device has the secret in secure storage, or else prompt user for it!
             }
         }
@@ -114,10 +116,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => useFingerprint;
             set
             {
-                if (!initialized) 
-                    Set(ref useFingerprint, value);
-                
-                if (FingerprintAvailable)
+                if (Set(ref useFingerprint, value))
+                    appSettings["UseFingerprint"] = value.ToString();
+                /*if (FingerprintAvailable)
                 {
                     Task.Run(async () =>
                     {
@@ -131,7 +132,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 else
                 {
                     Set(ref useFingerprint, false);
-                }
+                }*/
             }
         }
 
@@ -143,9 +144,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => theme;
             set
             {
-                Set(ref theme, value);
+                if (Set(ref theme, value))
+                    appSettings["Theme"] = value.Item1;
+                
                 (Application.Current as App)?.ChangeTheme(value.Item1);
-                appSettings["Theme"] = value.Item1;
             }
         }
 
@@ -155,9 +157,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => language;
             set
             {
-                Set(ref language, value);
-                appSettings["Language"] = value.Item1;
-                if (initialized) ShowLanguageRestartRequiredWarning = true;
+                if (Set(ref language, value))
+                    appSettings["Language"] = value.Item1;
+                
+                if (initialized) 
+                    ShowLanguageRestartRequiredWarning = true;
             }
         }
 
@@ -197,7 +201,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             AboutCommand = new DelegateCommand(OnClickedAbout);
             CloseCommand = new DelegateCommand(OnClickedClose);
             RevertCommand = new DelegateCommand(OnClickedRevert);
+        }
 
+        public void OnAppearing()
+        {
             Themes = new ObservableCollection<Tuple<string, string>>(new List<Tuple<string, string>>
             {
                 new Tuple<string, string>(Constants.Themes.LIGHT_THEME, localization["LightTheme"]),
@@ -212,10 +219,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 new Tuple<string, string>("gsw", localization["SwissGerman"] + " (Schwiizerdütsch)"),
                 new Tuple<string, string>("it", localization["Italian"] + " (Italiano)")
             });
-        }
-
-        public void OnAppearing()
-        {
+            
             Username = userSettings.Username;
             SaveUserPassword = appSettings["SaveUserPassword", true];
             SaveTotpSecret = appSettings["SaveTotpSecret", false];
