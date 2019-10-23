@@ -176,7 +176,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
                     if (!fingerprintAuthenticationResult.Authenticated)
                     {
-                        goto end;
+                        UIEnabled = true;
+                        pendingAttempt = false;
+                        return;
                     }
                 }
                 
@@ -213,7 +215,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         break;
                 }
 
-                end:
                 UIEnabled = true;
                 pendingAttempt = false;
             });
