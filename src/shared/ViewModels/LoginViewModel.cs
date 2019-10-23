@@ -24,6 +24,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using Plugin.Fingerprint;
@@ -198,7 +199,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             var saveUserPwTask = SecureStorage.SetAsync("pw:" + UserId, Password);
                         }
-
                         ExecUI(() => eventAggregator.GetEvent<LoginSucceededEvent>().Publish());
                         break;
                     case 1: // Connection to server failed.

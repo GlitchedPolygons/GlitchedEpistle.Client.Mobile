@@ -38,7 +38,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Alerts
         /// <param name="message">The message <c>string</c> to display to the user.</param>
         public void AlertShort(string message)
         {
-            Toast.MakeText(Application.Context, message, ToastLength.Short).Show();
+            Device.BeginInvokeOnMainThread(() => Toast.MakeText(Application.Context, message, ToastLength.Short).Show());
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Alerts
         /// <param name="message">The message <c>string</c> to display to the user.</param>
         public void AlertLong(string message)
         {
-            Toast.MakeText(Application.Context, message, ToastLength.Long).Show();
+            Device.BeginInvokeOnMainThread(() => Toast.MakeText(Application.Context, message, ToastLength.Long).Show());
         }
     }
 }

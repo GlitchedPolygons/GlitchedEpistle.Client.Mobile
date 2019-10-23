@@ -140,7 +140,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 var view = new TextPromptPopupPage(
                     title: localization["PleaseEnterTotpSecretDialogTitleLabel"],
-                    description: localization["PleaseEnterTotpSecretDialogTextLabel"],
+                    description: localization["PleaseEnterTotpSecretDialogTextLabel"], // TODO: translate this
                     allowCancel: true, 
                     allowNullOrEmptyString: true
                 );
@@ -164,12 +164,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     bool success = await userService.Validate2FA(user.Id, totp.ComputeTotp());
                     if (!success)
                     {
-                        alertService.AlertShort(localization["TwoFactorAuthTokenVerificationFailed"]);
+                        alertService.AlertShort(localization["TwoFactorAuthTokenVerificationFailed"]); // TODO: translate this
                         SaveTotpSecret = false;
                         return;
                     }
                             
-                    alertService.AlertShort(localization["Success"]);
+                    alertService.AlertShort(localization["Success"]); // TODO: translate this
                     Set(ref saveTotpSecret, true);
                     appSettings["SaveTotpSecret"] = "true";
                 };
