@@ -349,6 +349,9 @@ P.f. riprova ancora tra 15 minuti!</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
 Please try again in 15 minutes.</comment>
   </data>
+  <data name="PleaseEnterTotpSecretDialogTitleLabel" xml:space="preserve">
+    <value>P.f. immetti segreto 2FA</value>
+  </data>
   <data name="SaveTotpSecret" xml:space="preserve">
     <value>Salva segreto di autentificazione a due fattori</value>
   </data>

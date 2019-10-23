@@ -344,6 +344,9 @@ Please try again in 15 minutes.</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
 Please try again in 15 minutes.</comment>
   </data>
+  <data name="PleaseEnterTotpSecretDialogTitleLabel" xml:space="preserve">
+    <value>Please enter your 2FA Secret</value>
+  </data>
   <data name="SaveTotpSecret" xml:space="preserve">
     <value>Save TOTP secret</value>
   </data>
