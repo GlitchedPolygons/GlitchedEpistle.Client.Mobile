@@ -155,17 +155,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 if (appSettings["UseFingerprint", false])
                 {
-                    if (!await CrossFingerprint.Current.IsAvailableAsync())
+                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    {
+                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                        if (!fingerprintAuthenticationResult.Authenticated)
+                        {
+                            UIEnabled = true;
+                            pendingAttempt = false;
+                            return;
+                        }
+                    }
+                    else
                     {
                         appSettings["UseFingerprint"] = "false";
-                    }
-
-                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                    if (!fingerprintAuthenticationResult.Authenticated)
-                    {
-                        UIEnabled = true;
-                        pendingAttempt = false;
-                        return;
                     }
                 }
 
