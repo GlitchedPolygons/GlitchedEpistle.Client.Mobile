@@ -203,7 +203,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         failedAttempts++;
                         SecureStorage.Remove("pw:" + UserId);
                         ErrorMessage = localization["InvalidUserIdPwOrTOTP"];
-                        if (failedAttempts > 3)
+                        if (failedAttempts >= 3)
                         {
                             ErrorMessage += "\n" + localization["LoginMultiFailedAttemptsErrorMessage"];
                         }

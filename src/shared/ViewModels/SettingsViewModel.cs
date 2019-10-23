@@ -91,8 +91,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => saveUserPassword;
             set
             {
-                if(Set(ref saveUserPassword, value))
+                if (Set(ref saveUserPassword, value))
                     appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
+            }
+        }
+        
+        private bool saveTotpSecret = true;
+        public bool SaveTotpSecret
+        {
+            get => saveTotpSecret;
+            set
+            {
+                if (Set(ref saveTotpSecret, value))
+                    appSettings["SaveTotpSecret"] = SaveTotpSecret.ToString();
+                // TODO: check if device has the secret in secure storage, or else prompt user for it!
             }
         }
 
@@ -102,6 +114,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => useFingerprint;
             set
             {
+                if (!initialized) 
+                    Set(ref useFingerprint, value);
+                
                 if (FingerprintAvailable)
                 {
                     Task.Run(async () =>
@@ -169,7 +184,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #endregion
         
-        private bool initialized = false;
+        private volatile bool initialized = false;
 
         public SettingsViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, IUserSettings userSettings, User user)
         {

@@ -349,6 +349,9 @@ Bitte probier's süsch i 15 Minute nomau!</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
 Please try again in 15 minutes.</comment>
   </data>
+  <data name="SaveTotpSecret" xml:space="preserve">
+    <value>Zwe-Faktor Outhentifizierigs-Passwort spichere</value>
+  </data>
   <data name="UseFingerprint" xml:space="preserve">
     <value>Fingerabdruck benutze</value>
   </data>

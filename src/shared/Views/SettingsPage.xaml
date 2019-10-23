@@ -106,6 +106,20 @@
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 
+                    <Switch IsToggled="{Binding SaveTotpSecret}"
+                            VerticalOptions="CenterAndExpand"
+                            Scale="1.1" />
+
+                    <Label Text="{i:Translate SaveTotpSecret}"
+                           Style="{DynamicResource MediumLabelStyle}"
+                           FontSize="16"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand">
+
                     <Switch IsToggled="{Binding SaveConvoPasswords}"
                             VerticalOptions="CenterAndExpand"
                             Scale="1.1" />
