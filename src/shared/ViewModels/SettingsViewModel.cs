@@ -32,6 +32,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using GlitchedPolygons.Services.MethodQ;
 using OtpNet;
 using Plugin.Fingerprint.Abstractions;
 using Xamarin.Essentials;
@@ -47,6 +48,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         // Injections:
         private readonly User user;
+        private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
         private readonly ILocalization localization;
@@ -202,9 +204,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         private volatile bool initialized = false;
 
-        public SettingsViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, IUserSettings userSettings, User user)
+        public SettingsViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, IUserSettings userSettings, User user, IMethodQ methodQ)
         {
             this.user = user;
+            this.methodQ = methodQ;
             this.appSettings = appSettings;
             this.userSettings = userSettings;
             this.eventAggregator = eventAggregator;
@@ -240,7 +243,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]) ?? Languages[0];
             Theme = Themes.FirstOrDefault(tuple => tuple.Item1 == appSettings["Theme", Constants.Themes.DARK_THEME]);
 
-            initialized = true;
+            methodQ.Schedule(() => initialized = true, DateTime.UtcNow.AddMilliseconds(420));
         }
 
         public void OnDisappearing()
