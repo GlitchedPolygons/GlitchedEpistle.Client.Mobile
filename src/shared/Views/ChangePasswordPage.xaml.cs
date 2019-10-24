@@ -18,7 +18,7 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
@@ -28,31 +28,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         public ChangePasswordPage()
         {
             InitializeComponent();
-            UpdateSubmitButton();
         }
 
-        private void CurrentPasswordBox_TextChanged(object sender, TextChangedEventArgs e)
+        protected override void OnAppearing()
         {
-            UpdateSubmitButton();
-        }
-
-        private void NewPasswordBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdateSubmitButton();
-        }
-
-        private void NewPasswordConfirmationBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdateSubmitButton();
-        }
-
-        private void UpdateSubmitButton()
-        {
-            SubmitButton.IsEnabled =
-                CurrentPasswordBox.Text.NotNullNotEmpty()
-                && NewPasswordBox.Text.NotNullNotEmpty()
-                && NewPasswordBox.Text.Length > 6
-                && NewPasswordBox.Text == NewPasswordConfirmationBox.Text;
+            base.OnAppearing();
+            (BindingContext as IOnAppearingListener)?.OnAppearing();
         }
     }
 }

@@ -30,11 +30,14 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using OtpNet;
+using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class ChangePasswordViewModel : ViewModel
+    public class ChangePasswordViewModel : ViewModel, IOnAppearingListener
     {
         #region Constants
 
@@ -63,21 +66,33 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public string CurrentPassword
         {
             get => currentPassword;
-            set => Set(ref currentPassword, value);
+            set
+            {
+                Set(ref currentPassword, value);
+                UpdateSubmitButton();
+            }
         }
 
         private string newPassword;
         public string NewPassword
         {
             get => newPassword;
-            set => Set(ref newPassword, value);
+            set
+            {
+                Set(ref newPassword, value);
+                UpdateSubmitButton();
+            }
         }
 
         private string newPasswordConfirmation;
         public string NewPasswordConfirmation
         {
             get => newPasswordConfirmation;
-            set => Set(ref newPasswordConfirmation, value);
+            set
+            {
+                Set(ref newPasswordConfirmation, value);
+                UpdateSubmitButton();
+            }
         }
 
         private string totp;
@@ -87,11 +102,25 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref totp, value);
         }
 
-        private bool uiEnabled = true;
-        public bool UIEnabled
+        private bool showTotpField = true;
+        public bool ShowTotpField
         {
-            get => uiEnabled;
-            set => Set(ref uiEnabled, value);
+            get => showTotpField;
+            set => Set(ref showTotpField, value);
+        }
+        
+        private bool cancelButtonEnabled = true;
+        public bool CancelButtonEnabled
+        {
+            get => cancelButtonEnabled;
+            set => Set(ref cancelButtonEnabled, value);
+        }
+
+        private bool submitButtonEnabled = false;
+        public bool SubmitButtonEnabled
+        {
+            get => submitButtonEnabled;
+            set => Set(ref submitButtonEnabled, value);
         }
 
         #endregion
@@ -109,30 +138,61 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             SubmitCommand = new DelegateCommand(OnSubmit);
             CancelCommand = new DelegateCommand(OnCancel);
         }
+        
+        public void OnAppearing()
+        {
+            ShowTotpField = !appSettings["SaveTotpSecret", false];
+            UpdateSubmitButton();
+        }
+        
+        private void UpdateSubmitButton()
+        {
+            SubmitButtonEnabled = CurrentPassword.NotNullNotEmpty() && NewPassword.NotNullNotEmpty();
+        }
 
         private void OnSubmit(object commandParam)
         {
-            if (Totp.NullOrEmpty())
-            {
-                ErrorMessage = localization["NoTotpProvidedErrorMessage"];
-                return;
-            }
-            
-            UIEnabled = false;
+            SubmitButtonEnabled = CancelButtonEnabled = false;
             
             Task.Run(async () =>
             {
+                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
+                {
+                    // TODO: extract the following block of code into some service interface, because it's repeated already a couple times across login screen, etc...
+                    if (totpSecret.NotNullNotEmpty())
+                    {
+                        var totp = new Totp(Base32Encoding.ToBytes(totpSecret));
+                        if (totp.RemainingSeconds() < 2)
+                        {
+                            await Task.Delay(1250);
+                        }
+
+                        Totp = totp.ComputeTotp();
+                    }
+                    else
+                    {
+                        appSettings["SaveTotpSecret"] = "false";
+                    }
+                }
+
+                if (Totp.NullOrEmpty())
+                {
+                    ErrorMessage = localization["NoTotpProvidedErrorMessage"];
+                    SubmitButtonEnabled = CancelButtonEnabled = true;
+                    return;
+                }
+                
                 if (CurrentPassword.NullOrEmpty() || NewPassword.NullOrEmpty() || NewPassword != NewPasswordConfirmation)
                 {
                     ErrorMessage = localization["PasswordFieldsInvalid"];
-                    UIEnabled = true;
+                    SubmitButtonEnabled = CancelButtonEnabled = true;
                     return;
                 }
 
                 if (NewPassword.Length < 7)
                 {
                     ErrorMessage = localization["PasswordTooWeakErrorMessage"];
-                    UIEnabled = true;
+                    SubmitButtonEnabled = CancelButtonEnabled = true;
                     return;
                 }
 
@@ -154,14 +214,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 else
                 {
                     ErrorMessage = localization["PasswordChangeRequestFailedServerSideErrorMessage"];
-                    UIEnabled = true;
+                    SubmitButtonEnabled = CancelButtonEnabled = true;
                 }
             });
         }
         
         private async void OnCancel(object commandParam)
         {
-            UIEnabled = false;
+            SubmitButtonEnabled = CancelButtonEnabled = false;
             CurrentPassword = NewPassword = NewPasswordConfirmation = Totp = null;
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
