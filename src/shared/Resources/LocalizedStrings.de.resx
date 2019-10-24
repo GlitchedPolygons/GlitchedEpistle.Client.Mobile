@@ -343,6 +343,25 @@ https://glitchedpolygons.com</value>
   <data name="Cancelled" xml:space="preserve">
     <value>Abgebrochen...</value>
   </data>
+  <data name="ChangePasswordDescriptionLabel" xml:space="preserve">
+    <value>Es ist super leicht, und sollte ab und zu gemacht werden!
+
+Um dein Passwort zu ändern, gib dein aktuelles Passwort hier unten ein und dann dein neues gewünschtes Passwort unmittelbar darunter, bestätige dies durch erneutes Eingeben und dann nur noch deine Anfrage authentifizeren mit deinem 2FA Token und voilà! Passwort geändert, sicher und schnell!
+
+Gute Passwörter sind mindestens 8 Zeichen lang und beinhalten ein oder mehrere Sonderzeichen, sowie Gross- und Kleinbuchstaben.</value>
+    <comment>It's very easy, and important that you do it every now and then!
+
+To change your password, enter your current one in the field below and then double-enter your new desired password right after. 
+Authenticate your request by entering your Two-Factor Authentication token and voilà, you're done! Password changed, safely and swiftly.
+
+Good passwords are at least 8 characters long and contain some degree of special symbols, numbers and mixed uppercase and lowercase letters.</comment>
+  </data>
+  <data name="ChangePasswordTitleLabel" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
+  <data name="CurrentPasswordLabel" xml:space="preserve">
+    <value>Aktuelles Passwort</value>
+  </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Fehler! Nutzer-ID, Passwort oder Zwei-Faktor Authentifizierungstoken ungültig.</value>
   </data>
@@ -355,6 +374,31 @@ https://glitchedpolygons.com</value>
 Bitte versuche es in 15 Minuten nochmal!</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
 Please try again in 15 minutes.</comment>
+  </data>
+  <data name="NewPasswordConfirmationLabel" xml:space="preserve">
+    <value>Neues Passwort bestätigen</value>
+  </data>
+  <data name="NewPasswordLabel" xml:space="preserve">
+    <value>Neues Passwort</value>
+  </data>
+  <data name="NoTotpProvidedErrorMessage" xml:space="preserve">
+    <value>Kein Zwei-Faktor Authentifizierungs-Token eingegeben - bitte authentifiziere deine Anfrage!</value>
+    <comment>No 2FA token provided - please authenticate your request!</comment>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Passwort erfolgreich geändert</value>
+  </data>
+  <data name="PasswordChangeRequestFailedServerSideErrorMessage" xml:space="preserve">
+    <value>Passwort Änderungsversuch fehlgeschlagen: evtl. ungültiger Zwei-Faktor Auth. Token?</value>
+    <comment>Password change request rejected server-side: perhaps invalid 2FA token?</comment>
+  </data>
+  <data name="PasswordFieldsInvalid" xml:space="preserve">
+    <value>Ein oder mehrere Passwortfelder sind leer oder nicht übereinstimmend.</value>
+    <comment>The password fields are null, empty or don't match where they need to match.</comment>
+  </data>
+  <data name="PasswordTooWeakErrorMessage" xml:space="preserve">
+    <value>Das eingegebene Passwort ist zu schwach; es sollte mindestens &gt;7 Zeichen beinhalten!</value>
+    <comment>Your password is too weak; make sure that it has at least &gt;7 characters!</comment>
   </data>
   <data name="PleaseEnterTotpSecretDialogTextLabel" xml:space="preserve">
     <value>Damit die Epistle App Zwei-Faktor Authentifizierungs-Tokens für dich generieren kann, muss das 2FA-Geheimnis bereitgestellt werden, welches du bei der Registrierung deines Kontos angezeigt bekamst (die Seite mit dem QR-Code).

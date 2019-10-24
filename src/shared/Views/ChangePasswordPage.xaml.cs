@@ -18,6 +18,7 @@
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using GlitchedPolygons.ExtensionMethods;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
@@ -27,21 +28,31 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         public ChangePasswordPage()
         {
             InitializeComponent();
+            UpdateSubmitButton();
         }
 
         private void CurrentPasswordBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            UpdateSubmitButton();
         }
 
         private void NewPasswordBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            UpdateSubmitButton();
         }
 
         private void NewPasswordConfirmationBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            UpdateSubmitButton();
+        }
+
+        private void UpdateSubmitButton()
+        {
+            SubmitButton.IsEnabled =
+                CurrentPasswordBox.Text.NotNullNotEmpty()
+                && NewPasswordBox.Text.NotNullNotEmpty()
+                && NewPasswordBox.Text.Length > 6
+                && NewPasswordBox.Text == NewPasswordConfirmationBox.Text;
         }
     }
 }

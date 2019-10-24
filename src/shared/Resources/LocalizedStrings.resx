@@ -338,6 +338,26 @@ Reverting to default settings will also apply them immediately. Are you sure tha
   <data name="Cancelled" xml:space="preserve">
     <value>Cancelled...</value>
   </data>
+  <data name="ChangePasswordDescriptionLabel" xml:space="preserve">
+    <value>It's very easy, and important that you do it every now and then!
+
+To change your password, enter your current one in the field below and then double-enter your new desired password right after. 
+Authenticate your request by entering your Two-Factor Authentication token and voilà, you're done! Password changed, safely and swiftly.
+
+Good passwords are at least 8 characters long and contain some degree of special symbols, numbers and mixed uppercase and lowercase letters.</value>
+    <comment>It's very easy, and important that you do it every now and then!
+
+To change your password, enter your current one in the field below and then double-enter your new desired password right after. 
+Authenticate your request by entering your Two-Factor Authentication token and voilà, you're done! Password changed, safely and swiftly.
+
+Good passwords are at least 8 characters long and contain some degree of special symbols, numbers and mixed uppercase and lowercase letters.</comment>
+  </data>
+  <data name="ChangePasswordTitleLabel" xml:space="preserve">
+    <value>Changing your password</value>
+  </data>
+  <data name="CurrentPasswordLabel" xml:space="preserve">
+    <value>Current password</value>
+  </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Error! Invalid user id, password or 2FA.</value>
   </data>
@@ -349,6 +369,29 @@ Reverting to default settings will also apply them immediately. Are you sure tha
 Please try again in 15 minutes.</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
 Please try again in 15 minutes.</comment>
+  </data>
+  <data name="NewPasswordConfirmationLabel" xml:space="preserve">
+    <value>Re-enter your new password</value>
+  </data>
+  <data name="NewPasswordLabel" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="NoTotpProvidedErrorMessage" xml:space="preserve">
+    <value>No 2FA token provided - please authenticate your request!</value>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Password changed successfully</value>
+  </data>
+  <data name="PasswordChangeRequestFailedServerSideErrorMessage" xml:space="preserve">
+    <value>Password change request rejected server-side: perhaps invalid 2FA token?</value>
+    <comment>Password change request rejected server-side: perhaps invalid 2FA token?</comment>
+  </data>
+  <data name="PasswordFieldsInvalid" xml:space="preserve">
+    <value>The password fields are empty or don't match where they need to match.</value>
+    <comment>The password fields are null, empty or don't match where they need to match.</comment>
+  </data>
+  <data name="PasswordTooWeakErrorMessage" xml:space="preserve">
+    <value>Your password is too weak; make sure that it has at least &gt;7 characters!</value>
   </data>
   <data name="PleaseEnterTotpSecretDialogTextLabel" xml:space="preserve">
     <value>In order for the Epistle app to generate 2FA tokens for you, it needs to know your Two-Factor Authentication secret that you received when you first created this account (when the page with the QR-Code was displayed).

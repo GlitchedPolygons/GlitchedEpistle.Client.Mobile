@@ -342,6 +342,24 @@ https://glitchedpolygons.com</value>
   <data name="Cancelled" xml:space="preserve">
     <value>Abbrocheh...</value>
   </data>
+  <data name="ChangePasswordDescriptionLabel" xml:space="preserve">
+    <value>Es isch super easy u sött ab und zue eyfach gmacht wärde!
+
+Um dis Passwort z'ändere, gib dis jetzige Passwort hye unge ii, u denn gib dis neue gwünschte Passwort unmittubar drunger dopplet ii, denne no d'Aafraag mit dim Zwe-Faktor Outhentifizierigs-Token legitimiere u voilà! Passwort g'änderet, sicher u schnäu.
+
+Gueti Passwörter sy mindestens 8 Zeyche läng u hey 1 odr mee Sonderzeyche, sowie Gross- u Chliibuechstabe.</value>
+    <comment>Es ist super leicht, und sollte ab und zu gemacht werden!
+
+Um dein Passwort zu ändern, gib dein aktuelles Passwort hier unten ein und dann dein neues gewünschtes Passwort unmittelbar darunter, bestätige dies durch erneutes Eingeben und dann nur noch deine Anfrage authentifizeren mit deinem 2FA Token und voilà! Passwort geändert, sicher und schnell!
+
+Gute Passwörter sind mindestens 8 Zeichen lang und beinhalten ein oder mehrere Sonderzeichen, sowie Gross- und Kleinbuchstaben.</comment>
+  </data>
+  <data name="ChangePasswordTitleLabel" xml:space="preserve">
+    <value>Passwort ändere</value>
+  </data>
+  <data name="CurrentPasswordLabel" xml:space="preserve">
+    <value />
+  </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Fähler! Nutzer-ID, Passwort odr Zwe-Faktor Outhentifizierig lätz.</value>
   </data>
@@ -354,6 +372,31 @@ https://glitchedpolygons.com</value>
 Bitte probier's süsch i 15 Minute nomau!</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
 Please try again in 15 minutes.</comment>
+  </data>
+  <data name="NewPasswordConfirmationLabel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NewPasswordLabel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="NoTotpProvidedErrorMessage" xml:space="preserve">
+    <value>Ke Zwe-Faktor Outhentifizierigs-Token iigäh - bitte outhentifizer dini aafraag!</value>
+    <comment>No 2FA token provided - please authenticate your request!</comment>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Passwort erfougriich gänderet</value>
+  </data>
+  <data name="PasswordChangeRequestFailedServerSideErrorMessage" xml:space="preserve">
+    <value>Passwort Änderigsversuech fäugschlage: evtl. ungüutiges Zwe-Faktor Auth. Token?</value>
+    <comment>Password change request rejected server-side: perhaps invalid 2FA token?</comment>
+  </data>
+  <data name="PasswordFieldsInvalid" xml:space="preserve">
+    <value>Eys odr mehreri Passwortfäuder sy läär odr nit übereynstimmend.</value>
+    <comment>The password fields are null, empty or don't match where they need to match.</comment>
+  </data>
+  <data name="PasswordTooWeakErrorMessage" xml:space="preserve">
+    <value>Dis Passwort isch z'schwach; es sött scho mindeschtens &gt;7 Zeyche beinhautte.</value>
+    <comment>Das eingegebene Passwort ist zu schwach; es sollte mindestens &gt;7 Zeichen beinhalten!</comment>
   </data>
   <data name="PleaseEnterTotpSecretDialogTextLabel" xml:space="preserve">
     <value>Demit d'Epistle App Zwe-Faktor Outhentifizierigs-Tokens für di cha generiere, muess es dis 2FA Gheymniss wüsse, weles du während dr Aamäudig vo dim Konto aazeygt bechoo hesh (d' Sytte mitem QR-Code).

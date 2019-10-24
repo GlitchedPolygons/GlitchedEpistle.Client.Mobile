@@ -291,12 +291,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
-        private void OnClickedChangePassword(object commandParam)
+        private async void OnClickedChangePassword(object commandParam)
         {
             if (!HeaderButtonsEnabled)
             {
                 return;
             }
+
+            var view = new ChangePasswordPage { BindingContext = viewModelFactory.Create<ChangePasswordViewModel>() };
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private async void OnClickedSettings(object commandParam)
