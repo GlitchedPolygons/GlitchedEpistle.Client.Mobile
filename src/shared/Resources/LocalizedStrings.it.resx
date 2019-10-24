@@ -359,7 +359,7 @@ Good passwords are at least 8 characters long and contain some degree of special
     <value>Modifica password</value>
   </data>
   <data name="CurrentPasswordLabel" xml:space="preserve">
-    <value />
+    <value>Password attuale</value>
   </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Errore! ID utente, password o token d'autentificazione a due fattori invalido.</value>
@@ -375,10 +375,10 @@ P.f. riprova ancora tra 15 minuti!</value>
 Please try again in 15 minutes.</comment>
   </data>
   <data name="NewPasswordConfirmationLabel" xml:space="preserve">
-    <value />
+    <value>Conferma password nuova</value>
   </data>
   <data name="NewPasswordLabel" xml:space="preserve">
-    <value />
+    <value>Password nuova</value>
   </data>
   <data name="NoTotpProvidedErrorMessage" xml:space="preserve">
     <value>Token d'autentificazione a due fattori vuoto - p.f. autentifica la tua richiesta!</value>

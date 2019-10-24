@@ -358,7 +358,7 @@ Gute Passwörter sind mindestens 8 Zeichen lang und beinhalten ein oder mehrere 
     <value>Passwort ändere</value>
   </data>
   <data name="CurrentPasswordLabel" xml:space="preserve">
-    <value />
+    <value>Aktuelles Passwort</value>
   </data>
   <data name="InvalidUserIdPwOrTOTP" xml:space="preserve">
     <value>Fähler! Nutzer-ID, Passwort odr Zwe-Faktor Outhentifizierig lätz.</value>
@@ -374,10 +374,10 @@ Bitte probier's süsch i 15 Minute nomau!</value>
 Please try again in 15 minutes.</comment>
   </data>
   <data name="NewPasswordConfirmationLabel" xml:space="preserve">
-    <value />
+    <value>Neus Passwort bestätige</value>
   </data>
   <data name="NewPasswordLabel" xml:space="preserve">
-    <value />
+    <value>Neus Passwort</value>
   </data>
   <data name="NoTotpProvidedErrorMessage" xml:space="preserve">
     <value>Ke Zwe-Faktor Outhentifizierigs-Token iigäh - bitte outhentifizer dini aafraag!</value>
