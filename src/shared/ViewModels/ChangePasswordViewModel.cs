@@ -207,13 +207,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 if (success)
                 {
-                    CurrentPassword = NewPassword = NewPasswordConfirmation = Totp = null;
-                    alertService.AlertLong(localization["PasswordChangedSuccessfully"]);
-                    
                     if (appSettings["SaveUserPassword", true])
                     {
                         await SecureStorage.SetAsync("pw:" + user.Id, NewPassword);
                     }
+                    
+                    CurrentPassword = NewPassword = NewPasswordConfirmation = Totp = null;
+                    alertService.AlertLong(localization["PasswordChangedSuccessfully"]);
                     
                     OnCancel(null);
                 }
