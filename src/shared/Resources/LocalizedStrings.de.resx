@@ -376,6 +376,9 @@ Please note that if you do not know or have forgot your 2FA secret, you're out o
   <data name="SaveTotpSecret" xml:space="preserve">
     <value>Zwei-Faktor Auth. Geheimnis speichern</value>
   </data>
+  <data name="SubmitPwChangeRequestButton" xml:space="preserve">
+    <value>Passwort ändern</value>
+  </data>
   <data name="TwoFactorAuthTokenVerificationFailed" xml:space="preserve">
     <value>Zwei-Faktor Authentifizierung fehlgeschlagen</value>
   </data>

@@ -375,6 +375,9 @@ Please note that if you do not know or have forgot your 2FA secret, you're out o
   <data name="SaveTotpSecret" xml:space="preserve">
     <value>Salva segreto di autentificazione a due fattori</value>
   </data>
+  <data name="SubmitButton" xml:space="preserve">
+    <value>Cambia password</value>
+  </data>
   <data name="TwoFactorAuthTokenVerificationFailed" xml:space="preserve">
     <value>Autentificazione non riuscita...</value>
   </data>
