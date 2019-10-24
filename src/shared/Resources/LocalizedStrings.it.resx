@@ -388,8 +388,7 @@ Please try again in 15 minutes.</comment>
     <value>Password cambiata</value>
   </data>
   <data name="PasswordChangeRequestFailedServerSideErrorMessage" xml:space="preserve">
-    <value>Richiesta di cambiamento password fallita: eventualmente token d'autentificazione a due fattori invalido?</value>
-    <comment>Password change request rejected server-side: perhaps invalid 2FA token?</comment>
+    <value>Richiesta di cambiamento password fallita: p.f. controlla la validità di tutti i campi!</value>
   </data>
   <data name="PasswordFieldsInvalid" xml:space="preserve">
     <value>Uno o più campi sono vuoti e/o non combaciano dove devono combaciare.</value>

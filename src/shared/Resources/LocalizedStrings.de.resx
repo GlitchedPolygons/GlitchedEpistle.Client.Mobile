@@ -392,6 +392,10 @@ Please try again in 15 minutes.</comment>
     <value>Passwort Änderungsversuch fehlgeschlagen: evtl. ungültiger Zwei-Faktor Auth. Token?</value>
     <comment>Password change request rejected server-side: perhaps invalid 2FA token?</comment>
   </data>
+  <data name="PasswordChangeRequestFailedServerSideErrorMessage1" xml:space="preserve">
+    <value>Passwort Änderungsversuch fehlgeschlagen: bitte alle Felder überprüfen!</value>
+    <comment>Password change request rejected server-side: perhaps invalid 2FA token?</comment>
+  </data>
   <data name="PasswordFieldsInvalid" xml:space="preserve">
     <value>Ein oder mehrere Passwortfelder sind leer oder nicht übereinstimmend.</value>
     <comment>The password fields are null, empty or don't match where they need to match.</comment>

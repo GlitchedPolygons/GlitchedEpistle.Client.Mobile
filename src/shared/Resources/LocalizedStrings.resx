@@ -383,7 +383,7 @@ Please try again in 15 minutes.</comment>
     <value>Password changed successfully</value>
   </data>
   <data name="PasswordChangeRequestFailedServerSideErrorMessage" xml:space="preserve">
-    <value>Password change request rejected server-side: perhaps invalid 2FA token?</value>
+    <value>Password change request failed: please double-check all fields and try again!</value>
     <comment>Password change request rejected server-side: perhaps invalid 2FA token?</comment>
   </data>
   <data name="PasswordFieldsInvalid" xml:space="preserve">
