@@ -32,7 +32,7 @@
         <ScrollView>
             <StackLayout Padding="32">
 
-                <Label Text="{i:Translate Settings}"
+                <Label Text="{i:Translate MasterMenuItemSettings}"
                        Style="{DynamicResource MediumLabelStyle}"
                        HorizontalOptions="CenterAndExpand" />
 
