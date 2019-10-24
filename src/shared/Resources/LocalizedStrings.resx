@@ -332,6 +332,9 @@ Reverting to default settings will also apply them immediately. Are you sure tha
   <data name="LanguageChangeRestartRequiredLabel" xml:space="preserve">
     <value>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</value>
   </data>
+  <data name="ActivationSuccessful" xml:space="preserve">
+    <value>Activation successful</value>
+  </data>
   <data name="Cancelled" xml:space="preserve">
     <value>Cancelled...</value>
   </data>
@@ -347,11 +350,22 @@ Please try again in 15 minutes.</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
 Please try again in 15 minutes.</comment>
   </data>
+  <data name="PleaseEnterTotpSecretDialogTextLabel" xml:space="preserve">
+    <value>In order for the Epistle app to generate 2FA tokens for you, it needs to know your Two-Factor Authentication secret that you received when you first created this account (when the page with the QR-Code was displayed).
+
+No worries: it will be stored in encrypted form using your device's SecureStorage provider. 
+If you feel unsure about this and/or want to keep the token generation source away from the client app (which is what 2FA is actually all about), you don't need to enable this. This feature is here for pure comfort reasons only!
+
+Please note that if you do not know or have forgot your 2FA secret, you're out of luck and you cannot enable this option. Just make sure not to lose your 2FA device... take care!</value>
+  </data>
   <data name="PleaseEnterTotpSecretDialogTitleLabel" xml:space="preserve">
     <value>Please enter your 2FA Secret</value>
   </data>
   <data name="SaveTotpSecret" xml:space="preserve">
     <value>Save TOTP secret</value>
+  </data>
+  <data name="TwoFactorAuthTokenVerificationFailed" xml:space="preserve">
+    <value>2FA verification failed...</value>
   </data>
   <data name="UseFingerprint" xml:space="preserve">
     <value>Use fingerprint</value>

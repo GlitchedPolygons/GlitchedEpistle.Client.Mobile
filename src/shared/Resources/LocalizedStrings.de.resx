@@ -337,6 +337,9 @@ https://glitchedpolygons.com</value>
     <value>Eine Änderung an der Spracheinstellung benötigt einen App-Neustart um in Kraft zu treten!</value>
     <comment>Changing the language setting requires the Epistle app to be restarted in order for the modification to take effect!</comment>
   </data>
+  <data name="ActivationSuccessful" xml:space="preserve">
+    <value>Erfolgreich aktiviert</value>
+  </data>
   <data name="Cancelled" xml:space="preserve">
     <value>Abgebrochen...</value>
   </data>
@@ -353,11 +356,28 @@ Bitte versuche es in 15 Minuten nochmal!</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts and/or expired (or already used) two-factor authentication tokens!
 Please try again in 15 minutes.</comment>
   </data>
+  <data name="PleaseEnterTotpSecretDialogTextLabel" xml:space="preserve">
+    <value>Damit die Epistle App Zwei-Faktor Authentifizierungs-Tokens für dich generieren kann, muss das 2FA-Geheimnis bereitgestellt werden, welches du bei der Registrierung deines Kontos angezeigt bekamst (die Seite mit dem QR-Code).
+
+Keine Sorge: dieses Geheimnis bleibt geheim. Es wird sorgfältig verschlüsselt und im SecureStorage Provider deines Gerätes gelagert.
+Wenn du dir dies bezüglich unsicher bist, dich unwohl dabei fühlst und/oder deine Token-Generierungsquelle einfach von der konsumierenden Client-App trennen willst (was ja ursprünglich der Sinn und Zweck der Zwei-Faktor Authentifizierung war), musst du dies nicht tun. Diese Einstellung ist zu 100% optional und wurde rein aus Bequemlichkeitsgründen implementiert!
+
+Bitte beachte, dass wenn du nicht mehr im Besitz deines 2FA-Geheimnis bist, diese Einstellung nicht aktiviert werden kann. In diesem Fall, sorge bitte einfach dafür, dass du dein 2FA-Gerät nicht auch noch verlierst...</value>
+    <comment>In order for the Epistle app to generate 2FA tokens for you, it needs to know your Two-Factor Authentication secret that you received when you first created this account (when the page with the QR-Code was displayed).
+
+No worries: it will be stored in encrypted form using your device's SecureStorage provider. 
+If you feel unsure about this and/or want to keep the token generation source away from the client app (which is what 2FA is actually all about), you don't need to enable this. This feature is here for pure comfort reasons only!
+
+Please note that if you do not know or have forgot your 2FA secret, you're out of luck and you cannot enable this option. Just make sure not to lose your 2FA device... take care!</comment>
+  </data>
   <data name="PleaseEnterTotpSecretDialogTitleLabel" xml:space="preserve">
     <value>Bitte das 2FA-Geheimnis eingeben</value>
   </data>
   <data name="SaveTotpSecret" xml:space="preserve">
     <value>Zwei-Faktor Auth. Geheimnis speichern</value>
+  </data>
+  <data name="TwoFactorAuthTokenVerificationFailed" xml:space="preserve">
+    <value>Zwei-Faktor Authentifizierung fehlgeschlagen</value>
   </data>
   <data name="UseFingerprint" xml:space="preserve">
     <value>Fingerabdruck benutzen</value>

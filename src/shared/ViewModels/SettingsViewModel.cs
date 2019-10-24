@@ -140,7 +140,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 var view = new TextPromptPopupPage(
                     title: localization["PleaseEnterTotpSecretDialogTitleLabel"],
-                    description: localization["PleaseEnterTotpSecretDialogTextLabel"], // TODO: translate this
+                    description: localization["PleaseEnterTotpSecretDialogTextLabel"],
                     allowCancel: true, 
                     allowNullOrEmptyString: true
                 );
@@ -164,12 +164,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     bool success = await userService.Validate2FA(user.Id, totp.ComputeTotp());
                     if (!success)
                     {
-                        alertService.AlertShort(localization["TwoFactorAuthTokenVerificationFailed"]); // TODO: translate this
+                        alertService.AlertShort(localization["TwoFactorAuthTokenVerificationFailed"]);
                         SaveTotpSecret = false;
                         return;
                     }
                             
-                    alertService.AlertShort(localization["Success"]); // TODO: translate this
+                    alertService.AlertShort(localization["ActivationSuccessful"]);
+                    
                     Set(ref saveTotpSecret, true);
                     appSettings["SaveTotpSecret"] = "true";
                 };
@@ -184,12 +185,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => useFingerprint;
             set
             {
-                if (Set(ref useFingerprint, value))
+                if (!initialized)
+                {
+                    Set(ref useFingerprint, value);
                     appSettings["UseFingerprint"] = value.ToString();
-
-                if (!initialized) 
                     return;
-                
+                }
+
                 if (FingerprintAvailable)
                 {
                     Task.Run(async () =>
@@ -198,12 +200,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         if (auth.Authenticated)
                         {
                             Set(ref useFingerprint, value);
+                            appSettings["UseFingerprint"] = value.ToString();
                         }
                     });
                 }
                 else
                 {
                     Set(ref useFingerprint, false);
+                    appSettings["UseFingerprint"] = "false";
                 }
             }
         }
