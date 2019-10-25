@@ -256,12 +256,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         protected override void OnSleep()
         {
-            
+            StopAuthRefreshingCycle();
         }
 
         protected override void OnResume()
         {
-            
+            RefreshAuth();
+            StartAuthRefreshingCycle();
         }
 
         private void StopAuthRefreshingCycle()
@@ -275,19 +276,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void StartAuthRefreshingCycle()
         {
-            scheduledAuthRefresh = methodQ.Schedule(async () =>
+            scheduledAuthRefresh = methodQ.Schedule(RefreshAuth, TimeSpan.FromMinutes(13.37));
+        }
+
+        private async void RefreshAuth()
+        {
+            if (user?.Token is null)
             {
-                string freshToken = await userService.RefreshAuthToken(user.Id, user.Token.Item2);
+                return;
+            }
+            
+            string freshToken = await userService.RefreshAuthToken(user.Id, user.Token.Item2);
                 
-                if (freshToken.NotNullNotEmpty())
-                {
-                    user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, freshToken);
-                }
-                else
-                {
-                    Logout();
-                }
-            }, TimeSpan.FromMinutes(13.37));
+            if (freshToken.NotNullNotEmpty())
+            {
+                user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, freshToken);
+            }
+            else
+            {
+                Logout();
+            }
         }
 
         private void OnLoginSuccessful()
