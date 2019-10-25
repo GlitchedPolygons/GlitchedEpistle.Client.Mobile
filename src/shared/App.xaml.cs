@@ -78,6 +78,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
+        private readonly IUserService userService;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelFactory viewModelFactory;
         private readonly IServerConnectionTest connectionTest;
@@ -132,6 +133,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             user = container.Resolve<User>();
             logger = container.Resolve<ILogger>();
             methodQ = container.Resolve<IMethodQ>();
+            userService = container.Resolve<IUserService>();
             appSettings = container.Resolve<IAppSettings>();
             userSettings = container.Resolve<IUserSettings>();
             eventAggregator = container.Resolve<IEventAggregator>();
@@ -254,16 +256,44 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            
         }
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
+            
+        }
+
+        private void StopAuthRefreshingCycle()
+        {
+            if (scheduledAuthRefresh.HasValue)
+            {
+                methodQ.Cancel(scheduledAuthRefresh.Value);
+                scheduledAuthRefresh = null;
+            }
+        }
+
+        private void StartAuthRefreshingCycle()
+        {
+            scheduledAuthRefresh = methodQ.Schedule(async () =>
+            {
+                string freshToken = await userService.RefreshAuthToken(user.Id, user.Token.Item2);
+                
+                if (freshToken.NotNullNotEmpty())
+                {
+                    user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, freshToken);
+                }
+                else
+                {
+                    Logout();
+                }
+            }, TimeSpan.FromMinutes(13.37));
         }
 
         private void OnLoginSuccessful()
         {
+            StopAuthRefreshingCycle();
+            StartAuthRefreshingCycle();
             ShowConvosPage();
         }
 
@@ -278,18 +308,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             // Nullify all stored user tokens, passwords and such...
             user.Token = null;
             user.PasswordSHA512 = user.PublicKeyPem = user.PrivateKeyPem = null;
-
-            // Show the login page.
-            ShowLoginPage(false);
-
-            if (scheduledAuthRefresh.HasValue)
-            {
-                methodQ.Cancel(scheduledAuthRefresh.Value);
-                scheduledAuthRefresh = null;
-            }
+            
+            StopAuthRefreshingCycle();
 
             //convoProvider = null;
             convoPasswordProvider?.Clear();
+            
+            // Show the login page.
+            ShowLoginPage(false);
         }
 
         private void OnUserCreationSuccessful(UserCreationResponseDto userCreationResponseDto)
