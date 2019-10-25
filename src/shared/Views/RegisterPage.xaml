@@ -75,6 +75,7 @@
                 <Entry MinimumWidthRequest="250"
                        MaxLength="128"
                        Style="{DynamicResource EntryStyle}"
+                       IsVisible="{Binding ShowUserCreationSecretField}"
                        Placeholder="{i:Translate UserCreationSecretLabel}"
                        Text="{Binding UserCreationSecret}" />
 

@@ -40,6 +40,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region Injections
         private readonly User user;
         private readonly ILogger logger;
+        private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
         private readonly ILocalization localization;
         private readonly IEventAggregator eventAggregator;
@@ -104,24 +105,44 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => pendingAttempt;
             set => Set(ref pendingAttempt, value);
         }
+
+        private bool showUserCreationSecretField = true;
+        public bool ShowUserCreationSecretField
+        {
+            get => showUserCreationSecretField;
+            set => Set(ref showUserCreationSecretField, value);
+        }
+        
         #endregion
 
         #region Commands
+
         public ICommand CancelCommand { get; }
         public ICommand RegisterCommand { get; }
         public ICommand EditServerUrlCommand { get; }
+
         #endregion
 
-        public RegisterViewModel(IEventAggregator eventAggregator, IRegistrationService registrationService, IUserSettings userSettings, ILogger logger, User user)
+        public RegisterViewModel(IEventAggregator eventAggregator, IRegistrationService registrationService, IUserSettings userSettings, ILogger logger, User user, IAppSettings appSettings)
         {
             this.user = user;
             this.logger = logger;
+            this.appSettings = appSettings;
             this.userSettings = userSettings;
             this.eventAggregator = eventAggregator;
             this.registrationService = registrationService;
 
             localization = DependencyService.Get<ILocalization>();
 
+            bool onOfficialServer = appSettings.ServerUrl.Contains("epistle.glitchedpolygons.com");
+            
+            ShowUserCreationSecretField = !onOfficialServer;
+            
+            if (onOfficialServer)
+            {
+                UserCreationSecret = "Freedom";
+            }
+            
             CancelCommand = new DelegateCommand(OnClickedCancel);
             RegisterCommand = new DelegateCommand(OnClickedRegister);
             EditServerUrlCommand = new DelegateCommand(_ =>
