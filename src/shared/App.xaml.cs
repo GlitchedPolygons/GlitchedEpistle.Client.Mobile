@@ -38,6 +38,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
@@ -116,6 +117,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             container.RegisterType<IServerConnectionTest, ServerConnectionTest>();
             container.RegisterType<IMessageSender, MessageSender>();
             container.RegisterType<ILoginService, LoginService>();
+            container.RegisterType<ITotpProvider, TotpProvider>();
             container.RegisterType<IPasswordChanger, PasswordChanger>();
             container.RegisterType<IRegistrationService, RegistrationService>();
 

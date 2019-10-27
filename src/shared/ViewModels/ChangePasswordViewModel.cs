@@ -30,6 +30,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using OtpNet;
@@ -47,6 +48,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
         private readonly IAlertService alertService;
+        private readonly ITotpProvider totpProvider;
         private readonly IPasswordChanger passwordChanger;
         
         private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Password Mod") {UseDialog = false};
@@ -125,7 +127,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #endregion
         
-        public ChangePasswordViewModel(User user, ILogger logger, IPasswordChanger passwordChanger, IAppSettings appSettings)
+        public ChangePasswordViewModel(User user, ILogger logger, IPasswordChanger passwordChanger, IAppSettings appSettings, ITotpProvider totpProvider)
         {
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
@@ -133,6 +135,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.user = user;
             this.logger = logger;
             this.appSettings = appSettings;
+            this.totpProvider = totpProvider;
             this.passwordChanger = passwordChanger;
 
             SubmitCommand = new DelegateCommand(OnSubmit);
@@ -158,18 +161,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
                 {
-                    // TODO: extract the following block of code into some service interface, because it's repeated already a couple times across login screen, etc...
-                    if (totpSecret.NotNullNotEmpty())
-                    {
-                        var totp = new Totp(Base32Encoding.ToBytes(totpSecret));
-                        if (totp.RemainingSeconds() < 2)
-                        {
-                            await Task.Delay(1250);
-                        }
-
-                        Totp = totp.ComputeTotp();
-                    }
-                    else
+                    Totp = await totpProvider.GetTotp(totpSecret);
+                    
+                    if (Totp.NullOrEmpty())
                     {
                         appSettings["SaveTotpSecret"] = "false";
                     }

@@ -24,6 +24,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
@@ -43,6 +44,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
         private readonly ILoginService loginService;
+        private readonly ITotpProvider totpProvider;
         private readonly IEventAggregator eventAggregator;
 
         private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") {UseDialog = false};
@@ -101,12 +103,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         public bool AutoPromptForFingerprint { get; set; } = true;
 
-        public LoginViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator)
+        public LoginViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator, ITotpProvider totpProvider)
         {
             localization = DependencyService.Get<ILocalization>();
 
             this.appSettings = appSettings;
             this.loginService = loginService;
+            this.totpProvider = totpProvider;
             this.eventAggregator = eventAggregator;
 
             LoginCommand = new DelegateCommand(OnClickedLogin);
@@ -173,19 +176,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 if (appSettings["SaveTotpSecret", false])
                 {
-                    string totpSecret = await SecureStorage.GetAsync("totp:" + UserId);
-
-                    if (totpSecret.NotNullNotEmpty())
-                    {
-                        var totp = new Totp(Base32Encoding.ToBytes(totpSecret));
-                        if (totp.RemainingSeconds() < 2)
-                        {
-                            await Task.Delay(1250);
-                        }
-
-                        Totp = totp.ComputeTotp();
-                    }
-                    else
+                    Totp = await totpProvider.GetTotp(await SecureStorage.GetAsync("totp:" + UserId));
+                    
+                    if (Totp.NullOrEmpty())
                     {
                         appSettings["SaveTotpSecret"] = "false";
                     }
