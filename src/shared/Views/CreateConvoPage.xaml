@@ -31,7 +31,7 @@
         <ScrollView>
             <StackLayout HorizontalOptions="Center"
                          VerticalOptions="Center"
-                         WidthRequest="275"
+                         WidthRequest="280"
                          Margin="32,32,32,50">
 
                 <Label Style="{DynamicResource TitleLabelStyle}"
@@ -62,12 +62,18 @@
                         Placeholder="{i:Translate ConvoDescriptionLabel}"
                         Text="{Binding Description}" />
                 
-                <DatePicker Style="{DynamicResource EntryStyle}" 
-                            Date="{Binding ExpirationUTC}" 
-                            MinimumDate="{Binding MinExpirationUTC}" />
+               <StackLayout Orientation="Horizontal"
+                            HorizontalOptions="FillAndExpand">
+                      
+                      <DatePicker Style="{DynamicResource EntryStyle}" 
+                                  Date="{Binding ExpirationUTC}" 
+                                  MinimumDate="{Binding MinExpirationUTC}" 
+                                  HorizontalOptions="FillAndExpand"/>
                 
-                <TimePicker Time="{Binding ExpirationTime}" 
-                            Style="{DynamicResource EntryStyle}"/>
+                      <TimePicker Time="{Binding ExpirationTime}" 
+                                  Style="{DynamicResource EntryStyle}"
+                                  HorizontalOptions="FillAndExpand"/>
+               </StackLayout>
 
                 <Entry IsPassword="True"
                        MinimumWidthRequest="250"
