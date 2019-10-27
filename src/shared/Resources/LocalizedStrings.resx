@@ -391,7 +391,7 @@ Please try again in 15 minutes.</comment>
     <comment>The password fields are null, empty or don't match where they need to match.</comment>
   </data>
   <data name="PasswordTooWeakErrorMessage" xml:space="preserve">
-    <value>Your password is too weak; make sure that it has at least &gt;7 characters!</value>
+    <value>Your password is too weak; make sure that it has at least &gt;{0} characters!</value>
   </data>
   <data name="PleaseEnterTotpSecretDialogTextLabel" xml:space="preserve">
     <value>In order for the Epistle app to generate 2FA tokens for you, it needs to know your Two-Factor Authentication secret that you received when you first created this account (when the page with the QR-Code was displayed).
@@ -444,6 +444,10 @@ Please double check the credentials and try again. If that's not the problem, th
   <data name="AutoCopyIdAfterSuccessfulConvoCreation" xml:space="preserve">
     <value>Copy convo id to clipboard after creation</value>
   </data>
+  <data name="ConvoCreationFailedErrorMessage" xml:space="preserve">
+    <value>Convo "{0}" couldn't be created. 
+Perhaps due to unsuccessful Two-Factor Authentication: please double check the provided 2FA token and try again.</value>
+  </data>
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Description</value>
   </data>
@@ -466,5 +470,8 @@ Other users need the convo's unique id and its password in order to connect to i
   </data>
   <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
     <value>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</value>
+  </data>
+  <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
+    <value>The two entered passwords don't match.</value>
   </data>
 </root>

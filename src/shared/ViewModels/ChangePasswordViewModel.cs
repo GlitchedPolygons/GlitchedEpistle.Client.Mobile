@@ -165,6 +165,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     
                     if (Totp.NullOrEmpty())
                     {
+                        ShowTotpField = true;
                         appSettings["SaveTotpSecret"] = "false";
                     }
                 }
@@ -185,7 +186,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 if (NewPassword.Length < 7)
                 {
-                    ErrorMessage = localization["PasswordTooWeakErrorMessage"];
+                    ErrorMessage = string.Format(localization["PasswordTooWeakErrorMessage"], 7);
                     SubmitButtonEnabled = CancelButtonEnabled = true;
                     return;
                 }

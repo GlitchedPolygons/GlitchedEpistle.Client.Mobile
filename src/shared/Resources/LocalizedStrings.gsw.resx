@@ -395,7 +395,7 @@ Please try again in 15 minutes.</comment>
     <comment>The password fields are null, empty or don't match where they need to match.</comment>
   </data>
   <data name="PasswordTooWeakErrorMessage" xml:space="preserve">
-    <value>Dis Passwort isch z'schwach; es sött scho mindeschtens &gt;7 Zeyche beinhautte.</value>
+    <value>Dis Passwort isch z'schwach; es sött scho mindeschtens &gt;{0} Zeyche beinhautte.</value>
     <comment>Das eingegebene Passwort ist zu schwach; es sollte mindestens &gt;7 Zeichen beinhalten!</comment>
   </data>
   <data name="PleaseEnterTotpSecretDialogTextLabel" xml:space="preserve">
@@ -457,6 +457,12 @@ Bitte überprüef nomau dini zuegangsdate u probier's erneut. Faus nit das s' Pr
   <data name="AutoCopyIdAfterSuccessfulConvoCreation" xml:space="preserve">
     <value>Ungerhautigs-ID kopiere nachem Erstelle</value>
   </data>
+  <data name="ConvoCreationFailedErrorMessage" xml:space="preserve">
+    <value>Ungerhautig "{0}" het nid chönne erstellt wärde.
+Evtl. wäge ungüutiger Zwe-Faktor Outhentifizierig: bitte überprüef dr 2FA Token u probier's ine paar Sekunde nomau.</value>
+    <comment>Convo "{0}" couldn't be created. 
+Perhaps due to unsuccessful Two-Factor Authentication: please double check the provided 2FA token and try again.</comment>
+  </data>
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Beschriibig</value>
   </data>
@@ -480,5 +486,8 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
     <value>Titel Fäud läär; bitte gib dire Ungerhautig e genaue u lyecht merkbare Name!</value>
     <comment>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</comment>
+  </data>
+  <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
+    <value>Die beyde Passwörter stimme nid überein.</value>
   </data>
 </root>

@@ -395,7 +395,7 @@ Please try again in 15 minutes.</comment>
     <comment>The password fields are null, empty or don't match where they need to match.</comment>
   </data>
   <data name="PasswordTooWeakErrorMessage" xml:space="preserve">
-    <value>La password inserita è troppo debole; dovrebbe contenere come minimo &gt;7 caratteri!</value>
+    <value>La password inserita è troppo debole; dovrebbe contenere come minimo &gt;{0} caratteri!</value>
     <comment>Das eingegebene Passwort ist zu schwach; es sollte mindestens &gt;7 Zeichen beinhalten!</comment>
   </data>
   <data name="PleaseEnterTotpSecretDialogTextLabel" xml:space="preserve">
@@ -460,6 +460,12 @@ P.f. ricontrolla i dati d'accesso e riprova ancora. Se non è quello il problema
   <data name="AutoCopyIdAfterSuccessfulConvoCreation" xml:space="preserve">
     <value>Copia id convo dopo creazione riuscita</value>
   </data>
+  <data name="ConvoCreationFailedErrorMessage" xml:space="preserve">
+    <value>Creazione della convo "{0}" non riuscita.
+Eventualmente per via di un'autentificazione a due fattori fallita: p.f. ricontrolla il token 2FA inserito e riprova tra un paio di secondi.</value>
+    <comment>Convo "{0}" couldn't be created. 
+Perhaps due to unsuccessful Two-Factor Authentication: please double check the provided 2FA token and try again.</comment>
+  </data>
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Descrizione</value>
   </data>
@@ -483,5 +489,8 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
     <value>Il campo "titolo" è vuoto; p.f. dai un nome descrittivo e facilmente memorizzabile alla tua nuova conversazione!</value>
     <comment>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</comment>
+  </data>
+  <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
+    <value>Le due password inserite non coincidono.</value>
   </data>
 </root>

@@ -180,6 +180,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     
                     if (Totp.NullOrEmpty())
                     {
+                        ShowTotpField = true;
                         appSettings["SaveTotpSecret"] = "false";
                     }
                 }

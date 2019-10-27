@@ -54,7 +54,7 @@
                        MinimumWidthRequest="250"
                        Style="{DynamicResource EntryStyle}"
                        Placeholder="{i:Translate ConvoTitleLabel}"
-                       Text="{Binding Title}" />
+                       Text="{Binding Name}" />
 
                 <Editor MaxLength="150"
                         MinimumWidthRequest="250"
@@ -65,6 +65,9 @@
                 <DatePicker Style="{DynamicResource EntryStyle}" 
                             Date="{Binding ExpirationUTC}" 
                             MinimumDate="{Binding MinExpirationUTC}" />
+                
+                <TimePicker Time="{Binding ExpirationTime}" 
+                            Style="{DynamicResource EntryStyle}"/>
 
                 <Entry IsPassword="True"
                        MinimumWidthRequest="250"
