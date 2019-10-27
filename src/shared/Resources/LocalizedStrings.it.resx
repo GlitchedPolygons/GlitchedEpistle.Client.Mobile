@@ -430,4 +430,31 @@ Please note that if you do not know or have forgot your 2FA secret, you're out o
   <data name="UseFingerprint" xml:space="preserve">
     <value>Utilizza impronta digitale</value>
   </data>
+  <data name="ConvoIdLabel" xml:space="preserve">
+    <value>Numero d'identificazione</value>
+  </data>
+  <data name="EmptyConvoIdFieldErrorMessage" xml:space="preserve">
+    <value>Il campo della convo id è vuoto.</value>
+  </data>
+  <data name="EmptyPasswordFieldErrorMessage" xml:space="preserve">
+    <value>Il campo della password è vuoto.</value>
+  </data>
+  <data name="JoinConvoButton" xml:space="preserve">
+    <value>Partecipa</value>
+  </data>
+  <data name="JoinConvoDescriptionLabel" xml:space="preserve">
+    <value>Per partecipare ad una conversazione, necessiti della sua id e password.
+
+L'amministratore della convo (o uno dei partecipanti) ti dovrebbe aver dato le credenziali d'accesso attraverso un canale di comunicazione sicuro.</value>
+    <comment>To join a convo, you need its unique id and password. 
+The convo administrator (or one of the participants) should have given you these credentials over a secure communication channel.</comment>
+  </data>
+  <data name="JoinConvoFailedErrorMessage" xml:space="preserve">
+    <value>Connessione alla conversazione fallita. 
+P.f. ricontrolla i dati d'accesso e riprova ancora. Se non è quello il problema allora potrebbe essere che la convo è semplicemente stata cancellata, ha raggiunto la sua data di scadenza oppure sei stato espulso da parte dell'amministratore.</value>
+    <comment>Couldn't join convo. Please double check the credentials and try again. If that's not the problem, then the convo might have expired, deleted or you've been kicked out of it. Sorry :/</comment>
+  </data>
+  <data name="JoinConvoTitleLabel" xml:space="preserve">
+    <value>Partecipa a conversazione</value>
+  </data>
 </root>

@@ -16,14 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
@@ -33,6 +28,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         public JoinConvoPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            (BindingContext as IOnAppearingListener)?.OnAppearing();
         }
     }
 }

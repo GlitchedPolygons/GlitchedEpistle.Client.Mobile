@@ -427,4 +427,31 @@ Bitte beachte, dass wenn du nicht mehr im Besitz deines 2FA-Geheimnis bist, dies
   <data name="UseFingerprint" xml:space="preserve">
     <value>Fingerabdruck benutze</value>
   </data>
+  <data name="ConvoIdLabel" xml:space="preserve">
+    <value>Ungerhautigs-ID</value>
+  </data>
+  <data name="EmptyConvoIdFieldErrorMessage" xml:space="preserve">
+    <value>S' Ungerhautigs-ID Fäld isch läär.</value>
+  </data>
+  <data name="EmptyPasswordFieldErrorMessage" xml:space="preserve">
+    <value>S' Passwort-Fäld isch läär.</value>
+  </data>
+  <data name="JoinConvoButton" xml:space="preserve">
+    <value>Biiträtte</value>
+  </data>
+  <data name="JoinConvoDescriptionLabel" xml:space="preserve">
+    <value>Um anere Ungerhautig biizträtte, bruuchsh d'ID u s' Passwort.
+
+Dr Administrator vo dr Ungerhautig (oder eyne vo de teylnähmer) sött der die NUME über ne sichere Kommunikationspfad mitteilt haa.</value>
+    <comment>To join a convo, you need its unique id and password. 
+The convo administrator (or one of the participants) should have given you these credentials over a secure communication channel.</comment>
+  </data>
+  <data name="JoinConvoFailedErrorMessage" xml:space="preserve">
+    <value>Biitritt fäugschlage. 
+Bitte überprüef nomau dini zuegangsdate u probier's erneut. Faus nit das s' Problem isch, denne cha's sii dass d Ungerhautig eyfach glöscht worde isch, ihres Abloufdatum erreycht het oder du vom Administrator usegworfe worde bisch.</value>
+    <comment>Couldn't join convo. Please double check the credentials and try again. If that's not the problem, then the convo might have expired, deleted or you've been kicked out of it. Sorry :/</comment>
+  </data>
+  <data name="JoinConvoTitleLabel" xml:space="preserve">
+    <value>Anere ungerhautig biiträtte</value>
+  </data>
 </root>

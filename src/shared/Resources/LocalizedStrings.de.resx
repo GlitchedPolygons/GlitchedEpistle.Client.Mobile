@@ -433,4 +433,32 @@ Please note that if you do not know or have forgot your 2FA secret, you're out o
   <data name="UseFingerprint" xml:space="preserve">
     <value>Fingerabdruck benutzen</value>
   </data>
+  <data name="ConvoIdLabel" xml:space="preserve">
+    <value>Unterhaltungs-Identitätsnummer</value>
+  </data>
+  <data name="EmptyConvoIdFieldErrorMessage" xml:space="preserve">
+    <value>Das Feld "Unterhaltungs-ID" ist leer.</value>
+  </data>
+  <data name="EmptyPasswordFieldErrorMessage" xml:space="preserve">
+    <value>Das Passwortfeld ist leer.</value>
+  </data>
+  <data name="JoinConvoButton" xml:space="preserve">
+    <value>Beitreten</value>
+  </data>
+  <data name="JoinConvoDescriptionLabel" xml:space="preserve">
+    <value>Um einer Unterhaltung beizutreten, benötigst du das Unterhaltungspasswort sowie Identitätsnummer.
+
+Der Unterhaltungs-Administrator (oder einer der Teilnehmer) sollte dir diese NUR über einen sicheren Kommunikationskanal gegeben haben.</value>
+    <comment>To join a convo, you need its unique id and password. 
+The convo administrator (or one of the participants) should have given you these credentials over a secure communication channel.</comment>
+  </data>
+  <data name="JoinConvoFailedErrorMessage" xml:space="preserve">
+    <value>Beitritt fehlgeschlagen. 
+Bitte überprüfe nochmal deine Zugangsdaten und probiere es erneut. 
+Falls das nicht das Problem ist, kann es sein, dass die Unterhaltung ihr Ablaufdatum erreicht hat, gelöscht wurde oder du vom Administrator ausgeschlossen wurdest.</value>
+    <comment>Couldn't join convo. Please double check the credentials and try again. If that's not the problem, then the convo might have expired, deleted or you've been kicked out of it. Sorry :/</comment>
+  </data>
+  <data name="JoinConvoTitleLabel" xml:space="preserve">
+    <value>Unterhaltung beitreten</value>
+  </data>
 </root>

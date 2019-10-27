@@ -273,12 +273,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 //            view.Focus();
         }
 
-        private void OnClickedJoinConvo(object commandParam)
+        private async void OnClickedJoinConvo(object commandParam)
         {
             if (!HeaderButtonsEnabled)
             {
                 return;
             }
+            
+            var view = new JoinConvoPage() { BindingContext = viewModelFactory.Create<JoinConvoViewModel>() };
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private void OnClickedCreateConvo(object commandParam)

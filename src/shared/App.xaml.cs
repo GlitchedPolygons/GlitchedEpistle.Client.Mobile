@@ -150,6 +150,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             eventAggregator.GetEvent<UserCreationSucceededEvent>().Subscribe(OnUserCreationSuccessful);
             eventAggregator.GetEvent<UserCreationVerifiedEvent>().Subscribe(()=>ShowLoginPage(false));
             eventAggregator.GetEvent<LoginSucceededEvent>().Subscribe(OnLoginSuccessful);
+            eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(OnJoinedConvo);
         }
 
         /// <summary>
@@ -339,6 +340,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             viewModel.BackupCodes = userCreationResponseDto.TotpEmergencyBackupCodes;
 
             MainPage = new UserCreationSuccessfulView {BindingContext = viewModel};
+        }
+        
+        private void OnJoinedConvo(Convo convo)
+        {
+            throw new NotImplementedException(); // TODO: open active convo view here
         }
 
         private void ShowLoginPage(bool autoPromptForFingerprint = true)

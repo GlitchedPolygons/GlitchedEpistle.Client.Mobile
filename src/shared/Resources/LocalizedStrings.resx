@@ -416,4 +416,29 @@ Please note that if you do not know or have forgot your 2FA secret, you're out o
   <data name="UseFingerprint" xml:space="preserve">
     <value>Use fingerprint</value>
   </data>
+  <data name="ConvoIdLabel" xml:space="preserve">
+    <value>Convo ID</value>
+  </data>
+  <data name="EmptyConvoIdFieldErrorMessage" xml:space="preserve">
+    <value>The convo id field is empty.</value>
+  </data>
+  <data name="EmptyPasswordFieldErrorMessage" xml:space="preserve">
+    <value>The password field is empty.</value>
+  </data>
+  <data name="JoinConvoButton" xml:space="preserve">
+    <value>Join</value>
+  </data>
+  <data name="JoinConvoDescriptionLabel" xml:space="preserve">
+    <value>To join a convo, you need its unique id and password. 
+
+The convo administrator (or one of the participants) should have given you these credentials over a secure communication channel.</value>
+  </data>
+  <data name="JoinConvoFailedErrorMessage" xml:space="preserve">
+    <value>Couldn't join convo. 
+Please double check the credentials and try again. If that's not the problem, then the convo might have expired, deleted or you've been kicked out of it.</value>
+    <comment>Couldn't join convo. Please double check the credentials and try again. If that's not the problem, then the convo might have expired, deleted or you've been kicked out of it. Sorry :/</comment>
+  </data>
+  <data name="JoinConvoTitleLabel" xml:space="preserve">
+    <value>Join Convo</value>
+  </data>
 </root>
