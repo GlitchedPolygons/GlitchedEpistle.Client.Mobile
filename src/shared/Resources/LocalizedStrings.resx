@@ -441,4 +441,30 @@ Please double check the credentials and try again. If that's not the problem, th
   <data name="JoinConvoTitleLabel" xml:space="preserve">
     <value>Join Convo</value>
   </data>
+  <data name="AutoCopyIdAfterSuccessfulConvoCreation" xml:space="preserve">
+    <value>Copy convo id to clipboard after creation</value>
+  </data>
+  <data name="ConvoDescriptionLabel" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="ConvoTitleLabel" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="CreateConvoButton" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateConvoDescriptionLabel" xml:space="preserve">
+    <value>Create a new conversation to which other Epistle users can connect to.
+
+Other users need the convo's unique id and its password in order to connect to it, please remember to provide them with this information over a secure communication channel.</value>
+    <comment>Create a new conversation to which other Epistle users can connect to.
+
+Other users need the convo's unique id and its password in order to connect to it, please remember to provide them with this information over a secure communication channel.</comment>
+  </data>
+  <data name="CreateConvoTitleLabel" xml:space="preserve">
+    <value>Create Convo</value>
+  </data>
+  <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
+    <value>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</value>
+  </data>
 </root>

@@ -461,4 +461,31 @@ Falls das nicht das Problem ist, kann es sein, dass die Unterhaltung ihr Ablaufd
   <data name="JoinConvoTitleLabel" xml:space="preserve">
     <value>Unterhaltung beitreten</value>
   </data>
+  <data name="AutoCopyIdAfterSuccessfulConvoCreation" xml:space="preserve">
+    <value>Unterhaltungs-ID kopieren nach Erstellung</value>
+  </data>
+  <data name="ConvoDescriptionLabel" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="ConvoTitleLabel" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="CreateConvoButton" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="CreateConvoDescriptionLabel" xml:space="preserve">
+    <value>Erstelle eine neue Unterhaltung welcher andere Epistle Nutzer beitreten können.
+
+Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinden, bitte achte also darauf, dass du deinen gewünschten Teilnehmern diese Informationen nur über einen sicheren Kommunikationskanal mitteilst.</value>
+    <comment>Create a new conversation to which other Epistle users can connect to.
+
+Other users need the convo's unique id and its password in order to connect to it, please remember to provide them with this information over a secure communication channel.</comment>
+  </data>
+  <data name="CreateConvoTitleLabel" xml:space="preserve">
+    <value>Neue Unterhaltung erstellen</value>
+  </data>
+  <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
+    <value>Das Feld "Titel" ist leer; bitte gib deiner neuen Unterhaltung einen Namen.</value>
+    <comment>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</comment>
+  </data>
 </root>

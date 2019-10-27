@@ -280,16 +280,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
             
-            var view = new JoinConvoPage() { BindingContext = viewModelFactory.Create<JoinConvoViewModel>() };
+            var view = new JoinConvoPage { BindingContext = viewModelFactory.Create<JoinConvoViewModel>() };
             await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
-        private void OnClickedCreateConvo(object commandParam)
+        private async void OnClickedCreateConvo(object commandParam)
         {
             if (!HeaderButtonsEnabled)
             {
                 return;
             }
+            
+            var view = new CreateConvoPage { BindingContext = viewModelFactory.Create<CreateConvoViewModel>() };
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private async void OnClickedChangePassword(object commandParam)

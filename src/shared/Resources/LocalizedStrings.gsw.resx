@@ -454,4 +454,31 @@ Bitte überprüef nomau dini zuegangsdate u probier's erneut. Faus nit das s' Pr
   <data name="JoinConvoTitleLabel" xml:space="preserve">
     <value>Anere ungerhautig biiträtte</value>
   </data>
+  <data name="AutoCopyIdAfterSuccessfulConvoCreation" xml:space="preserve">
+    <value>Ungerhautigs-ID kopiere nachem Erstelle</value>
+  </data>
+  <data name="ConvoDescriptionLabel" xml:space="preserve">
+    <value>Beschriibig</value>
+  </data>
+  <data name="ConvoTitleLabel" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="CreateConvoButton" xml:space="preserve">
+    <value>Erstelle</value>
+  </data>
+  <data name="CreateConvoDescriptionLabel" xml:space="preserve">
+    <value>Erstell jetzt e neui Ungerhautig welere angeri Epistle Nutzer biiträtte chöi.
+
+Angeri Nutzer bruuche d' Ungerhautigs-ID sowie Passwort um sech z verbinde, bitte acht ouso druuf, dassde dine Teylnähmer die Informatione nume überne sichere Kommunikationspfad gisch.</value>
+    <comment>Erstelle eine neue Unterhaltung welcher andere Epistle Nutzer beitreten können.
+
+Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinden, bitte achte also darauf, dass du deinen gewünschten Teilnehmern diese Informationen nur über einen sicheren Kommunikationskanal mitteilst.</comment>
+  </data>
+  <data name="CreateConvoTitleLabel" xml:space="preserve">
+    <value>Neui Ungerhautig erstelle</value>
+  </data>
+  <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
+    <value>Titel Fäud läär; bitte gib dire Ungerhautig e genaue u lyecht merkbare Name!</value>
+    <comment>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</comment>
+  </data>
 </root>

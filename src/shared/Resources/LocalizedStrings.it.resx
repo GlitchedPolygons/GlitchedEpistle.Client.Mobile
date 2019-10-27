@@ -457,4 +457,31 @@ P.f. ricontrolla i dati d'accesso e riprova ancora. Se non è quello il problema
   <data name="JoinConvoTitleLabel" xml:space="preserve">
     <value>Partecipa a conversazione</value>
   </data>
+  <data name="AutoCopyIdAfterSuccessfulConvoCreation" xml:space="preserve">
+    <value>Copia id convo dopo creazione riuscita</value>
+  </data>
+  <data name="ConvoDescriptionLabel" xml:space="preserve">
+    <value>Descrizione</value>
+  </data>
+  <data name="ConvoTitleLabel" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="CreateConvoButton" xml:space="preserve">
+    <value>Crea</value>
+  </data>
+  <data name="CreateConvoDescriptionLabel" xml:space="preserve">
+    <value>Crea ora una nuova conversazione alla quale altri utenti Epistle si possono connettere.
+
+Altri utenti necessitano della convo id e password per partecipare, ricordati quindi di provvedere queste informazioni sensibili ai tuoi partecipanti desiderati soltanto attraverso un canale di comunicazione sicuro.</value>
+    <comment>Erstelle eine neue Unterhaltung welcher andere Epistle Nutzer beitreten können.
+
+Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinden, bitte achte also darauf, dass du deinen gewünschten Teilnehmern diese Informationen nur über einen sicheren Kommunikationskanal mitteilst.</comment>
+  </data>
+  <data name="CreateConvoTitleLabel" xml:space="preserve">
+    <value>Crea nuova conversazione</value>
+  </data>
+  <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
+    <value>Il campo "titolo" è vuoto; p.f. dai un nome descrittivo e facilmente memorizzabile alla tua nuova conversazione!</value>
+    <comment>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</comment>
+  </data>
 </root>
