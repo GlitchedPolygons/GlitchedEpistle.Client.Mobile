@@ -458,10 +458,10 @@ Perhaps due to unsuccessful Two-Factor Authentication: please double check the p
     <value>Create</value>
   </data>
   <data name="CreateConvoDescriptionLabel" xml:space="preserve">
-    <value>Create a new conversation to which other Epistle users can connect to.
+    <value>Create a new conversation to which other Epistle users can connect to. After the convo's expiration date, it will be irreversably purged from the server, deleting all traces.
 
 Other users need the convo's unique id and its password in order to connect to it, please remember to provide them with this information over a secure communication channel.</value>
-    <comment>Create a new conversation to which other Epistle users can connect to.
+    <comment>Create a new conversation to which other Epistle users can connect to. After the convo's expiration date, it will be irreversably purged from the server, deleting all traces.
 
 Other users need the convo's unique id and its password in order to connect to it, please remember to provide them with this information over a secure communication channel.</comment>
   </data>
@@ -470,6 +470,9 @@ Other users need the convo's unique id and its password in order to connect to i
   </data>
   <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
     <value>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</value>
+  </data>
+  <data name="ExpirationLabel" xml:space="preserve">
+    <value>Expiration:</value>
   </data>
   <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
     <value>The two entered passwords don't match.</value>

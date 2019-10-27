@@ -476,10 +476,10 @@ Perhaps due to unsuccessful Two-Factor Authentication: please double check the p
     <value>Crea</value>
   </data>
   <data name="CreateConvoDescriptionLabel" xml:space="preserve">
-    <value>Crea ora una nuova conversazione alla quale altri utenti Epistle si possono connettere.
+    <value>Crea ora una nuova conversazione alla quale altri utenti Epistle si possono connettere. Dopo la data di scadenza, la conversazione verrà interamente e irreversibilmente cancellata dal server, distruggendone ogni traccia.
 
 Altri utenti necessitano della convo id e password per partecipare, ricordati quindi di provvedere queste informazioni sensibili ai tuoi partecipanti desiderati soltanto attraverso un canale di comunicazione sicuro.</value>
-    <comment>Erstelle eine neue Unterhaltung welcher andere Epistle Nutzer beitreten können.
+    <comment>Erstelle eine neue Unterhaltung welcher andere Epistle Nutzer beitreten können. Nach dem Ablaufultimatum wird die gesamte Unterhaltung unwiderruflich vom Server gelöscht.
 
 Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinden, bitte achte also darauf, dass du deinen gewünschten Teilnehmern diese Informationen nur über einen sicheren Kommunikationskanal mitteilst.</comment>
   </data>
@@ -489,6 +489,9 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="EmptyConvoTitleFieldErrorMessage" xml:space="preserve">
     <value>Il campo "titolo" è vuoto; p.f. dai un nome descrittivo e facilmente memorizzabile alla tua nuova conversazione!</value>
     <comment>Convo title field is empty, please give your conversation a descriptive name for others to recognize!</comment>
+  </data>
+  <data name="ExpirationLabel" xml:space="preserve">
+    <value>Scadenza:</value>
   </data>
   <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
     <value>Le due password inserite non coincidono.</value>

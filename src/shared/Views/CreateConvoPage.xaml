@@ -32,6 +32,7 @@
             <StackLayout HorizontalOptions="Center"
                          VerticalOptions="Center"
                          WidthRequest="280"
+                         MinimumWidthRequest="250"
                          Margin="32,32,32,50">
 
                 <Label Style="{DynamicResource TitleLabelStyle}"
@@ -51,44 +52,50 @@
 
                 <Entry IsPassword="False"
                        MaxLength="25"
-                       MinimumWidthRequest="250"
                        Style="{DynamicResource EntryStyle}"
                        Placeholder="{i:Translate ConvoTitleLabel}"
                        Text="{Binding Name}" />
 
                 <Editor MaxLength="150"
-                        MinimumWidthRequest="250"
                         Style="{DynamicResource EntryStyle}"
                         Placeholder="{i:Translate ConvoDescriptionLabel}"
                         Text="{Binding Description}" />
-                
-               <StackLayout Orientation="Horizontal"
-                            HorizontalOptions="FillAndExpand">
-                      
-                      <DatePicker Style="{DynamicResource EntryStyle}" 
-                                  Date="{Binding ExpirationUTC}" 
-                                  MinimumDate="{Binding MinExpirationUTC}" 
-                                  HorizontalOptions="FillAndExpand"/>
-                
-                      <TimePicker Time="{Binding ExpirationTime}" 
-                                  Style="{DynamicResource EntryStyle}"
-                                  HorizontalOptions="FillAndExpand"/>
-               </StackLayout>
 
                 <Entry IsPassword="True"
-                       MinimumWidthRequest="250"
                        Style="{DynamicResource EntryStyle}"
                        Placeholder="{i:Translate PasswordLabel}"
                        Text="{Binding ConvoPassword}" />
 
                 <Entry IsPassword="True"
-                       MinimumWidthRequest="250"
                        Style="{DynamicResource EntryStyle}"
                        Placeholder="{i:Translate PasswordConfirmationLabel}"
                        Text="{Binding ConvoPasswordConfirmation}" />
 
+                <Entry IsPassword="False"
+                       IsVisible="{Binding ShowTotpField}"
+                       Style="{DynamicResource EntryStyle}"
+                       Placeholder="{i:Translate TotpLabel}"
+                       Text="{Binding Totp}" />
+
+                <Label Style="{DynamicResource SubLabelStyle}"
+                       Text="{i:Translate ExpirationLabel}"
+                       FontSize="14" Margin="4,0,4,-5" />
+
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
+
+                    <DatePicker Style="{DynamicResource EntryStyle}"
+                                Date="{Binding ExpirationUTC}"
+                                MinimumDate="{Binding MinExpirationUTC}"
+                                HorizontalOptions="FillAndExpand" />
+
+                    <TimePicker Time="{Binding ExpirationTime}"
+                                Style="{DynamicResource EntryStyle}"
+                                HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand" Margin="0">
 
                     <CheckBox IsChecked="{Binding AutoCopyId}"
                               VerticalOptions="CenterAndExpand"
@@ -101,7 +108,7 @@
                            VerticalOptions="CenterAndExpand" />
                 </StackLayout>
 
-                <StackLayout Margin="0,20,0,0"
+                <StackLayout Margin="0,10,0,0"
                              Spacing="16"
                              Orientation="Vertical"
                              HorizontalOptions="FillAndExpand">

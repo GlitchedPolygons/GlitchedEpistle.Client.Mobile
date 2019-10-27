@@ -237,7 +237,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 var convoCreationDto = new ConvoCreationRequestDto
                 {
-                    Totp = totp,
+                    Totp = Totp,
                     Name = Name,
                     Description = Description,
                     ExpirationUTC = expirationUTC,
