@@ -29,6 +29,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PasswordPopupPage : PopupPage
     {
+        public bool Cancelled { get; set; }
         public string Password { get; private set; }
 
         public PasswordPopupPage(string title, string description, string cancelButtonLabel = null, string okButtonLabel = null)
@@ -46,9 +47,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 
         private void OkButton_Clicked(object sender, System.EventArgs e)
         {
-            if (PasswordTextEntry.Text.NullOrEmpty())
-                return;
-
+            Cancelled = false;
             Password = PasswordTextEntry.Text;
             PopupNavigation.Instance.PopAsync();
         }
@@ -56,6 +55,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
         private void CancelButton_Clicked(object sender, EventArgs e)
         {
             Password = null;
+            Cancelled = true;
             PopupNavigation.Instance.PopAsync();
         }
 
@@ -63,6 +63,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
         protected override bool OnBackButtonPressed()
         {
             Password = null;
+            Cancelled = true;
             return base.OnBackButtonPressed();
         }
 
@@ -70,6 +71,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
         protected override bool OnBackgroundClicked()
         {
             Password = null;
+            Cancelled = true;
             return base.OnBackgroundClicked();
         }
     }

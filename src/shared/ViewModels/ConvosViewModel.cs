@@ -86,11 +86,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private ObservableCollection<Convo> convos;
         public ObservableCollection<Convo> Convos { get => convos; set => Set(ref convos, value); }
 
+        private Convo selectedConvo;
+        public Convo SelectedConvo
+        {
+            get => selectedConvo;
+            set
+            {
+                Set(ref selectedConvo, value);
+                OnClickedOnConvo(value);
+            }
+        }
+
         private bool isRefreshing;
         public bool IsRefreshing { get => isRefreshing; set => Set(ref isRefreshing, value); }
-
-        private bool canJoin = true;
-        public bool CanJoin { get => canJoin; set => Set(ref canJoin, value); }
         
         private string userId = string.Empty;
         public string UserId { get => userId; set => Set(ref userId, value); }
@@ -102,6 +110,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public bool HeaderButtonsEnabled { get => headerButtonsEnabled; set => Set(ref headerButtonsEnabled, value); }
         
         #endregion
+
+        private volatile bool joining = false;
 
         public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ, IViewModelFactory viewModelFactory, IAppSettings appSettings)
         {
@@ -188,12 +198,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private async void OnClickedOnConvo(object commandParam)
         {
             var _convo = commandParam as Convo;
-            if (_convo is null || !CanJoin)
+            if (_convo is null || joining)
             {
                 return;
             }
 
-            CanJoin = false;
+            joining = true;
 
             bool useSavedPw = appSettings["SaveConvoPasswords", "true"].Equals("true", StringComparison.InvariantCultureIgnoreCase);
             string cachedPwSHA512 = convoPasswordProvider.GetPasswordSHA512(_convo.Id);
@@ -210,17 +220,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             else
             {
                 var view = new PasswordPopupPage(localization["JoinConvoTitleLabel"], localization["PleaseEnterConvoPassword"]);
-                view.Disappearing += (sender, e) =>
-                {
-                    if (view.Password.NotNullNotEmpty())
-                    {
-                        JoinConvo(_convo.Id, view.Password.SHA512());
-                    }
-                };
+                view.Disappearing += (sender, e) => JoinConvo(_convo.Id, view.Password?.SHA512());
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
             }
         }
-
+// TODO: merge onclickedonconvo + joinconvo into one method
         private void JoinConvo(string convoId, string pwSHA512)
         {
             Task.Run(async () =>
@@ -238,30 +242,33 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     Body = JsonConvert.SerializeObject(dto)
                 };
 
-                if (!await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem)))
+                bool joined = await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem));
+                
+                if (!joined)
                 {
                     convoPasswordProvider.RemovePasswordSHA512(convoId);
                     SecureStorage.Remove($"convo:{convoId}_pw:SHA512");
+                    ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["Error"], localization["JoinConvoFailedErrorMessage"], "OK"));
 
-                    CanJoin = true;
-                    var _ = Application.Current.MainPage.DisplayAlert(localization["Error"], localization["JoinConvoFailed"], "OK");
-
+                    joining = false;
+                    SelectedConvo = null;
                     return;
-                }
-                
-                if (appSettings["SaveConvoPasswords", true])
-                {
-                    convoPasswordProvider.SetPasswordSHA512(convoId, pwSHA512);
-                    var _ = SecureStorage.SetAsync($"convo:{convoId}_pw:SHA512", pwSHA512);
                 }
 
                 ConvoMetadataDto metadata = await convoService.GetConvoMetadata(convoId, pwSHA512, user.Id, user.Token.Item2);
                 if (metadata != null)
                 {
-                    CanJoin = true;
-                    convoPasswordProvider.SetPasswordSHA512(convoId, pwSHA512);
+                    if (appSettings["SaveConvoPasswords", true])
+                    {
+                        convoPasswordProvider.SetPasswordSHA512(convoId, pwSHA512);
+                        var _ = SecureStorage.SetAsync($"convo:{convoId}_pw:SHA512", pwSHA512);
+                    }
+                    
                     ExecUI(() => eventAggregator.GetEvent<JoinedConvoEvent>().Publish(metadata));
                 }
+                
+                joining = false;
+                SelectedConvo = null;
             });
         }
 
