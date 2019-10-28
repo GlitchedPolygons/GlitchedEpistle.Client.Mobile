@@ -114,7 +114,6 @@
 
         <ListView SeparatorVisibility="None"
                   ItemsSource="{Binding Convos}" 
-                  SelectedItem="{Binding SelectedConvo}"
                   HasUnevenRows="true"
                   RefreshAllowed="True"
                   IsPullToRefreshEnabled="True"

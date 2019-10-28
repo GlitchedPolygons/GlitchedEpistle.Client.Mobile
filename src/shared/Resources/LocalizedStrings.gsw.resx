@@ -466,6 +466,12 @@ Perhaps due to unsuccessful Two-Factor Authentication: please double check the p
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Beschriibig</value>
   </data>
+  <data name="ConvoMetadataChangedSuccessfully" xml:space="preserve">
+    <value>Änderige übernooh</value>
+  </data>
+  <data name="ConvoMetadataChangeRequestRejected" xml:space="preserve">
+    <value>Ungerhautigs Metadata Änderigsversuech fäugschlage. Bitte s Formular nomau genau aaluege u sicherstelle dass o jedes Fäud güutigi Date beinhaltet.</value>
+  </data>
   <data name="ConvoMetadataTitleLabel" xml:space="preserve">
     <value>Convo Metadata</value>
   </data>

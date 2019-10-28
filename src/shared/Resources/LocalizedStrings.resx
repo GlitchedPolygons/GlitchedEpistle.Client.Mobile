@@ -451,6 +451,12 @@ Perhaps due to unsuccessful Two-Factor Authentication: please double check the p
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="ConvoMetadataChangedSuccessfully" xml:space="preserve">
+    <value>Changes applied</value>
+  </data>
+  <data name="ConvoMetadataChangeRequestRejected" xml:space="preserve">
+    <value>Convo metadata change request was rejected. Perhaps you provided the wrong password or invalid data? Please double check the form.</value>
+  </data>
   <data name="ConvoMetadataTitleLabel" xml:space="preserve">
     <value>Convo Metadata</value>
   </data>

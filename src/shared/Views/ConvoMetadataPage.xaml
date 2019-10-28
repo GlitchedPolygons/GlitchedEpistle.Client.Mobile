@@ -62,13 +62,13 @@
                        Style="{DynamicResource EntryStyle}"
                        IsVisible="{Binding IsAdmin}"
                        Placeholder="{i:Translate PasswordLabel}"
-                       Text="{Binding ConvoPassword}" />
+                       Text="{Binding NewConvoPassword}" />
 
                 <Entry IsPassword="True"
                        Style="{DynamicResource EntryStyle}"
                        IsVisible="{Binding IsAdmin}"
                        Placeholder="{i:Translate PasswordConfirmationLabel}"
-                       Text="{Binding ConvoPasswordConfirmation}" />
+                       Text="{Binding NewConvoPasswordConfirmation}" />
 
                 <Entry IsPassword="False"
                        IsVisible="{Binding ShowTotpField}"

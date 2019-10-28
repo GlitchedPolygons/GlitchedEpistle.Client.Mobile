@@ -469,6 +469,12 @@ Perhaps due to unsuccessful Two-Factor Authentication: please double check the p
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Descrizione</value>
   </data>
+  <data name="ConvoMetadataChangedSuccessfully" xml:space="preserve">
+    <value>Modifiche applicate</value>
+  </data>
+  <data name="ConvoMetadataChangeRequestRejected" xml:space="preserve">
+    <value>Richiesta di modifica metadata della convo respinta. P.f. ricontrollare il formulario e accertarsi che tutti i dati sono validi.</value>
+  </data>
   <data name="ConvoMetadataTitleLabel" xml:space="preserve">
     <value>Metadata Convo</value>
   </data>

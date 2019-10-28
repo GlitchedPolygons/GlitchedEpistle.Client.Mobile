@@ -86,20 +86,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private ObservableCollection<Convo> convos;
         public ObservableCollection<Convo> Convos { get => convos; set => Set(ref convos, value); }
 
-        private Convo selectedConvo;
-        public Convo SelectedConvo
-        {
-            get => selectedConvo;
-            set
-            {
-                Set(ref selectedConvo, value);
-                if (value != null)
-                {
-                    OnClickedOnConvo(value);
-                }
-            }
-        }
-
         private bool isRefreshing;
         public bool IsRefreshing { get => isRefreshing; set => Set(ref isRefreshing, value); }
 
@@ -206,8 +192,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
-
-            SelectedConvo = null;
 
             CanJoin = false;
 
