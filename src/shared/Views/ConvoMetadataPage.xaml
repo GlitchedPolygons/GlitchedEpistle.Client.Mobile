@@ -99,6 +99,8 @@
                        Style="{DynamicResource MediumLabelStyle}"
                        Text="{Binding ExpirationLabel}" />
 
+                <!-- TODO: Participants and banned users list -->
+                
                 <StackLayout Margin="0,10,0,0"
                              Spacing="16"
                              Orientation="Vertical"
