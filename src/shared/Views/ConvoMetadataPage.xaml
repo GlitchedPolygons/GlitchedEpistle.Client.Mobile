@@ -22,10 +22,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
+             mc:Ignorable="d"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvoMetadataPage">
     <ContentPage.Content>
         <ScrollView>
@@ -47,22 +47,26 @@
 
                 <Entry IsPassword="False"
                        MaxLength="25"
+                       IsReadOnly="{Binding IsAdmin, Converter={converters:InverseBoolConverter}}"
                        Style="{DynamicResource EntryStyle}"
                        Placeholder="{i:Translate ConvoTitleLabel}"
                        Text="{Binding Name}" />
 
                 <Editor MaxLength="150"
                         Style="{DynamicResource EntryStyle}"
+                        IsReadOnly="{Binding IsAdmin, Converter={converters:InverseBoolConverter}}"
                         Placeholder="{i:Translate ConvoDescriptionLabel}"
                         Text="{Binding Description}" />
 
                 <Entry IsPassword="True"
                        Style="{DynamicResource EntryStyle}"
+                       IsVisible="{Binding IsAdmin}"
                        Placeholder="{i:Translate PasswordLabel}"
                        Text="{Binding ConvoPassword}" />
 
                 <Entry IsPassword="True"
                        Style="{DynamicResource EntryStyle}"
+                       IsVisible="{Binding IsAdmin}"
                        Placeholder="{i:Translate PasswordConfirmationLabel}"
                        Text="{Binding ConvoPasswordConfirmation}" />
 
@@ -74,10 +78,12 @@
 
                 <Label Style="{DynamicResource SubLabelStyle}"
                        Text="{i:Translate ExpirationLabel}"
-                       FontSize="14" Margin="4,0,4,-5" />
+                       FontSize="14"
+                       Margin="4,0,4,-5" />
 
                 <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="FillAndExpand">
+                             HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding IsAdmin}">
 
                     <DatePicker Style="{DynamicResource EntryStyle}"
                                 Date="{Binding ExpirationUTC}"
@@ -89,18 +95,29 @@
                                 HorizontalOptions="FillAndExpand" />
                 </StackLayout>
 
+                <Label IsVisible="{Binding IsAdmin, Converter={converters:InverseBoolConverter}}"
+                       Style="{DynamicResource MediumLabelStyle}"
+                       Text="{Binding ExpirationLabel}" />
+
                 <StackLayout Margin="0,10,0,0"
                              Spacing="16"
                              Orientation="Vertical"
                              HorizontalOptions="FillAndExpand">
 
+                    <Button Text="{i:Translate Dismiss}"
+                            IsVisible="{Binding IsAdmin, Converter={converters:InverseBoolConverter}}"
+                            Command="{Binding CancelCommand}"
+                            HorizontalOptions="FillAndExpand" />
+
                     <Button Text="{i:Translate CancelButton}"
-                            IsEnabled="{Binding CancelButtonEnabled}"
+                            IsEnabled="{Binding UIEnabled}"
+                            IsVisible="{Binding IsAdmin}"
                             Command="{Binding CancelCommand}"
                             HorizontalOptions="FillAndExpand" />
 
                     <Button Text="{i:Translate SubmitButton}"
-                            IsEnabled="{Binding SubmitButtonEnabled}"
+                            IsEnabled="{Binding UIEnabled}"
+                            IsVisible="{Binding IsAdmin}"
                             Command="{Binding SubmitCommand}"
                             HorizontalOptions="FillAndExpand" />
                 </StackLayout>
@@ -109,7 +126,7 @@
                                    WidthRequest="32"
                                    HeightRequest="32"
                                    HorizontalOptions="Center"
-                                   IsRunning="{Binding CancelButtonEnabled, Converter={converters:InverseBoolConverter}}" />
+                                   IsRunning="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

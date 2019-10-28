@@ -113,8 +113,12 @@
                  Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
         <ListView SeparatorVisibility="None"
+                  ItemsSource="{Binding Convos}" 
+                  SelectedItem="{Binding SelectedConvo}"
                   HasUnevenRows="true"
-                  ItemsSource="{Binding Convos}">
+                  RefreshAllowed="True"
+                  IsPullToRefreshEnabled="True"
+                  RefreshCommand="{Binding RefreshCommand}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

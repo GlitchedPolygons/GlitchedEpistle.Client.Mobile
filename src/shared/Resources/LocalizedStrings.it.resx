@@ -499,4 +499,7 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
     <value>Le due password inserite non coincidono.</value>
   </data>
+  <data name="PleaseEnterConvoPassword" xml:space="preserve">
+    <value>P.f. inserisci qua sotto la password di partecipazione della conversazione.</value>
+  </data>
 </root>

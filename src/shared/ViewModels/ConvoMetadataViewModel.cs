@@ -19,7 +19,8 @@
 using System;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
-
+using System.Globalization;
+using System.Threading.Tasks;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
@@ -28,10 +29,11 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
-
+using Plugin.Fingerprint;
 using Prism.Events;
 using Xamarin.Forms;
 using Plugin.Fingerprint.Abstractions;
+using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -43,7 +45,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly User user;
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
-        private readonly ILoginService loginService;
         private readonly ITotpProvider totpProvider;
         private readonly IEventAggregator eventAggregator;
 
@@ -111,6 +112,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref expirationTime, value);
         }
 
+        public string ExpirationLabel => (ExpirationUTC.Date + ExpirationTime).ToString(CultureInfo.CurrentCulture);
+
         private bool uiEnabled = true;
         public bool UIEnabled
         {
@@ -166,6 +169,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     Name = convo.Name;
                     Description = convo.Description;
                     ExpirationUTC = convo.ExpirationUTC;
+                    ExpirationTime = convo.ExpirationUTC.TimeOfDay;
                     RefreshParticipantLists();
                 }
             }
@@ -173,17 +177,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #endregion
 
-        private volatile int failedAttempts;
         private volatile bool pendingAttempt;
 
         public bool AutoPromptForFingerprint { get; set; } = true;
 
-        public ConvoMetadataViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator, ITotpProvider totpProvider, User user)
+        public ConvoMetadataViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, User user)
         {
             localization = DependencyService.Get<ILocalization>();
 
             this.appSettings = appSettings;
-            this.loginService = loginService;
             this.totpProvider = totpProvider;
             this.user = user;
             this.eventAggregator = eventAggregator;
@@ -220,13 +222,52 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnClickedSubmit(object commandParam)
         {
-            // TODO: handle metadata submission
+            if (pendingAttempt)
+            {
+                return;
+            }
+            
+            Task.Run(async () =>
+            {
+                if (appSettings["UseFingerprint", false])
+                {
+                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    {
+                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                        if (!fingerprintAuthenticationResult.Authenticated)
+                        {
+                            UIEnabled = true;
+                            pendingAttempt = false;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        appSettings["UseFingerprint"] = "false";
+                    }
+                }
+                
+                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
+                {
+                    Totp = await totpProvider.GetTotp(totpSecret);
+
+                    if (Totp.NullOrEmpty())
+                    {
+                        ShowTotpField = true;
+                        appSettings["SaveTotpSecret"] = "false";
+                    }
+                }
+                
+                // TODO: handle metadata submission
+
+            });
         }
 
         private async void OnClickedCancel(object commandParam)
         {
             UIEnabled = false;
-            Name = Description = null;
+            Participants = Banned = null;
+            Name = Description = Totp = null;
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
     }

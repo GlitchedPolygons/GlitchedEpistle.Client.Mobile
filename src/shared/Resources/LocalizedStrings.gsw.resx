@@ -496,6 +496,9 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
     <value>Die beyde Passwörter stimme nid überein.</value>
   </data>
+  <data name="PleaseEnterConvoPassword" xml:space="preserve">
+    <value>Bitte gib s Ungerhautigspasswort hye unge ii um biizträtte.</value>
+  </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Spichere</value>
   </data>

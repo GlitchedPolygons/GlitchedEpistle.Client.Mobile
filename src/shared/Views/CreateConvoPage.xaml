@@ -79,7 +79,8 @@
 
                 <Label Style="{DynamicResource SubLabelStyle}"
                        Text="{i:Translate ExpirationLabel}"
-                       FontSize="14" Margin="4,0,4,-5" />
+                       FontSize="14" 
+                       Margin="4,0,4,-5" />
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
@@ -95,7 +96,8 @@
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="FillAndExpand" Margin="0">
+                             HorizontalOptions="FillAndExpand" 
+                             Margin="0">
 
                     <CheckBox IsChecked="{Binding AutoCopyId}"
                               VerticalOptions="CenterAndExpand"

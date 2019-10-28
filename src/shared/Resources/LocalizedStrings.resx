@@ -480,6 +480,9 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
     <value>The two entered passwords don't match.</value>
   </data>
+  <data name="PleaseEnterConvoPassword" xml:space="preserve">
+    <value>Please enter the convo password to join.</value>
+  </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit</value>
   </data>

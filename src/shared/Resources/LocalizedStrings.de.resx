@@ -503,6 +503,9 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
     <value>Die zwei eingegeben Passwörter stimmen nicht überein.</value>
   </data>
+  <data name="PleaseEnterConvoPassword" xml:space="preserve">
+    <value>Bitte gib hier unten das Unterhaltungspasswort ein um beizutreten.</value>
+  </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Speichern</value>
   </data>

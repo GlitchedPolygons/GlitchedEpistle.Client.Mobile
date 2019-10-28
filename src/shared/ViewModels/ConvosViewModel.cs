@@ -74,6 +74,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand LogoutCommand { get; }
 
         // List controls
+        public ICommand RefreshCommand { get; }
         public ICommand OpenConvoCommand { get; }
         public ICommand EditConvoCommand { get; }
         public ICommand CopyConvoIdCommand { get; }
@@ -84,6 +85,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private ObservableCollection<Convo> convos;
         public ObservableCollection<Convo> Convos { get => convos; set => Set(ref convos, value); }
+
+        private Convo selectedConvo;
+        public Convo SelectedConvo
+        {
+            get => selectedConvo;
+            set
+            {
+                Set(ref selectedConvo, value);
+                if (value != null)
+                {
+                    OnClickedOnConvo(value);
+                }
+            }
+        }
+
+        private bool isRefreshing;
+        public bool IsRefreshing { get => isRefreshing; set => Set(ref isRefreshing, value); }
 
         private bool canJoin = true;
         public bool CanJoin { get => canJoin; set => Set(ref canJoin, value); }
@@ -131,6 +149,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
             EditConvoCommand = new DelegateCommand(OnClickedEditConvo);
             CopyConvoIdCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
+            RefreshCommand = new DelegateCommand(_ => UpdateList());
 
             eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(_ => UpdateList());
             eventAggregator.GetEvent<DeletedConvoEvent>().Subscribe(_ => UpdateList());
@@ -151,11 +170,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             if (user.Token is null || user.Token.Item2.NullOrEmpty())
             {
+                IsRefreshing = false;
                 return;
             }
 
             Task.Run(async () =>
             {
+                IsRefreshing = true;
+                
                 try
                 {
                     var userConvos = (await userService.GetConvos(user.Id, user.Token.Item2))
@@ -171,8 +193,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 catch (Exception e)
                 {
                     logger?.LogError($"{nameof(ConvosViewModel)}::{nameof(UpdateList)}: User convos sync failed! Thrown exception: " + e.ToString());
-                    Convos = new ObservableCollection<Convo>();
                 }
+                
+                IsRefreshing = false;
             });
         }
 
@@ -183,6 +206,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
+
+            SelectedConvo = null;
 
             CanJoin = false;
 
@@ -200,7 +225,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
             else
             {
-                var view = new PasswordPopupPage();
+                var view = new PasswordPopupPage(localization["JoinConvoTitleLabel"], localization["PleaseEnterConvoPassword"]);
                 view.Disappearing += (sender, e) =>
                 {
                     if (view.Password.NotNullNotEmpty())

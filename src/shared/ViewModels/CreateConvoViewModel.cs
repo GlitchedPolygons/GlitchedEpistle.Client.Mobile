@@ -23,7 +23,7 @@ using System;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.ComponentModel;
+
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
@@ -41,6 +41,9 @@ using GlitchedPolygons.Services.Cryptography.Asymmetric;
 
 using Prism.Events;
 using Newtonsoft.Json;
+
+using Plugin.Fingerprint;
+using Plugin.Fingerprint.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -60,6 +63,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IEventAggregator eventAggregator;
         private readonly IAsymmetricCryptographyRSA crypto;
         private readonly IConvoPasswordProvider convoPasswordProvider;
+        
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Convo Gen.") {UseDialog = false};
 
         #endregion
 
@@ -193,6 +198,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     ErrorMessage = localization["EmptyConvoTitleFieldErrorMessage"];
                     CreateButtonEnabled = CancelButtonEnabled = true;
                     return;
+                }
+                
+                if (appSettings["UseFingerprint", false])
+                {
+                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    {
+                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                        if (!fingerprintAuthenticationResult.Authenticated)
+                        {
+                            CreateButtonEnabled = CancelButtonEnabled = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        appSettings["UseFingerprint"] = "false";
+                    }
                 }
 
                 if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)

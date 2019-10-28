@@ -18,8 +18,10 @@
 
 using System;
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
@@ -29,9 +31,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
     {
         public string Password { get; private set; }
 
-        public PasswordPopupPage()
+        public PasswordPopupPage(string title, string description, string cancelButtonLabel = null, string okButtonLabel = null)
         {
+            var localization = DependencyService.Get<ILocalization>();
+            
             InitializeComponent();
+
+            TitleLabel.Text = title;
+            DescriptionLabel.Text = description;
+            
+            OkButton.Text = okButtonLabel ?? "OK";
+            CancelButton.Text = cancelButtonLabel ?? localization["CancelButton"];
         }
 
         private void OkButton_Clicked(object sender, System.EventArgs e)
