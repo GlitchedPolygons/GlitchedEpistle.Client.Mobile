@@ -118,6 +118,7 @@
                   HasUnevenRows="true"
                   RefreshAllowed="True"
                   IsPullToRefreshEnabled="True"
+                  IsRefreshing="{Binding IsRefreshing}"
                   RefreshCommand="{Binding RefreshCommand}">
             <ListView.ItemTemplate>
                 <DataTemplate>
