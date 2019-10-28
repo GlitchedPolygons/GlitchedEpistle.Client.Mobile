@@ -23,6 +23,8 @@ using FFImageLoading.Transformations;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Models;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
@@ -108,6 +110,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             cachedImage.Transformations.Clear();
             cachedImage.Transformations.Add(pressedLogout);
             cachedImage.ReloadImage();
+        }
+
+        private void ConvosListView_OnItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            (BindingContext as ConvosViewModel)?.OnClickedOnConvo(e.Item);
+            ConvosListView.SelectedItem = null;
         }
     }
 }

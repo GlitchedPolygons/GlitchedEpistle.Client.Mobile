@@ -113,8 +113,9 @@
                  Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
         <ListView SeparatorVisibility="None"
+                  x:Name="ConvosListView"
                   ItemsSource="{Binding Convos}" 
-                  SelectedItem="{Binding SelectedConvo}"
+                  ItemTapped="ConvosListView_OnItemTapped"
                   HasUnevenRows="true"
                   RefreshAllowed="True"
                   IsPullToRefreshEnabled="True"
