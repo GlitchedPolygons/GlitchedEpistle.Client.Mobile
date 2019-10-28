@@ -142,7 +142,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     Name = convo.Name;
                     Description = convo.Description;
-                    ExpirationUTC = convo.ExpirationUTC;
+                    ExpirationUTC = convo.ExpirationUTC.Date;
                     ExpirationTime = convo.ExpirationUTC.TimeOfDay;
                     RefreshParticipantLists();
                 }
@@ -264,20 +264,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     }
                 }
 
-                DateTime expirationUTC = ExpirationUTC;
-
-                if (ExpirationTime > TimeSpan.Zero && ExpirationTime < TimeSpan.FromHours(24))
-                {
-                    expirationUTC += TimeSpan.FromTicks(new DateTime(ExpirationTime.Ticks).ToUniversalTime().Ticks);
-                }
-
                 var dto = new ConvoChangeMetadataRequestDto
                 {
                     Totp = Totp,
                     ConvoId = Convo.Id,
-                    ExpirationUTC = expirationUTC,
                     ConvoPasswordSHA512 = OldConvoPassword.SHA512(),
                 };
+
+                if (ExpirationUTC.Date != Convo.ExpirationUTC.Date || ExpirationTime != Convo.ExpirationUTC.TimeOfDay)
+                {
+                    dto.ExpirationUTC = ExpirationUTC.Date;
+                    if (ExpirationTime > TimeSpan.Zero && ExpirationTime < TimeSpan.FromHours(24))
+                    {
+                        dto.ExpirationUTC += TimeSpan.FromTicks(new DateTime(ExpirationTime.Ticks).ToUniversalTime().Ticks);
+                    }
+                }
 
                 if (Name.NotNullNotEmpty() && Name != Convo.Name)
                 {
@@ -287,11 +288,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (Description.NotNullNotEmpty() && Description != Convo.Description)
                 {
                     dto.Description = Description;
-                }
-
-                if (ExpirationUTC != Convo.ExpirationUTC)
-                {
-                    dto.ExpirationUTC = ExpirationUTC;
                 }
 
                 if (NewConvoPassword.NotNullNotEmpty())
