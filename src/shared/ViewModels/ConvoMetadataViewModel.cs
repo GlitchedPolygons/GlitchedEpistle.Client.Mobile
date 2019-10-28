@@ -318,7 +318,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 alertService.AlertLong(localization["ConvoMetadataChangedSuccessfully"]);
 
-                var convo = await convoProvider.Get(Convo.Id);
                 if (convo != null)
                 {
                     if (dto.Name.NotNullNotEmpty())
@@ -340,8 +339,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     {
                         convoPasswordProvider.SetPasswordSHA512(convo.Id, dto.NewConvoPasswordSHA512);
                     }
-
-                    await convoProvider.Update(convo);
                 }
 
                 UIEnabled = false;
