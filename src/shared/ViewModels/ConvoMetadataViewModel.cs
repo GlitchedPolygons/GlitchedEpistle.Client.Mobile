@@ -35,7 +35,7 @@ using Plugin.Fingerprint.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class EditConvoMetadataViewModel : ViewModel, IOnAppearingListener
+    public class ConvoMetadataViewModel : ViewModel, IOnAppearingListener
     {
         #region Constants
 
@@ -178,7 +178,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public bool AutoPromptForFingerprint { get; set; } = true;
 
-        public EditConvoMetadataViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator, ITotpProvider totpProvider, User user)
+        public ConvoMetadataViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator, ITotpProvider totpProvider, User user)
         {
             localization = DependencyService.Get<ILocalization>();
 
@@ -194,7 +194,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public void OnAppearing()
         {
-            
+            RefreshParticipantLists();
         }
 
         private void RefreshParticipantLists()

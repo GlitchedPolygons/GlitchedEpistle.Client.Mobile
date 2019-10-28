@@ -451,6 +451,9 @@ Perhaps due to unsuccessful Two-Factor Authentication: please double check the p
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="ConvoMetadataTitleLabel" xml:space="preserve">
+    <value>Convo Metadata</value>
+  </data>
   <data name="ConvoTitleLabel" xml:space="preserve">
     <value>Title</value>
   </data>
@@ -476,5 +479,8 @@ Other users need the convo's unique id and its password in order to connect to i
   </data>
   <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
     <value>The two entered passwords don't match.</value>
+  </data>
+  <data name="SubmitButton" xml:space="preserve">
+    <value>Submit</value>
   </data>
 </root>

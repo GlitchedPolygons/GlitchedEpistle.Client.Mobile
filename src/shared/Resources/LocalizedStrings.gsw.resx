@@ -466,6 +466,9 @@ Perhaps due to unsuccessful Two-Factor Authentication: please double check the p
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Beschriibig</value>
   </data>
+  <data name="ConvoMetadataTitleLabel" xml:space="preserve">
+    <value>Convo Metadata</value>
+  </data>
   <data name="ConvoTitleLabel" xml:space="preserve">
     <value>Titel</value>
   </data>
@@ -492,5 +495,8 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   </data>
   <data name="PasswordsDontMatchErrorMessage" xml:space="preserve">
     <value>Die beyde Passwörter stimme nid überein.</value>
+  </data>
+  <data name="SubmitButton" xml:space="preserve">
+    <value>Spichere</value>
   </data>
 </root>

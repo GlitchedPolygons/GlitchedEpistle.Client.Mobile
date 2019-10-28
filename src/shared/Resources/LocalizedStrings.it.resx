@@ -419,7 +419,7 @@ Please note that if you do not know or have forgot your 2FA secret, you're out o
     <value>Salva segreto di autentificazione a due fattori</value>
   </data>
   <data name="SubmitButton" xml:space="preserve">
-    <value>Cambia password</value>
+    <value>Salva</value>
   </data>
   <data name="SubmitPwChangeRequestButton" xml:space="preserve">
     <value>Conferma</value>
@@ -468,6 +468,9 @@ Perhaps due to unsuccessful Two-Factor Authentication: please double check the p
   </data>
   <data name="ConvoDescriptionLabel" xml:space="preserve">
     <value>Descrizione</value>
+  </data>
+  <data name="ConvoMetadataTitleLabel" xml:space="preserve">
+    <value>Metadata Convo</value>
   </data>
   <data name="ConvoTitleLabel" xml:space="preserve">
     <value>Titolo</value>

@@ -256,21 +256,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
 
-        private void OnClickedEditConvo(object commandParam)
+        private async void OnClickedEditConvo(object commandParam)
         {
-//            var convo = commandParam as Convo;
-//            if (convo is null)
-//            {
-//                return;
-//            }
-//
-//            var view = windowFactory.Create<EditConvoMetadataView>(true);
-//            var viewModel = viewModelFactory.Create<EditConvoMetadataViewModel>();
-//            viewModel.Convo = convo;
-//            view.DataContext = viewModel;
-//
-//            view.Show();
-//            view.Focus();
+            var convo = commandParam as Convo;
+            if (convo is null)
+            {
+                return;
+            }
+
+            var view = new ConvoMetadataPage();
+            var viewModel = viewModelFactory.Create<ConvoMetadataViewModel>();
+            viewModel.Convo = convo;
+            view.BindingContext = viewModel;
+
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private async void OnClickedJoinConvo(object commandParam)
