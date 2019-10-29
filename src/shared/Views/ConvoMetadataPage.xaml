@@ -65,8 +65,7 @@
                                     IsVisible="{Binding ConvoIdCopiedTickVisible}"
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
                 </StackLayout>
-
-
+                
                 <Label Text="{Binding ErrorMessage}"
                        TextColor="{DynamicResource ErrorMessageColor}"
                        LineBreakMode="WordWrap"

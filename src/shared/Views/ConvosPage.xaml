@@ -150,10 +150,11 @@
                                            Text="{Binding Id}"
                                            Style="{DynamicResource SubLabelStyle}" />
                                 </StackLayout>
-                                <ff:CachedImage WidthRequest="25"
-                                                HeightRequest="25"
-                                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.settings-icon-white.png}"
-                                                Style="{DynamicResource HeaderButtonStyle}">
+                                <ff:CachedImage VerticalOptions="FillAndExpand"
+                                                Aspect="AspectFit"
+                                                Margin="4"
+                                                DownsampleToViewSize="True"
+                                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
                                     <ff:CachedImage.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" CommandParameter="{Binding .}"/>
                                     </ff:CachedImage.GestureRecognizers>
