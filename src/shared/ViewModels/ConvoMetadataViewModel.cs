@@ -18,9 +18,9 @@
 
 using System;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
@@ -31,17 +31,18 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.Services.MethodQ;
-using Newtonsoft.Json;
-using Plugin.Fingerprint;
 using Prism.Events;
+using Newtonsoft.Json;
 using Xamarin.Forms;
-using Plugin.Fingerprint.Abstractions;
 using Xamarin.Essentials;
+using Plugin.Fingerprint;
+using Plugin.Fingerprint.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -79,39 +80,83 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public string UserId => user?.Id;
 
         private string name;
-        public string Name { get => name; set => Set(ref name, value); }
+        public string Name
+        {
+            get => name;
+            set => Set(ref name, value);
+        }
 
         private string totp;
-        public string Totp { get => totp; set => Set(ref totp, value); }
+        public string Totp
+        {
+            get => totp;
+            set => Set(ref totp, value);
+        }
 
         private bool showTotpField = true;
-        public bool ShowTotpField { get => showTotpField; set => Set(ref showTotpField, value); }
+        public bool ShowTotpField
+        {
+            get => showTotpField;
+            set => Set(ref showTotpField, value);
+        }
 
         private string description;
-        public string Description { get => description; set => Set(ref description, value); }
-        
+        public string Description
+        {
+            get => description;
+            set => Set(ref description, value);
+        }
+
         private string oldConvoPassword;
-        public string OldConvoPassword { get => oldConvoPassword; set => Set(ref oldConvoPassword, value); }
+        public string OldConvoPassword
+        {
+            get => oldConvoPassword;
+            set => Set(ref oldConvoPassword, value);
+        }
 
         private string newConvoPassword;
-        public string NewConvoPassword { get => newConvoPassword; set => Set(ref newConvoPassword, value); }
+        public string NewConvoPassword
+        {
+            get => newConvoPassword;
+            set => Set(ref newConvoPassword, value);
+        }
 
         private string newConvoPasswordConfirmation;
-        public string NewConvoPasswordConfirmation { get => newConvoPasswordConfirmation; set => Set(ref newConvoPasswordConfirmation, value); }
+        public string NewConvoPasswordConfirmation
+        {
+            get => newConvoPasswordConfirmation;
+            set => Set(ref newConvoPasswordConfirmation, value);
+        }
 
         private DateTime minExpirationUTC = DateTime.UtcNow.AddDays(2);
-        public DateTime MinExpirationUTC { get => minExpirationUTC; set => Set(ref minExpirationUTC, value); }
+        public DateTime MinExpirationUTC
+        {
+            get => minExpirationUTC;
+            set => Set(ref minExpirationUTC, value);
+        }
 
         private DateTime expirationUTC = DateTime.UtcNow.AddDays(14);
-        public DateTime ExpirationUTC { get => expirationUTC; set => Set(ref expirationUTC, value); }
+        public DateTime ExpirationUTC
+        {
+            get => expirationUTC;
+            set => Set(ref expirationUTC, value);
+        }
 
         private TimeSpan expirationTime;
-        public TimeSpan ExpirationTime { get => expirationTime; set => Set(ref expirationTime, value); }
+        public TimeSpan ExpirationTime
+        {
+            get => expirationTime;
+            set => Set(ref expirationTime, value);
+        }
 
         public string ExpirationLabel => (ExpirationUTC.Date + ExpirationTime).ToString(CultureInfo.CurrentCulture);
 
         private bool uiEnabled = true;
-        public bool UIEnabled { get => uiEnabled; set => Set(ref uiEnabled, value); }
+        public bool UIEnabled
+        {
+            get => uiEnabled;
+            set => Set(ref uiEnabled, value);
+        }
 
         public bool IsAdmin
         {
@@ -125,12 +170,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public bool CanLeave => !IsAdmin;
 
         private ObservableCollection<string> participants = new ObservableCollection<string>();
-        public ObservableCollection<string> Participants { get => participants; set => Set(ref participants, value); }
+        public ObservableCollection<string> Participants
+        {
+            get => participants;
+            set => Set(ref participants, value);
+        }
 
         public bool OtherParticipantsListVisibility => Participants.Count > 0;
 
         private ObservableCollection<string> banned = new ObservableCollection<string>();
-        public ObservableCollection<string> Banned { get => banned; set => Set(ref banned, value); }
+        public ObservableCollection<string> Banned
+        {
+            get => banned;
+            set => Set(ref banned, value);
+        }
 
         public bool BannedListVisibility => Banned.Count > 0;
 
@@ -155,8 +208,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public string ConvoId => Convo?.Id;
 
         private bool convoIdCopiedTickVisible;
-        public bool ConvoIdCopiedTickVisible { get => convoIdCopiedTickVisible; set => Set(ref convoIdCopiedTickVisible, value); }
-        
+        public bool ConvoIdCopiedTickVisible
+        {
+            get => convoIdCopiedTickVisible;
+            set => Set(ref convoIdCopiedTickVisible, value);
+        }
+
         #endregion
 
         private volatile bool pendingAttempt = false;
@@ -165,7 +222,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
-            
+
             this.user = user;
             this.gzip = gzip;
             this.crypto = crypto;
@@ -214,6 +271,83 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
+        private async void OnLeave(object commandParam)
+        {
+            // TODO: Replace all hard-coded strings with appropriately translated values + finish implementing LeaveConvo functionality!
+            bool confirmed = await Application.Current.MainPage.DisplayAlert("TITLE", "MSG", "OK", "CANCEL");
+            if (!confirmed)
+            {
+                return;
+            }
+
+            var _ =Task.Run(async () =>
+            {
+                if (appSettings["UseFingerprint", false])
+                {
+                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    {
+                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                        if (!fingerprintAuthenticationResult.Authenticated)
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        appSettings["UseFingerprint"] = "false";
+                    }
+                }
+
+                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
+                {
+                    Totp = await totpProvider.GetTotp(totpSecret);
+
+                    if (Totp.NullOrEmpty())
+                    {
+                        ShowTotpField = true;
+                        appSettings["SaveTotpSecret"] = "false";
+                    }
+                }
+
+                if (Totp.NullOrEmpty())
+                {
+                    ErrorMessage = localization["NoTotpProvidedErrorMessage"];
+                    return;
+                }
+
+                var dto = new ConvoLeaveRequestDto
+                {
+                    ConvoId = Convo.Id,
+                    Totp = Totp
+                };
+
+                var body = new EpistleRequestBody
+                {
+                    UserId = user.Id,
+                    Auth = user.Token.Item2,
+                    Body = JsonConvert.SerializeObject(dto)
+                };
+
+                bool success = await convoService.LeaveConvo(body.Sign(crypto, user.PrivateKeyPem));
+
+                if (!success)
+                {
+                    //PrintMessage("The request could not be fulfilled server-side; please double check the provided password and make sure that you actually are currently a participant of this convo.", true);
+                    return;
+                }
+
+                //PrintMessage($"You left the convo \"{Convo.Name}\" successfully! You are no longer a participant of it and can now close this window.", false);
+               
+                ExecUI(() =>
+                {
+                    UIEnabled = false;
+                    pendingAttempt = true;
+                    eventAggregator.GetEvent<DeletedConvoEvent>().Publish(Convo.Id);
+                    OnClickedCancel(null);
+                });
+            });
+        }
+
         private void OnClickedSubmit(object commandParam)
         {
             if (pendingAttempt)
@@ -226,7 +360,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ErrorMessage = localization["ConvoMetadataChangeRequestMissingPassword"];
                 return;
             }
-            
+
             pendingAttempt = true;
 
             UIEnabled = false;
