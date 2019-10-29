@@ -274,6 +274,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         private async void OnClickedEditConvo(object commandParam)
         {
+            // TODO: fix that now long tap on convo item works but single tap not anymore...
             var convo = commandParam as Convo;
             if (convo is null)
             {

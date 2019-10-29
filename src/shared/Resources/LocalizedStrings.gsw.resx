@@ -508,4 +508,8 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="SubmitButton" xml:space="preserve">
     <value>Spichere</value>
   </data>
+  <data name="ConvoMetadataChangeRequestMissingPassword" xml:space="preserve">
+    <value>Bitte gib dis aktuelle Ungerhautigspasswort ii um dini Aktion z authentifiziere!</value>
+    <comment>Please enter the convo's current password to authenticate your request!</comment>
+  </data>
 </root>

@@ -39,6 +39,10 @@
                        Text="{i:Translate ConvoMetadataTitleLabel}"
                        FontAttributes="Bold" />
 
+                <Label Style="{DynamicResource SubLabelStyle}"
+                       FontSize="13"
+                       Text="{Binding ConvoId}" />
+
                 <Label Text="{Binding ErrorMessage}"
                        TextColor="{DynamicResource ErrorMessageColor}"
                        LineBreakMode="WordWrap"
@@ -53,7 +57,7 @@
                        Text="{Binding Name}" />
 
                 <Editor MaxLength="150"
-                        Style="{DynamicResource EntryStyle}"
+                        Style="{DynamicResource EditorStyle}"
                         IsReadOnly="{Binding IsAdmin, Converter={converters:InverseBoolConverter}}"
                         Placeholder="{i:Translate ConvoDescriptionLabel}"
                         Text="{Binding Description}" />
@@ -61,13 +65,19 @@
                 <Entry IsPassword="True"
                        Style="{DynamicResource EntryStyle}"
                        IsVisible="{Binding IsAdmin}"
-                       Placeholder="{i:Translate PasswordLabel}"
+                       Placeholder="{i:Translate CurrentPasswordLabel}"
+                       Text="{Binding OldConvoPassword}" />
+                
+                <Entry IsPassword="True"
+                       Style="{DynamicResource EntryStyle}"
+                       IsVisible="{Binding IsAdmin}"
+                       Placeholder="{i:Translate NewPasswordLabel}"
                        Text="{Binding NewConvoPassword}" />
 
                 <Entry IsPassword="True"
                        Style="{DynamicResource EntryStyle}"
                        IsVisible="{Binding IsAdmin}"
-                       Placeholder="{i:Translate PasswordConfirmationLabel}"
+                       Placeholder="{i:Translate NewPasswordConfirmationLabel}"
                        Text="{Binding NewConvoPasswordConfirmation}" />
 
                 <Entry IsPassword="False"
@@ -85,19 +95,21 @@
                              HorizontalOptions="FillAndExpand"
                              IsVisible="{Binding IsAdmin}">
 
-                    <DatePicker Style="{DynamicResource EntryStyle}"
+                    <DatePicker Style="{DynamicResource DatePickerStyle}"
                                 Date="{Binding ExpirationUTC}"
                                 MinimumDate="{Binding MinExpirationUTC}"
                                 HorizontalOptions="FillAndExpand" />
 
                     <TimePicker Time="{Binding ExpirationTime}"
-                                Style="{DynamicResource EntryStyle}"
+                                Style="{DynamicResource TimePickerStyle}"
                                 HorizontalOptions="FillAndExpand" />
                 </StackLayout>
 
                 <Label IsVisible="{Binding IsAdmin, Converter={converters:InverseBoolConverter}}"
                        Style="{DynamicResource MediumLabelStyle}"
-                       Text="{Binding ExpirationLabel}" />
+                       Text="{Binding ExpirationLabel}"
+                       FontSize="14"
+                       Margin="4,0,4,0" />
 
                 <!-- TODO: Participants and banned users list -->
                 

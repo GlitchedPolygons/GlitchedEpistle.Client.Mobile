@@ -57,7 +57,7 @@
                        Text="{Binding Name}" />
 
                 <Editor MaxLength="150"
-                        Style="{DynamicResource EntryStyle}"
+                        Style="{DynamicResource EditorStyle}"
                         Placeholder="{i:Translate ConvoDescriptionLabel}"
                         Text="{Binding Description}" />
 
@@ -85,13 +85,13 @@
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 
-                    <DatePicker Style="{DynamicResource EntryStyle}"
+                    <DatePicker Style="{DynamicResource DatePickerStyle}"
                                 Date="{Binding ExpirationUTC}"
                                 MinimumDate="{Binding MinExpirationUTC}"
                                 HorizontalOptions="FillAndExpand" />
 
                     <TimePicker Time="{Binding ExpirationTime}"
-                                Style="{DynamicResource EntryStyle}"
+                                Style="{DynamicResource TimePickerStyle}"
                                 HorizontalOptions="FillAndExpand" />
                 </StackLayout>
 

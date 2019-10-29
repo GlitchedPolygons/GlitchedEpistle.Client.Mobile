@@ -149,9 +149,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
+        public string ConvoId => Convo?.Id;
+
         #endregion
 
-        private volatile bool pendingAttempt;
+        private volatile bool pendingAttempt = false;
 
         public ConvoMetadataViewModel(User user, IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, ICompressionUtilityAsync gzip, IConvoService convoService, IAsymmetricCryptographyRSA crypto, IConvoPasswordProvider convoPasswordProvider)
         {
@@ -174,6 +176,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public void OnAppearing()
         {
             RefreshParticipantLists();
+            ShowTotpField = !appSettings["SaveTotpSecret", false];
         }
 
         private void RefreshParticipantLists()
@@ -203,6 +206,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
+
+            if (OldConvoPassword.NullOrEmpty())
+            {
+                ErrorMessage = localization["ConvoMetadataChangeRequestMissingPassword"];
+                return;
+            }
+            
+            pendingAttempt = true;
 
             UIEnabled = false;
 
@@ -266,7 +277,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 var dto = new ConvoChangeMetadataRequestDto
                 {
-                    Totp = Totp,
+                    Totp = this.Totp,
                     ConvoId = Convo.Id,
                     ConvoPasswordSHA512 = OldConvoPassword.SHA512(),
                 };
@@ -312,8 +323,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     return;
                 }
 
-                alertService.AlertLong(localization["ConvoMetadataChangedSuccessfully"]);
-
                 if (convo != null)
                 {
                     if (dto.Name.NotNullNotEmpty())
@@ -337,8 +346,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     }
                 }
 
-                UIEnabled = false;
-                ExecUI(() => eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(Convo.Id));
+                ExecUI(delegate
+                {
+                    eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(Convo.Id);
+                    alertService.AlertLong(localization["ConvoMetadataChangedSuccessfully"]);
+                    OnClickedCancel(null);
+                });
             });
         }
 

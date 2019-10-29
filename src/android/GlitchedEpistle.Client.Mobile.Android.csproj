@@ -68,6 +68,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Effects\AndroidLongPressedEffect.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

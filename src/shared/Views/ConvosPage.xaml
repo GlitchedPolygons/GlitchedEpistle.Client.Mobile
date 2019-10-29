@@ -26,7 +26,9 @@
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvosPage"
+             x:Name="EpistleMainPage"
              mc:Ignorable="d"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
@@ -125,7 +127,12 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Padding="15,10"
-                                     HorizontalOptions="FillAndExpand">
+                                     HorizontalOptions="FillAndExpand" 
+                                     effects:LongPressedEffect.Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" 
+                                     effects:LongPressedEffect.CommandParameter="{Binding .}">
+                            <StackLayout.Effects>
+                                <effects:LongPressedEffect />
+                            </StackLayout.Effects>
                             <StackLayout Orientation="Horizontal">
                                 <Label VerticalOptions="FillAndExpand"
                                        VerticalTextAlignment="Center"

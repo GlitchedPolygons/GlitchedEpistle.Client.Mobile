@@ -119,6 +119,19 @@
         <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
         <Setter Property="PlaceholderColor" Value="{DynamicResource SubTextColor}" />
     </Style>
+    
+    <Style x:Key="EditorStyle" TargetType="Editor">
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
+        <Setter Property="PlaceholderColor" Value="{DynamicResource SubTextColor}" />
+    </Style>
+    
+    <Style x:Key="DatePickerStyle" TargetType="DatePicker">
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
+    </Style>
+    
+    <Style x:Key="TimePickerStyle" TargetType="TimePicker">
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
+    </Style>
 
     <Style x:Key="PickerStyle" TargetType="Picker">
         <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />

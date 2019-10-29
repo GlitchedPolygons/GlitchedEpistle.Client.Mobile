@@ -492,4 +492,7 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="ConvoMetadataChangeRequestMissingPassword" xml:space="preserve">
+    <value>Please enter the convo's current password to authenticate your request!</value>
+  </data>
 </root>
