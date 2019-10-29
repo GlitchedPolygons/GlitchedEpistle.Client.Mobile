@@ -116,7 +116,7 @@
 
         <ListView SeparatorVisibility="None"
                   x:Name="ConvosListView"
-                  ItemsSource="{Binding Convos}" 
+                  ItemsSource="{Binding Convos}"
                   ItemTapped="ConvosListView_OnItemTapped"
                   HasUnevenRows="true"
                   RefreshAllowed="True"
@@ -127,12 +127,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Padding="15,10"
-                                     HorizontalOptions="FillAndExpand" 
-                                     effects:LongPressedEffect.Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" 
-                                     effects:LongPressedEffect.CommandParameter="{Binding .}">
-                            <StackLayout.Effects>
-                                <effects:LongPressedEffect />
-                            </StackLayout.Effects>
+                                     HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal">
                                 <Label VerticalOptions="FillAndExpand"
                                        VerticalTextAlignment="Center"

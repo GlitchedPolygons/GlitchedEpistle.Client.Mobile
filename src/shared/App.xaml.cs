@@ -344,7 +344,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         
         private void OnJoinedConvo(Convo convo)
         {
-            throw new NotImplementedException(); // TODO: open active convo view here
+            // TODO: open active convo view here
         }
 
         private void ShowLoginPage(bool autoPromptForFingerprint = true)

@@ -137,16 +137,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             CopyConvoIdCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
             RefreshCommand = new DelegateCommand(_ => UpdateList(true));
 
-            eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(_ => UpdateList());
-            eventAggregator.GetEvent<DeletedConvoEvent>().Subscribe(_ => UpdateList());
-            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(_ => UpdateList());
-            eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList());
+            eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(_ => UpdateList(true));
+            eventAggregator.GetEvent<DeletedConvoEvent>().Subscribe(_ => UpdateList(true));
+            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(_ => UpdateList(true));
+            eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList(true));
             eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);
         }
         
         public void OnAppearing()
         {
-            UpdateList();
+            UpdateList(false);
 
             UserId = user.Id;
             Username = userSettings.Username;
@@ -274,7 +274,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         private async void OnClickedEditConvo(object commandParam)
         {
-            // TODO: fix that now long tap on convo item works but single tap not anymore...
             var convo = commandParam as Convo;
             if (convo is null)
             {

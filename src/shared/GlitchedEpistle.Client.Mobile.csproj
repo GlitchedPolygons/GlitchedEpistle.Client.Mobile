@@ -75,6 +75,8 @@
     <EmbeddedResource Include="Resources\Images\trash-icon-white.png" />
     <None Remove="Resources\Images\warning.png" />
     <EmbeddedResource Include="Resources\Images\warning.png" />
+    <None Remove="Resources\Images\settings-icon-white-borderless.png" />
+    <EmbeddedResource Include="Resources\Images\settings-icon-white-borderless.png" />
   </ItemGroup>
   
   <ItemGroup>
