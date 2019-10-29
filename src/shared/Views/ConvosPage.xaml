@@ -129,7 +129,7 @@
                         <StackLayout Padding="15,10"
                                      HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal">
-                                <StackLayout>
+                                <StackLayout HorizontalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
                                         <Label VerticalOptions="FillAndExpand"
                                                VerticalTextAlignment="Center"
@@ -152,7 +152,7 @@
                                 </StackLayout>
                                 <ff:CachedImage VerticalOptions="FillAndExpand"
                                                 Aspect="AspectFit"
-                                                Margin="4"
+                                                Margin="4,0,4,10"
                                                 DownsampleToViewSize="True"
                                                 Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
                                     <ff:CachedImage.GestureRecognizers>
