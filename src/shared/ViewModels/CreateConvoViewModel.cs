@@ -300,6 +300,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                             Clipboard.SetTextAsync(convo.Id);
                             alertService.AlertShort(localization["Copied"]);
                         }
+                        else
+                        {
+                            alertService.AlertLong(localization["ConvoCreatedSuccessfully"]);
+                        }
 
                         // Display success message and keep UI disabled.
                         OnCancel(null);

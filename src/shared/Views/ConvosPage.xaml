@@ -129,24 +129,36 @@
                         <StackLayout Padding="15,10"
                                      HorizontalOptions="FillAndExpand">
                             <StackLayout Orientation="Horizontal">
-                                <Label VerticalOptions="FillAndExpand"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Start"
-                                       FontSize="20"
-                                       Text="{Binding Name}"
-                                       Style="{DynamicResource MediumLabelStyle}" />
-                                <Label VerticalTextAlignment="Center"
-                                       VerticalOptions="FillAndExpand"
-                                       HorizontalTextAlignment="End"
-                                       FontSize="20"
-                                       Text="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelConverter}}"
-                                       Style="{DynamicResource MediumLabelStyle}" />
+                                <StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label VerticalOptions="FillAndExpand"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Start"
+                                               FontSize="20"
+                                               Text="{Binding Name}"
+                                               Style="{DynamicResource MediumLabelStyle}" />
+                                        <Label VerticalTextAlignment="Center"
+                                               VerticalOptions="FillAndExpand"
+                                               HorizontalTextAlignment="End"
+                                               FontSize="20"
+                                               Text="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelConverter}}"
+                                               Style="{DynamicResource MediumLabelStyle}" />
+                                    </StackLayout>
+                                    <Label VerticalTextAlignment="Center"
+                                           VerticalOptions="FillAndExpand"
+                                           FontSize="16"
+                                           Text="{Binding Id}"
+                                           Style="{DynamicResource SubLabelStyle}" />
+                                </StackLayout>
+                                <ff:CachedImage WidthRequest="25"
+                                                HeightRequest="25"
+                                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.settings-icon-white.png}"
+                                                Style="{DynamicResource HeaderButtonStyle}">
+                                    <ff:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" CommandParameter="{Binding .}"/>
+                                    </ff:CachedImage.GestureRecognizers>
+                                </ff:CachedImage>
                             </StackLayout>
-                            <Label VerticalTextAlignment="Center"
-                                   VerticalOptions="FillAndExpand"
-                                   FontSize="16"
-                                   Text="{Binding Id}"
-                                   Style="{DynamicResource SubLabelStyle}" />
                             <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
                         </StackLayout>
                     </ViewCell>

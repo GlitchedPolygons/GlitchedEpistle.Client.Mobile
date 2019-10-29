@@ -35,6 +35,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
+using GlitchedPolygons.Services.MethodQ;
 using Newtonsoft.Json;
 using Plugin.Fingerprint;
 using Prism.Events;
@@ -50,6 +51,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         // Injections:
         private readonly User user;
+        private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
         private readonly IConvoService convoService;
@@ -68,6 +70,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
+        public ICommand CopyConvoIdToClipboardCommand { get; }
 
         #endregion
 
@@ -151,11 +154,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public string ConvoId => Convo?.Id;
 
+        private bool convoIdCopiedTickVisible;
+        public bool ConvoIdCopiedTickVisible { get => convoIdCopiedTickVisible; set => Set(ref convoIdCopiedTickVisible, value); }
+        
         #endregion
 
         private volatile bool pendingAttempt = false;
 
-        public ConvoMetadataViewModel(User user, IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, ICompressionUtilityAsync gzip, IConvoService convoService, IAsymmetricCryptographyRSA crypto, IConvoPasswordProvider convoPasswordProvider)
+        public ConvoMetadataViewModel(User user, IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, ICompressionUtilityAsync gzip, IConvoService convoService, IAsymmetricCryptographyRSA crypto, IConvoPasswordProvider convoPasswordProvider, IMethodQ methodQ)
         {
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
@@ -163,6 +169,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.user = user;
             this.gzip = gzip;
             this.crypto = crypto;
+            this.methodQ = methodQ;
             this.appSettings = appSettings;
             this.convoService = convoService;
             this.totpProvider = totpProvider;
@@ -171,6 +178,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             CancelCommand = new DelegateCommand(OnClickedCancel);
             SubmitCommand = new DelegateCommand(OnClickedSubmit);
+            CopyConvoIdToClipboardCommand = new DelegateCommand(_ =>
+            {
+                Clipboard.SetTextAsync(ConvoId);
+                ConvoIdCopiedTickVisible = true;
+                methodQ.Schedule(() => ConvoIdCopiedTickVisible = false, DateTime.UtcNow.AddSeconds(2.5));
+                ExecUI(() => alertService.AlertLong(localization["Copied"]));
+            });
         }
 
         public void OnAppearing()

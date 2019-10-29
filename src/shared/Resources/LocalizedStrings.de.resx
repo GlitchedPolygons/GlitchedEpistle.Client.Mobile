@@ -515,4 +515,11 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="SubmitButton" xml:space="preserve">
     <value>Speichern</value>
   </data>
+  <data name="ConvoCreatedSuccessfully" xml:space="preserve">
+    <value>Unterhaltung erfolgreich erstellt</value>
+  </data>
+  <data name="ConvoMetadataChangeRequestMissingPassword" xml:space="preserve">
+    <value>Bitte gib das aktuelle Unterhaltungspasswort ein, um deine Handlung zu authentifizieren.</value>
+    <comment>Please enter the convo's current password to authenticate your request!</comment>
+  </data>
 </root>

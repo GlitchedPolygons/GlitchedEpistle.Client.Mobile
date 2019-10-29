@@ -24,6 +24,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              mc:Ignorable="d"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvoMetadataPage">
@@ -39,9 +40,32 @@
                        Text="{i:Translate ConvoMetadataTitleLabel}"
                        FontAttributes="Bold" />
 
-                <Label Style="{DynamicResource SubLabelStyle}"
-                       FontSize="13"
-                       Text="{Binding ConvoId}" />
+                <StackLayout Orientation="Horizontal" 
+                             VerticalOptions="CenterAndExpand">
+                    <Label Style="{DynamicResource SubLabelStyle}"
+                           FontSize="13"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="CenterAndExpand"
+                           Text="{Binding ConvoId}" />
+                    <ff:CachedImage WidthRequest="18"
+                                    HeightRequest="18"
+                                    DownsampleToViewSize="True"
+                                    VerticalOptions="CenterAndExpand"
+                                    IsEnabled="{Binding ConvoIdCopiedTickVisible, Converter={converters:InverseBoolConverter}}"
+                                    IsVisible="{Binding ConvoIdCopiedTickVisible, Converter={converters:InverseBoolConverter}}"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.clipboard-icon.png}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CopyConvoIdToClipboardCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+                    <ff:CachedImage WidthRequest="18"
+                                    HeightRequest="18"
+                                    DownsampleToViewSize="True"
+                                    VerticalOptions="CenterAndExpand"
+                                    IsVisible="{Binding ConvoIdCopiedTickVisible}"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
+                </StackLayout>
+
 
                 <Label Text="{Binding ErrorMessage}"
                        TextColor="{DynamicResource ErrorMessageColor}"
@@ -67,7 +91,7 @@
                        IsVisible="{Binding IsAdmin}"
                        Placeholder="{i:Translate CurrentPasswordLabel}"
                        Text="{Binding OldConvoPassword}" />
-                
+
                 <Entry IsPassword="True"
                        Style="{DynamicResource EntryStyle}"
                        IsVisible="{Binding IsAdmin}"
@@ -112,7 +136,7 @@
                        Margin="4,0,4,0" />
 
                 <!-- TODO: Participants and banned users list -->
-                
+
                 <StackLayout Margin="0,10,0,0"
                              Spacing="16"
                              Orientation="Vertical"

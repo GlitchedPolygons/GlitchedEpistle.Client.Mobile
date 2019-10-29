@@ -508,6 +508,9 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="PleaseEnterConvoPassword" xml:space="preserve">
     <value>P.f. inserisci qua sotto la password di partecipazione della conversazione.</value>
   </data>
+  <data name="ConvoCreatedSuccessfully" xml:space="preserve">
+    <value>Convo creata</value>
+  </data>
   <data name="ConvoMetadataChangeRequestMissingPassword" xml:space="preserve">
     <value>P.f. inserisci la password attuale della convo nel campo apposito per autentificare la tua richiesta.</value>
     <comment>Please enter the convo's current password to authenticate your request!</comment>
