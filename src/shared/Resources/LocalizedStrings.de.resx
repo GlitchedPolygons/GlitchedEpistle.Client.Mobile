@@ -522,4 +522,19 @@ Other users need the convo's unique id and its password in order to connect to i
     <value>Bitte gib das aktuelle Unterhaltungspasswort ein, um deine Handlung zu authentifizieren.</value>
     <comment>Please enter the convo's current password to authenticate your request!</comment>
   </data>
+  <data name="DeletedConvoSuccessfully" xml:space="preserve">
+    <value>Unterhaltung gelöscht</value>
+  </data>
+  <data name="LeaveConvoButton" xml:space="preserve">
+    <value>Verlassen</value>
+  </data>
+  <data name="LeaveConvoDialogMessage" xml:space="preserve">
+    <value>Bist du sicher, dass du die Unterhaltung "{0}" verlassen möchtest?</value>
+  </data>
+  <data name="LeaveConvoDialogTitle" xml:space="preserve">
+    <value>Unterhaltung verlassen</value>
+  </data>
+  <data name="LeftConvoSuccessfully" xml:space="preserve">
+    <value>Unterhaltung verlassen</value>
+  </data>
 </root>

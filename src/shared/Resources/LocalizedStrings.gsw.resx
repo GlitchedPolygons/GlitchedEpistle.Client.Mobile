@@ -515,4 +515,23 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
     <value>Bitte gib dis aktuelle Ungerhautigspasswort ii um dini Aktion z authentifiziere!</value>
     <comment>Please enter the convo's current password to authenticate your request!</comment>
   </data>
+  <data name="DeletedConvoSuccessfully" xml:space="preserve">
+    <value>Ungerhautig glöscht</value>
+  </data>
+  <data name="LeaveConvoButton" xml:space="preserve">
+    <value>Ungerhautig verlaa</value>
+  </data>
+  <data name="LeaveConvoDialogMessage" xml:space="preserve">
+    <value>Bisch dr sicher, dass de d' Ungerhautig "{0}" verlaa wosch?</value>
+  </data>
+  <data name="LeaveConvoDialogTitle" xml:space="preserve">
+    <value>Ungerhautig verlaa</value>
+  </data>
+  <data name="LeftConvoSuccessfully" xml:space="preserve">
+    <value>Ungerhautig erfougriich verlaa</value>
+  </data>
+  <data name="RequestFailedServerSide" xml:space="preserve">
+    <value>D'Aktion het vom Server nit chönne usgfüehrt wärde; bitte überprüef nomau aui Parameter genau.</value>
+    <comment>The request could not be fulfilled server-side; please double check the provided parameters.</comment>
+  </data>
 </root>

@@ -141,6 +141,12 @@
                              Orientation="Vertical"
                              HorizontalOptions="FillAndExpand">
 
+                    <Button Text="{i:Translate LeaveConvoButton}"
+                            IsEnabled="{Binding UIEnabled}"
+                            IsVisible="true"
+                            Command="{Binding LeaveCommand}"
+                            HorizontalOptions="FillAndExpand" />
+                    
                     <Button Text="{i:Translate Dismiss}"
                             IsVisible="{Binding IsAdmin, Converter={converters:InverseBoolConverter}}"
                             Command="{Binding CancelCommand}"

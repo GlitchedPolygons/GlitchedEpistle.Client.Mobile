@@ -69,6 +69,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #region Commands
 
+        public ICommand LeaveCommand { get; }
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand CopyConvoIdToClipboardCommand { get; }
@@ -233,6 +234,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.eventAggregator = eventAggregator;
             this.convoPasswordProvider = convoPasswordProvider;
 
+            LeaveCommand = new DelegateCommand(OnLeave);
             CancelCommand = new DelegateCommand(OnClickedCancel);
             SubmitCommand = new DelegateCommand(OnClickedSubmit);
             CopyConvoIdToClipboardCommand = new DelegateCommand(_ =>
@@ -273,14 +275,27 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnLeave(object commandParam)
         {
-            // TODO: Replace all hard-coded strings with appropriately translated values + finish implementing LeaveConvo functionality!
-            bool confirmed = await Application.Current.MainPage.DisplayAlert("TITLE", "MSG", "OK", "CANCEL");
+            if (pendingAttempt)
+            {
+                return;
+            }
+            
+            bool confirmed = await Application.Current.MainPage.DisplayAlert(
+                title: localization["LeaveConvoDialogTitle"], 
+                message: string.Format(localization["LeaveConvoDialogMessage"], Convo.Name), 
+                accept: localization["Yes"], 
+                cancel: localization["No"]
+            );
+            
             if (!confirmed)
             {
                 return;
             }
 
-            var _ =Task.Run(async () =>
+            pendingAttempt = true;
+            UIEnabled = false;
+            
+            var _=Task.Run(async()=>
             {
                 if (appSettings["UseFingerprint", false])
                 {
@@ -289,6 +304,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
                         if (!fingerprintAuthenticationResult.Authenticated)
                         {
+                            UIEnabled = true;
+                            pendingAttempt = false;
                             return;
                         }
                     }
@@ -312,6 +329,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (Totp.NullOrEmpty())
                 {
                     ErrorMessage = localization["NoTotpProvidedErrorMessage"];
+                    UIEnabled = true;
+                    pendingAttempt = false;
                     return;
                 }
 
@@ -332,20 +351,233 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 if (!success)
                 {
-                    //PrintMessage("The request could not be fulfilled server-side; please double check the provided password and make sure that you actually are currently a participant of this convo.", true);
+                    UIEnabled = true;
+                    pendingAttempt = false;
+                    ErrorMessage = localization["RequestFailedServerSide"];
                     return;
                 }
 
-                //PrintMessage($"You left the convo \"{Convo.Name}\" successfully! You are no longer a participant of it and can now close this window.", false);
-               
                 ExecUI(() =>
                 {
                     UIEnabled = false;
                     pendingAttempt = true;
+                    alertService.AlertLong(localization["LeftConvoSuccessfully"]);
                     eventAggregator.GetEvent<DeletedConvoEvent>().Publish(Convo.Id);
                     OnClickedCancel(null);
                 });
             });
+        }
+        
+        private void OnMakeAdmin(object commandParam)
+        {
+            if (OldConvoPassword.NullOrEmpty())
+            {
+                PrintMessage("Please authenticate your request by providing the current convo's password (at the top of the form).", true);
+                return;
+            }
+
+            if (Totp.NullOrEmpty())
+            {
+                PrintMessage("Please authenticate your request by providing your two-factor authentication token.", true);
+                return;
+            }
+
+            if (commandParam is string newAdminUserId)
+            {
+                bool? confirmed = new ConfirmChangeConvoAdminView().ShowDialog();
+                
+                if (confirmed == true)
+                {
+                    Task.Run(async() =>
+                    {
+                        var dto = new ConvoChangeMetadataRequestDto
+                        {
+                            Totp = Totp,
+                            ConvoId = Convo.Id,
+                            ConvoPasswordSHA512 = OldConvoPassword.SHA512(),
+                            NewConvoPasswordSHA512 = null,
+                            Name = null,
+                            Description = null,
+                            ExpirationUTC = null,
+                            CreatorId = newAdminUserId
+                        };
+
+                        var body = new EpistleRequestBody
+                        {
+                            UserId = user.Id,
+                            Auth = user.Token.Item2,
+                            Body = await gzip.Compress(JsonConvert.SerializeObject(dto))
+                        };
+
+                        bool success = await convoService.ChangeConvoMetadata(body.Sign(crypto, user.PrivateKeyPem));
+                        if (!success)
+                        {
+                            PrintMessage("The convo admin change request was rejected server-side! Perhaps double-check the provided convo password?",true);
+                            return;
+                        }
+
+                        if (convo != null)
+                        {
+                            convo.CreatorId = newAdminUserId;
+                            
+                            if (await convoProvider.Update(convo))
+                            {
+                                PrintMessage($"Success! The user {newAdminUserId} is now the new convo admin. You can now close this window...", false);
+                            }
+                            else
+                            {
+                                PrintMessage("The convo admin change request was accepted server-side but couldn't be applied locally. Try re-syncing the convo...", true);
+                            }
+                        }
+
+                        ExecUI(() =>
+                        {
+                            UIEnabled = false;
+                            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(Convo.Id);
+                        });
+                    });
+                }
+            }
+        }
+
+        private void OnKickAndBanUser(object commandParam)
+        {
+            if (OldConvoPassword.NullOrEmpty())
+            {
+                PrintMessage("Please authenticate your request by providing the current convo's password (at the top of the form).", true);
+                return;
+            }
+
+            if (Totp.NullOrEmpty())
+            {
+                PrintMessage("Please authenticate your request by providing your two-factor authentication token.", true);
+                return;
+            }
+
+            if (commandParam is string userIdToKick)
+            {
+                bool? confirmed = new ConfirmKickUserView().ShowDialog();
+                
+                if (confirmed == true)
+                {
+                    Task.Run(async () =>
+                    {
+                        var dto = new ConvoKickUserRequestDto
+                        {
+                            ConvoId = Convo.Id,
+                            ConvoPasswordSHA512 = OldConvoPassword.SHA512(),
+                            UserIdToKick = userIdToKick,
+                            PermaBan = true,
+                            Totp = Totp
+                        };
+
+                        var body = new EpistleRequestBody
+                        {
+                            UserId = user.Id,
+                            Auth = user.Token.Item2,
+                            Body = await gzip.Compress(JsonConvert.SerializeObject(dto))
+                        };
+
+                        bool success = await convoService.KickUser(body.Sign(crypto, user.PrivateKeyPem));
+                        if (!success)
+                        {
+                            PrintMessage($"The user \"{userIdToKick}\" could not be kicked and banned from the convo. Perhaps double-check the provided convo password?", true);
+                            return;
+                        }
+
+                        PrintMessage($"The user \"{userIdToKick}\" has been kicked out of the convo.", false);
+
+                        if (convo != null)
+                        {
+                            convo.BannedUsers.Add(userIdToKick);
+                            convo.Participants.Remove(userIdToKick);
+                        }
+                        
+                        RefreshParticipantLists();
+                        ExecUI(() => eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(Convo.Id));
+                    });
+                }
+            }
+        }
+
+        private void OnDelete(object commandParam)
+        {
+            CanSubmit = false;
+
+            bool? confirmed = dialog.ShowDialog();
+            
+            if (confirmed == true)
+            {
+                Task.Run(async () =>
+                {
+                    if (appSettings["UseFingerprint", false])
+                    {
+                        if (await CrossFingerprint.Current.IsAvailableAsync())
+                        {
+                            var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                            if (!fingerprintAuthenticationResult.Authenticated)
+                            {
+                                UIEnabled = true;
+                                pendingAttempt = false;
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            appSettings["UseFingerprint"] = "false";
+                        }
+                    }
+                    
+                    if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
+                    {
+                        Totp = await totpProvider.GetTotp(totpSecret);
+
+                        if (Totp.NullOrEmpty())
+                        {
+                            ShowTotpField = true;
+                            appSettings["SaveTotpSecret"] = "false";
+                        }
+                    }
+
+                    if (Totp.NullOrEmpty())
+                    {
+                        ErrorMessage = localization["NoTotpProvidedErrorMessage"];
+                        pendingAttempt = false;
+                        UIEnabled = true;
+                        return;
+                    }
+                    
+                    var dto = new ConvoDeletionRequestDto
+                    {
+                        ConvoId = Convo.Id,
+                        Totp = Totp
+                    };
+
+                    var body = new EpistleRequestBody
+                    {
+                        UserId = user.Id,
+                        Auth = user.Token.Item2,
+                        Body = JsonConvert.SerializeObject(dto)
+                    };
+
+                    bool success = await convoService.DeleteConvo(body.Sign(crypto, user.PrivateKeyPem));
+                    
+                    if (!success)
+                    {
+                        ErrorMessage = localization["RequestFailedServerSide"];
+                        pendingAttempt = false;
+                        UIEnabled = true;
+                        return;
+                    }
+                    
+                    ExecUI(() =>
+                    {
+                        alertService.AlertLong(localization["DeletedConvoSuccessfully"]);
+                        eventAggregator.GetEvent<DeletedConvoEvent>().Publish(Convo.Id);
+                        OnClickedCancel(null);
+                    });
+                });
+            }
         }
 
         private void OnClickedSubmit(object commandParam)
@@ -362,7 +594,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
 
             pendingAttempt = true;
-
             UIEnabled = false;
 
             Task.Run(async () =>
@@ -506,6 +737,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private async void OnClickedCancel(object commandParam)
         {
             UIEnabled = false;
+            pendingAttempt = true;
             Participants = Banned = null;
             Name = Description = Totp = null;
             await Application.Current.MainPage.Navigation.PopModalAsync();

@@ -515,4 +515,19 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
     <value>P.f. inserisci la password attuale della convo nel campo apposito per autentificare la tua richiesta.</value>
     <comment>Please enter the convo's current password to authenticate your request!</comment>
   </data>
+  <data name="DeletedConvoSuccessfully" xml:space="preserve">
+    <value>Conversazione cancellata</value>
+  </data>
+  <data name="LeaveConvoButton" xml:space="preserve">
+    <value>Esci da convo</value>
+  </data>
+  <data name="LeaveConvoDialogMessage" xml:space="preserve">
+    <value>Sei sicuro di voler abbandonare la conversazione "{0}"?</value>
+  </data>
+  <data name="LeaveConvoDialogTitle" xml:space="preserve">
+    <value>Abbandona convo</value>
+  </data>
+  <data name="LeftConvoSuccessfully" xml:space="preserve">
+    <value>Convo abbandonata</value>
+  </data>
 </root>
