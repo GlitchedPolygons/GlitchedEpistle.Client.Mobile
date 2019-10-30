@@ -529,6 +529,9 @@ Please be aware that you lose all admin rights after confirming this, and unless
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Ungerhautig glöscht</value>
   </data>
+  <data name="KickAndBanUserDialogTitle" xml:space="preserve">
+    <value>Nutzer usschlyesse</value>
+  </data>
   <data name="LeaveConvoButton" xml:space="preserve">
     <value>Ungerhautig verlaa</value>
   </data>
@@ -548,5 +551,8 @@ Please be aware that you lose all admin rights after confirming this, and unless
   <data name="RequestFailedServerSide" xml:space="preserve">
     <value>D'Aktion het vom Server nit chönne usgfüehrt wärde; bitte überprüef nomau aui Parameter genau.</value>
     <comment>The request could not be fulfilled server-side; please double check the provided parameters.</comment>
+  </data>
+  <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
+    <value>Nutzer erfougriich usegschmisse</value>
   </data>
 </root>

@@ -512,7 +512,7 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
     <value>Sei sicuro di voler rendere l'utente "{0}" il nuovo amministratore della conversazione "{1}"?
 
 Per favore ricordati che una volta confermata quest'azione, perderai ogni diritto amministrativo di questa convo. A meno che il nuovo admin sia consenziente, quest'azione non è reversibile da parte tua.</value>
-    <comment>Are you sure that you want to make the user "{0}" the new administrator of the convo "{0}"?
+    <comment>Are you sure that you want to make the user "{0}" the new administrator of the convo "{1}"?
 
 Please be aware that you lose all admin rights after confirming this, and unless the new admin agrees, you can not revert this.</comment>
   </data>
@@ -529,6 +529,9 @@ Please be aware that you lose all admin rights after confirming this, and unless
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Conversazione cancellata</value>
   </data>
+  <data name="KickAndBanUserDialogTitle" xml:space="preserve">
+    <value>Escludi utente da convo</value>
+  </data>
   <data name="LeaveConvoButton" xml:space="preserve">
     <value>Esci da convo</value>
   </data>
@@ -544,5 +547,8 @@ Please be aware that you lose all admin rights after confirming this, and unless
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>P.f. autentifica la tua richiesta inserendo la password attuale della conversazione nel campo corrispondente.</value>
     <comment>Please provide the convo's current password in order to authenticate your request!</comment>
+  </data>
+  <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
+    <value>Utente espulso</value>
   </data>
 </root>

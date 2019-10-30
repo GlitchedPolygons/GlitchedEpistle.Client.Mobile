@@ -512,6 +512,9 @@ Please be aware that you lose all admin rights after confirming this, and unless
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Convo deleted</value>
   </data>
+  <data name="KickAndBanUserDialogTitle" xml:space="preserve">
+    <value>Kick user from convo</value>
+  </data>
   <data name="LeaveConvoButton" xml:space="preserve">
     <value>Leave convo</value>
   </data>
@@ -530,5 +533,8 @@ Please be aware that you lose all admin rights after confirming this, and unless
   </data>
   <data name="RequestFailedServerSide" xml:space="preserve">
     <value>The request could not be fulfilled server-side; please double check the provided parameters.</value>
+  </data>
+  <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
+    <value>User was kicked out</value>
   </data>
 </root>

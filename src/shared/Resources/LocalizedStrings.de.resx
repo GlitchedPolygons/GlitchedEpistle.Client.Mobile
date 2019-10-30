@@ -552,4 +552,7 @@ Please be aware that you lose all admin rights after confirming this, and unless
     <value>Bitte gib das aktuelle Unterhaltungspasswort ein um deine Aktion zu authentifizieren!</value>
     <comment>Please provide the convo's current password in order to authenticate your request!</comment>
   </data>
+  <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
+    <value>Nutzer wurde ausgeschlossen</value>
+  </data>
 </root>
