@@ -315,16 +315,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     }
                 }
 
-                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
-                {
-                    Totp = await totpProvider.GetTotp(totpSecret);
-
-                    if (Totp.NullOrEmpty())
-                    {
-                        ShowTotpField = true;
-                        appSettings["SaveTotpSecret"] = "false";
-                    }
-                }
+                await AutoFillTotp();
 
                 if (Totp.NullOrEmpty())
                 {
@@ -372,13 +363,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             if (OldConvoPassword.NullOrEmpty())
             {
-                PrintMessage("Please authenticate your request by providing the current convo's password (at the top of the form).", true);
-                return;
-            }
-
-            if (Totp.NullOrEmpty())
-            {
-                PrintMessage("Please authenticate your request by providing your two-factor authentication token.", true);
+                ErrorMessage = localization["PleaseProvideConvoPassword"];
                 return;
             }
 
@@ -390,6 +375,34 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     Task.Run(async() =>
                     {
+                        if (appSettings["UseFingerprint", false])
+                        {
+                            if (await CrossFingerprint.Current.IsAvailableAsync())
+                            {
+                                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                                if (!fingerprintAuthenticationResult.Authenticated)
+                                {
+                                    pendingAttempt = false;
+                                    UIEnabled = true;
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                appSettings["UseFingerprint"] = "false";
+                            }
+                        }
+                        
+                        await AutoFillTotp();
+                        
+                        if (Totp.NullOrEmpty())
+                        {
+                            ErrorMessage = localization["NoTotpProvidedErrorMessage"];
+                            pendingAttempt = false;
+                            UIEnabled = true;
+                            return;
+                        }
+                        
                         var dto = new ConvoChangeMetadataRequestDto
                         {
                             Totp = Totp,
@@ -412,7 +425,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         bool success = await convoService.ChangeConvoMetadata(body.Sign(crypto, user.PrivateKeyPem));
                         if (!success)
                         {
-                            PrintMessage("The convo admin change request was rejected server-side! Perhaps double-check the provided convo password?",true);
+                            ErrorMessage = localization["RequestFailedServerSide"];
+                            pendingAttempt = false;
+                            UIEnabled = true;
                             return;
                         }
 
@@ -494,7 +509,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         }
                         
                         RefreshParticipantLists();
-                        ExecUI(() => eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(Convo.Id));
+                        ExecUI(delegate
+                        {
+                            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(Convo.Id);
+                        });
                     });
                 }
             }
@@ -502,9 +520,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnDelete(object commandParam)
         {
-            CanSubmit = false;
-
             bool? confirmed = dialog.ShowDialog();
+            
+            // TODO: ask two times!!
             
             if (confirmed == true)
             {
@@ -527,17 +545,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                             appSettings["UseFingerprint"] = "false";
                         }
                     }
-                    
-                    if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
-                    {
-                        Totp = await totpProvider.GetTotp(totpSecret);
 
-                        if (Totp.NullOrEmpty())
-                        {
-                            ShowTotpField = true;
-                            appSettings["SaveTotpSecret"] = "false";
-                        }
-                    }
+                    await AutoFillTotp();
 
                     if (Totp.NullOrEmpty())
                     {
@@ -616,16 +625,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     }
                 }
 
-                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
-                {
-                    Totp = await totpProvider.GetTotp(totpSecret);
-
-                    if (Totp.NullOrEmpty())
-                    {
-                        ShowTotpField = true;
-                        appSettings["SaveTotpSecret"] = "false";
-                    }
-                }
+                await AutoFillTotp();
 
                 if (Totp.NullOrEmpty())
                 {
@@ -741,6 +741,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             Participants = Banned = null;
             Name = Description = Totp = null;
             await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+        
+        private async Task AutoFillTotp()
+        {
+            if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
+            {
+                Totp = await totpProvider.GetTotp(totpSecret);
+
+                if (Totp.NullOrEmpty())
+                {
+                    ShowTotpField = true;
+                    appSettings["SaveTotpSecret"] = "false";
+                }
+            }
         }
     }
 }

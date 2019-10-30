@@ -537,4 +537,8 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Unterhaltung verlassen</value>
   </data>
+  <data name="PleaseProvideConvoPassword" xml:space="preserve">
+    <value>Bitte gib das aktuelle Unterhaltungspasswort ein um deine Aktion zu authentifizieren!</value>
+    <comment>Please provide the convo's current password in order to authenticate your request!</comment>
+  </data>
 </root>

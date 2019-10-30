@@ -530,4 +530,8 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Convo abbandonata</value>
   </data>
+  <data name="PleaseProvideConvoPassword" xml:space="preserve">
+    <value>P.f. autentifica la tua richiesta inserendo la password attuale della conversazione nel campo corrispondente.</value>
+    <comment>Please provide the convo's current password in order to authenticate your request!</comment>
+  </data>
 </root>

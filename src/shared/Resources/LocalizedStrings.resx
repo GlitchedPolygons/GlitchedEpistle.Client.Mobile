@@ -513,6 +513,10 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Left convo successfully</value>
   </data>
+  <data name="PleaseProvideConvoPassword" xml:space="preserve">
+    <value>Please provide the convo's current password in order to authenticate your request!</value>
+    <comment>Please provide the convo's current password in order to authenticate your request!</comment>
+  </data>
   <data name="RequestFailedServerSide" xml:space="preserve">
     <value>The request could not be fulfilled server-side; please double check the provided parameters.</value>
   </data>
