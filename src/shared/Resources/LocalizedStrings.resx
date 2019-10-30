@@ -492,6 +492,17 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="ChangeConvoAdminDialogMessage" xml:space="preserve">
+    <value>Are you sure that you want to make the user "{0}" the new administrator of the convo "{1}"?
+
+Please be aware that you lose all admin rights after confirming this, and unless the new admin agrees, you can not revert this.</value>
+    <comment>Are you sure that you want to make the user "{0}" the new administrator of the convo "{1}"?
+
+Please be aware that you lose all admin rights after confirming this, and unless the new admin agrees, you can not revert this.</comment>
+  </data>
+  <data name="ChangeConvoAdminDialogTitle" xml:space="preserve">
+    <value>Change convo admin</value>
+  </data>
   <data name="ConvoCreatedSuccessfully" xml:space="preserve">
     <value>Convo created successfully</value>
   </data>

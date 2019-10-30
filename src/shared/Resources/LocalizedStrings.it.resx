@@ -508,6 +508,17 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="PleaseEnterConvoPassword" xml:space="preserve">
     <value>P.f. inserisci qua sotto la password di partecipazione della conversazione.</value>
   </data>
+  <data name="ChangeConvoAdminDialogMessage" xml:space="preserve">
+    <value>Sei sicuro di voler rendere l'utente "{0}" il nuovo amministratore della conversazione "{1}"?
+
+Per favore ricordati che una volta confermata quest'azione, perderai ogni diritto amministrativo di questa convo. A meno che il nuovo admin sia consenziente, quest'azione non è reversibile da parte tua.</value>
+    <comment>Are you sure that you want to make the user "{0}" the new administrator of the convo "{0}"?
+
+Please be aware that you lose all admin rights after confirming this, and unless the new admin agrees, you can not revert this.</comment>
+  </data>
+  <data name="ChangeConvoAdminDialogTitle" xml:space="preserve">
+    <value>Cambia amministratore</value>
+  </data>
   <data name="ConvoCreatedSuccessfully" xml:space="preserve">
     <value>Convo creata</value>
   </data>

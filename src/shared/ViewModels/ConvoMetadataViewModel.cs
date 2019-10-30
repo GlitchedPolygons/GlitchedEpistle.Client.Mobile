@@ -359,7 +359,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
         
-        private void OnMakeAdmin(object commandParam)
+        private async void OnMakeAdmin(object commandParam)
         {
             if (OldConvoPassword.NullOrEmpty())
             {
@@ -369,11 +369,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             if (commandParam is string newAdminUserId)
             {
-                bool? confirmed = new ConfirmChangeConvoAdminView().ShowDialog();
+                bool confirmed = await Application.Current.MainPage.DisplayAlert(
+                    title: localization["ChangeConvoAdminDialogTitle"], 
+                    message: string.Format(localization["ChangeConvoAdminDialogMessage"], Convo.Name), 
+                    accept: localization["Yes"], 
+                    cancel: localization["No"]
+                );
                 
                 if (confirmed == true)
                 {
-                    Task.Run(async() =>
+                    var _=Task.Run(async() =>
                     {
                         if (appSettings["UseFingerprint", false])
                         {
@@ -434,21 +439,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         if (convo != null)
                         {
                             convo.CreatorId = newAdminUserId;
-                            
-                            if (await convoProvider.Update(convo))
-                            {
-                                PrintMessage($"Success! The user {newAdminUserId} is now the new convo admin. You can now close this window...", false);
-                            }
-                            else
-                            {
-                                PrintMessage("The convo admin change request was accepted server-side but couldn't be applied locally. Try re-syncing the convo...", true);
-                            }
                         }
 
                         ExecUI(() =>
                         {
-                            UIEnabled = false;
                             eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(Convo.Id);
+                            alertService.AlertLong(localization["ConvoMetadataChangedSuccessfully"]);
+                            OnClickedCancel(null);
                         });
                     });
                 }

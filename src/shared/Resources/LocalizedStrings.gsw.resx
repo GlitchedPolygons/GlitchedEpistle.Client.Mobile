@@ -508,6 +508,17 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="SubmitButton" xml:space="preserve">
     <value>Spichere</value>
   </data>
+  <data name="ChangeConvoAdminDialogMessage" xml:space="preserve">
+    <value>Bisch dr sicher, dass de dr Nutzer "{0}" zum neue Administrator vor Ungerhautig "{1}" mache wosch?
+
+Bitte dänk draa, dass de bi erfougter Bestätigung jeglichi Admin-Rächte verlyersch, u die Änderig nit alei chash rückgängig mache.</value>
+    <comment>Are you sure that you want to make the user "{0}" the new administrator of the convo "{1}"?
+
+Please be aware that you lose all admin rights after confirming this, and unless the new admin agrees, you can not revert this.</comment>
+  </data>
+  <data name="ChangeConvoAdminDialogTitle" xml:space="preserve">
+    <value>Ungerhautigs Administrator wächsle</value>
+  </data>
   <data name="ConvoCreatedSuccessfully" xml:space="preserve">
     <value>Ungerhautig erstellt</value>
   </data>
