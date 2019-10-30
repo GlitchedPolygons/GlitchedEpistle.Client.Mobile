@@ -279,6 +279,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
+
+            if (Convo.CreatorId.Equals(user.Id))
+            {
+                // TODO: translate this CantLeaveConvoAsAdminErrorMessage text
+                await Application.Current.MainPage.DisplayAlert(localization["Error"], localization["CantLeaveConvoAsAdminErrorMessage"], "OK");
+                return;
+            }
             
             bool confirmed = await Application.Current.MainPage.DisplayAlert(
                 title: localization["LeaveConvoDialogTitle"], 
@@ -436,9 +443,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                             return;
                         }
 
-                        if (convo != null)
+                        if (Convo != null)
                         {
-                            convo.CreatorId = newAdminUserId;
+                            Convo.CreatorId = newAdminUserId;
                         }
 
                         ExecUI(() =>
@@ -527,10 +534,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                             return;
                         }
 
-                        if (convo != null)
+                        if (Convo != null)
                         {
-                            convo.BannedUsers.Add(userIdToKick);
-                            convo.Participants.Remove(userIdToKick);
+                            Convo.BannedUsers.Add(userIdToKick);
+                            Convo.Participants.Remove(userIdToKick);
                         }
                         
                         RefreshParticipantLists();
@@ -546,75 +553,89 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
-        private void OnDelete(object commandParam)
+        private async void OnDelete(object commandParam)
         {
-            bool? confirmed = dialog.ShowDialog();
-            
-            // TODO: ask two times!!
-            
-            if (confirmed == true)
+            if (!await Application.Current.MainPage.DisplayAlert(
+                title: localization["DeleteConvoDialogTitle"],
+                message: string.Format(localization["DeleteConvoDialogMessage"], Convo.Name),
+                accept: localization["Yes"],
+                cancel: localization["No"]))
             {
-                Task.Run(async () =>
-                {
-                    if (appSettings["UseFingerprint", false])
-                    {
-                        if (await CrossFingerprint.Current.IsAvailableAsync())
-                        {
-                            var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                            if (!fingerprintAuthenticationResult.Authenticated)
-                            {
-                                UIEnabled = true;
-                                pendingAttempt = false;
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            appSettings["UseFingerprint"] = "false";
-                        }
-                    }
-
-                    await AutoFillTotp();
-
-                    if (Totp.NullOrEmpty())
-                    {
-                        ErrorMessage = localization["NoTotpProvidedErrorMessage"];
-                        pendingAttempt = false;
-                        UIEnabled = true;
-                        return;
-                    }
-                    
-                    var dto = new ConvoDeletionRequestDto
-                    {
-                        ConvoId = Convo.Id,
-                        Totp = Totp
-                    };
-
-                    var body = new EpistleRequestBody
-                    {
-                        UserId = user.Id,
-                        Auth = user.Token.Item2,
-                        Body = JsonConvert.SerializeObject(dto)
-                    };
-
-                    bool success = await convoService.DeleteConvo(body.Sign(crypto, user.PrivateKeyPem));
-                    
-                    if (!success)
-                    {
-                        ErrorMessage = localization["RequestFailedServerSide"];
-                        pendingAttempt = false;
-                        UIEnabled = true;
-                        return;
-                    }
-                    
-                    ExecUI(() =>
-                    {
-                        alertService.AlertLong(localization["DeletedConvoSuccessfully"]);
-                        eventAggregator.GetEvent<DeletedConvoEvent>().Publish(Convo.Id);
-                        OnClickedCancel(null);
-                    });
-                });
+                return;
             }
+
+            bool confirmed = await Application.Current.MainPage.DisplayAlert(
+                title: localization["DeleteConvoConfirmationDialogTitle"],
+                message: string.Format(localization["DeleteConvoConfirmationDialogMessage"], Convo.Name),
+                accept: localization["Delete"] + '!',
+                cancel: localization["CancelButton"]
+            );
+
+            if (!confirmed)
+            {
+                return;
+            }
+
+            var _=Task.Run(async () =>
+            {
+                if (appSettings["UseFingerprint", false])
+                {
+                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    {
+                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                        if (!fingerprintAuthenticationResult.Authenticated)
+                        {
+                            UIEnabled = true;
+                            pendingAttempt = false;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        appSettings["UseFingerprint"] = "false";
+                    }
+                }
+
+                await AutoFillTotp();
+
+                if (Totp.NullOrEmpty())
+                {
+                    ErrorMessage = localization["NoTotpProvidedErrorMessage"];
+                    pendingAttempt = false;
+                    UIEnabled = true;
+                    return;
+                }
+                    
+                var dto = new ConvoDeletionRequestDto
+                {
+                    ConvoId = Convo.Id,
+                    Totp = Totp
+                };
+
+                var body = new EpistleRequestBody
+                {
+                    UserId = user.Id,
+                    Auth = user.Token.Item2,
+                    Body = JsonConvert.SerializeObject(dto)
+                };
+
+                bool success = await convoService.DeleteConvo(body.Sign(crypto, user.PrivateKeyPem));
+                    
+                if (!success)
+                {
+                    ErrorMessage = localization["RequestFailedServerSide"];
+                    pendingAttempt = false;
+                    UIEnabled = true;
+                    return;
+                }
+                    
+                ExecUI(() =>
+                {
+                    alertService.AlertLong(localization["DeletedConvoSuccessfully"]);
+                    eventAggregator.GetEvent<DeletedConvoEvent>().Publish(Convo.Id);
+                    OnClickedCancel(null);
+                });
+            });
         }
 
         private void OnClickedSubmit(object commandParam)
@@ -730,21 +751,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     return;
                 }
 
-                if (convo != null)
+                if (Convo != null)
                 {
                     if (dto.Name.NotNullNotEmpty())
                     {
-                        convo.Name = dto.Name;
+                        Convo.Name = dto.Name;
                     }
 
                     if (dto.Description.NotNullNotEmpty())
                     {
-                        convo.Description = dto.Description;
+                        Convo.Description = dto.Description;
                     }
 
                     if (dto.ExpirationUTC.HasValue)
                     {
-                        convo.ExpirationUTC = dto.ExpirationUTC.Value;
+                        Convo.ExpirationUTC = dto.ExpirationUTC.Value;
                     }
 
                     if (dto.NewConvoPasswordSHA512.NotNullNotEmpty())

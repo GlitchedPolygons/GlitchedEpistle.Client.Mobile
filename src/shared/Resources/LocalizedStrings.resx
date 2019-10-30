@@ -509,6 +509,28 @@ Please be aware that you lose all admin rights after confirming this, and unless
   <data name="ConvoMetadataChangeRequestMissingPassword" xml:space="preserve">
     <value>Please enter the convo's current password to authenticate your request!</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteConvoConfirmationDialogMessage" xml:space="preserve">
+    <value>Last warning! 
+This is your last opportunity to prevent IMMEDIATE DELETION of the convo "{0}". 
+This action CANNOT BE UNDONE!</value>
+  </data>
+  <data name="DeleteConvoConfirmationDialogTitle" xml:space="preserve">
+    <value>Are you really sure?!</value>
+  </data>
+  <data name="DeleteConvoDialogMessage" xml:space="preserve">
+    <value>Are you sure that you want to delete the convo "{0}"?
+
+Be aware that by confirming the deletion, all participants are immediately denied access and the entire conversation including all of its content, metadata and messages are deleted IRREVERSIBLY!</value>
+    <comment>Are you sure that you want to delete the convo "{0}"?
+
+Be aware that by confirming the deletion, all participants are immediately denied access and the entire conversation including all of its content, metadata and messages are deleted IRREVERSIBLY!</comment>
+  </data>
+  <data name="DeleteConvoDialogTitle" xml:space="preserve">
+    <value>Delete convo</value>
+  </data>
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Convo deleted</value>
   </data>
