@@ -143,7 +143,7 @@
 
                     <Button Text="{i:Translate LeaveConvoButton}"
                             IsEnabled="{Binding UIEnabled}"
-                            IsVisible="true"
+                            IsVisible="{Binding IsAdmin, Converter={converters:InverseBoolConverter}}"
                             Command="{Binding LeaveCommand}"
                             HorizontalOptions="FillAndExpand" />
                     
@@ -157,6 +157,12 @@
                             IsVisible="{Binding IsAdmin}"
                             Command="{Binding CancelCommand}"
                             HorizontalOptions="FillAndExpand" />
+                    
+                    <Button Text="{i:Translate DeleteConvoButton}"
+                            IsEnabled="{Binding UIEnabled}"
+                            IsVisible="{Binding IsAdmin}"
+                            Command="{Binding DeleteCommand}"
+                            HorizontalOptions="FillAndExpand"/>
 
                     <Button Text="{i:Translate SubmitButton}"
                             IsEnabled="{Binding UIEnabled}"

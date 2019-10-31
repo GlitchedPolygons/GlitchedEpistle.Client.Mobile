@@ -70,6 +70,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region Commands
 
         public ICommand LeaveCommand { get; }
+        public ICommand DeleteCommand { get; }
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand CopyConvoIdToClipboardCommand { get; }
@@ -235,6 +236,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.convoPasswordProvider = convoPasswordProvider;
 
             LeaveCommand = new DelegateCommand(OnLeave);
+            DeleteCommand = new DelegateCommand(OnDelete);
             CancelCommand = new DelegateCommand(OnClickedCancel);
             SubmitCommand = new DelegateCommand(OnClickedSubmit);
             CopyConvoIdToClipboardCommand = new DelegateCommand(_ =>
@@ -282,7 +284,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             if (Convo.CreatorId.Equals(user.Id))
             {
-                // TODO: translate this CantLeaveConvoAsAdminErrorMessage text
                 await Application.Current.MainPage.DisplayAlert(localization["Error"], localization["CantLeaveConvoAsAdminErrorMessage"], "OK");
                 return;
             }

@@ -515,6 +515,15 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="SubmitButton" xml:space="preserve">
     <value>Speichern</value>
   </data>
+  <data name="CantLeaveConvoAsAdminErrorMessage" xml:space="preserve">
+    <value>Du bist der Administrator dieser Unterhaltung.
+In maritimer Tradition geht der Kapitän mit seinem Schiff unter.
+Wenn du diese Unterhaltung tatsächlich verlassen willst, dann musst du zuerst einen neuen Administrator von der Liste der Teilnehmer ernennen.
+Nicht weil dies ein Schiff ist, sondern weil es die Datenbank des Servers vorschreibt...</value>
+    <comment>You are the administrator of this convo. 
+In maritime tradition, the captain goes down with his ship.
+If you really want to leave your own convo, you need to elect a new administrator from the participants list. In this case, not because this is a ship, but because the server's database requires it.</comment>
+  </data>
   <data name="ChangeConvoAdminDialogMessage" xml:space="preserve">
     <value>Bist du sicher, dass du den Benutzer "{0}" zum neuen Administrator der Unterhaltung "{1}" ernennen möchtest?
 
@@ -535,6 +544,9 @@ Please be aware that you lose all admin rights after confirming this, and unless
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Löschen</value>
+  </data>
+  <data name="DeleteConvoButton" xml:space="preserve">
+    <value>Vernichten</value>
   </data>
   <data name="DeleteConvoConfirmationDialogMessage" xml:space="preserve">
     <value>Letzte Warnung!

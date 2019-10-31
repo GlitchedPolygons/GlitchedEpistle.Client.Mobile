@@ -508,6 +508,15 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="PleaseEnterConvoPassword" xml:space="preserve">
     <value>P.f. inserisci qua sotto la password di partecipazione della conversazione.</value>
   </data>
+  <data name="CantLeaveConvoAsAdminErrorMessage" xml:space="preserve">
+    <value>Sei l'amministratore di questa convo.
+Nella tradizione marittima, il capitano affonda con la sua nave.
+Se vuoi davvero abbandonare questa convo, devi prima eleggere un nuovo amministratore dalla lista dei partecipanti. 
+Non perché questa è una nave, ma perché la banca dati del server lo richiede...</value>
+    <comment>You are the administrator of this convo. 
+In maritime tradition, the captain goes down with his ship.
+If you really want to leave your own convo, you need to elect a new administrator from the participants list. In this case, not because this is a ship, but because the server's database requires it.</comment>
+  </data>
   <data name="ChangeConvoAdminDialogMessage" xml:space="preserve">
     <value>Sei sicuro di voler rendere l'utente "{0}" il nuovo amministratore della conversazione "{1}"?
 
@@ -528,6 +537,9 @@ Please be aware that you lose all admin rights after confirming this, and unless
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Conferma</value>
+  </data>
+  <data name="DeleteConvoButton" xml:space="preserve">
+    <value>Distruggi</value>
   </data>
   <data name="DeleteConvoConfirmationDialogMessage" xml:space="preserve">
     <value>Ultimo avvertimento!

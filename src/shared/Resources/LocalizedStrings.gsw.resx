@@ -508,6 +508,15 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="SubmitButton" xml:space="preserve">
     <value>Spichere</value>
   </data>
+  <data name="CantLeaveConvoAsAdminErrorMessage" xml:space="preserve">
+    <value>Du bisch dr Administrator vo dere Ungerhautig.
+I dr maritime Tradition geyht dr Kapitän mit sym Schiff unger.
+Wenn de die Ungerhautig tatsächlich verlaa wosch, denne muesh zerscht e neue Admin us dr Teylnähmerliste ernenne.
+I däm fau hye, nit wöu das es Schiff isch, sonder wüu d'Datebank vom Server das verlangt...</value>
+    <comment>You are the administrator of this convo. 
+In maritime tradition, the captain goes down with his ship.
+If you really want to leave your own convo, you need to elect a new administrator from the participants list. In this case, not because this is a ship, but because the server's database requires it.</comment>
+  </data>
   <data name="ChangeConvoAdminDialogMessage" xml:space="preserve">
     <value>Bisch dr sicher, dass de dr Nutzer "{0}" zum neue Administrator vor Ungerhautig "{1}" mache wosch?
 
@@ -528,6 +537,9 @@ Please be aware that you lose all admin rights after confirming this, and unless
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Lösche</value>
+  </data>
+  <data name="DeleteConvoButton" xml:space="preserve">
+    <value>Vernichte</value>
   </data>
   <data name="DeleteConvoConfirmationDialogMessage" xml:space="preserve">
     <value>Letschti Warnig!
