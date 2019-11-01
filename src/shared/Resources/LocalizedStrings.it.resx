@@ -508,6 +508,9 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="PleaseEnterConvoPassword" xml:space="preserve">
     <value>P.f. inserisci qua sotto la password di partecipazione della conversazione.</value>
   </data>
+  <data name="BannedUsersListLabel" xml:space="preserve">
+    <value>Utenti bannati:</value>
+  </data>
   <data name="CantLeaveConvoAsAdminErrorMessage" xml:space="preserve">
     <value>Sei l'amministratore di questa convo.
 Nella tradizione marittima, il capitano affonda con la sua nave.
@@ -580,6 +583,9 @@ Be aware that by confirming the deletion, all participants are immediately denie
   </data>
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Convo abbandonata</value>
+  </data>
+  <data name="ParticipantsListLabel" xml:space="preserve">
+    <value>Participanti:</value>
   </data>
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>P.f. autentifica la tua richiesta inserendo la password attuale della conversazione nel campo corrispondente.</value>

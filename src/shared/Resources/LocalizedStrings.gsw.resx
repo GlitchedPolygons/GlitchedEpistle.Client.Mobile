@@ -508,6 +508,9 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="SubmitButton" xml:space="preserve">
     <value>Spichere</value>
   </data>
+  <data name="BannedUsersListLabel" xml:space="preserve">
+    <value>Verbannti nutzer:</value>
+  </data>
   <data name="CantLeaveConvoAsAdminErrorMessage" xml:space="preserve">
     <value>Du bisch dr Administrator vo dere Ungerhautig.
 I dr maritime Tradition geyht dr Kapitän mit sym Schiff unger.
@@ -580,6 +583,9 @@ Bedenke, dass bei bestätigter Löschung sämtliche Teilnehmer sofort den Zugang
   </data>
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Ungerhautig erfougriich verlaa</value>
+  </data>
+  <data name="ParticipantsListLabel" xml:space="preserve">
+    <value>Teylnähmer:</value>
   </data>
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>Bitte gib s' aktuelle Ungerhautigspasswort ii u outhentifizier dini aafraag!</value>

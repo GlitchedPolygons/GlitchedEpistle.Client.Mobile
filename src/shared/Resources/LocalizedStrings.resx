@@ -492,6 +492,9 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="BannedUsersListLabel" xml:space="preserve">
+    <value>Banned users:</value>
+  </data>
   <data name="CantLeaveConvoAsAdminErrorMessage" xml:space="preserve">
     <value>You are the administrator of this convo. 
 In maritime tradition, the captain goes down with his ship.
@@ -559,6 +562,9 @@ Be aware that by confirming the deletion, all participants are immediately denie
   </data>
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Left convo successfully</value>
+  </data>
+  <data name="ParticipantsListLabel" xml:space="preserve">
+    <value>Participants:</value>
   </data>
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>Please provide the convo's current password in order to authenticate your request!</value>
