@@ -582,6 +582,15 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="KickAndBanButton" xml:space="preserve">
     <value>Verbannen</value>
   </data>
+  <data name="KickAndBanUserFromConvoDialogMessage" xml:space="preserve">
+    <value>Bist du sicher, dass du den Benutzer "{0}" aus der Unterhaltung "{1}" ausschliessen möchtest? 
+Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</value>
+    <comment>Are you sure that you want to kick the user "{0}" out from the convo "{1}"? 
+He or she will be banned forever from this conversation, and this is IRREVERSIBLE!</comment>
+  </data>
+  <data name="KickAndBanUserFromConvoDialogTitle" xml:space="preserve">
+    <value>Teilnehmer verbannen</value>
+  </data>
   <data name="LeaveConvoButton" xml:space="preserve">
     <value>Verlassen</value>
   </data>

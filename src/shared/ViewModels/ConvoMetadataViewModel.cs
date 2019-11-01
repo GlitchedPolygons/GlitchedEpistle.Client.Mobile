@@ -405,7 +405,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 bool confirmed = await Application.Current.MainPage.DisplayAlert(
                     title: localization["ChangeConvoAdminDialogTitle"], 
-                    message: string.Format(localization["ChangeConvoAdminDialogMessage"], Convo.Name), 
+                    message: string.Format(localization["ChangeConvoAdminDialogMessage"], newAdminUserId, Convo.Name), 
                     accept: localization["Yes"], 
                     cancel: localization["No"]
                 );
@@ -497,8 +497,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (commandParam is string userIdToKick)
             {
                 bool confirmed = await Application.Current.MainPage.DisplayAlert(
-                    title: localization["ChangeConvoAdminDialogTitle"], 
-                    message: string.Format(localization["ChangeConvoAdminDialogMessage"], Convo.Name), 
+                    title: localization["KickAndBanUserFromConvoDialogTitle"], 
+                    message: string.Format(localization["KickAndBanUserFromConvoDialogMessage"], userIdToKick, Convo.Name), 
                     accept: localization["Yes"], 
                     cancel: localization["No"]
                 );

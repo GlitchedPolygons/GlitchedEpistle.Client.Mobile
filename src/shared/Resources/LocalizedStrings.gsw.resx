@@ -578,6 +578,15 @@ Bedenke, dass bei bestätigter Löschung sämtliche Teilnehmer sofort den Zugang
   <data name="KickAndBanUserDialogTitle" xml:space="preserve">
     <value>Nutzer usschlyesse</value>
   </data>
+  <data name="KickAndBanUserFromConvoDialogMessage" xml:space="preserve">
+    <value>Bisch dr sicher, dass de dr Nutzer "{0}" us dr Ungerhautig "{1}" verbanne möchtsch?
+Är odr sie würdi PERMANÄNT usgschlosse wärde!</value>
+    <comment>Bist du sicher, dass du den Benutzer "{0}" aus der Unterhaltung "{1}" ausschliessen möchtest? 
+Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
+  </data>
+  <data name="KickAndBanUserFromConvoDialogTitle" xml:space="preserve">
+    <value>Teylnähmer verbanne</value>
+  </data>
   <data name="LeaveConvoButton" xml:space="preserve">
     <value>Ungerhautig verlaa</value>
   </data>

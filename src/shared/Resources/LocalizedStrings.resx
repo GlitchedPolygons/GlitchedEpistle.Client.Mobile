@@ -557,6 +557,13 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="KickAndBanUserDialogTitle" xml:space="preserve">
     <value>Kick user from convo</value>
   </data>
+  <data name="KickAndBanUserFromConvoDialogMessage" xml:space="preserve">
+    <value>Are you sure that you want to kick the user "{0}" out from the convo "{1}"? 
+He or she will be banned forever from this conversation, and this is IRREVERSIBLE!</value>
+  </data>
+  <data name="KickAndBanUserFromConvoDialogTitle" xml:space="preserve">
+    <value>Kick and ban user</value>
+  </data>
   <data name="LeaveConvoButton" xml:space="preserve">
     <value>Leave convo</value>
   </data>
