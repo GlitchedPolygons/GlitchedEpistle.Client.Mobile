@@ -42,12 +42,35 @@
                    HorizontalTextAlignment="Center"
                    MaxLines="1" />
 
-            <Label Style="{DynamicResource SubLabelStyle}"
-                   Text="{Binding UserId}"
-                   HorizontalOptions="CenterAndExpand"
-                   HorizontalTextAlignment="Center"
-                   MaxLines="1"
-                   Margin="0,-5,0,0" />
+            <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="0,-5,0,0">
+                <Label Style="{DynamicResource SubLabelStyle}"
+                       Text="{Binding UserId}"
+                       HorizontalOptions="CenterAndExpand"
+                       HorizontalTextAlignment="Center"
+                       MaxLines="1" />
+                <ff:CachedImage WidthRequest="18"
+                                HeightRequest="18"
+                                DownsampleToViewSize="True"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="CenterAndExpand"
+                                IsEnabled="{Binding UserIdCopiedTickVisible, Converter={converters:InverseBoolConverter}}"
+                                IsVisible="{Binding UserIdCopiedTickVisible, Converter={converters:InverseBoolConverter}}"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.clipboard-icon.png}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CopyUserIdToClipboardCommand}" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
+                <ff:CachedImage WidthRequest="18"
+                                HeightRequest="18"
+                                DownsampleToViewSize="True"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="CenterAndExpand"
+                                IsVisible="{Binding UserIdCopiedTickVisible}"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
+            </StackLayout>
+
         </StackLayout>
 
         <BoxView HeightRequest="4"
@@ -156,7 +179,7 @@
                                                 DownsampleToViewSize="True"
                                                 Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
                                     <ff:CachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" CommandParameter="{Binding .}"/>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" CommandParameter="{Binding .}" />
                                     </ff:CachedImage.GestureRecognizers>
                                 </ff:CachedImage>
                             </StackLayout>

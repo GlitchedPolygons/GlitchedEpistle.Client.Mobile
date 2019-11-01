@@ -54,6 +54,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IMethodQ methodQ;
         private readonly IUserService userService;
         private readonly IAppSettings appSettings;
+        private readonly IAlertService alertService;
         private readonly IUserSettings userSettings;
         private readonly IConvoService convoService;
         private readonly ILocalization localization;
@@ -67,6 +68,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region Commands
 
         // Header controls
+        public ICommand CopyUserIdToClipboardCommand { get; }
         public ICommand CreateConvoCommand { get; }
         public ICommand JoinConvoCommand { get; }
         public ICommand ChangePasswordCommand { get; }
@@ -98,6 +100,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private bool headerButtonsEnabled = true;
         public bool HeaderButtonsEnabled { get => headerButtonsEnabled; set => Set(ref headerButtonsEnabled, value); }
         
+        private bool userIdCopiedTickVisible = false;
+        public bool UserIdCopiedTickVisible { get => userIdCopiedTickVisible; set => Set(ref userIdCopiedTickVisible, value); }
+        
         #endregion
 
         private DateTime lastRefresh;
@@ -106,7 +111,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ, IViewModelFactory viewModelFactory, IAppSettings appSettings)
         {
             localization = DependencyService.Get<ILocalization>();
-
+            alertService = DependencyService.Get<IAlertService>();
+            
             this.user = user;
             this.crypto = crypto;
             this.logger = logger;
@@ -130,6 +136,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     HeaderButtonsEnabled = false;
                     methodQ.Schedule(() => ExecUI(eventAggregator.GetEvent<LogoutEvent>().Publish), DateTime.UtcNow.AddSeconds(0.2));
                 }
+            });
+            
+            CopyUserIdToClipboardCommand = new DelegateCommand(_ =>
+            {
+                Clipboard.SetTextAsync(UserId);
+                UserIdCopiedTickVisible = true;
+                methodQ.Schedule(() => UserIdCopiedTickVisible = false, DateTime.UtcNow.AddSeconds(2.5));
+                ExecUI(() => alertService.AlertLong(localization["Copied"]));
             });
 
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
