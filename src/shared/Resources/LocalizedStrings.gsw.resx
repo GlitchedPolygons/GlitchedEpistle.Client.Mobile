@@ -538,6 +538,9 @@ Please be aware that you lose all admin rights after confirming this, and unless
     <value>Bitte gib dis aktuelle Ungerhautigspasswort ii um dini Aktion z authentifiziere!</value>
     <comment>Please enter the convo's current password to authenticate your request!</comment>
   </data>
+  <data name="CopyUserIdToClipboard" xml:space="preserve">
+    <value>ID Kopiere</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Lösche</value>
   </data>
@@ -569,6 +572,9 @@ Bedenke, dass bei bestätigter Löschung sämtliche Teilnehmer sofort den Zugang
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Ungerhautig glöscht</value>
   </data>
+  <data name="KickAndBanButton" xml:space="preserve">
+    <value>Verbanne</value>
+  </data>
   <data name="KickAndBanUserDialogTitle" xml:space="preserve">
     <value>Nutzer usschlyesse</value>
   </data>
@@ -584,6 +590,9 @@ Bedenke, dass bei bestätigter Löschung sämtliche Teilnehmer sofort den Zugang
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Ungerhautig erfougriich verlaa</value>
   </data>
+  <data name="MakeAdminButton" xml:space="preserve">
+    <value>Zum Admin befördere</value>
+  </data>
   <data name="ParticipantContextMenuTitle" xml:space="preserve">
     <value>Ungerhautigsteylnähmer Optione</value>
   </data>
@@ -598,6 +607,9 @@ Bedenke, dass bei bestätigter Löschung sämtliche Teilnehmer sofort den Zugang
   <data name="RequestFailedServerSide" xml:space="preserve">
     <value>D'Aktion het vom Server nit chönne usgfüehrt wärde; bitte überprüef nomau aui Parameter genau.</value>
     <comment>The request could not be fulfilled server-side; please double check the provided parameters.</comment>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Nutzer</value>
   </data>
   <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
     <value>Nutzer erfougriich usegschmisse</value>

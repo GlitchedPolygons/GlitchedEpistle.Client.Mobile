@@ -545,6 +545,9 @@ Please be aware that you lose all admin rights after confirming this, and unless
     <value>Bitte gib das aktuelle Unterhaltungspasswort ein, um deine Handlung zu authentifizieren.</value>
     <comment>Please enter the convo's current password to authenticate your request!</comment>
   </data>
+  <data name="CopyUserIdToClipboard" xml:space="preserve">
+    <value>ID Kopieren</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Löschen</value>
   </data>
@@ -576,6 +579,9 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Unterhaltung gelöscht</value>
   </data>
+  <data name="KickAndBanButton" xml:space="preserve">
+    <value>Verbannen</value>
+  </data>
   <data name="LeaveConvoButton" xml:space="preserve">
     <value>Verlassen</value>
   </data>
@@ -588,6 +594,9 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Unterhaltung verlassen</value>
   </data>
+  <data name="MakeAdminButton" xml:space="preserve">
+    <value>Zum Admin befördern</value>
+  </data>
   <data name="ParticipantContextMenuTitle" xml:space="preserve">
     <value>Unterhaltungsteilnehmer Optionen</value>
   </data>
@@ -598,6 +607,9 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>Bitte gib das aktuelle Unterhaltungspasswort ein um deine Aktion zu authentifizieren!</value>
     <comment>Please provide the convo's current password in order to authenticate your request!</comment>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Benutzer</value>
   </data>
   <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
     <value>Nutzer wurde ausgeschlossen</value>

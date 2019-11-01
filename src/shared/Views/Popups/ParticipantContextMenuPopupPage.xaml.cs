@@ -43,13 +43,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 
         public ParticipantContextAction Result { get; set; } = ParticipantContextAction.None;
         
-        public ParticipantContextMenuPopupPage(string userId)
+        public ParticipantContextMenuPopupPage(string userId, bool asAdmin)
         {
             this.userId = userId;
+            
             alertService = DependencyService.Get<IAlertService>();
             localization = DependencyService.Get<ILocalization>();
             
             InitializeComponent();
+
+            MakeAdminButton.IsEnabled = MakeAdminButton.IsVisible = asAdmin;
+            KickAndBanButton.IsEnabled = KickAndBanButton.IsVisible = asAdmin;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ParticipantContextMenuDescriptionLabel.Text = $"{localization["User"]}: {userId}";
         }
 
         private async void CancelButton_OnClicked(object sender, EventArgs e)

@@ -277,14 +277,28 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
-        private void OnOpenParticipantContextMenu(object commandParam)
+        private async void OnOpenParticipantContextMenu(object commandParam)
         {
             string participantId = commandParam as string;
             if (participantId.NullOrEmpty())
             {
                 return;
             }
-            // TODO: open context menu here
+
+            var view = new ParticipantContextMenuPopupPage(participantId, IsAdmin);
+            view.Disappearing += (sender, e) =>
+            {
+                if (view.Result == ParticipantContextAction.MakeAdmin)
+                {
+                    OnMakeAdmin(participantId);
+                }
+                else if (view.Result == ParticipantContextAction.KickAndBan)
+                {
+                    OnKickAndBanUser(participantId);
+                }
+            };
+
+            await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
         }
         
         private async void OnLeave(object commandParam)
