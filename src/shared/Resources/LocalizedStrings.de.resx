@@ -588,8 +588,12 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Unterhaltung verlassen</value>
   </data>
+  <data name="ParticipantContextMenuTitle" xml:space="preserve">
+    <value>Unterhaltungsteilnehmer Optionen</value>
+  </data>
   <data name="ParticipantsListLabel" xml:space="preserve">
-    <value>Teilnehmer:</value>
+    <value>Teilnehmer 
+(gedrückt halten für Optionen):</value>
   </data>
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>Bitte gib das aktuelle Unterhaltungspasswort ein um deine Aktion zu authentifizieren!</value>

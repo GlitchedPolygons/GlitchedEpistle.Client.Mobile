@@ -25,9 +25,10 @@
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              mc:Ignorable="d"
-             x:Name="Page"
+             x:Name="MetadataPage"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvoMetadataPage">
     <ContentPage.Content>
         <ScrollView>
@@ -135,7 +136,10 @@
                        FontSize="14"
                        Margin="4,0,4,0" />
 
-                <StackLayout>
+                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" 
+                         IsVisible="{Binding OtherParticipantsListVisibility}" />
+
+                <StackLayout IsVisible="{Binding OtherParticipantsListVisibility}">
                     <Label Text="{i:Translate ParticipantsListLabel}"
                            Style="{DynamicResource MediumLabelStyle}"
                            FontSize="14"
@@ -152,7 +156,12 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout HorizontalOptions="FillAndExpand">
+                                    <StackLayout HorizontalOptions="FillAndExpand"
+                                                 effects:LongPressedEffect.Command="{Binding Path=BindingContext.OpenParticipantContextMenuCommand, Source={x:Reference MetadataPage}}"
+                                                 effects:LongPressedEffect.CommandParameter="{Binding .}">
+                                        <StackLayout.Effects>
+                                            <effects:LongPressedEffect />
+                                        </StackLayout.Effects>
                                         <Label Text="{Binding .}"
                                                FontSize="14"
                                                Style="{DynamicResource MediumLabelStyle}" />
@@ -164,9 +173,10 @@
                     </ListView>
                 </StackLayout>
 
-                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
+                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" 
+                         IsVisible="{Binding BannedListVisibility}" />
 
-                <StackLayout>
+                <StackLayout IsVisible="{Binding BannedListVisibility}">
                     <Label Text="{i:Translate BannedUsersListLabel}"
                            Style="{DynamicResource MediumLabelStyle}"
                            FontSize="14"

@@ -152,7 +152,7 @@
                                 </StackLayout>
                                 <ff:CachedImage VerticalOptions="FillAndExpand"
                                                 Aspect="AspectFit"
-                                                Margin="4,0,4,10"
+                                                Margin="6,0,6,10"
                                                 DownsampleToViewSize="True"
                                                 Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
                                     <ff:CachedImage.GestureRecognizers>

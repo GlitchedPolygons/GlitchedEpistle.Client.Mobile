@@ -563,8 +563,12 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Left convo successfully</value>
   </data>
+  <data name="ParticipantContextMenuTitle" xml:space="preserve">
+    <value>Convo participant options</value>
+  </data>
   <data name="ParticipantsListLabel" xml:space="preserve">
-    <value>Participants:</value>
+    <value>Participants 
+(tap + hold for options):</value>
   </data>
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>Please provide the convo's current password in order to authenticate your request!</value>

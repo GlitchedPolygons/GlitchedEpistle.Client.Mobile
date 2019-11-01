@@ -74,6 +74,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand SubmitCommand { get; }
         public ICommand CancelCommand { get; }
         public ICommand CopyConvoIdToClipboardCommand { get; }
+        public ICommand OpenParticipantContextMenuCommand { get; }
 
         #endregion
 
@@ -246,6 +247,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 methodQ.Schedule(() => ConvoIdCopiedTickVisible = false, DateTime.UtcNow.AddSeconds(2.5));
                 ExecUI(() => alertService.AlertLong(localization["Copied"]));
             });
+            OpenParticipantContextMenuCommand = new DelegateCommand(OnOpenParticipantContextMenu);
         }
 
         public void OnAppearing()
@@ -275,6 +277,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
+        private void OnOpenParticipantContextMenu(object commandParam)
+        {
+            string participantId = commandParam as string;
+            if (participantId.NullOrEmpty())
+            {
+                return;
+            }
+            // TODO: open context menu here
+        }
+        
         private async void OnLeave(object commandParam)
         {
             if (pendingAttempt)

@@ -584,8 +584,12 @@ Bedenke, dass bei bestätigter Löschung sämtliche Teilnehmer sofort den Zugang
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Ungerhautig erfougriich verlaa</value>
   </data>
+  <data name="ParticipantContextMenuTitle" xml:space="preserve">
+    <value>Ungerhautigsteylnähmer Optione</value>
+  </data>
   <data name="ParticipantsListLabel" xml:space="preserve">
-    <value>Teylnähmer:</value>
+    <value>Teylnähmer 
+(drückt haute für Optione):</value>
   </data>
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>Bitte gib s' aktuelle Ungerhautigspasswort ii u outhentifizier dini aafraag!</value>
