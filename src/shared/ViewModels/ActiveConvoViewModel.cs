@@ -21,6 +21,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Threading;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
@@ -33,10 +34,12 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
+using GlitchedPolygons.RepositoryPattern;
 using GlitchedPolygons.Services.MethodQ;
 using Prism.Events;
 using Newtonsoft.Json;
@@ -45,23 +48,30 @@ using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class ActiveConvoViewModel : ViewModel, IOnAppearingListener
+    public class ActiveConvoViewModel : ViewModel, IOnAppearingListener, IOnDisappearingListener, IDisposable
     {
         #region Constants
 
+        private const int MSG_COLLECTION_SIZE = 20;
+        private const string MSG_TIMESTAMP_FORMAT = "dd.MM.yyyy HH:mm";
+        private static readonly TimeSpan METADATA_PULL_FREQUENCY = TimeSpan.FromMilliseconds(30000);
+
+        // Injections:
         private readonly User user;
         private readonly ILogger logger;
         private readonly IMethodQ methodQ;
+        private readonly ILocalization localization;
+        private readonly IAlertService alertService;
+        private readonly IConvoService convoService;
         private readonly IUserService userService;
         private readonly IAppSettings appSettings;
-        private readonly IAlertService alertService;
         private readonly IUserSettings userSettings;
-        private readonly IConvoService convoService;
-        private readonly ILocalization localization;
+        private readonly IMessageCryptography crypto;
+        private readonly IMessageSender messageSender;
+        private readonly IMessageFetcher messageFetcher;
+        private readonly IEventAggregator eventAggregator;
         private readonly IViewModelFactory viewModelFactory;
         private readonly IConvoPasswordProvider convoPasswordProvider;
-        private readonly IEventAggregator eventAggregator;
-        private readonly IAsymmetricCryptographyRSA crypto;
 
         #endregion
 
@@ -71,29 +81,124 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #region UI Bindings
 
+        private bool canSend;
+        public bool CanSend
+        {
+            get => canSend;
+            set => Set(ref canSend, value);
+        }
+
+        private string name;
+        public string Name
+        {
+            get => name;
+            set
+            {
+                // Convo expiration check 
+                // (adapt the title label accordingly).
+                DateTime? exp = ActiveConvo?.ExpirationUTC;
+                if (exp.HasValue)
+                {
+                    if (DateTime.UtcNow > exp.Value)
+                    {
+                        value += localization["Expired"];
+                    }
+                    else if ((exp.Value - DateTime.UtcNow).TotalDays < 3)
+                    {
+                        value += localization["ExpiresSoon"];
+                    }
+                }
+
+                Set(ref name, value);
+            }
+        }
+
+        private bool clipboardTickVisible = false;
+        public bool ClipboardTickVisible
+        {
+            get => clipboardTickVisible;
+            set => Set(ref clipboardTickVisible, value);
+        }
+
+        private ObservableCollection<MessageViewModel> messages = new ObservableCollection<MessageViewModel>();
+        public ObservableCollection<MessageViewModel> Messages
+        {
+            get => messages;
+            set => Set(ref messages, value);
+        }
+
         #endregion
 
-        public ActiveConvoViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ, IViewModelFactory viewModelFactory, IAppSettings appSettings)
+        private volatile bool disposed;
+        private volatile int pageIndex;
+        private volatile CancellationTokenSource autoFetch;
+        private volatile CancellationTokenSource metadataUpdater;
+
+        private Convo activeConvo;
+        public Convo ActiveConvo
+        {
+            get => activeConvo;
+            set
+            {
+                activeConvo = value;
+                Name = value.Name;
+            }
+        }
+
+        public ActiveConvoViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ, IViewModelFactory viewModelFactory, IAppSettings appSettings, IMessageCryptography crypto, IMessageSender messageSender, IMessageFetcher messageFetcher)
         {
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
-            
+
             this.user = user;
-            this.crypto = crypto;
             this.logger = logger;
+            this.crypto = crypto;
             this.methodQ = methodQ;
             this.userService = userService;
+            this.convoService = convoService;
             this.appSettings = appSettings;
             this.userSettings = userSettings;
-            this.convoService = convoService;
+            this.messageSender = messageSender;
+            this.messageFetcher = messageFetcher;
             this.eventAggregator = eventAggregator;
             this.viewModelFactory = viewModelFactory;
             this.convoPasswordProvider = convoPasswordProvider;
-
         }
-        
+
+        ~ActiveConvoViewModel()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            if (disposed) 
+                return;
+            
+            disposed = true;
+            StopAutomaticPulling();
+        }
+
         public void OnAppearing()
         {
+            
+        }
+
+        public void OnDisappearing()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Stops the <see cref="ActiveConvoViewModel"/> from automatically pulling messages.
+        /// </summary>
+        private void StopAutomaticPulling()
+        {
+            autoFetch?.Cancel();
+            autoFetch = null;
+
+            metadataUpdater?.Cancel();
+            metadataUpdater = null;
         }
     }
 }

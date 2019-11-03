@@ -572,6 +572,12 @@ Bedenke, dass bei bestätigter Löschung sämtliche Teilnehmer sofort den Zugang
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Ungerhautig glöscht</value>
   </data>
+  <data name="Expired" xml:space="preserve">
+    <value> (ABGLÜFFE)</value>
+  </data>
+  <data name="ExpiresSoon" xml:space="preserve">
+    <value> (LOUFT GLII AB)</value>
+  </data>
   <data name="KickAndBanButton" xml:space="preserve">
     <value>Verbanne</value>
   </data>

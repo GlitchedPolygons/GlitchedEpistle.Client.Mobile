@@ -551,6 +551,12 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Convo deleted</value>
   </data>
+  <data name="Expired" xml:space="preserve">
+    <value> (EXPIRED)</value>
+  </data>
+  <data name="ExpiresSoon" xml:space="preserve">
+    <value> (EXPIRES SOON)</value>
+  </data>
   <data name="KickAndBanButton" xml:space="preserve">
     <value>Kick and ban</value>
   </data>
