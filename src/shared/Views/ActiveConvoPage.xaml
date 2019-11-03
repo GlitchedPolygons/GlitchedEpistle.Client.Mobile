@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Name="ConvoPage"
+             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ActiveConvoPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+             xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
+    <ContentPage.Content>
+        <StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
