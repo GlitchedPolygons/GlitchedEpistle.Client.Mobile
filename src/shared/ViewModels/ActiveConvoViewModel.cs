@@ -77,6 +77,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #region Commands
 
+        public ICommand CopyConvoIdToClipboardCommand { get; }
+        
         #endregion
 
         #region UI Bindings
@@ -133,6 +135,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private volatile int pageIndex;
         private volatile CancellationTokenSource autoFetch;
         private volatile CancellationTokenSource metadataUpdater;
+        
+        private ulong? scheduledHideGreenTickIcon;
 
         private Convo activeConvo;
         public Convo ActiveConvo
@@ -163,6 +167,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.eventAggregator = eventAggregator;
             this.viewModelFactory = viewModelFactory;
             this.convoPasswordProvider = convoPasswordProvider;
+            
+            CopyConvoIdToClipboardCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
         }
 
         ~ActiveConvoViewModel()
@@ -189,9 +195,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             Dispose();
         }
 
-        /// <summary>
-        /// Stops the <see cref="ActiveConvoViewModel"/> from automatically pulling messages.
-        /// </summary>
         private void StopAutomaticPulling()
         {
             autoFetch?.Cancel();
@@ -199,6 +202,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             metadataUpdater?.Cancel();
             metadataUpdater = null;
+        }
+        
+        private void OnClickedCopyConvoIdToClipboard(object commandParam)
+        {
+            Clipboard.SetTextAsync(ActiveConvo.Id);
+            ClipboardTickVisible = true;
+
+            if (scheduledHideGreenTickIcon.HasValue)
+            {
+                methodQ.Cancel(scheduledHideGreenTickIcon.Value);
+            }
+
+            scheduledHideGreenTickIcon = methodQ.Schedule(delegate
+            {
+                ClipboardTickVisible = false;
+                scheduledHideGreenTickIcon = null;
+            }, DateTime.UtcNow.AddSeconds(3));
         }
     }
 }
