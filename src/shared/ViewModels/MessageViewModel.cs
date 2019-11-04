@@ -214,9 +214,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnClickedImagePreview(object commandParam)
         {
-            var viewModel = new ImageViewerViewModel {ImageBytes = FileBytes};
-            var view = new ImageViewerView {BindingContext = viewModel};
-            view.ShowDialog();
+            //var viewModel = new ImageViewerViewModel {ImageBytes = FileBytes};
+            //var view = new ImageViewerView {BindingContext = viewModel};
+            //view.ShowDialog();
         }
 
         private void OnClickedAudioAttachment(object commandParam)

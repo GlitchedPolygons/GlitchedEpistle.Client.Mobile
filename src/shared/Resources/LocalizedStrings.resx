@@ -585,6 +585,18 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="MakeAdminButton" xml:space="preserve">
     <value>Make admin</value>
   </data>
+  <data name="MessageTooLargeFailureMessage" xml:space="preserve">
+    <value>Your message couldn't be uploaded to the epistle Web API because it exceeds the maximum file size limit.</value>
+  </data>
+  <data name="MessageTooLargeFailureTitle" xml:space="preserve">
+    <value>Message too large</value>
+  </data>
+  <data name="MessageUploadFailureMessage" xml:space="preserve">
+    <value>Your message couldn't be uploaded to the Epistle Web API! </value>
+  </data>
+  <data name="MessageUploadFailureTitle" xml:space="preserve">
+    <value>Message submission failure</value>
+  </data>
   <data name="ParticipantContextMenuTitle" xml:space="preserve">
     <value>Convo participant options</value>
   </data>

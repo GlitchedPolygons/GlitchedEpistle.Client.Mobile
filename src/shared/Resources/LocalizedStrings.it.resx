@@ -608,6 +608,19 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="MakeAdminButton" xml:space="preserve">
     <value>Rendi amministratore</value>
   </data>
+  <data name="MessageTooLargeFailureMessage" xml:space="preserve">
+    <value>Il tuo messaggio non è stato trasmesso al server di Epistle perché supera il limite di grandezza.</value>
+    <comment>Your message couldn't be uploaded to the epistle Web API because it exceeds the maximum file size limit.</comment>
+  </data>
+  <data name="MessageTooLargeFailureTitle" xml:space="preserve">
+    <value>Messaggio troppo grande</value>
+  </data>
+  <data name="MessageUploadFailureMessage" xml:space="preserve">
+    <value>Non è stato possibile trasmettere il tuo messaggio al server di Epistle.</value>
+  </data>
+  <data name="MessageUploadFailureTitle" xml:space="preserve">
+    <value>Trasmissione messaggio fallita</value>
+  </data>
   <data name="ParticipantContextMenuTitle" xml:space="preserve">
     <value>Partecipante convo</value>
   </data>

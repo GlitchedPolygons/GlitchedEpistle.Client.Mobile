@@ -26,7 +26,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Input;
+using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
@@ -87,6 +89,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             get => canSend;
             set => Set(ref canSend, value);
+        }
+
+        private string text;
+        public string Text
+        {
+            get => text;
+            set => Set(ref text, value);
         }
 
         private string name;
@@ -228,6 +237,49 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     Thread.Sleep(METADATA_PULL_FREQUENCY);
                 }
             }, metadataUpdater.Token);
+        }
+        
+        private void OnSendText(object commandParam)
+        {
+            if (Text.NullOrEmpty())
+            {
+                return;
+            }
+
+            Task.Run(async () =>
+            {
+                if (!await messageSender.PostText(ActiveConvo, Text))
+                {
+                    ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
+                }
+            });
+        }
+        
+        public void OnSendFile(object commandParam)
+        {
+            string filePath = ""; // TODO: open file picker dialog here!
+            
+            if (filePath.NullOrEmpty())
+            {
+                return;
+            }
+
+            Task.Run(async () =>
+            {
+                byte[] fileBytes = File.ReadAllBytes(filePath);
+
+                if (fileBytes.LongLength < MessageSender.MAX_FILE_SIZE_BYTES)
+                {
+                    if (!await messageSender.PostFile(ActiveConvo, Path.GetFileName(filePath), fileBytes))
+                    {
+                        ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
+                    }
+                }
+                else
+                {
+                    ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageTooLargeFailureTitle"], localization["MessageTooLargeFailureMessage"], "OK"));
+                }
+            });
         }
         
         private void OnChangedConvoMetadata(string convoId)

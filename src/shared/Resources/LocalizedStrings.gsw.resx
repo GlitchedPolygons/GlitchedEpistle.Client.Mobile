@@ -608,6 +608,20 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="MakeAdminButton" xml:space="preserve">
     <value>Zum Admin befördere</value>
   </data>
+  <data name="MessageTooLargeFailureMessage" xml:space="preserve">
+    <value>Dini Naachricht het leydr nit chönne a Epistle Sörver übermittlet wärde wöu sie die maximali Dateygröössi überschryttet.</value>
+    <comment>Deine Nachricht konnte nicht an den Epistle Server übermittelt werden, weil sie die maximale Dateigrösse überschreitet.</comment>
+  </data>
+  <data name="MessageTooLargeFailureTitle" xml:space="preserve">
+    <value>Nachricht zu gross</value>
+  </data>
+  <data name="MessageUploadFailureMessage" xml:space="preserve">
+    <value>Dini Naachricht het leyder nit chönne a Epistle Sörver übermittlet wärde.</value>
+    <comment>Deine Nachricht konnte leider nicht an den Epistle Server übermittelt werden.</comment>
+  </data>
+  <data name="MessageUploadFailureTitle" xml:space="preserve">
+    <value>Fäuschlaag</value>
+  </data>
   <data name="ParticipantContextMenuTitle" xml:space="preserve">
     <value>Ungerhautigsteylnähmer Optione</value>
   </data>
