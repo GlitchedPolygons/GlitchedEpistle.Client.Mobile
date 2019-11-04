@@ -197,7 +197,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public void OnAppearing()
         {
-            //nop
+            if (ActiveConvo is null || ActiveConvo.Id.NullOrEmpty())
+            {
+                throw new NullReferenceException($"{nameof(ActiveConvoViewModel)}::{nameof(OnAppearing)}: Tried to initialize a convo viewmodel without assigning it an {nameof(ActiveConvo)} first. Please assign that before calling init.");
+            }
+
+            CanSend = false;
+            StopAutomaticPulling();
+         
+            Messages = new ObservableCollection<MessageViewModel>();
+            
+            StartAutomaticPulling();
+            CanSend = true;
         }
 
         public void OnDisappearing()
