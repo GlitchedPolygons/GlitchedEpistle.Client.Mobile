@@ -204,7 +204,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             CanSend = false;
             StopAutomaticPulling();
-         
+
+            Name = ActiveConvo.Name;
             Messages = new ObservableCollection<MessageViewModel>();
             
             StartAutomaticPulling();

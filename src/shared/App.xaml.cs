@@ -344,7 +344,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         
         private void OnJoinedConvo(Convo convo)
         {
-            // TODO: open active convo view here
+            var viewModel = viewModelFactory.Create<ActiveConvoViewModel>();
+            viewModel.ActiveConvo = convo;
+
+            var view = new ActiveConvoPage {BindingContext = viewModel};
+            Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private void ShowLoginPage(bool autoPromptForFingerprint = true)
