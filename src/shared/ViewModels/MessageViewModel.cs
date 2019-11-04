@@ -20,6 +20,7 @@ using System;
 using System.IO;
 using System.Globalization;
 using System.Windows.Input;
+using FFImageLoading.Forms;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
@@ -47,6 +48,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand DownloadAttachmentCommand { get; }
         public ICommand CopyUserIdToClipboardCommand { get; }
         public ICommand ClickedOnImageAttachmentCommand { get; }
+        public ICommand ClickedOnAudioAttachmentCommand { get; }
 
         #endregion
 
@@ -91,13 +93,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     try
                     {
-                        var img = new BitmapImage();
-                        img.BeginInit();
-                        img.DecodePixelWidth = 256;
-                        img.StreamSource = FileBytesStream;
-                        img.EndInit();
-                        img.Freeze();
-                        Image = img;
+                        Image = new CachedImage
+                        {
+                            Aspect = Aspect.AspectFit, 
+                            DownsampleToViewSize = true,
+                            Source = ImageSource.FromStream(FileBytesStream), 
+                        };
                     }
                     catch (Exception)
                     {
@@ -107,17 +108,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         }
 
         private MemoryStream fileBytesStream;
-        public MemoryStream FileBytesStream
+        public MemoryStream FileBytesStream()
         {
-            get
-            {
-                if (fileBytesStream is null)
-                {
-                    fileBytesStream = new MemoryStream(FileBytes ?? new byte[0]);
-                }
-
-                return fileBytesStream;
-            }
+            return fileBytesStream ?? (fileBytesStream = new MemoryStream(FileBytes ?? new byte[0]));
         }
 
         private bool isOwn;
@@ -129,7 +122,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public string FileSize => $"({FileBytes.GetFileSizeString()})";
 
-        public BitmapImage Image { get; set; }
+        public CachedImage Image { get; set; }
 
         private string timestamp = string.Empty;
         public string Timestamp
@@ -145,6 +138,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             get => clipboardTickVisible;
             set => Set(ref clipboardTickVisible, value);
+        }
+
+        private float audioAttachmentVolume = 1.0f;
+        public float AudioAttachmentVolume
+        {
+            get => audioAttachmentVolume;
+            set => Set(ref audioAttachmentVolume, value < 0 ? 0 : value > 1 ? 1 : value);
+        }
+        
+        private float audioAttachmentPos = 0.0f;
+        public float AudioAttachmentPos
+        {
+            get => audioAttachmentPos;
+            set => Set(ref audioAttachmentPos, value < 0 ? 0 : value > 1 ? 1 : value);
         }
 
         public bool GifVisibility => IsGif();
@@ -164,6 +171,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             DownloadAttachmentCommand = new DelegateCommand(OnDownloadAttachment);
             CopyUserIdToClipboardCommand = new DelegateCommand(OnCopyUserIdToClipboard);
             ClickedOnImageAttachmentCommand = new DelegateCommand(OnClickedImagePreview);
+            ClickedOnAudioAttachmentCommand = new DelegateCommand(OnClickedAudioAttachment);
         }
 
         ~MessageViewModel()
@@ -209,6 +217,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             var viewModel = new ImageViewerViewModel {ImageBytes = FileBytes};
             var view = new ImageViewerView {BindingContext = viewModel};
             view.ShowDialog();
+        }
+
+        private void OnClickedAudioAttachment(object commandParam)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnCopyUserIdToClipboard(object commandParam)

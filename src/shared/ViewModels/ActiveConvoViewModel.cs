@@ -168,6 +168,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.convoPasswordProvider = convoPasswordProvider;
 
             CopyConvoIdToClipboardCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
+            
+            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(OnChangedConvoMetadata);
         }
 
         ~ActiveConvoViewModel()
@@ -203,15 +205,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             metadataUpdater = null;
         }
 
-        private async void StartAutomaticPulling()
+        private void StartAutomaticPulling()
         {
             StopAutomaticPulling();
 
+            long.TryParse(Messages?.Last()?.Id ?? "0", out long tailId);
+            
             autoFetch = messageFetcher.StartAutoFetchingMessages(
-                ActiveConvo.Id,
-                convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id),
-                await messageRepository.GetLastMessageId(),
-                OnFetchedNewMessages
+                tailId: tailId,
+                callback: OnFetchedNewMessages,
+                convoId: ActiveConvo.Id,
+                convoPasswordSHA512: convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id)
             );
 
             metadataUpdater = new CancellationTokenSource();
@@ -225,33 +229,39 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
             }, metadataUpdater.Token);
         }
+        
+        private void OnChangedConvoMetadata(string convoId)
+        {
+            if (ActiveConvo.Id != convoId)
+            {
+                return;
+            }
+            
+            Name = ActiveConvo?.Name ?? "Convo";
+        }
 
         /// <summary>
         /// Callback method for the auto-fetching routine.<para> </para>
         /// Gets called when there were new messages in the <see cref="Convo"/> server-side.<para> </para>
         /// Also truncates the view's message collection size when needed.
         /// </summary>
-        /// <param name="messages">The messages that were fetched from the backend.</param>
-        private async void OnFetchedNewMessages(IEnumerable<Message> messages)
+        /// <param name="fetchedMessages">The messages that were fetched from the backend.</param>
+        private void OnFetchedNewMessages(IEnumerable<Message> fetchedMessages)
         {
-            if (messages is null)
+            if (fetchedMessages is null)
             {
-                return;
-            }
-
-            // Add the pulled messages to the local sqlite db.
-            if (!await messageRepository.AddRange(messages.OrderBy(m => m?.TimestampUTC)))
-            {
-                logger.LogError($"{nameof(ActiveConvoViewModel)}::<<AutomaticPullCycle>>: ConvoId={ActiveConvo?.Id}  >> The retrieved messages (from message id {messages.First()?.Id} onwards) could not be added to the local sqlite db on disk. Reason unknown...");
                 return;
             }
 
             // Decrypt and add the retrieved messages to the chatroom UI.
-            var decryptedMessages = DecryptMessages(messages).OrderBy(m => m?.TimestampDateTimeUTC);
+            var decryptedMessages = DecryptMessages(fetchedMessages).OrderBy(m => m?.TimestampDateTimeUTC);
 
             ExecUI(() =>
             {
-                Messages.AddRange(decryptedMessages);
+                foreach (var msg in decryptedMessages)
+                {
+                    Messages.Add(msg);
+                }
 
                 if (pageIndex == 0)
                 {
@@ -340,27 +350,24 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         /// Pulls the convo's metadata and updates the local copy if something changed.<para> </para>
         /// </summary>
         /// <returns>Returns <c>true</c> if the metadata was updated (thus something changed), or <c>false</c> if nothing changed.</returns>
-        private async Task<bool> PullConvoMetadata()
+        private async Task PullConvoMetadata()
         {
-            var convo = await convoProvider.Get(ActiveConvo.Id);
             var metadataDto = await convoService.GetConvoMetadata(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2);
 
-            if (convo is null || metadataDto is null || convo.Equals(metadataDto))
+            if (metadataDto is null || ActiveConvo.Equals(metadataDto))
             {
-                return false;
+                return;
             }
 
-            convo.Name = ActiveConvo.Name = metadataDto.Name;
-            convo.CreatorId = ActiveConvo.CreatorId = metadataDto.CreatorId;
-            convo.Description = ActiveConvo.Description = metadataDto.Description;
-            convo.ExpirationUTC = ActiveConvo.ExpirationUTC = metadataDto.ExpirationUTC;
-            convo.CreationUTC = ActiveConvo.CreationUTC = metadataDto.CreationUTC;
-            convo.BannedUsers = ActiveConvo.BannedUsers = metadataDto.BannedUsers.Split(',').ToList();
-            convo.Participants = ActiveConvo.Participants = metadataDto.Participants.Split(',').ToList();
+            ActiveConvo.Name = metadataDto.Name;
+            ActiveConvo.CreatorId = metadataDto.CreatorId;
+            ActiveConvo.Description = metadataDto.Description;
+            ActiveConvo.ExpirationUTC = metadataDto.ExpirationUTC;
+            ActiveConvo.CreationUTC = metadataDto.CreationUTC;
+            ActiveConvo.BannedUsers = metadataDto.BannedUsers.Split(',').ToList();
+            ActiveConvo.Participants = metadataDto.Participants.Split(',').ToList();
 
-            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(convo.Id);
-
-            return await convoProvider.Update(convo);
+            ExecUI(() => eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(ActiveConvo.Id));
         }
 
         private void OnClickedCopyConvoIdToClipboard(object commandParam)
@@ -378,6 +385,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ClipboardTickVisible = false;
                 scheduledHideGreenTickIcon = null;
             }, DateTime.UtcNow.AddSeconds(3));
+        }
+
+        /// <summary>
+        /// If there are too many messages loaded into the view,
+        /// truncate the messages collection to the latest ones.<para> </para>
+        /// </summary>
+        private void TruncateMessagesCollection()
+        {
+            int messageCount = Messages.Count;
+            if (messageCount > MSG_COLLECTION_SIZE * 2)
+            {
+                Messages = new ObservableCollection<MessageViewModel>(Messages.SkipWhile((msg, i) => i < messageCount - MSG_COLLECTION_SIZE).ToArray());
+            }
         }
     }
 }
