@@ -16,33 +16,32 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+#define PARALLEL_LOAD
+// Comment out the above line to load/decrypt messages synchronously.
+
 using System;
 using System.Linq;
-using System.Windows.Input;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 using System.Threading;
-using GlitchedPolygons.ExtensionMethods;
-using GlitchedPolygons.Services.Cryptography.Asymmetric;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using GlitchedPolygons.Services.MethodQ;
+using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
-using GlitchedPolygons.GlitchedEpistle.Client.Models;
-using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
-using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
-using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
-using GlitchedPolygons.RepositoryPattern;
-using GlitchedPolygons.Services.MethodQ;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 using Prism.Events;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
@@ -78,7 +77,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region Commands
 
         public ICommand CopyConvoIdToClipboardCommand { get; }
-        
+
         #endregion
 
         #region UI Bindings
@@ -135,7 +134,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private volatile int pageIndex;
         private volatile CancellationTokenSource autoFetch;
         private volatile CancellationTokenSource metadataUpdater;
-        
+
         private ulong? scheduledHideGreenTickIcon;
 
         private Convo activeConvo;
@@ -167,7 +166,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.eventAggregator = eventAggregator;
             this.viewModelFactory = viewModelFactory;
             this.convoPasswordProvider = convoPasswordProvider;
-            
+
             CopyConvoIdToClipboardCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
         }
 
@@ -178,16 +177,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public void Dispose()
         {
-            if (disposed) 
+            if (disposed)
                 return;
-            
+
             disposed = true;
             StopAutomaticPulling();
         }
 
         public void OnAppearing()
         {
-            
+            //nop
         }
 
         public void OnDisappearing()
@@ -203,7 +202,167 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             metadataUpdater?.Cancel();
             metadataUpdater = null;
         }
-        
+
+        private async void StartAutomaticPulling()
+        {
+            StopAutomaticPulling();
+
+            autoFetch = messageFetcher.StartAutoFetchingMessages(
+                ActiveConvo.Id,
+                convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id),
+                await messageRepository.GetLastMessageId(),
+                OnFetchedNewMessages
+            );
+
+            metadataUpdater = new CancellationTokenSource();
+
+            var task = Task.Run(async () =>
+            {
+                while (!metadataUpdater.IsCancellationRequested)
+                {
+                    await PullConvoMetadata();
+                    Thread.Sleep(METADATA_PULL_FREQUENCY);
+                }
+            }, metadataUpdater.Token);
+        }
+
+        /// <summary>
+        /// Callback method for the auto-fetching routine.<para> </para>
+        /// Gets called when there were new messages in the <see cref="Convo"/> server-side.<para> </para>
+        /// Also truncates the view's message collection size when needed.
+        /// </summary>
+        /// <param name="messages">The messages that were fetched from the backend.</param>
+        private async void OnFetchedNewMessages(IEnumerable<Message> messages)
+        {
+            if (messages is null)
+            {
+                return;
+            }
+
+            // Add the pulled messages to the local sqlite db.
+            if (!await messageRepository.AddRange(messages.OrderBy(m => m?.TimestampUTC)))
+            {
+                logger.LogError($"{nameof(ActiveConvoViewModel)}::<<AutomaticPullCycle>>: ConvoId={ActiveConvo?.Id}  >> The retrieved messages (from message id {messages.First()?.Id} onwards) could not be added to the local sqlite db on disk. Reason unknown...");
+                return;
+            }
+
+            // Decrypt and add the retrieved messages to the chatroom UI.
+            var decryptedMessages = DecryptMessages(messages).OrderBy(m => m?.TimestampDateTimeUTC);
+
+            ExecUI(() =>
+            {
+                Messages.AddRange(decryptedMessages);
+
+                if (pageIndex == 0)
+                {
+                    TruncateMessagesCollection();
+                }
+            });
+        }
+
+        /// <summary>
+        /// Decrypts a single <see cref="Message"/> into a <see cref="MessageViewModel"/>.
+        /// </summary>
+        /// <param name="message">The <see cref="Message"/> to decrypt.</param>
+        /// <returns>The decrypted <see cref="MessageViewModel"/>, ready to be added to the view.</returns>
+        private MessageViewModel DecryptMessage(Message message)
+        {
+            if (message is null)
+            {
+                return null;
+            }
+
+            string decryptedJson = crypto.DecryptMessage(message.Body, user.PrivateKeyPem);
+            JToken json = JToken.Parse(decryptedJson);
+
+            if (json == null)
+            {
+                return null;
+            }
+
+            var messageViewModel = new MessageViewModel(methodQ)
+            {
+                Id = message.Id.ToString(),
+                SenderId = message.SenderId,
+                SenderName = message.SenderName,
+                TimestampDateTimeUTC = message.TimestampUTC,
+                Timestamp = message.TimestampUTC.ToLocalTime().ToString(MSG_TIMESTAMP_FORMAT),
+                Text = json["text"]?.Value<string>(),
+                FileName = json["fileName"]?.Value<string>(),
+                IsOwn = message.SenderId.Equals(user.Id),
+            };
+
+            string fileBase64 = json["fileBase64"]?.Value<string>();
+            messageViewModel.FileBytes = string.IsNullOrEmpty(fileBase64) ? null : Convert.FromBase64String(fileBase64);
+
+            return messageViewModel;
+        }
+
+        /// <summary>
+        /// Decrypts multiple <see cref="Message"/>s. Does not guarantee correct order!
+        /// </summary>
+        /// <param name="encryptedMessages">The <see cref="Message"/>s to decrypt.</param>
+        /// <returns>The decrypted <see cref="MessageViewModel"/>s, ready to be added to the view.</returns>
+        private IEnumerable<MessageViewModel> DecryptMessages(IEnumerable<Message> encryptedMessages)
+        {
+            var decryptedMessages = new ConcurrentBag<MessageViewModel>();
+
+#if PARALLEL_LOAD
+            Parallel.ForEach(encryptedMessages, message =>
+            {
+                try
+                {
+                    var decryptedMessage = DecryptMessage(message);
+                    decryptedMessages.Add(decryptedMessage);
+                }
+                catch (Exception e)
+                {
+                    logger.LogError($"{nameof(ActiveConvoViewModel)}::{nameof(DecryptMessages)}: Failed to decrypt message {message?.Id}. Error message: {e}");
+                }
+            });
+#else
+            foreach (var message in encryptedMessages)
+            {
+                try
+                {
+                    decryptedMessages.Add(DecryptMessage(message));
+                }
+                catch (Exception e)
+                {
+                    logger.LogError($"{nameof(ActiveConvoViewModel)}::{nameof(DecryptMessages)}: Failed to decrypt message {message?.Id}. Error message: {e}");
+                }
+            }
+#endif
+            return decryptedMessages;
+        }
+
+        /// <summary>
+        /// Pulls the convo's metadata and updates the local copy if something changed.<para> </para>
+        /// </summary>
+        /// <returns>Returns <c>true</c> if the metadata was updated (thus something changed), or <c>false</c> if nothing changed.</returns>
+        private async Task<bool> PullConvoMetadata()
+        {
+            var convo = await convoProvider.Get(ActiveConvo.Id);
+            var metadataDto = await convoService.GetConvoMetadata(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2);
+
+            if (convo is null || metadataDto is null || convo.Equals(metadataDto))
+            {
+                return false;
+            }
+
+            convo.Name = ActiveConvo.Name = metadataDto.Name;
+            convo.CreatorId = ActiveConvo.CreatorId = metadataDto.CreatorId;
+            convo.Description = ActiveConvo.Description = metadataDto.Description;
+            convo.ExpirationUTC = ActiveConvo.ExpirationUTC = metadataDto.ExpirationUTC;
+            convo.CreationUTC = ActiveConvo.CreationUTC = metadataDto.CreationUTC;
+            convo.BannedUsers = ActiveConvo.BannedUsers = metadataDto.BannedUsers.Split(',').ToList();
+            convo.Participants = ActiveConvo.Participants = metadataDto.Participants.Split(',').ToList();
+
+            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Publish(convo.Id);
+
+            return await convoProvider.Update(convo);
+        }
+
         private void OnClickedCopyConvoIdToClipboard(object commandParam)
         {
             Clipboard.SetTextAsync(ActiveConvo.Id);

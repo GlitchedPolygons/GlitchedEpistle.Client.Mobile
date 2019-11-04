@@ -32,8 +32,11 @@
              xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
     <ContentPage.Content>
-        <StackLayout>
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
     
