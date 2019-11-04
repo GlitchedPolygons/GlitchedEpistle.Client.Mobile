@@ -254,14 +254,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
 
             // Decrypt and add the retrieved messages to the chatroom UI.
-            var decryptedMessages = DecryptMessages(fetchedMessages).OrderBy(m => m?.TimestampDateTimeUTC);
+            var newMessages = Messages.ToList();
+            newMessages.AddRange(DecryptMessages(fetchedMessages).OrderBy(m => m?.TimestampDateTimeUTC));
 
             ExecUI(() =>
             {
-                foreach (var msg in decryptedMessages)
-                {
-                    Messages.Add(msg);
-                }
+                Messages = new ObservableCollection<MessageViewModel>(newMessages);
 
                 if (pageIndex == 0)
                 {
@@ -349,7 +347,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         /// <summary>
         /// Pulls the convo's metadata and updates the local copy if something changed.<para> </para>
         /// </summary>
-        /// <returns>Returns <c>true</c> if the metadata was updated (thus something changed), or <c>false</c> if nothing changed.</returns>
         private async Task PullConvoMetadata()
         {
             var metadataDto = await convoService.GetConvoMetadata(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2);
