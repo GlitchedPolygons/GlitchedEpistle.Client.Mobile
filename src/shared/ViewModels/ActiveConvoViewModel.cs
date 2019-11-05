@@ -230,7 +230,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             StopAutomaticPulling();
 
-            long.TryParse(Messages?.Last()?.Id ?? "0", out long tailId);
+            long tailId = 0;
+            if (Messages.NotNullNotEmpty())
+            {
+                long.TryParse(Messages?.Last()?.Id ?? "0", out tailId);
+            }
             
             autoFetch = messageFetcher.StartAutoFetchingMessages(
                 tailId: tailId,

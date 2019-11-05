@@ -120,6 +120,9 @@
     <Compile Update="Resources\Themes\Base\ControlTemplates.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+    <Compile Update="Views\MessageView.xaml.cs">
+      <DependentUpon>MessageView.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ServerUrlPage.xaml.cs">
       <DependentUpon>ServerUrlPage.xaml</DependentUpon>
     </Compile>

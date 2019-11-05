@@ -190,6 +190,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             string ext = Path.GetExtension(FileName) ?? string.Empty;
 
+            /*
             var dialog = new SaveFileDialog
             {
                 Title = "Download attachment",
@@ -210,6 +211,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             };
 
             dialog.ShowDialog();
+            */
         }
 
         private void OnClickedImagePreview(object commandParam)

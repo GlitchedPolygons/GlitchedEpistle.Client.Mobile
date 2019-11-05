@@ -30,37 +30,44 @@
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
+             xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+             xmlns:views="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
     <ContentPage.Content>
-        <ScrollView>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="175" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="175" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                <!-- Header -->
-                <StackLayout Grid.Row="0"
-                             Grid.Column="0"
-                             Margin="70,0,0,0"
-                             Orientation="Horizontal"
-                             HorizontalOptions="Center"
-                             VerticalOptions="Start">
+            <!-- Header -->
+            <StackLayout Grid.Row="0"
+                         Grid.Column="0"
+                         Margin="0,0,0,0"
+                         Orientation="Vertical"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Start">
 
-                    <Label FontSize="24"
-                           Margin="0,0,0,5"
-                           VerticalOptions="Center"
-                           Text="{Binding Path=Name}"
-                           Style="{DynamicResource TitleLabelStyle}" />
+                <Label FontSize="24"
+                       Margin="0,0,0,5"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Text="{Binding Path=Name}"
+                       Style="{DynamicResource TitleLabelStyle}" />
 
-                    <BoxView Style="{DynamicResource VerticalSeparatorLineStyle}" />
+                <BoxView Style="{DynamicResource VerticalSeparatorLineStyle}" />
 
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand">
+                    
                     <Label Text="{Binding Path=ActiveConvo.Id}"
                            FontSize="12"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="CenterAndExpand"
                            Style="{DynamicResource SubLabelStyle}"
                            VerticalOptions="Center"
                            FontAttributes="Italic" />
@@ -87,77 +94,48 @@
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
 
                     <!-- Scroll-to-bottom Button -->
-                    <Button Width="30"
-                            Height="30"
+                    <Button WidthRequest="30"
+                            HeightRequest="30"
                             FontSize="20"
                             Margin="5,0,0,0"
                             Style="{DynamicResource ScrollToBottomButton}"
                             VerticalOptions="Start"
                             HorizontalOptions="End"
                             x:Name="ScrollToBottomButton"
-                            Command="{Binding ScrollToBottomCommand}"
+                            Text="⮛"
                             Clicked="ScrollToBottomButton_OnClick" />
                 </StackLayout>
+            </StackLayout>
 
-                <!-- Chatroom -->
-                <ListView Grid.Row="1"
-                          Grid.Column="0"
-                          Margin="10,10,0,-1.75"
-                          x:Name="MessagesListBox"
-                          ItemsSource="{Binding Messages}"
-                          Style="{DynamicResource MessagesListBox}"
-                          VirtualizingStackPanel.ScrollUnit="Pixel"
-                          VirtualizingStackPanel.IsVirtualizing="True"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Margin="0"
-                                                    Height="Auto"
-                                                    Orientation="Vertical" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <local:MessageView />
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Focusable"
-                                    Value="False" />
-                            <Setter Property="IsSelected"
-                                    Value="False" />
-                            <Setter Property="Background"
-                                    Value="Transparent" />
-                            <Setter Property="BorderBrush"
-                                    Value="Transparent" />
-                            <Setter Property="HorizontalContentAlignment"
-                                    Value="Stretch" />
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <ContentPresenter Margin="4,4,0,0" />
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+            <!-- Chatroom -->
+            <ListView Grid.Row="1"
+                      Grid.Column="0"
+                      SelectionMode="None"
+                      Margin="10,10,0,-1.75"
+                      x:Name="MessagesListBox"
+                      ItemsSource="{Binding Messages}"
+                      Style="{DynamicResource MessagesListBox}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <views:MessageView />
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-                <!-- TextBox + Send Buttons -->
-                <Entry Grid.Row="2"
-                       x:Name="TextBox"
-                       Height="150"
-                       FontSize="14"
-                       Margin="12.5"
-                       MaxLength="8192"
-                       Text="{Binding Text}"
-                       IsEnabled="{Binding CanSend}"
-                       Style="{DynamicResource EntryStyle}"
-                       HorizontalOptions="Fill"
-                       VerticalOptions="End" />
-            </Grid>
-        </ScrollView>
+            <!-- TextBox + Send Buttons -->
+            <Entry Grid.Row="2"
+                   x:Name="TextBox"
+                   HeightRequest="150"
+                   FontSize="14"
+                   Margin="12.5"
+                   MaxLength="8192"
+                   Text="{Binding Text}"
+                   IsEnabled="{Binding CanSend}"
+                   Style="{DynamicResource EntryStyle}"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="End" />
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

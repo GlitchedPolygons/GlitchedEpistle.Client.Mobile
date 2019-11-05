@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+         Glitched Epistle - Mobile Client
+         Copyright (C) 2019 Raphael Beck
+         
+         This program is free software: you can redistribute it and/or modify
+         it under the terms of the GNU General Public License as published by
+         the Free Software Foundation, either version 3 of the License, or
+         (at your option) any later version.
+         
+         This program is distributed in the hope that it will be useful,
+         but WITHOUT ANY WARRANTY; without even the implied warranty of
+         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+         GNU General Public License for more details.
+         
+         You should have received a copy of the GNU General Public License
+         along with this program.  If not, see <https://www.gnu.org/licenses/>.
+-->
+
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Name="ConvoPage"
+             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MessageView"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+             xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
+    <ContentView.Content>
+
+        <Grid Margin="0,0,0,5">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="Grid" Binding="{Binding IsOwn}" Value="True">
+                            <Setter Property="Grid.HorizontalOptions" Value="End" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Grid" Binding="{Binding IsOwn}" Value="False">
+                            <Setter Property="Grid.HorizontalOptions" Value="Start" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+
+            <BoxView Opacity="0.675"
+                     CornerRadius="25"
+                     Grid.Row="0"
+                     Grid.Column="1">
+                <BoxView.Style>
+                    <Style TargetType="BoxView">
+                        <Style.Triggers>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding IsOwn}" Value="True">
+                                <Setter Property="Color" Value="{DynamicResource MessageSpeechBubbleColorOwn}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding IsOwn}" Value="False">
+                                <Setter Property="Color" Value="{DynamicResource MessageSpeechBubbleColor}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </BoxView.Style>
+            </BoxView>
+
+            <StackLayout Margin="10"
+                         Grid.Row="0"
+                         Grid.Column="1"
+                         Orientation="Vertical"
+                         HorizontalOptions="Center">
+
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="Start"
+                             HorizontalOptions="Start">
+
+                    <!--{Binding SenderName}-->
+                    <Label Text="{Binding SenderName}"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           Style="{DynamicResource MediumLabelStyle}" />
+
+                    <StackLayout Orientation="Horizontal">
+
+                        <!--{Binding SenderId}-->
+                        <Label Text="{Binding SenderId}"
+                               FontSize="14"
+                               Margin="0,0,0,0"
+                               Style="{DynamicResource SubLabelStyle}"
+                               FontAttributes="Italic" />
+
+                        <!-- Copy user id to clipboard button -->
+                        <ff:CachedImage WidthRequest="18"
+                                        HeightRequest="18"
+                                        DownsampleToViewSize="True"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsEnabled="{Binding ClipboardTickVisible, Converter={converters:InverseBoolConverter}}"
+                                        IsVisible="{Binding ClipboardTickVisible, Converter={converters:InverseBoolConverter}}"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.clipboard-icon.png}">
+                            <ff:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CopyUserIdToClipboardCommand}" />
+                            </ff:CachedImage.GestureRecognizers>
+                        </ff:CachedImage>
+                        <ff:CachedImage WidthRequest="18"
+                                        HeightRequest="18"
+                                        DownsampleToViewSize="True"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsVisible="{Binding ClipboardTickVisible}"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
+                    </StackLayout>
+
+                    <!-- Separator wall -->
+                    <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
+                </StackLayout>
+
+                <StackLayout Margin="0,-1,0,0">
+                    <!--{Binding Timestamp}-->
+                    <Label Margin="4,2"
+                           FontSize="12.333"
+                           Text="{Binding Timestamp}" />
+
+                    <!-- Attachment -->
+                    <!--
+                    <WrapPanel Orientation="Horizontal"
+                               Margin="5,4,0,-15"
+                               Visibility="{Binding AttachmentButtonVisibility}">
+
+                        <Label Content="Attachment:"
+                               Margin="0"
+                               Padding="0"
+                               VerticalAlignment="Center" />
+
+                        <Label Content="{Binding FileSize}"
+                               Margin="0,0,3,0"
+                               VerticalAlignment="Center" />
+
+                        <Button Content="{Binding FileName}"
+                                MaxWidth="420"
+                                FontWeight="Bold"
+                                HorizontalAlignment="Left"
+                                HorizontalContentAlignment="Stretch"
+                                ToolTip="Click here to download the attachment to your computer."
+                                Command="{Binding DownloadAttachmentCommand}" />
+                    </WrapPanel>
+                    -->
+
+                    <!-- Image (only displayed when attachment is an image) -->
+                    <!--
+                    <Image Source="{Binding Image}"
+                           IsVisible="{Binding ImageVisibility}"
+                           Style="{DynamicResource ImageAttachmentStyle}"
+                           Margin="5,26,0,-12"
+                           x:Name="ImagePreview"
+                           HorizontalOptions="Start">
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick"
+                                          Command="{Binding ClickedOnImageAttachmentCommand}" />
+                        </Image.InputBindings>
+                    </Image>
+                    <Image Cursor="Hand"
+                           Visibility="{Binding GifVisibility}"
+                           Style="{DynamicResource ImageAttachmentStyle}"
+                           MaxWidth="350"
+                           MaxHeight="350"
+                           Margin="5,26,0,-12"
+                           Name="GifPreview"
+                           HorizontalAlignment="Left"
+                           gif:AnimationBehavior.AnimateInDesignMode="true"
+                           gif:AnimationBehavior.RepeatBehavior="Forever"
+                           gif:AnimationBehavior.SourceStream="{Binding FileBytesStream}">
+                        <Image.InputBindings>
+                            <MouseBinding Gesture="LeftClick"
+                                          Command="{Binding ClickedOnImageAttachmentCommand}" />
+                        </Image.InputBindings>
+                    </Image>
+                    -->
+
+                    <!-- Text -->
+                    <Label x:Name="TextBox"
+                           FontSize="15"
+                           Margin="2.5,0,0,8"
+                           Text="{Binding Text}"
+                           Style="{DynamicResource MessageLabelTextBox}" />
+
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

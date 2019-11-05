@@ -56,5 +56,10 @@
     <x:String x:Key="HeaderButtonIdleColorHex">#ffffff</x:String>
     <x:String x:Key="HeaderButtonPressedColorHex">#00b4dd</x:String>
     <x:String x:Key="LogoutHeaderButtonPressedColorHex">#cc0000</x:String>
+    
+    <!-- Message View Speech Bubble Color -->
+    <Color x:Key="MessageSpeechBubbleColor">#FF8E8E8E</Color>
+    <Color x:Key="MessageSpeechBubbleColorOwn">#356B82</Color>
+
 
 </ResourceDictionary>

@@ -147,5 +147,11 @@
         <Setter Property="FadeAnimationEnabled" Value="False" />
         <Setter Property="FadeAnimationForCachedImages" Value="False" />
     </Style>
+    
+    <!-- Message View Text (label) -->
+    <Style x:Key="MessageLabelTextBox" TargetType="Label">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
+    </Style>
 
 </ResourceDictionary>

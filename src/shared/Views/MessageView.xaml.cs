@@ -16,8 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
-using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
@@ -25,29 +23,11 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ActiveConvoPage : ContentPage
+    public partial class MessageView : ContentView
     {
-        public ActiveConvoPage()
+        public MessageView()
         {
             InitializeComponent();
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            (BindingContext as IOnAppearingListener)?.OnAppearing();
-        }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            (BindingContext as IOnDisappearingListener)?.OnDisappearing();
-        }
-
-        private void ScrollToBottomButton_OnClick(object sender, EventArgs e)
-        {
-            object last = MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
-            MessagesListBox.ScrollTo(last, ScrollToPosition.End, true);
         }
     }
 }
