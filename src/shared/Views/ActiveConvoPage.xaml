@@ -59,7 +59,7 @@
                        Text="{Binding Path=Name}"
                        Style="{DynamicResource TitleLabelStyle}" />
 
-                <BoxView Style="{DynamicResource VerticalSeparatorLineStyle}" />
+                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="CenterAndExpand">
