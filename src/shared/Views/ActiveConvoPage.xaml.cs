@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
@@ -40,6 +41,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             base.OnDisappearing();
             (BindingContext as IOnDisappearingListener)?.OnDisappearing();
+        }
+
+        private void ScrollToBottomButton_OnClick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
