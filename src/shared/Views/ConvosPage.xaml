@@ -44,7 +44,7 @@
 
             <StackLayout Orientation="Horizontal" 
                          HorizontalOptions="CenterAndExpand"
-                         Margin="0,-5,0,0">
+                         Margin="0,0,0,0">
                 <Label Style="{DynamicResource SubLabelStyle}"
                        Text="{Binding UserId}"
                        HorizontalOptions="CenterAndExpand"
