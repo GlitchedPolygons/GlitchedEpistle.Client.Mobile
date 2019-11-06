@@ -674,4 +674,29 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="DownloadFailedErrorMessage" xml:space="preserve">
     <value>Download fäugschlage</value>
   </data>
+  <data name="DownloadAttachmentDialogText" xml:space="preserve">
+    <value>Are you sure that you want to download the attachment of {0} to the following destination path:
+
+{1}</value>
+    <comment>Are you sure that you want to download the attachment of {0} to the following destination path:
+
+{1}</comment>
+  </data>
+  <data name="DownloadAttachmentDialogTitle" xml:space="preserve">
+    <value>Aahang achelade</value>
+  </data>
+  <data name="FileAlreadyExistsDialogText" xml:space="preserve">
+    <value>Wosch die bereyts vorhandeni Datey "{0}" überschriibe?</value>
+    <comment>Do you want to overwrite the already existing file "{0}"?</comment>
+  </data>
+  <data name="FileAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>Datey exischtiert scho</value>
+    <comment>File already exists</comment>
+  </data>
+  <data name="OpenAttachmentDialogText" xml:space="preserve">
+    <value>Wosch d' Datey "{0}" öffne?</value>
+  </data>
+  <data name="OpenAttachmentDialogTitle" xml:space="preserve">
+    <value>Datey öffne</value>
+  </data>
 </root>

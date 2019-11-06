@@ -667,4 +667,29 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="DownloadFailedErrorMessage" xml:space="preserve">
     <value>Download fallito</value>
   </data>
+  <data name="DownloadAttachmentDialogText" xml:space="preserve">
+    <value>Are you sure that you want to download the attachment of {0} to the following destination path:
+
+{1}</value>
+    <comment>Are you sure that you want to download the attachment of {0} to the following destination path:
+
+{1}</comment>
+  </data>
+  <data name="DownloadAttachmentDialogTitle" xml:space="preserve">
+    <value>Scarica allegato</value>
+  </data>
+  <data name="FileAlreadyExistsDialogText" xml:space="preserve">
+    <value>Vuoi sovrascrivere il file già esistente "{0}"?</value>
+    <comment>Do you want to overwrite the already existing file "{0}"?</comment>
+  </data>
+  <data name="FileAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>File già esistente</value>
+    <comment>File already exists</comment>
+  </data>
+  <data name="OpenAttachmentDialogText" xml:space="preserve">
+    <value>Vuoi aprire il file "{0}"?</value>
+  </data>
+  <data name="OpenAttachmentDialogTitle" xml:space="preserve">
+    <value>Apri file</value>
+  </data>
 </root>

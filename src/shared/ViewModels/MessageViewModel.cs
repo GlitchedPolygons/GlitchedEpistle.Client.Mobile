@@ -199,22 +199,47 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnDownloadAttachment(object commandParam)
         {
+            if (FileName.NullOrEmpty())
+            {
+                return;
+            }
+
             if (!await storagePermission.CheckPermission(localization["StoragePermissionNeededForDownloadingAttachmentTitle"], localization["StoragePermissionNeededForDownloadingAttachmentText"], localization["AbortedDueToStoragePermissionDeclined"]))
             {
                 return;
             }
 
             string path = Path.Combine(await downloadPath.GetDownloadDirectoryPath(), FileName);
-            
+
+            if (path.NullOrEmpty())
+            {
+                return;
+            }
+
+            if (!await Application.Current.MainPage.DisplayAlert(localization["DownloadAttachmentDialogTitle"], string.Format(localization["DownloadAttachmentDialogText"], FileSize, path), localization["Yes"], localization["No"]))
+            {
+                return;
+            }
+
+            if (File.Exists(path) && !await Application.Current.MainPage.DisplayAlert(localization["FileAlreadyExistsDialogTitle"], string.Format(localization["FileAlreadyExistsDialogText"], Path.GetFileName(path)), localization["Yes"], localization["No"]))
+            {
+                return;
+            }
+
             try
             {
                 File.WriteAllBytes(path, FileBytes);
                 alertService.AlertLong(string.Format(localization["DownloadCompleteSuccessMessage"], path));
-
             }
             catch (Exception)
             {
                 alertService.AlertShort(localization["DownloadFailedErrorMessage"]);
+                return;
+            }
+
+            if (await Application.Current.MainPage.DisplayAlert(localization["OpenAttachmentDialogTitle"], string.Format(localization["OpenAttachmentDialogText"], Path.GetFileName(FileName)), localization["Yes"], localization["No"]))
+            {
+                // TODO: open file here
             }
         }
 
@@ -236,16 +261,37 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             alertService.AlertShort(localization["Copied"]);
         }
 
-        private void OnClickedImagePreview(object commandParam)
+        private async void OnClickedImagePreview(object commandParam)
         {
-            //var viewModel = new ImageViewerViewModel {ImageBytes = FileBytes};
-            //var view = new ImageViewerView {BindingContext = viewModel};
-            //view.ShowDialog();
+            if (FileName.NullOrEmpty())
+            {
+                return;
+            }
+
+            if (!await storagePermission.CheckPermission(localization["StoragePermissionNeededForDownloadingAttachmentTitle"], localization["StoragePermissionNeededForDownloadingAttachmentText"], localization["AbortedDueToStoragePermissionDeclined"]))
+            {
+                return;
+            }
+
+            string path = Path.Combine(await downloadPath.GetDownloadDirectoryPath(), FileName);
+
+            if (!File.Exists(path))
+            {
+                OnDownloadAttachment(null);
+                return;
+            }
+            
+            // TODO: open file here
         }
 
-        private void OnClickedAudioAttachment(object commandParam)
+        private async void OnClickedAudioAttachment(object commandParam)
         {
-            throw new NotImplementedException();
+            if (!IsAudio())
+            {
+                return;
+            }
+            
+            // TODO: play voice message here
         }
 
         private void OnCopyUserIdToClipboard(object commandParam)
