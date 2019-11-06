@@ -102,7 +102,19 @@
                         <effects:LongPressedEffect />
                     </Label.Effects>
                 </Label>
-
+                
+                <!-- Image (only displayed when attachment is an image) -->
+                <ff:CachedImage Aspect="AspectFit"
+                                HorizontalOptions="FillAndExpand"
+                                DownsampleToViewSize="True"
+                                IsEnabled="{Binding ImageVisibility}"
+                                IsVisible="{Binding ImageVisibility}"
+                                Source="{Binding ImageSource}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ClickedOnImageAttachmentCommand}" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
+                
                 <!-- Attachment -->
                 <StackLayout Orientation="Horizontal"
                              IsVisible="{Binding HasAttachment}">
@@ -120,45 +132,14 @@
                     
                 </StackLayout>
                 
+                <!-- Download attachment -->
                 <Button Text="{Binding FileName}"
-                        Margin="0"
+                        Margin="-2.5"
                         FontSize="12.5"
                         FontAttributes="Bold"
                         VerticalOptions="Center"
                         IsVisible="{Binding HasAttachment}"
                         Command="{Binding DownloadAttachmentCommand}" />
-
-
-                <!-- Image (only displayed when attachment is an image) -->
-                <ff:CachedImage Aspect="AspectFit"
-                                HorizontalOptions="FillAndExpand"
-                                DownsampleToViewSize="True"
-                                IsEnabled="{Binding ImageVisibility}"
-                                IsVisible="{Binding ImageVisibility}"
-                                Source="{Binding ImageSource}">
-                    <ff:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ClickedOnImageAttachmentCommand}" />
-                    </ff:CachedImage.GestureRecognizers>
-                </ff:CachedImage>
-
-                <!--
-                    <Image Cursor="Hand"
-                           Visibility="{Binding GifVisibility}"
-                           Style="{DynamicResource ImageAttachmentStyle}"
-                           MaxWidth="350"
-                           MaxHeight="350"
-                           Margin="5,26,0,-12"
-                           Name="GifPreview"
-                           HorizontalAlignment="Left"
-                           gif:AnimationBehavior.AnimateInDesignMode="true"
-                           gif:AnimationBehavior.RepeatBehavior="Forever"
-                           gif:AnimationBehavior.SourceStream="{Binding FileBytesStream}">
-                        <Image.InputBindings>
-                            <MouseBinding Gesture="LeftClick"
-                                          Command="{Binding ClickedOnImageAttachmentCommand}" />
-                        </Image.InputBindings>
-                    </Image>
-                    -->
 
                 <StackLayout.Style>
                     <Style TargetType="StackLayout">

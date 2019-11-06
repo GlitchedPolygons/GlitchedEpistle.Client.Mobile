@@ -98,7 +98,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 fileBytes = value;
-                if (value != null && IsImage())
+                if (value != null && ImageVisibility)
                 {
                     try
                     {
@@ -167,7 +167,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         }
 
         public bool GifVisibility => IsGif();
-        public bool ImageVisibility => IsImage();
+        public bool ImageVisibility => IsImage() || IsGif();
         public bool HasAttachment => FileName.NotNullNotEmpty() && FileBytes != null && FileBytes.Length > 0;
 
         #endregion
@@ -286,7 +286,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             // TODO: open file here
         }
 
-        private async void OnClickedAudioAttachment(object commandParam)
+        private void OnClickedAudioAttachment(object commandParam)
         {
             if (!IsAudio())
             {
