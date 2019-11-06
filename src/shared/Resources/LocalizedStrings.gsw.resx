@@ -667,7 +667,9 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
     <value>Fählendi Berächtigungeh</value>
   </data>
   <data name="DownloadCompleteSuccessMessage" xml:space="preserve">
-    <value>Download erfougriich</value>
+    <value>Download erfougriich:
+
+{0}</value>
   </data>
   <data name="DownloadFailedErrorMessage" xml:space="preserve">
     <value>Download fäugschlage</value>

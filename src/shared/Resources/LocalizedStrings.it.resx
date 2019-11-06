@@ -660,7 +660,9 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
     <value>Permessi insufficienti</value>
   </data>
   <data name="DownloadCompleteSuccessMessage" xml:space="preserve">
-    <value>Download riuscito</value>
+    <value>Download riuscito:
+
+{0}</value>
   </data>
   <data name="DownloadFailedErrorMessage" xml:space="preserve">
     <value>Download fallito</value>

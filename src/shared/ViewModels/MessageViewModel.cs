@@ -209,10 +209,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             try
             {
                 File.WriteAllBytes(path, FileBytes);
-                alertService.AlertShort(localization["DownloadCompleteSuccessMessage"]);
-                
+                alertService.AlertLong(string.Format(localization["DownloadCompleteSuccessMessage"], path));
+
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 alertService.AlertShort(localization["DownloadFailedErrorMessage"]);
             }

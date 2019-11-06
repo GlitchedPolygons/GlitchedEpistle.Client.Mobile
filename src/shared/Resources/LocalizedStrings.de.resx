@@ -664,7 +664,9 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
     <value>Fehlende Berechtigungen</value>
   </data>
   <data name="DownloadCompleteSuccessMessage" xml:space="preserve">
-    <value>Download erfolgreich</value>
+    <value>Download erfolgreich:
+
+{0}</value>
   </data>
   <data name="DownloadFailedErrorMessage" xml:space="preserve">
     <value>Download fehlgeschlagen</value>
