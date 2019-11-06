@@ -49,6 +49,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand CopyUserIdToClipboardCommand { get; }
         public ICommand ClickedOnImageAttachmentCommand { get; }
         public ICommand ClickedOnAudioAttachmentCommand { get; }
+        public ICommand LongPressedMessageTextCommand { get; }
 
         #endregion
 
@@ -172,6 +173,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             CopyUserIdToClipboardCommand = new DelegateCommand(OnCopyUserIdToClipboard);
             ClickedOnImageAttachmentCommand = new DelegateCommand(OnClickedImagePreview);
             ClickedOnAudioAttachmentCommand = new DelegateCommand(OnClickedAudioAttachment);
+            LongPressedMessageTextCommand = new DelegateCommand(OnLongPressedMessageText);
         }
 
         ~MessageViewModel()
@@ -214,6 +216,24 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             */
         }
 
+        private async void OnLongPressedMessageText(object commandParam)
+        {
+            bool copyConfirmed = await Application.Current.MainPage.DisplayAlert(
+                title: localization["LongPressedMessageTextTitle"],
+                message: localization["LongPressedMessageTextDescription"],
+                accept: localization["Copy"],
+                cancel: localization["CancelButton"]
+            );
+            
+            if (!copyConfirmed)
+            {
+                return;
+            }
+            
+            await Clipboard.SetTextAsync(Text);
+            alertService.AlertShort(localization["Copied"]);
+        }
+        
         private void OnClickedImagePreview(object commandParam)
         {
             //var viewModel = new ImageViewerViewModel {ImageBytes = FileBytes};

@@ -23,7 +23,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Name="ConvoPage"
+             x:Name="Message"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MessageView"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              Margin="0,13.37,0,0"
@@ -35,7 +35,7 @@
     <ContentView.Content>
 
         <Frame Opacity="0.675"
-               Margin="0,0,0,0" 
+               Margin="0,0,0,0"
                Padding="13.37"
                CornerRadius="25.00">
 
@@ -47,8 +47,8 @@
                        FontSize="14"
                        FontAttributes="Bold"
                        Style="{DynamicResource MediumLabelStyle}" />
-                
-                <StackLayout Orientation="Horizontal" 
+
+                <StackLayout Orientation="Horizontal"
                              HorizontalOptions="Start">
 
                     <!--{Binding SenderId}-->
@@ -81,7 +81,7 @@
                 </StackLayout>
 
                 <!-- Separator wall -->
-                <BoxView Color="{DynamicResource SecondaryTextColor}" 
+                <BoxView Color="{DynamicResource SecondaryTextColor}"
                          BackgroundColor="{DynamicResource SecondaryTextColor}"
                          Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
@@ -89,13 +89,18 @@
                 <Label FontSize="12"
                        Margin="0"
                        Text="{Binding Timestamp}"
-                       Style="{DynamicResource MediumLabelStyle}"/>
+                       Style="{DynamicResource MediumLabelStyle}" />
 
                 <!-- Text -->
                 <Label FontSize="15"
                        Margin="0"
                        Text="{Binding Text}"
-                       Style="{DynamicResource MessageLabelTextBox}" />
+                       Style="{DynamicResource MessageLabelTextBox}"
+                       effects:LongPressedEffect.Command="{Binding Path=BindingContext.LongPressedMessageTextCommand, Source={x:Reference Message}}">
+                    <Label.Effects>
+                        <effects:LongPressedEffect />
+                    </Label.Effects>
+                </Label>
 
                 <!-- Attachment -->
                 <!--
@@ -152,7 +157,7 @@
                         </Image.InputBindings>
                     </Image>
                     -->
-                
+
                 <StackLayout.Style>
                     <Style TargetType="StackLayout">
                         <Style.Triggers>
@@ -168,7 +173,7 @@
                     </Style>
                 </StackLayout.Style>
             </StackLayout>
-            
+
             <Frame.Style>
                 <Style TargetType="Frame">
                     <Style.Triggers>
@@ -184,6 +189,6 @@
                 </Style>
             </Frame.Style>
         </Frame>
-        
+
     </ContentView.Content>
 </ContentView>
