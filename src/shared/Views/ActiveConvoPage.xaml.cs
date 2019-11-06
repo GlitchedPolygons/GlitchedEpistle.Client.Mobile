@@ -36,6 +36,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             base.OnAppearing();
             (BindingContext as IOnAppearingListener)?.OnAppearing();
+            ScrollToBottomButton_OnClick(null, null);
         }
 
         protected override void OnDisappearing()
