@@ -96,6 +96,7 @@
                        Margin="0"
                        Text="{Binding Text}"
                        Style="{DynamicResource MessageLabelTextBox}"
+                       IsVisible="{Binding HasAttachment, Converter={converters:InverseBoolConverter}}"
                        effects:LongPressedEffect.Command="{Binding Path=BindingContext.LongPressedMessageTextCommand, Source={x:Reference Message}}">
                     <Label.Effects>
                         <effects:LongPressedEffect />
