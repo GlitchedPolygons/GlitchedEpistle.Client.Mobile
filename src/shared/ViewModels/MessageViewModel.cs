@@ -157,7 +157,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public bool GifVisibility => IsGif();
         public bool ImageVisibility => IsImage();
-        public bool AttachmentButtonVisibility => HasAttachment();
+        public bool HasAttachment => FileName.NotNullNotEmpty() && FileBytes != null && FileBytes.Length > 0;
 
         #endregion
 
@@ -265,14 +265,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }, DateTime.UtcNow.AddSeconds(3));
         }
 
-        private bool HasAttachment()
-        {
-            return FileName.NotNullNotEmpty() && FileBytes != null && FileBytes.Length > 0;
-        }
-
         private bool IsImage()
         {
-            if (!HasAttachment())
+            if (!HasAttachment)
             {
                 return false;
             }
@@ -285,7 +280,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private bool IsGif()
         {
-            if (!HasAttachment())
+            if (!HasAttachment)
             {
                 return false;
             }
@@ -295,7 +290,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private bool IsAudio()
         {
-            if (!HasAttachment())
+            if (!HasAttachment)
             {
                 return false;
             }
