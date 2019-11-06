@@ -129,7 +129,6 @@
                            FontSize="12"
                            Style="{DynamicResource MediumLabelStyle}"
                            VerticalOptions="Center" />
-                    
                 </StackLayout>
                 
                 <!-- Download attachment -->

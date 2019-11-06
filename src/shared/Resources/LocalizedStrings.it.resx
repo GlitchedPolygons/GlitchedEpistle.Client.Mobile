@@ -686,6 +686,9 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
     <value>File già esistente</value>
     <comment>File already exists</comment>
   </data>
+  <data name="LoadingMessagesLabel" xml:space="preserve">
+    <value>Caricamento messaggi...</value>
+  </data>
   <data name="OpenAttachmentDialogText" xml:space="preserve">
     <value>Vuoi aprire il file "{0}"?</value>
   </data>

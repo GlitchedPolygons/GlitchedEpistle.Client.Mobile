@@ -109,6 +109,22 @@
                 </StackLayout>
             </StackLayout>
 
+            <StackLayout Orientation="Horizontal"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         IsVisible="{Binding Loading}">
+                <Label Text="{i:Translate LoadingMessagesLabel}"
+                       Style="{DynamicResource MediumLabelStyle}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       FontSize="13" />
+                <ActivityIndicator IsRunning="true" 
+                                   WidthRequest="25" 
+                                   HeightRequest="25" 
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center" />
+            </StackLayout>
+
             <!-- Chatroom -->
             <ListView SelectionMode="None"
                       x:Name="MessagesListBox"

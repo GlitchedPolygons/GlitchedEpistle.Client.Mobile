@@ -122,6 +122,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 Set(ref name, value);
             }
         }
+        
+        private bool loading = true;
+        public bool Loading
+        {
+            get => loading;
+            set => Set(ref loading, value);
+        }
 
         private bool clipboardTickVisible = false;
         public bool ClipboardTickVisible
@@ -325,6 +332,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             var newMessages = Messages.ToList();
             newMessages.AddRange(DecryptMessages(fetchedMessages).OrderBy(m => m?.TimestampDateTimeUTC));
 
+            if (Loading)
+            {
+                Loading = false;
+            }
+            
             ExecUI(() =>
             {
                 Messages = new ObservableCollection<MessageViewModel>(newMessages);
