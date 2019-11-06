@@ -33,24 +33,16 @@
              xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              xmlns:views="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
     <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="175" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
+        
+        <StackLayout>
+            
             <!-- Header -->
-            <StackLayout Grid.Row="0"
-                         Grid.Column="0"
-                         Margin="0,0,0,0"
+            <StackLayout Margin="0,0,0,0"
                          Orientation="Vertical"
-                         HorizontalOptions="Center"
+                         HorizontalOptions="CenterAndExpand"
                          VerticalOptions="Start">
 
+                <!-- Convo Name/Title -->
                 <Label FontSize="24"
                        Margin="0,0,0,5"
                        VerticalOptions="Center"
@@ -63,7 +55,19 @@
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="CenterAndExpand">
-                    
+
+                    <!-- Exit Convo Button -->
+                    <Button WidthRequest="30"
+                            HeightRequest="30"
+                            FontSize="20"
+                            Margin="0,0,5,0"
+                            VerticalOptions="Start"
+                            HorizontalOptions="Start"
+                            x:Name="ExitButton"
+                            Text="&lt;"
+                            Clicked="ExitButton_OnClick" />
+
+                    <!-- Convo ID -->
                     <Label Text="{Binding Path=ActiveConvo.Id}"
                            FontSize="12"
                            HorizontalTextAlignment="Center"
@@ -72,7 +76,7 @@
                            VerticalOptions="Center"
                            FontAttributes="Italic" />
 
-                    <!-- Copy convo id button -->
+                    <!-- Copy Convo ID Button -->
                     <ff:CachedImage WidthRequest="18"
                                     HeightRequest="18"
                                     DownsampleToViewSize="True"
@@ -98,19 +102,15 @@
                             HeightRequest="30"
                             FontSize="20"
                             Margin="5,0,0,0"
-                            Style="{DynamicResource ScrollToBottomButton}"
                             VerticalOptions="Start"
                             HorizontalOptions="End"
-                            x:Name="ScrollToBottomButton"
-                            Text="⮛"
+                            Text="v"
                             Clicked="ScrollToBottomButton_OnClick" />
                 </StackLayout>
             </StackLayout>
 
             <!-- Chatroom -->
-            <ListView Grid.Row="1"
-                      Grid.Column="0"
-                      SelectionMode="None"
+            <ListView SelectionMode="None"
                       x:Name="MessagesListBox"
                       ItemsSource="{Binding Messages}"
                       Style="{DynamicResource MessagesListBox}">
@@ -124,9 +124,8 @@
             </ListView>
 
             <!-- TextBox + Send Buttons -->
-            <Entry Grid.Row="2"
-                   x:Name="TextBox"
-                   HeightRequest="150"
+            <Entry x:Name="TextBox"
+                   HeightRequest="100"
                    FontSize="14"
                    Margin="12.5"
                    MaxLength="8192"
@@ -135,6 +134,6 @@
                    Style="{DynamicResource EntryStyle}"
                    HorizontalOptions="Fill"
                    VerticalOptions="End" />
-        </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

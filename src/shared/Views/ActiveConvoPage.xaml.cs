@@ -49,5 +49,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             object last = MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
             MessagesListBox.ScrollTo(last, ScrollToPosition.End, true);
         }
+
+        private void ExitButton_OnClick(object sender, EventArgs e)
+        {
+            Application.Current?.MainPage?.Navigation?.PopModalAsync();
+        }
     }
 }

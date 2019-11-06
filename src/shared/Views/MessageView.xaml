@@ -82,11 +82,11 @@
                 <!--{Binding Timestamp}-->
                 <Label Margin="4,2"
                        FontSize="12.333"
-                       Text="{Binding Timestamp}" />
+                       Text="{Binding Timestamp}"
+                       Style="{DynamicResource MediumLabelStyle}"/>
 
                 <!-- Text -->
-                <Label x:Name="TextBox"
-                       FontSize="15"
+                <Label FontSize="15"
                        Margin="0"
                        Text="{Binding Text}"
                        Style="{DynamicResource MessageLabelTextBox}" />
