@@ -579,6 +579,9 @@ Be aware that by confirming the deletion, all participants are immediately denie
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Unterhaltung gelöscht</value>
   </data>
+  <data name="EnterYourMessageHere" xml:space="preserve">
+    <value>Gib deine Nachricht hier ein...</value>
+  </data>
   <data name="Expired" xml:space="preserve">
     <value> (ABGELAUFEN)</value>
   </data>

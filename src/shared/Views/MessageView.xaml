@@ -26,6 +26,7 @@
              x:Name="ConvoPage"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.MessageView"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
+             Margin="0,8,0,0"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
@@ -33,7 +34,7 @@
              xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
     <ContentView.Content>
 
-        <StackLayout>
+        <StackLayout Padding="16">
 
                 <!--{Binding SenderName}-->
                 <Label Text="{Binding SenderName}"
@@ -144,6 +145,21 @@
                         </Image.InputBindings>
                     </Image>
                     -->
+                
+                <StackLayout.Style>
+                    <Style TargetType="StackLayout">
+                        <Style.Triggers>
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding IsOwn}" Value="True">
+                                <Setter Property="HorizontalOptions" Value="End" />
+                                <Setter Property="BackgroundColor" Value="{DynamicResource MessageSpeechBubbleColorOwn}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="StackLayout" Binding="{Binding IsOwn}" Value="False">
+                                <Setter Property="HorizontalOptions" Value="Start" />
+                                <Setter Property="BackgroundColor" Value="{DynamicResource MessageSpeechBubbleColor}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackLayout.Style>
             </StackLayout>
         
         <!--

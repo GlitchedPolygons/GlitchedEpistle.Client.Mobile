@@ -572,6 +572,9 @@ Bedenke, dass bei bestätigter Löschung sämtliche Teilnehmer sofort den Zugang
   <data name="DeletedConvoSuccessfully" xml:space="preserve">
     <value>Ungerhautig glöscht</value>
   </data>
+  <data name="EnterYourMessageHere" xml:space="preserve">
+    <value>Gib dini Nachricht hye ii...</value>
+  </data>
   <data name="Expired" xml:space="preserve">
     <value> (ABGLÜFFE)</value>
   </data>

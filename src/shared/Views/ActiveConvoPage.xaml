@@ -132,6 +132,7 @@
                    Text="{Binding Text}"
                    IsEnabled="{Binding CanSend}"
                    Style="{DynamicResource EntryStyle}"
+                   Placeholder="{i:Translate EnterYourMessageHere}"
                    HorizontalOptions="Fill"
                    VerticalOptions="End" />
         </StackLayout>
