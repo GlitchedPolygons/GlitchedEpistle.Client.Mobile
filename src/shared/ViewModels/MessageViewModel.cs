@@ -208,16 +208,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     );
                 }
 
-                if ((await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage))[Permission.Storage] != PermissionStatus.Granted)
-                {
-                    alertService.AlertLong(localization["AbortedDueToStoragePermissionDeclined"]);
-                    return;
-                }
+                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
             }
 
             status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+            
             if (status != PermissionStatus.Granted)
             {
+                alertService.AlertLong(localization["AbortedDueToStoragePermissionDeclined"]);
                 return;
             }
 
