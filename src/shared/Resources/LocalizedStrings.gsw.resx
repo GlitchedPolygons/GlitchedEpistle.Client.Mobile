@@ -666,4 +666,10 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="StoragePermissionNeededForDownloadingAttachmentTitle" xml:space="preserve">
     <value>Fählendi Berächtigungeh</value>
   </data>
+  <data name="DownloadCompleteSuccessMessage" xml:space="preserve">
+    <value>Download erfougriich</value>
+  </data>
+  <data name="DownloadFailedErrorMessage" xml:space="preserve">
+    <value>Download fäugschlage</value>
+  </data>
 </root>

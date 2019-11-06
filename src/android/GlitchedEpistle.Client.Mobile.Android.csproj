@@ -71,6 +71,7 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.1.34" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Effects\AndroidLongPressedEffect.cs" />
@@ -79,6 +80,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Alerts\ToastAlert.cs" />
     <Compile Include="Services\Localization\AndroidLocalization.cs" />
+    <Compile Include="Services\Paths\AndroidDownloadPath.cs" />
+    <Compile Include="Services\Permissions\StoragePermission.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

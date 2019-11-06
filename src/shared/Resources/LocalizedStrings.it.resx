@@ -659,4 +659,10 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="StoragePermissionNeededForDownloadingAttachmentTitle" xml:space="preserve">
     <value>Permessi insufficienti</value>
   </data>
+  <data name="DownloadCompleteSuccessMessage" xml:space="preserve">
+    <value>Download riuscito</value>
+  </data>
+  <data name="DownloadFailedErrorMessage" xml:space="preserve">
+    <value>Download fallito</value>
+  </data>
 </root>

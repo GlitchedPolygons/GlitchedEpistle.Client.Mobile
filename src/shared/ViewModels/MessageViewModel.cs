@@ -26,6 +26,10 @@ using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Paths;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Permissions;
+using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
@@ -39,6 +43,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private readonly ILocalization localization = DependencyService.Get<ILocalization>();
         private readonly IAlertService alertService = DependencyService.Get<IAlertService>();
+        private readonly IDownloadPath downloadPath = DependencyService.Get<IDownloadPath>();
+        private readonly IStoragePermission storagePermission = DependencyService.Get<IStoragePermission>();
 
         // Injections:
         private readonly IMethodQ methodQ;
@@ -193,54 +199,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnDownloadAttachment(object commandParam)
         {
-            string ext = Path.GetExtension(FileName) ?? string.Empty;
-
-            PermissionStatus status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
-
-            if (status != PermissionStatus.Granted)
+            if (!await storagePermission.CheckPermission(localization["StoragePermissionNeededForDownloadingAttachmentTitle"], localization["StoragePermissionNeededForDownloadingAttachmentText"], localization["AbortedDueToStoragePermissionDeclined"]))
             {
-                if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Storage))
-                {
-                    await Application.Current.MainPage.DisplayAlert(
-                        title: localization["StoragePermissionNeededForDownloadingAttachmentTitle"],
-                        message: localization["StoragePermissionNeededForDownloadingAttachmentText"],
-                        cancel: "OK"
-                    );
-                }
-
-                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
-            }
-
-            status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
-            
-            if (status != PermissionStatus.Granted)
-            {
-                alertService.AlertLong(localization["AbortedDueToStoragePermissionDeclined"]);
                 return;
             }
 
-            /*
-            var dialog = new SaveFileDialog
+            string path = Path.Combine(await downloadPath.GetDownloadDirectoryPath(), FileName);
+            
+            try
             {
-                Title = "Download attachment",
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                FileName = FileName,
-                DefaultExt = ext,
-                AddExtension = true,
-                OverwritePrompt = true,
-                Filter = $"Epistle Message Attachment|*{ext}"
-            };
-
-            dialog.FileOk += (sender, e) =>
+                File.WriteAllBytes(path, FileBytes);
+                alertService.AlertShort(localization["DownloadCompleteSuccessMessage"]);
+                
+            }
+            catch (Exception e)
             {
-                if (sender is SaveFileDialog _dialog)
-                {
-                    File.WriteAllBytes(_dialog.FileName, FileBytes);
-                }
-            };
-
-            dialog.ShowDialog();
-            */
+                alertService.AlertShort(localization["DownloadFailedErrorMessage"]);
+            }
         }
 
         private async void OnLongPressedMessageText(object commandParam)

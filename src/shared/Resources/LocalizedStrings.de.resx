@@ -663,4 +663,10 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="StoragePermissionNeededForDownloadingAttachmentTitle" xml:space="preserve">
     <value>Fehlende Berechtigungen</value>
   </data>
+  <data name="DownloadCompleteSuccessMessage" xml:space="preserve">
+    <value>Download erfolgreich</value>
+  </data>
+  <data name="DownloadFailedErrorMessage" xml:space="preserve">
+    <value>Download fehlgeschlagen</value>
+  </data>
 </root>

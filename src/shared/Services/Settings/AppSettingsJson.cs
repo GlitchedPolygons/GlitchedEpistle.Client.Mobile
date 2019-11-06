@@ -18,13 +18,14 @@
 
 using System.IO;
 using System.Globalization;
-using Xamarin.Essentials;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
 {
+    using Paths = GlitchedPolygons.GlitchedEpistle.Client.Mobile.Constants.Paths;
+    
     /// <summary>
     /// Application-level settings that persist between user accounts.
     /// </summary>
