@@ -508,6 +508,9 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="PleaseEnterConvoPassword" xml:space="preserve">
     <value>P.f. inserisci qua sotto la password di partecipazione della conversazione.</value>
   </data>
+  <data name="AttachmentLabel" xml:space="preserve">
+    <value>Scarica allegato:</value>
+  </data>
   <data name="BannedUsersListLabel" xml:space="preserve">
     <value>Utenti bannati:</value>
   </data>
@@ -608,6 +611,12 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Convo abbandonata</value>
   </data>
+  <data name="LongPressedMessageTextDescription" xml:space="preserve">
+    <value>Vuoi copiare il contenuto (testo) del messaggio?</value>
+  </data>
+  <data name="LongPressedMessageTextTitle" xml:space="preserve">
+    <value>Messaggio</value>
+  </data>
   <data name="MakeAdminButton" xml:space="preserve">
     <value>Rendi amministratore</value>
   </data>
@@ -640,5 +649,14 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   </data>
   <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
     <value>Utente espulso</value>
+  </data>
+  <data name="AbortedDueToStoragePermissionDeclined" xml:space="preserve">
+    <value>Annullato per via di permessi insufficienti</value>
+  </data>
+  <data name="StoragePermissionNeededForDownloadingAttachmentText" xml:space="preserve">
+    <value>Glitched Epistle necessita del tuo permesso di accedere alla memoria del tuo dispositivo per poter scaricare l'allegato desiderato.</value>
+  </data>
+  <data name="StoragePermissionNeededForDownloadingAttachmentTitle" xml:space="preserve">
+    <value>Permessi insufficienti</value>
   </data>
 </root>

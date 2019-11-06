@@ -104,43 +104,44 @@
                 </Label>
 
                 <!-- Attachment -->
-                <!--
-                    <WrapPanel Orientation="Horizontal"
-                               Margin="5,4,0,-15"
-                               Visibility="{Binding AttachmentButtonVisibility}">
+                <StackLayout Orientation="Horizontal"
+                             IsVisible="{Binding HasAttachment}">
 
-                        <Label Content="Attachment:"
-                               Margin="0"
-                               Padding="0"
-                               VerticalAlignment="Center" />
+                    <Label Margin="0" 
+                           Text="{i:Translate AttachmentLabel}"
+                           FontSize="12"
+                           Style="{DynamicResource MediumLabelStyle}"
+                           VerticalOptions="Center" />
 
-                        <Label Content="{Binding FileSize}"
-                               Margin="0,0,3,0"
-                               VerticalAlignment="Center" />
+                    <Label Text="{Binding FileSize}"
+                           FontSize="12"
+                           Style="{DynamicResource MediumLabelStyle}"
+                           VerticalOptions="Center" />
+                    
+                </StackLayout>
+                
+                <Button Text="{Binding FileName}"
+                        Margin="0"
+                        FontSize="12.5"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center"
+                        IsVisible="{Binding HasAttachment}"
+                        Command="{Binding DownloadAttachmentCommand}" />
 
-                        <Button Content="{Binding FileName}"
-                                MaxWidth="420"
-                                FontWeight="Bold"
-                                HorizontalAlignment="Left"
-                                HorizontalContentAlignment="Stretch"
-                                ToolTip="Click here to download the attachment to your computer."
-                                Command="{Binding DownloadAttachmentCommand}" />
-                    </WrapPanel>
-                    -->
 
                 <!-- Image (only displayed when attachment is an image) -->
+                <ff:CachedImage WidthRequest="250"
+                                HorizontalOptions="Center"
+                                DownsampleToViewSize="True"
+                                IsEnabled="{Binding ImageVisibility}"
+                                IsVisible="{Binding ImageVisibility}"
+                                Source="{Binding Image}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ClickedOnImageAttachmentCommand}" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
+
                 <!--
-                    <Image Source="{Binding Image}"
-                           IsVisible="{Binding ImageVisibility}"
-                           Style="{DynamicResource ImageAttachmentStyle}"
-                           Margin="5,26,0,-12"
-                           x:Name="ImagePreview"
-                           HorizontalOptions="Start">
-                        <Image.InputBindings>
-                            <MouseBinding Gesture="LeftClick"
-                                          Command="{Binding ClickedOnImageAttachmentCommand}" />
-                        </Image.InputBindings>
-                    </Image>
                     <Image Cursor="Hand"
                            Visibility="{Binding GifVisibility}"
                            Style="{DynamicResource ImageAttachmentStyle}"

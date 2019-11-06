@@ -508,6 +508,9 @@ Andere Nutzer benötigen die Unterhaltungs-ID sowie Passwort um sich zu verbinde
   <data name="SubmitButton" xml:space="preserve">
     <value>Spichere</value>
   </data>
+  <data name="AttachmentLabel" xml:space="preserve">
+    <value>Aahang achelade:</value>
+  </data>
   <data name="BannedUsersListLabel" xml:space="preserve">
     <value>Verbannti nutzer:</value>
   </data>
@@ -608,6 +611,13 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Ungerhautig erfougriich verlaa</value>
   </data>
+  <data name="LongPressedMessageTextDescription" xml:space="preserve">
+    <value>Wotsch dr Tegscht inhaut vo dere Naachricht id Zwüscheablaag kopiere?</value>
+    <comment>Willst du den Textinhalt der Nachricht in die Zwischenablage kopieren?</comment>
+  </data>
+  <data name="LongPressedMessageTextTitle" xml:space="preserve">
+    <value>Textnachricht</value>
+  </data>
   <data name="MakeAdminButton" xml:space="preserve">
     <value>Zum Admin befördere</value>
   </data>
@@ -645,5 +655,15 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   </data>
   <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
     <value>Nutzer erfougriich usegschmisse</value>
+  </data>
+  <data name="AbortedDueToStoragePermissionDeclined" xml:space="preserve">
+    <value>Abbroche wäge abglehntem Spicherzuegriff</value>
+  </data>
+  <data name="StoragePermissionNeededForDownloadingAttachmentText" xml:space="preserve">
+    <value>Glitched Epistle benötigt Zuegriff uf e Spicher vo dim Gräät um dr gwäuhti Aahang achezlade.</value>
+    <comment>Glitched Epistle benötigt Zugriff auf den Speicher deines Geräts um den ausgewählten Anhang herunterzuladen.</comment>
+  </data>
+  <data name="StoragePermissionNeededForDownloadingAttachmentTitle" xml:space="preserve">
+    <value>Fählendi Berächtigungeh</value>
   </data>
 </root>

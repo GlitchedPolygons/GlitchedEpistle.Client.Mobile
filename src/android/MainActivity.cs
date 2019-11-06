@@ -22,6 +22,7 @@ using Android.Runtime;
 using Android.Content.PM;
 using Plugin.Fingerprint;
 using FFImageLoading.Forms.Platform;
+using Plugin.Permissions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 {
@@ -46,10 +47,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::ZXing.Net.Mobile.Forms.Android.Platform.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             CachedImageRenderer.InitImageViewHandler();
 
+            
             LoadApplication(new App());
 
             Window.SetStatusBarColor(global::Android.Graphics.Color.Argb(255, 0, 0, 0));
@@ -59,6 +62,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             global::ZXing.Net.Mobile.Android.PermissionsHandler.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 

@@ -26,6 +26,8 @@ using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
@@ -96,9 +98,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     {
                         Image = new CachedImage
                         {
-                            Aspect = Aspect.AspectFit, 
+                            Aspect = Aspect.AspectFit,
                             DownsampleToViewSize = true,
-                            Source = ImageSource.FromStream(FileBytesStream), 
+                            Source = ImageSource.FromStream(FileBytesStream),
                         };
                     }
                     catch (Exception)
@@ -109,6 +111,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         }
 
         private MemoryStream fileBytesStream;
+
         public MemoryStream FileBytesStream()
         {
             return fileBytesStream ?? (fileBytesStream = new MemoryStream(FileBytes ?? new byte[0]));
@@ -147,7 +150,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => audioAttachmentVolume;
             set => Set(ref audioAttachmentVolume, value < 0 ? 0 : value > 1 ? 1 : value);
         }
-        
+
         private float audioAttachmentPos = 0.0f;
         public float AudioAttachmentPos
         {
@@ -188,9 +191,35 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
-        private void OnDownloadAttachment(object commandParam)
+        private async void OnDownloadAttachment(object commandParam)
         {
             string ext = Path.GetExtension(FileName) ?? string.Empty;
+
+            PermissionStatus status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+
+            if (status != PermissionStatus.Granted)
+            {
+                if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Storage))
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        title: localization["StoragePermissionNeededForDownloadingAttachmentTitle"],
+                        message: localization["StoragePermissionNeededForDownloadingAttachmentText"],
+                        cancel: "OK"
+                    );
+                }
+
+                if ((await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage))[Permission.Storage] != PermissionStatus.Granted)
+                {
+                    alertService.AlertLong(localization["AbortedDueToStoragePermissionDeclined"]);
+                    return;
+                }
+            }
+
+            status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+            if (status != PermissionStatus.Granted)
+            {
+                return;
+            }
 
             /*
             var dialog = new SaveFileDialog
@@ -224,16 +253,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 accept: localization["Copy"],
                 cancel: localization["CancelButton"]
             );
-            
+
             if (!copyConfirmed)
             {
                 return;
             }
-            
+
             await Clipboard.SetTextAsync(Text);
             alertService.AlertShort(localization["Copied"]);
         }
-        
+
         private void OnClickedImagePreview(object commandParam)
         {
             //var viewModel = new ImageViewerViewModel {ImageBytes = FileBytes};

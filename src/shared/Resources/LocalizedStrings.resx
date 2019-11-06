@@ -492,6 +492,9 @@ Other users need the convo's unique id and its password in order to connect to i
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="AttachmentLabel" xml:space="preserve">
+    <value>Download attachment: </value>
+  </data>
   <data name="BannedUsersListLabel" xml:space="preserve">
     <value>Banned users:</value>
   </data>
@@ -585,6 +588,12 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="LeftConvoSuccessfully" xml:space="preserve">
     <value>Left convo successfully</value>
   </data>
+  <data name="LongPressedMessageTextDescription" xml:space="preserve">
+    <value>Do you want to copy the message's text to the clipboard?</value>
+  </data>
+  <data name="LongPressedMessageTextTitle" xml:space="preserve">
+    <value>Message text</value>
+  </data>
   <data name="MakeAdminButton" xml:space="preserve">
     <value>Make admin</value>
   </data>
@@ -619,5 +628,14 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   </data>
   <data name="UserKickedOutFromConvoSuccessfully" xml:space="preserve">
     <value>User was kicked out</value>
+  </data>
+  <data name="AbortedDueToStoragePermissionDeclined" xml:space="preserve">
+    <value>Cancelled due to rejected storage permission</value>
+  </data>
+  <data name="StoragePermissionNeededForDownloadingAttachmentText" xml:space="preserve">
+    <value>Glitched Epistle needs access to your device's storage in order to fulfill your request of downloading a message's attachment.</value>
+  </data>
+  <data name="StoragePermissionNeededForDownloadingAttachmentTitle" xml:space="preserve">
+    <value>Insufficient permissions</value>
   </data>
 </root>
