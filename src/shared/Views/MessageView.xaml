@@ -130,12 +130,12 @@
 
 
                 <!-- Image (only displayed when attachment is an image) -->
-                <ff:CachedImage WidthRequest="250"
-                                HorizontalOptions="Center"
+                <ff:CachedImage Aspect="AspectFit"
+                                HorizontalOptions="FillAndExpand"
                                 DownsampleToViewSize="True"
                                 IsEnabled="{Binding ImageVisibility}"
                                 IsVisible="{Binding ImageVisibility}"
-                                Source="{Binding Image}">
+                                Source="{Binding ImageSource}">
                     <ff:CachedImage.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ClickedOnImageAttachmentCommand}" />
                     </ff:CachedImage.GestureRecognizers>

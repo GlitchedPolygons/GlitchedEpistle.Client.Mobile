@@ -102,11 +102,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     try
                     {
+                        ImageSource = ImageSource.FromStream(FileBytesStream);
                         Image = new CachedImage
                         {
                             Aspect = Aspect.AspectFit,
                             DownsampleToViewSize = true,
-                            Source = ImageSource.FromStream(FileBytesStream),
+                            Source = ImageSource,
                         };
                     }
                     catch (Exception)
@@ -133,6 +134,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public string FileSize => $"({FileBytes.GetFileSizeString()})";
 
         public CachedImage Image { get; set; }
+        public ImageSource ImageSource { get; set; }
 
         private string timestamp = string.Empty;
         public string Timestamp
@@ -216,7 +218,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            if (!await Application.Current.MainPage.DisplayAlert(localization["DownloadAttachmentDialogTitle"], string.Format(localization["DownloadAttachmentDialogText"], FileSize, path), localization["Yes"], localization["No"]))
+            if (!await Application.Current.MainPage.DisplayAlert(localization["DownloadAttachmentDialogTitle"], string.Format(localization["DownloadAttachmentDialogText"], FileSize.Replace("(", string.Empty).Replace(")", string.Empty), path), localization["Yes"], localization["No"]))
             {
                 return;
             }
@@ -280,7 +282,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 OnDownloadAttachment(null);
                 return;
             }
-            
+
             // TODO: open file here
         }
 
@@ -290,7 +292,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
-            
+
             // TODO: play voice message here
         }
 
