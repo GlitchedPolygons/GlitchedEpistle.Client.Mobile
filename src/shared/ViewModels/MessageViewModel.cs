@@ -41,6 +41,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
     {
         #region Constants
 
+        private readonly IFileOpener fileOpener = DependencyService.Get<IFileOpener>();
         private readonly ILocalization localization = DependencyService.Get<ILocalization>();
         private readonly IAlertService alertService = DependencyService.Get<IAlertService>();
         private readonly IDownloadPath downloadPath = DependencyService.Get<IDownloadPath>();
@@ -238,10 +239,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            if (await Application.Current.MainPage.DisplayAlert(localization["OpenAttachmentDialogTitle"], string.Format(localization["OpenAttachmentDialogText"], Path.GetFileName(FileName)), localization["Yes"], localization["No"]))
-            {
-                // TODO: open file here
-            }
+            OpenAttachment(path);
         }
 
         private async void OnLongPressedMessageText(object commandParam)
@@ -282,7 +280,24 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            // TODO: open file here
+            OpenAttachment(path);
+        }
+        
+        private async void OpenAttachment(string filePath)
+        {
+            if (filePath.NullOrEmpty() || !File.Exists(filePath) || !await Application.Current.MainPage.DisplayAlert(localization["OpenAttachmentDialogTitle"], string.Format(localization["OpenAttachmentDialogText"], Path.GetFileName(FileName)), localization["Yes"], localization["No"]))
+            {
+                return;
+            }
+
+            try
+            {
+                fileOpener.OpenFile(filePath);
+            }
+            catch (Exception e)
+            {
+                alertService.AlertShort(localization["OpenAttachmentFailedErrorMessage"]);
+            }
         }
 
         private void OnClickedAudioAttachment(object commandParam)

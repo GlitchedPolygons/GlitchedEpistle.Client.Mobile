@@ -81,6 +81,7 @@
     <Compile Include="Services\Alerts\ToastAlert.cs" />
     <Compile Include="Services\Localization\AndroidLocalization.cs" />
     <Compile Include="Services\Paths\AndroidDownloadPath.cs" />
+    <Compile Include="Services\Paths\AndroidFileOpener.cs" />
     <Compile Include="Services\Permissions\StoragePermission.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -699,4 +699,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="OpenAttachmentDialogTitle" xml:space="preserve">
     <value>Datei öffnen</value>
   </data>
+  <data name="OpenAttachmentFailedErrorMessage" xml:space="preserve">
+    <value>Fehler: konnte Anhang nicht öffnen...</value>
+  </data>
 </root>

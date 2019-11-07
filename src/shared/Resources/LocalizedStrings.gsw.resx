@@ -702,4 +702,7 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="OpenAttachmentDialogTitle" xml:space="preserve">
     <value>Datey öffne</value>
   </data>
+  <data name="OpenAttachmentFailedErrorMessage" xml:space="preserve">
+    <value>Fähler bim öffne vom Aahang...</value>
+  </data>
 </root>

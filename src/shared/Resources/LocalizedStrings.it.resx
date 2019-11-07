@@ -695,4 +695,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="OpenAttachmentDialogTitle" xml:space="preserve">
     <value>Apri file</value>
   </data>
+  <data name="OpenAttachmentFailedErrorMessage" xml:space="preserve">
+    <value>Errore: impossibile aprire l'allegato...</value>
+  </data>
 </root>
