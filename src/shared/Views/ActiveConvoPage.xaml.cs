@@ -17,6 +17,7 @@
 */
 
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -109,6 +110,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             var _=TintHeaderButtonColor(ExitButton);
             Application.Current?.MainPage?.Navigation?.PopModalAsync();
+        }
+
+        private void SendTextButton_OnClick(object sender, EventArgs e)
+        {
+            var _=TintHeaderButtonColor(SendTextButton);
+            ScrollToBottomButton_OnClick(null, null);
+        }
+
+        private void EditConvoButton_OnClick(object sender, EventArgs e)
+        {
+            var _=TintHeaderButtonColor(EditConvoButton);
         }
     }
 }

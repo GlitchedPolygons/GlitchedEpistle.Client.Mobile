@@ -39,17 +39,35 @@
             <!-- Header -->
             <StackLayout Margin="0,0,0,0"
                          Orientation="Vertical"
-                         HorizontalOptions="CenterAndExpand"
+                         HorizontalOptions="FillAndExpand"
                          VerticalOptions="Start">
 
-                <!-- Convo Name/Title -->
-                <Label FontSize="24"
-                       Margin="0,0,0,5"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"
-                       HorizontalTextAlignment="Center"
-                       Text="{Binding Path=Name}"
-                       Style="{DynamicResource TitleLabelStyle}" />
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand"
+                             Margin="0,0,0,5">
+
+                    <!-- Convo Name/Title -->
+                    <Label FontSize="24"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"
+                           Text="{Binding Path=Name}"
+                           Style="{DynamicResource TitleLabelStyle}" />
+
+                    <ff:CachedImage Aspect="AspectFit"
+                                    WidthRequest="35"
+                                    HeightRequest="35"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    DownsampleToViewSize="True"
+                                    x:Name="EditConvoButton"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="EditConvoButton_OnClick" Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference ConvoPage}}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+                </StackLayout>
 
                 <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
@@ -57,8 +75,8 @@
                              HorizontalOptions="CenterAndExpand">
 
                     <!-- Exit Convo Button -->
-                    <ff:CachedImage WidthRequest="32"
-                                    HeightRequest="32"
+                    <ff:CachedImage WidthRequest="35"
+                                    HeightRequest="35"
                                     VerticalOptions="Start"
                                     HorizontalOptions="Start"
                                     Margin="0,0,5,0"
@@ -101,8 +119,8 @@
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
 
                     <!-- Scroll-to-bottom Button -->
-                    <ff:CachedImage WidthRequest="32"
-                                    HeightRequest="32"
+                    <ff:CachedImage WidthRequest="35"
+                                    HeightRequest="35"
                                     VerticalOptions="Start"
                                     HorizontalOptions="End"
                                     Margin="5,0,0,0"
@@ -113,7 +131,7 @@
                             <TapGestureRecognizer Tapped="ScrollToBottomButton_OnClick" />
                         </ff:CachedImage.GestureRecognizers>
                     </ff:CachedImage>
-                    
+
                 </StackLayout>
 
             </StackLayout>
@@ -154,17 +172,33 @@
             </ListView>
 
             <!-- TextBox + Send Buttons -->
-            <Editor x:Name="TextBox"
-                    MinimumHeightRequest="32"
-                    FontSize="14"
-                    Margin="12.5"
-                    MaxLength="8192"
-                    Text="{Binding Text}"
-                    IsEnabled="{Binding CanSend}"
-                    Style="{DynamicResource EditorStyle}"
-                    Placeholder="{i:Translate EnterYourMessageHere}"
-                    HorizontalOptions="Fill"
-                    VerticalOptions="End" />
+            <StackLayout Orientation="Horizontal">
+
+                <Editor x:Name="TextBox"
+                        MinimumHeightRequest="32"
+                        FontSize="14"
+                        Margin="12.5"
+                        MaxLength="8192"
+                        Text="{Binding Text}"
+                        IsEnabled="{Binding CanSend}"
+                        Style="{DynamicResource EditorStyle}"
+                        Placeholder="{i:Translate EnterYourMessageHere}"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="End" />
+
+                <ff:CachedImage WidthRequest="50"
+                                HeightRequest="50"
+                                Margin="5"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                x:Name="SendTextButton"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.send-icon-white.png}"
+                                Style="{DynamicResource HeaderButtonStyle}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SendTextButton_OnClick" Command="{Binding SendTextCommand}" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

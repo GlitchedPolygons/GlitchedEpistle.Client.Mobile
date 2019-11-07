@@ -37,6 +37,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
@@ -53,7 +54,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
     {
         #region Constants
 
-        private const int MSG_COLLECTION_SIZE = 20;
+        private const int MSG_COLLECTION_SIZE = 10;
         private const string MSG_TIMESTAMP_FORMAT = "dd.MM.yyyy HH:mm";
         private static readonly TimeSpan METADATA_PULL_FREQUENCY = TimeSpan.FromMilliseconds(30000);
 
@@ -78,6 +79,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #region Commands
 
+        public ICommand SendTextCommand { get; }
+        public ICommand EditConvoCommand { get; }
         public ICommand CopyConvoIdToClipboardCommand { get; }
 
         #endregion
@@ -122,7 +125,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 Set(ref name, value);
             }
         }
-        
+
         private bool loading = true;
         public bool Loading
         {
@@ -183,8 +186,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.viewModelFactory = viewModelFactory;
             this.convoPasswordProvider = convoPasswordProvider;
 
+            SendTextCommand = new DelegateCommand(OnSendText);
+            EditConvoCommand = new DelegateCommand(OnEditConvo);
             CopyConvoIdToClipboardCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
-            
+
             eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(OnChangedConvoMetadata);
         }
 
@@ -202,7 +207,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             StopAutomaticPulling();
         }
 
-        public void OnAppearing()
+        public async void OnAppearing()
         {
             if (ActiveConvo is null || ActiveConvo.Id.NullOrEmpty())
             {
@@ -213,8 +218,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             StopAutomaticPulling();
 
             Name = ActiveConvo.Name;
-            Messages = new ObservableCollection<MessageViewModel>();
-            
+
+            if (Messages.NullOrEmpty())
+            {
+                Messages = new ObservableCollection<MessageViewModel>(DecryptMessages(await convoService.GetLastConvoMessages(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2, MSG_COLLECTION_SIZE)).Distinct().OrderBy(_=>_.TimestampDateTimeUTC));
+                if (Loading)
+                {
+                    Loading = false;
+                }
+            }
+
             StartAutomaticPulling();
             CanSend = true;
 
@@ -240,12 +253,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             StopAutomaticPulling();
 
             long tailId = 0;
-            
+
             if (Messages.NotNullNotEmpty())
             {
                 long.TryParse(Messages?.Last()?.Id ?? "0", out tailId);
             }
-            
+
             autoFetch = messageFetcher.StartAutoFetchingMessages(
                 tailId: tailId,
                 callback: OnFetchedNewMessages,
@@ -264,7 +277,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
             }, metadataUpdater.Token);
         }
-        
+
+        private void OnEditConvo(object obj)
+        {
+            var view = new ConvoMetadataPage();
+            var viewModel = viewModelFactory.Create<ConvoMetadataViewModel>();
+            viewModel.Convo = ActiveConvo;
+            view.BindingContext = viewModel;
+
+            Application.Current.MainPage.Navigation.PushModalAsync(view);
+        }
+
         private void OnSendText(object commandParam)
         {
             if (Text.NullOrEmpty())
@@ -272,19 +295,27 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
+            CanSend = false;
+
             Task.Run(async () =>
             {
-                if (!await messageSender.PostText(ActiveConvo, Text))
+                if (await messageSender.PostText(ActiveConvo, Text))
+                {
+                    Text = null;
+                }
+                else
                 {
                     ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
                 }
+
+                CanSend = true;
             });
         }
-        
+
         public void OnSendFile(object commandParam)
         {
             string filePath = ""; // TODO: open file picker dialog here!
-            
+
             if (filePath.NullOrEmpty())
             {
                 return;
@@ -307,14 +338,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
             });
         }
-        
+
         private void OnChangedConvoMetadata(string convoId)
         {
             if (ActiveConvo.Id != convoId)
             {
                 return;
             }
-            
+
             Name = ActiveConvo?.Name ?? "Convo";
         }
 
@@ -333,16 +364,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             // Decrypt and add the retrieved messages to the chatroom UI.
             var newMessages = Messages.ToList();
-            newMessages.AddRange(DecryptMessages(fetchedMessages).OrderBy(m => m?.TimestampDateTimeUTC));
+            newMessages.AddRange(DecryptMessages(fetchedMessages.Distinct()).OrderBy(m => m?.TimestampDateTimeUTC));
 
             if (Loading)
             {
                 Loading = false;
             }
-            
+
             ExecUI(() =>
             {
-                Messages = new ObservableCollection<MessageViewModel>(newMessages);
+                Messages = new ObservableCollection<MessageViewModel>(newMessages.Distinct());
 
                 if (pageIndex == 0)
                 {

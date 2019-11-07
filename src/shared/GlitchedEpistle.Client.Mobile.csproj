@@ -81,6 +81,8 @@
     <EmbeddedResource Include="Resources\Images\info-icon-white.png" />
     <None Remove="Resources\Images\leave-convo-icon-white.png" />
     <EmbeddedResource Include="Resources\Images\leave-convo-icon-white.png" />
+    <None Remove="Resources\Images\send-icon-white.png" />
+    <EmbeddedResource Include="Resources\Images\send-icon-white.png" />
   </ItemGroup>
   
   <ItemGroup>
