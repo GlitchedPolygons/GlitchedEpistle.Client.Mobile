@@ -45,6 +45,8 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 using Prism.Events;
 using Newtonsoft.Json.Linq;
+using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
@@ -312,22 +314,22 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
 
-        public void OnSendFile(object commandParam)
+        public async void OnSendFile(object commandParam)
         {
-            string filePath = ""; // TODO: open file picker dialog here!
-
-            if (filePath.NullOrEmpty())
+            FileData pickerResult = await CrossFilePicker.Current.PickFile();
+            
+            if (pickerResult is null || pickerResult.FilePath.NullOrEmpty())
             {
                 return;
             }
 
-            Task.Run(async () =>
+            var _=Task.Run(async () =>
             {
-                byte[] fileBytes = File.ReadAllBytes(filePath);
+                byte[] fileBytes = pickerResult.DataArray;
 
                 if (fileBytes.LongLength < MessageSender.MAX_FILE_SIZE_BYTES)
                 {
-                    if (!await messageSender.PostFile(ActiveConvo, Path.GetFileName(filePath), fileBytes))
+                    if (!await messageSender.PostFile(ActiveConvo, pickerResult.FileName, fileBytes))
                     {
                         ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
                     }
