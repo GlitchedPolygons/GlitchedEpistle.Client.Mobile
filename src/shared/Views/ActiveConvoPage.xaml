@@ -182,6 +182,7 @@
                         Text="{Binding Text}"
                         IsEnabled="{Binding CanSend}"
                         Style="{DynamicResource EditorStyle}"
+                        TextChanged="TextBox_OnTextChanged"
                         Placeholder="{i:Translate EnterYourMessageHere}"
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="End" />
@@ -192,10 +193,27 @@
                                 HorizontalOptions="End"
                                 VerticalOptions="Center"
                                 x:Name="SendTextButton"
+                                IsVisible="False"
+                                IsEnabled="False"
                                 Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.send-icon-white.png}"
                                 Style="{DynamicResource HeaderButtonStyle}">
                     <ff:CachedImage.GestureRecognizers>
                         <TapGestureRecognizer Tapped="SendTextButton_OnClick" Command="{Binding SendTextCommand}" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
+                
+                <ff:CachedImage WidthRequest="50"
+                                HeightRequest="50"
+                                Margin="5"
+                                HorizontalOptions="End"
+                                VerticalOptions="Center"
+                                x:Name="SendAudioButton"
+                                IsVisible="True"
+                                IsEnabled="True"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.mic-icon-white.png}"
+                                Style="{DynamicResource HeaderButtonStyle}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SendAudioButton_OnClick" Command="{Binding SendAudioCommand}" />
                     </ff:CachedImage.GestureRecognizers>
                 </ff:CachedImage>
             </StackLayout>

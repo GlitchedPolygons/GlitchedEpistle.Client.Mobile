@@ -82,6 +82,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region Commands
 
         public ICommand SendTextCommand { get; }
+        public ICommand SendAudioCommand { get; }
         public ICommand SendFileCommand { get; }
         public ICommand EditConvoCommand { get; }
         public ICommand CopyConvoIdToClipboardCommand { get; }
@@ -191,6 +192,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             SendTextCommand = new DelegateCommand(OnSendText);
             SendFileCommand = new DelegateCommand(OnSendFile);
+            SendAudioCommand = new DelegateCommand(OnSendAudio);
             EditConvoCommand = new DelegateCommand(OnEditConvo);
             CopyConvoIdToClipboardCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
 
@@ -315,8 +317,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 CanSend = true;
             });
         }
+        
+        private void OnSendAudio(object commandParam)
+        {
+            throw new NotImplementedException();
+        }
 
-        public async void OnSendFile(object commandParam)
+        private async void OnSendFile(object commandParam)
         {
             FileData pickerResult = await CrossFilePicker.Current.PickFile();
             

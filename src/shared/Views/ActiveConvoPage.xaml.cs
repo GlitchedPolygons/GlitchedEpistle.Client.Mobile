@@ -24,6 +24,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
+using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
@@ -118,9 +119,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             ScrollToBottomButton_OnClick(null, null);
         }
 
+        private void SendAudioButton_OnClick(object sender, EventArgs e)
+        {
+            var _=TintHeaderButtonColor(SendAudioButton);
+            ScrollToBottomButton_OnClick(null, null);
+        }
+        
         private void EditConvoButton_OnClick(object sender, EventArgs e)
         {
             var _=TintHeaderButtonColor(EditConvoButton);
+        }
+
+        private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            SendTextButton.IsEnabled = SendTextButton.IsVisible = e.NewTextValue.NotNullNotEmpty();
+            SendAudioButton.IsEnabled = SendAudioButton.IsVisible = e.NewTextValue.NullOrEmpty();
         }
     }
 }
