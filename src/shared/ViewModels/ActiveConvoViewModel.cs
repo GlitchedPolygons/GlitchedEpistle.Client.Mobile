@@ -82,6 +82,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region Commands
 
         public ICommand SendTextCommand { get; }
+        public ICommand SendFileCommand { get; }
         public ICommand EditConvoCommand { get; }
         public ICommand CopyConvoIdToClipboardCommand { get; }
 
@@ -189,6 +190,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.convoPasswordProvider = convoPasswordProvider;
 
             SendTextCommand = new DelegateCommand(OnSendText);
+            SendFileCommand = new DelegateCommand(OnSendFile);
             EditConvoCommand = new DelegateCommand(OnEditConvo);
             CopyConvoIdToClipboardCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
 
