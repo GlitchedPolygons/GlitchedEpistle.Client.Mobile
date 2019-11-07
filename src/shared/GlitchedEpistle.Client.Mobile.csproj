@@ -83,6 +83,10 @@
     <EmbeddedResource Include="Resources\Images\leave-convo-icon-white.png" />
     <None Remove="Resources\Images\send-icon-white.png" />
     <EmbeddedResource Include="Resources\Images\send-icon-white.png" />
+    <None Remove="Resources\Images\attachment-icon-white.png" />
+    <EmbeddedResource Include="Resources\Images\attachment-icon-white.png" />
+    <None Remove="Resources\Images\mic-icon-white.png" />
+    <EmbeddedResource Include="Resources\Images\mic-icon-white.png" />
   </ItemGroup>
   
   <ItemGroup>
