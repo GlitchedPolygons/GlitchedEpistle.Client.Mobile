@@ -217,6 +217,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             
             StartAutomaticPulling();
             CanSend = true;
+
+            methodQ.Schedule(() => Loading = false, DateTime.UtcNow.AddSeconds(4.20));
         }
 
         public void OnDisappearing()
@@ -238,6 +240,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             StopAutomaticPulling();
 
             long tailId = 0;
+            
             if (Messages.NotNullNotEmpty())
             {
                 long.TryParse(Messages?.Last()?.Id ?? "0", out tailId);

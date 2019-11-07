@@ -79,6 +79,8 @@
     <EmbeddedResource Include="Resources\Images\settings-icon-white-borderless.png" />
     <None Remove="Resources\Images\info-icon-white.png" />
     <EmbeddedResource Include="Resources\Images\info-icon-white.png" />
+    <None Remove="Resources\Images\leave-convo-icon-white.png" />
+    <EmbeddedResource Include="Resources\Images\leave-convo-icon-white.png" />
   </ItemGroup>
   
   <ItemGroup>

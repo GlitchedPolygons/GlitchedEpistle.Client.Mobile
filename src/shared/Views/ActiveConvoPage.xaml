@@ -57,15 +57,18 @@
                              HorizontalOptions="CenterAndExpand">
 
                     <!-- Exit Convo Button -->
-                    <Button WidthRequest="30"
-                            HeightRequest="30"
-                            FontSize="20"
-                            Margin="0,0,5,0"
-                            VerticalOptions="Start"
-                            HorizontalOptions="Start"
-                            x:Name="ExitButton"
-                            Text="&lt;"
-                            Clicked="ExitButton_OnClick" />
+                    <ff:CachedImage WidthRequest="32"
+                                    HeightRequest="32"
+                                    VerticalOptions="Start"
+                                    HorizontalOptions="Start"
+                                    Margin="0,0,5,0"
+                                    x:Name="ExitButton"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.leave-convo-icon-white.png}"
+                                    Style="{DynamicResource HeaderButtonStyle}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ExitButton_OnClick" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
 
                     <!-- Convo ID -->
                     <Label Text="{Binding Path=ActiveConvo.Id}"
@@ -98,29 +101,37 @@
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
 
                     <!-- Scroll-to-bottom Button -->
-                    <Button WidthRequest="30"
-                            HeightRequest="30"
-                            FontSize="20"
-                            Margin="5,0,0,0"
-                            VerticalOptions="Start"
-                            HorizontalOptions="End"
-                            Text="v"
-                            Clicked="ScrollToBottomButton_OnClick" />
+                    <ff:CachedImage WidthRequest="32"
+                                    HeightRequest="32"
+                                    VerticalOptions="Start"
+                                    HorizontalOptions="End"
+                                    Margin="5,0,0,0"
+                                    x:Name="ScrollToBottomButton"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.scroll-to-bottom-icon-white.png}"
+                                    Style="{DynamicResource HeaderButtonStyle}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ScrollToBottomButton_OnClick" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+                    
                 </StackLayout>
+
             </StackLayout>
 
             <StackLayout Orientation="Horizontal"
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
                          IsVisible="{Binding Loading}">
+
                 <Label Text="{i:Translate LoadingMessagesLabel}"
                        Style="{DynamicResource MediumLabelStyle}"
                        VerticalOptions="Center"
                        HorizontalOptions="Center"
                        FontSize="13" />
-                <ActivityIndicator IsRunning="true" 
-                                   WidthRequest="25" 
-                                   HeightRequest="25" 
+
+                <ActivityIndicator IsRunning="true"
+                                   WidthRequest="25"
+                                   HeightRequest="25"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
             </StackLayout>
@@ -131,6 +142,7 @@
                       ItemsSource="{Binding Messages}"
                       HasUnevenRows="true"
                       Margin="8,0,8,0"
+                      CachingStrategy="RetainElement"
                       Style="{DynamicResource MessagesListBox}">
                 <ListView.ItemTemplate>
                     <DataTemplate>

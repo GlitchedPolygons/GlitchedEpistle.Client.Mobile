@@ -102,13 +102,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     try
                     {
+                        ImageSource = null;
                         ImageSource = ImageSource.FromStream(FileBytesStream);
-                        Image = new CachedImage
-                        {
-                            Aspect = Aspect.AspectFit,
-                            DownsampleToViewSize = true,
-                            Source = ImageSource,
-                        };
                     }
                     catch (Exception)
                     {
@@ -133,8 +128,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public string FileSize => $"({FileBytes.GetFileSizeString()})";
 
-        public CachedImage Image { get; set; }
-        public ImageSource ImageSource { get; set; }
+        private ImageSource imageSource;
+        public ImageSource ImageSource
+        {
+            get => imageSource;
+            set => Set(ref imageSource, value);
+        }
 
         private string timestamp = string.Empty;
         public string Timestamp

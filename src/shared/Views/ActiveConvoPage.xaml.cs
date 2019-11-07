@@ -18,8 +18,11 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FFImageLoading.Forms;
+using FFImageLoading.Transformations;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
@@ -27,9 +30,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ActiveConvoPage : ContentPage
     {
+        private TintTransformation idle, pressed;
+
         public ActiveConvoPage()
         {
             InitializeComponent();
+            RefreshTintTransformations();
         }
 
         protected override void OnAppearing()
@@ -37,22 +43,71 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             base.OnAppearing();
             (BindingContext as IOnAppearingListener)?.OnAppearing();
             ScrollToBottomButton_OnClick(null, null);
+            ResetAllHeaderButtonColors();
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             (BindingContext as IOnDisappearingListener)?.OnDisappearing();
+            ResetAllHeaderButtonColors();
+        }
+
+        private void RefreshTintTransformations()
+        {
+            Application.Current.Resources.TryGetValue("HeaderButtonIdleColorHex", out var idleColorHex);
+            Application.Current.Resources.TryGetValue("HeaderButtonPressedColorHex", out var pressedColorHex);
+
+            idle = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") {EnableSolidColor = true};
+            pressed = new TintTransformation(pressedColorHex?.ToString() ?? "#00b4dd") {EnableSolidColor = true};
+        }
+
+        private void ResetAllHeaderButtonColors()
+        {
+            if (ExitButton is null || ScrollToBottomButton is null)
+            {
+                return;
+            }
+
+            RefreshTintTransformations();
+
+            ResetHeaderButtonColor(ExitButton);
+            ResetHeaderButtonColor(ScrollToBottomButton);
+        }
+
+        private void ResetHeaderButtonColor(CachedImage cachedImage)
+        {
+            cachedImage?.Transformations.Clear();
+            cachedImage?.Transformations.Add(idle);
+            cachedImage?.ReloadImage();
+        }
+        
+        private async Task TintHeaderButtonColor(CachedImage cachedImage)
+        {
+            if (cachedImage is null)
+            {
+                return;
+            }
+
+            cachedImage.Transformations.Clear();
+            cachedImage.Transformations.Add(pressed);
+            cachedImage.ReloadImage();
+
+            await Task.Delay(250);
+            
+            ResetHeaderButtonColor(cachedImage);
         }
 
         private void ScrollToBottomButton_OnClick(object sender, EventArgs e)
         {
+            var _=TintHeaderButtonColor(ScrollToBottomButton);
             object last = MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
             MessagesListBox.ScrollTo(last, ScrollToPosition.End, true);
         }
 
         private void ExitButton_OnClick(object sender, EventArgs e)
         {
+            var _=TintHeaderButtonColor(ExitButton);
             Application.Current?.MainPage?.Navigation?.PopModalAsync();
         }
     }

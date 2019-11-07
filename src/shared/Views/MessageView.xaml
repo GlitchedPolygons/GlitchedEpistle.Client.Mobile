@@ -105,8 +105,8 @@
                 
                 <!-- Image (only displayed when attachment is an image) -->
                 <ff:CachedImage Aspect="AspectFit"
-                                HorizontalOptions="FillAndExpand"
                                 DownsampleToViewSize="True"
+                                HorizontalOptions="FillAndExpand"
                                 IsEnabled="{Binding ImageVisibility}"
                                 IsVisible="{Binding ImageVisibility}"
                                 Source="{Binding ImageSource}">
@@ -114,6 +114,8 @@
                         <TapGestureRecognizer Command="{Binding ClickedOnImageAttachmentCommand}" />
                     </ff:CachedImage.GestureRecognizers>
                 </ff:CachedImage>
+                
+                <!-- TODO: Audio message here -->
                 
                 <!-- Attachment -->
                 <StackLayout Orientation="Horizontal"
