@@ -332,6 +332,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
+            if (!await Application.Current.MainPage.DisplayAlert(localization["ConfirmAttachmentUploadDialogTitle"], string.Format(localization["ConfirmAttachmentUploadDialogText"], pickerResult.FileName), localization["Yes"], localization["No"]))
+            {
+                return;
+            }
+            
+            // TODO: display a "sending" activity indicator of some sort here
+
             var _=Task.Run(async () =>
             {
                 byte[] fileBytes = pickerResult.DataArray;

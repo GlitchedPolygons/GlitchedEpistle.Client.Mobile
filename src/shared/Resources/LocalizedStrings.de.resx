@@ -702,4 +702,11 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="OpenAttachmentFailedErrorMessage" xml:space="preserve">
     <value>Fehler: konnte Anhang nicht öffnen...</value>
   </data>
+  <data name="ConfirmAttachmentUploadDialogText" xml:space="preserve">
+    <value>Bist du sicher, dass du die Datei "{0}" an alle Unterhaltungsteilnehmer senden möchtest?</value>
+    <comment>Are you sure that you want to upload the file "{0}" to the convo?</comment>
+  </data>
+  <data name="ConfirmAttachmentUploadDialogTitle" xml:space="preserve">
+    <value>Upload bestätigen</value>
+  </data>
 </root>

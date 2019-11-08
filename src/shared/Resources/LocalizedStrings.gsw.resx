@@ -705,4 +705,11 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="OpenAttachmentFailedErrorMessage" xml:space="preserve">
     <value>Fähler bim öffne vom Aahang...</value>
   </data>
+  <data name="ConfirmAttachmentUploadDialogText" xml:space="preserve">
+    <value>Bisch sicher, dass de d' Datey "{0}" a aui Ungerhautigs-Teylnähmer schicke wosch?</value>
+    <comment>Are you sure that you want to upload the file "{0}" to the convo?</comment>
+  </data>
+  <data name="ConfirmAttachmentUploadDialogTitle" xml:space="preserve">
+    <value>Upload bestätigeh</value>
+  </data>
 </root>

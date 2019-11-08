@@ -177,7 +177,7 @@
                 <Editor x:Name="TextBox"
                         MinimumHeightRequest="32"
                         FontSize="14"
-                        Margin="12.5"
+                        Margin="5,0"
                         MaxLength="8192"
                         Text="{Binding Text}"
                         IsEnabled="{Binding CanSend}"
@@ -189,9 +189,24 @@
 
                 <ff:CachedImage WidthRequest="50"
                                 HeightRequest="50"
-                                Margin="5"
+                                Margin="0,0,2.5,5"
                                 HorizontalOptions="End"
-                                VerticalOptions="Center"
+                                VerticalOptions="End"
+                                x:Name="SendFileButton"
+                                IsVisible="True"
+                                IsEnabled="True"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.attachment-icon-white.png}"
+                                Style="{DynamicResource HeaderButtonStyle}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="SendFileButton_OnClick" Command="{Binding SendFileCommand}" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
+                
+                <ff:CachedImage WidthRequest="50"
+                                HeightRequest="50"
+                                Margin="0,0,5,5"
+                                HorizontalOptions="End"
+                                VerticalOptions="End"
                                 x:Name="SendTextButton"
                                 IsVisible="False"
                                 IsEnabled="False"
@@ -204,9 +219,9 @@
                 
                 <ff:CachedImage WidthRequest="50"
                                 HeightRequest="50"
-                                Margin="5"
+                                Margin="0,0,5,5"
                                 HorizontalOptions="End"
-                                VerticalOptions="Center"
+                                VerticalOptions="End"
                                 x:Name="SendAudioButton"
                                 IsVisible="True"
                                 IsEnabled="True"

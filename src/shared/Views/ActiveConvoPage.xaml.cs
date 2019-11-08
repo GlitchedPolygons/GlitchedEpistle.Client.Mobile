@@ -17,7 +17,6 @@
 */
 
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -44,6 +43,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             base.OnAppearing();
             (BindingContext as IOnAppearingListener)?.OnAppearing();
+            TextBox_OnTextChanged(null, null);
             ScrollToBottomButton_OnClick(null, null);
             ResetAllHeaderButtonColors();
         }
@@ -132,8 +132,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            SendTextButton.IsEnabled = SendTextButton.IsVisible = e.NewTextValue.NotNullNotEmpty();
-            SendAudioButton.IsEnabled = SendAudioButton.IsVisible = e.NewTextValue.NullOrEmpty();
+            SendTextButton.IsEnabled = SendTextButton.IsVisible = TextBox.Text.NotNullNotEmpty();
+            SendAudioButton.IsEnabled = SendAudioButton.IsVisible = TextBox.Text.NullOrEmpty();
+        }
+
+        private void SendFileButton_OnClick(object sender, EventArgs e)
+        {
+            //nop
         }
     }
 }

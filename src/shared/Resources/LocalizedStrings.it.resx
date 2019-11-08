@@ -698,4 +698,11 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="OpenAttachmentFailedErrorMessage" xml:space="preserve">
     <value>Errore: impossibile aprire l'allegato...</value>
   </data>
+  <data name="ConfirmAttachmentUploadDialogText" xml:space="preserve">
+    <value>Sei sicuro di voler spedire il file "{0}" a tutti i partecipanti della convo?</value>
+    <comment>Are you sure that you want to upload the file "{0}" to the convo?</comment>
+  </data>
+  <data name="ConfirmAttachmentUploadDialogTitle" xml:space="preserve">
+    <value>Conferma upload</value>
+  </data>
 </root>

@@ -674,4 +674,10 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="OpenAttachmentFailedErrorMessage" xml:space="preserve">
     <value>Error: couldn't open attachment...</value>
   </data>
+  <data name="ConfirmAttachmentUploadDialogText" xml:space="preserve">
+    <value>Are you sure that you want to upload the file "{0}" to the convo?</value>
+  </data>
+  <data name="ConfirmAttachmentUploadDialogTitle" xml:space="preserve">
+    <value>Confirm upload</value>
+  </data>
 </root>
