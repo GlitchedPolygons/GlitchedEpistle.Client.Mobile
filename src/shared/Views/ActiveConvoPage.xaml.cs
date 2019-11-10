@@ -19,10 +19,13 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
 using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
+
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
@@ -132,8 +135,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            SendTextButton.IsEnabled = SendTextButton.IsVisible = TextBox.Text.NotNullNotEmpty();
-            SendAudioButton.IsEnabled = SendAudioButton.IsVisible = TextBox.Text.NullOrEmpty();
+            SendTextButton.IsVisible = TextBox.Text.NotNullNotEmpty();
+            SendAudioButton.IsVisible = TextBox.Text.NullOrEmpty();
         }
 
         private void SendFileButton_OnClick(object sender, EventArgs e)

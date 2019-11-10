@@ -209,6 +209,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (disposed)
                 return;
 
+            CanSend = false;
             disposed = true;
             StopAutomaticPulling();
         }
@@ -337,10 +338,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
             
-            // TODO: display a "sending" activity indicator of some sort here
-
             var _=Task.Run(async () =>
             {
+                CanSend = false;
+                
                 byte[] fileBytes = pickerResult.DataArray;
 
                 if (fileBytes.LongLength < MessageSender.MAX_FILE_SIZE_BYTES)
@@ -354,6 +355,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageTooLargeFailureTitle"], localization["MessageTooLargeFailureMessage"], "OK"));
                 }
+                
+                CanSend = true;
             });
         }
 
@@ -383,7 +386,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             // Decrypt and add the retrieved messages to the chatroom UI.
             var newMessages = Messages.ToList();
             newMessages.AddRange(DecryptMessages(fetchedMessages.Distinct()).OrderBy(m => m?.TimestampDateTimeUTC));
-
+            
             if (Loading)
             {
                 Loading = false;

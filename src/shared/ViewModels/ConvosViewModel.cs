@@ -275,14 +275,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         var _ = SecureStorage.SetAsync($"convo:{_convo.Id}_pw:SHA512", cachedPwSHA512);
                     }
 
-                    ExecUI(() => eventAggregator.GetEvent<JoinedConvoEvent>().Publish(metadata));
+                    ExecUI(delegate
+                    {
+                        eventAggregator.GetEvent<JoinedConvoEvent>().Publish(metadata);
+                        joining = false;
+                    });
                 }
                 else
                 {
+                    joining = false;
                     logger.LogWarning($"Joined convo {_convo.Id} successfully using the cached convo password's SHA512 (starts with {cachedPwSHA512.Substring(0, 6)}) but failed to pull its metadata from the server...");
                 }
-
-                joining = false;
             });
         }
         

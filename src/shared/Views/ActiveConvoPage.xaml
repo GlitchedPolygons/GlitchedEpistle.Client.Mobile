@@ -187,50 +187,61 @@
                         HorizontalOptions="FillAndExpand"
                         VerticalOptions="End" />
 
-                <ff:CachedImage WidthRequest="50"
-                                HeightRequest="50"
-                                Margin="0,0,2.5,5"
-                                HorizontalOptions="End"
-                                VerticalOptions="End"
-                                x:Name="SendFileButton"
-                                IsVisible="True"
-                                IsEnabled="True"
-                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.attachment-icon-white.png}"
-                                Style="{DynamicResource HeaderButtonStyle}">
-                    <ff:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="SendFileButton_OnClick" Command="{Binding SendFileCommand}" />
-                    </ff:CachedImage.GestureRecognizers>
-                </ff:CachedImage>
+                <ActivityIndicator WidthRequest="50" 
+                                   HeightRequest="50"
+                                   Margin="0,0,60,5"
+                                   IsRunning="true" 
+                                   IsVisible="{Binding CanSend, Converter={converters:InverseBoolConverter}}"/>
                 
-                <ff:CachedImage WidthRequest="50"
-                                HeightRequest="50"
-                                Margin="0,0,5,5"
-                                HorizontalOptions="End"
-                                VerticalOptions="End"
-                                x:Name="SendTextButton"
-                                IsVisible="False"
-                                IsEnabled="False"
-                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.send-icon-white.png}"
-                                Style="{DynamicResource HeaderButtonStyle}">
-                    <ff:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="SendTextButton_OnClick" Command="{Binding SendTextCommand}" />
-                    </ff:CachedImage.GestureRecognizers>
-                </ff:CachedImage>
-                
-                <ff:CachedImage WidthRequest="50"
-                                HeightRequest="50"
-                                Margin="0,0,5,5"
-                                HorizontalOptions="End"
-                                VerticalOptions="End"
-                                x:Name="SendAudioButton"
-                                IsVisible="True"
-                                IsEnabled="True"
-                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.mic-icon-white.png}"
-                                Style="{DynamicResource HeaderButtonStyle}">
-                    <ff:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="SendAudioButton_OnClick" Command="{Binding SendAudioCommand}" />
-                    </ff:CachedImage.GestureRecognizers>
-                </ff:CachedImage>
+                <StackLayout Orientation="Horizontal"
+                             IsVisible="{Binding CanSend}"
+                             IsEnabled="{Binding CanSend}">
+                    
+                    <ff:CachedImage WidthRequest="50"
+                                    HeightRequest="50"
+                                    Margin="0,0,2.5,5"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="End"
+                                    x:Name="SendFileButton"
+                                    IsVisible="True"
+                                    IsEnabled="True"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.attachment-icon-white.png}"
+                                    Style="{DynamicResource HeaderButtonStyle}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SendFileButton_OnClick" Command="{Binding SendFileCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+
+                    <ff:CachedImage WidthRequest="50"
+                                    HeightRequest="50"
+                                    Margin="0,0,5,5"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="End"
+                                    x:Name="SendTextButton"
+                                    IsVisible="False"
+                                    IsEnabled="{Binding CanSend}"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.send-icon-white.png}"
+                                    Style="{DynamicResource HeaderButtonStyle}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SendTextButton_OnClick" Command="{Binding SendTextCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+
+                    <ff:CachedImage WidthRequest="50"
+                                    HeightRequest="50"
+                                    Margin="0,0,5,5"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="End"
+                                    x:Name="SendAudioButton"
+                                    IsVisible="True"
+                                    IsEnabled="{Binding CanSend}"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.mic-icon-white.png}"
+                                    Style="{DynamicResource HeaderButtonStyle}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="SendAudioButton_OnClick" Command="{Binding SendAudioCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
