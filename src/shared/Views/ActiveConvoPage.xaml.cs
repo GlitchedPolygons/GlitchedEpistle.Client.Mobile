@@ -49,6 +49,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             base.OnAppearing();
             (BindingContext as IOnAppearingListener)?.OnAppearing();
+            (BindingContext as ActiveConvoViewModel).ScrollToBottom += OnMessagesCollectionChanged;
             TextBox_OnTextChanged(null, null);
             ScrollToBottomButton_OnClick(null, null);
             ResetAllHeaderButtonColors();
@@ -58,6 +59,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             base.OnDisappearing();
             (BindingContext as IOnDisappearingListener)?.OnDisappearing();
+            (BindingContext as ActiveConvoViewModel).ScrollToBottom -= OnMessagesCollectionChanged;
             ResetAllHeaderButtonColors();
         }
 

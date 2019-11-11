@@ -78,6 +78,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IConvoPasswordProvider convoPasswordProvider;
 
         #endregion
+        
+        #region Events
+
+        public event EventHandler ScrollToBottom;
+        
+        #endregion
 
         #region Commands
 
@@ -237,6 +243,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             StartAutomaticPulling();
             CanSend = true;
+            
+            ScrollToBottom?.Invoke(this,EventArgs.Empty);
 
             methodQ.Schedule(() => Loading = false, DateTime.UtcNow.AddSeconds(4.20));
         }
@@ -346,6 +354,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (await messageSender.PostText(ActiveConvo, Text))
                 {
                     Text = null;
+                    ScrollToBottom?.Invoke(this,EventArgs.Empty);
                 }
                 else
                 {
@@ -386,6 +395,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     if (!await messageSender.PostFile(ActiveConvo, pickerResult.FileName, fileBytes))
                     {
                         ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
+                    }
+                    else
+                    {
+                        ScrollToBottom?.Invoke(this,EventArgs.Empty);
                     }
                 }
                 else
@@ -434,6 +447,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     Messages.Add(msg);
                 }
+                
+                ScrollToBottom?.Invoke(this, EventArgs.Empty);
             });
         }
 

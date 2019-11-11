@@ -228,7 +228,6 @@
                                     VerticalOptions="End"
                                     x:Name="SendTextButton"
                                     IsVisible="False"
-                                    IsEnabled="{Binding CanSend}"
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.send-icon-white.png}"
                                     Style="{DynamicResource HeaderButtonStyle}">
                         <ff:CachedImage.GestureRecognizers>
