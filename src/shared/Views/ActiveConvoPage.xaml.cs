@@ -127,12 +127,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             {
                 return;
             }
+            
+            LoadPreviousMessagesButton.IsVisible = LoadPreviousMessagesButton.IsEnabled = false;
 
             MessagesListBox.ScrollTo(last, ScrollToPosition.Center, (e as ScrollToBottomEventArgs)?.Animated ?? true);
         }
 
         private void ExitButton_OnClick(object sender, EventArgs e)
         {
+            ExitButton.IsEnabled = false;
             var _ = OnPressedCachedImage(ExitButton);
             Application.Current?.MainPage?.Navigation?.PopModalAsync();
         }
@@ -165,7 +168,25 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             SendTextButton.IsVisible = TextBox.Text.NotNullNotEmpty();
             SendAudioButton.IsVisible = TextBox.Text.NullOrEmpty();
         }
+        
+        private async void LoadPreviousMessagesButton_OnClicked(object sender, EventArgs e)
+        {
+            object scrollLock = MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();
 
+            if (scrollLock is null)
+            {
+                return;
+            }
+
+            if (BindingContext is ActiveConvoViewModel vm)
+            {
+                await vm.LoadPreviousMessages();
+                LoadPreviousMessagesButton.IsVisible = LoadPreviousMessagesButton.IsEnabled = false;
+            }
+
+            MessagesListBox.ScrollTo(scrollLock, ScrollToPosition.Start, false);
+        }
+        
         private void MessagesListBox_OnItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             if (IsLastItem(e.Item))
@@ -205,23 +226,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         private bool IsLastItem(object item)
         {
             return item == MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
-        }
-
-        private async void LoadPreviousMessagesButton_OnClicked(object sender, EventArgs e)
-        {
-            object scrollLock = MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();
-
-            if (scrollLock is null)
-            {
-                return;
-            }
-
-            if (BindingContext is ActiveConvoViewModel vm)
-            {
-                await vm.LoadPreviousMessages();
-            }
-
-            MessagesListBox.ScrollTo(scrollLock, ScrollToPosition.Start, false);
         }
     }
 }
