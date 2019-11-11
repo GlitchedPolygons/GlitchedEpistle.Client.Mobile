@@ -154,7 +154,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #endregion
 
         private volatile bool disposed;
-        private volatile int pageIndex;
         private volatile CancellationTokenSource autoFetch;
         private volatile CancellationTokenSource metadataUpdater;
 
@@ -229,6 +228,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (Messages.NullOrEmpty())
             {
                 Messages = new ObservableCollection<MessageViewModel>(DecryptMessages(await convoService.GetLastConvoMessages(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2, MSG_COLLECTION_SIZE)).Distinct().OrderBy(_=>_.TimestampDateTimeUTC));
+                
                 if (Loading)
                 {
                     Loading = false;
@@ -244,6 +244,43 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public void OnDisappearing()
         {
             Dispose();
+        }
+
+        public async Task LoadPreviousMessages()
+        {
+            if (Loading)
+            {
+                return;
+            }
+
+            Loading = true;
+
+            var top = Messages.FirstOrDefault();
+            if (top is null)
+            {
+                return;
+            }
+
+            if (!long.TryParse(top.Id, out long topMsgId))
+            {
+                return;
+            }
+
+            var decryptedMessages = DecryptMessages(await convoService.GetPreviousMessages(
+                userId: user.Id,
+                auth: user.Token.Item2,
+                convoId: ActiveConvo.Id,
+                convoPasswordSHA512: convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id),
+                fromId: topMsgId,
+                n: MSG_COLLECTION_SIZE
+            ));
+
+            foreach (var msg in decryptedMessages.OrderByDescending(_=>_.TimestampDateTimeUTC))
+            {
+                Messages.Insert(0, msg);
+            }
+
+            Loading = false;
         }
 
         private void StopAutomaticPulling()
@@ -383,22 +420,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            // Decrypt and add the retrieved messages to the chatroom UI.
-            var newMessages = Messages.ToList();
-            newMessages.AddRange(DecryptMessages(fetchedMessages.Distinct()).OrderBy(m => m?.TimestampDateTimeUTC));
-            
+            var decryptedMessages = DecryptMessages(fetchedMessages.Distinct()).OrderBy(m => m?.TimestampDateTimeUTC);
+
             if (Loading)
             {
                 Loading = false;
             }
-
+            
             ExecUI(() =>
             {
-                Messages = new ObservableCollection<MessageViewModel>(newMessages.Distinct());
-
-                if (pageIndex == 0)
+                // Decrypt and add the retrieved messages to the chatroom UI.
+                foreach (var msg in decryptedMessages)
                 {
-                    TruncateMessagesCollection();
+                    Messages.Add(msg);
                 }
             });
         }

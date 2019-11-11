@@ -91,7 +91,7 @@
   
   <ItemGroup>
     <PackageReference Include="GlitchedPolygons.ExtensionMethods" Version="1.0.6" />
-    <PackageReference Include="GlitchedPolygons.GlitchedEpistle.Client" Version="2019.4.2.1" />
+    <PackageReference Include="GlitchedPolygons.GlitchedEpistle.Client" Version="2020.1.0.1" />
     <PackageReference Include="GlitchedPolygons.Services.Cryptography.Asymmetric" Version="1.0.1" />
     <PackageReference Include="GlitchedPolygons.Services.Cryptography.Symmetric" Version="1.0.0" />
     <PackageReference Include="GlitchedPolygons.Services.JwtService" Version="1.2.1" />

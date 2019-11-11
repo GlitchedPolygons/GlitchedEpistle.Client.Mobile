@@ -153,6 +153,13 @@
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center" />
             </StackLayout>
+            
+            <Button x:Name="LoadPreviousMessagesButton" 
+                    IsVisible="False"
+                    IsEnabled="False"
+                    HorizontalOptions="Center"
+                    Text="{i:Translate LoadPreviousMessagesButton}" 
+                    Clicked="LoadPreviousMessagesButton_OnClicked"/>
 
             <!-- Chatroom -->
             <ListView SelectionMode="None"

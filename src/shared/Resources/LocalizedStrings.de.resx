@@ -709,4 +709,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="ConfirmAttachmentUploadDialogTitle" xml:space="preserve">
     <value>Upload bestätigen</value>
   </data>
+  <data name="LoadPreviousMessagesButton" xml:space="preserve">
+    <value>Vorherige Nachrichten laden</value>
+  </data>
 </root>

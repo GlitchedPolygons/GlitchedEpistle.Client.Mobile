@@ -712,4 +712,7 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="ConfirmAttachmentUploadDialogTitle" xml:space="preserve">
     <value>Upload bestätigeh</value>
   </data>
+  <data name="LoadPreviousMessagesButton" xml:space="preserve">
+    <value>Äuteri Naachrichte lade</value>
+  </data>
 </root>

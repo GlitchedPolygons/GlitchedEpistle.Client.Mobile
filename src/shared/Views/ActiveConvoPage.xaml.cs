@@ -27,6 +27,7 @@ using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
 
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
@@ -152,6 +153,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             {
                 ScrollToBottomButton.IsEnabled = false;
                 ResetHeaderButtonColor(ScrollToBottomButton);
+                return;
+            }
+
+            if (IsFirstItem(e.Item))
+            {
+                LoadPreviousMessagesButton.IsVisible = LoadPreviousMessagesButton.IsEnabled = true;
             }
         }
 
@@ -162,11 +169,38 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
                 ScrollToBottomButton.IsEnabled = true;
                 ResetHeaderButtonColor(ScrollToBottomButton);
             }
+            
+            if (IsFirstItem(e.Item))
+            {
+                LoadPreviousMessagesButton.IsVisible = LoadPreviousMessagesButton.IsEnabled = false;
+            }
+        }
+        
+        private bool IsFirstItem(object item)
+        {
+            return item == MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();
         }
 
         private bool IsLastItem(object item)
         {
             return item == MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
+        }
+
+        private async void LoadPreviousMessagesButton_OnClicked(object sender, EventArgs e)
+        {
+            object scrollLock = MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();
+            
+            if (scrollLock is null)
+            {
+                return;
+            }
+            
+            if (BindingContext is ActiveConvoViewModel vm)
+            {
+                await vm.LoadPreviousMessages();
+            }
+            
+            MessagesListBox.ScrollTo(scrollLock, ScrollToPosition.Start, false);
         }
     }
 }
