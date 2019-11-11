@@ -17,12 +17,11 @@
 */
 
 using System;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models
 {
-    public interface IScrollToBottom
+    public class ScrollToBottomEventArgs : EventArgs
     {
-        event EventHandler<ScrollToBottomEventArgs> ScrollToBottom;
+        public bool Animated { get; set; } = true;
     }
 }

@@ -32,6 +32,7 @@ using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
@@ -81,7 +82,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         #region Events
 
-        public event EventHandler ScrollToBottom;
+        public event EventHandler<ScrollToBottomEventArgs> ScrollToBottom;
         
         #endregion
 
@@ -243,8 +244,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             StartAutomaticPulling();
             CanSend = true;
-            
-            ScrollToBottom?.Invoke(this,EventArgs.Empty);
+
+            ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs {Animated = false});
 
             methodQ.Schedule(() => Loading = false, DateTime.UtcNow.AddSeconds(4.20));
         }
@@ -354,7 +355,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (await messageSender.PostText(ActiveConvo, Text))
                 {
                     Text = null;
-                    ScrollToBottom?.Invoke(this,EventArgs.Empty);
+                    ScrollToBottom?.Invoke(this,new ScrollToBottomEventArgs());
                 }
                 else
                 {
@@ -444,7 +445,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     Messages.Add(msg);
                 }
                 
-                ScrollToBottom?.Invoke(this, EventArgs.Empty);
+                ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs());
             });
         }
 

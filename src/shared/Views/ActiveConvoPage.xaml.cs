@@ -19,7 +19,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Specialized;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -28,6 +27,7 @@ using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
 
 using GlitchedPolygons.ExtensionMethods;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
@@ -63,11 +63,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             ResetAllHeaderButtonColors();
         }
 
-        private void OnMessagesCollectionChanged(object sender, EventArgs e)
+        private void OnMessagesCollectionChanged(object sender, ScrollToBottomEventArgs e)
         {
             if (scrollToBottomOnAddedNewMsg)
             {
-                Device.BeginInvokeOnMainThread(() => ScrollToBottomButton_OnClick(null, null));
+                Device.BeginInvokeOnMainThread(() => ScrollToBottomButton_OnClick(null, e));
             }
         }
 
@@ -121,12 +121,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         private void ScrollToBottomButton_OnClick(object sender, EventArgs e)
         {
             var _ = OnPressedCachedImage(ScrollToBottomButton);
+
             object last = MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
             if (last is null)
             {
                 return;
             }
-            MessagesListBox.ScrollTo(last, ScrollToPosition.Center, true);
+
+            MessagesListBox.ScrollTo(last, ScrollToPosition.Center, (e as ScrollToBottomEventArgs)?.Animated ?? true);
         }
 
         private void ExitButton_OnClick(object sender, EventArgs e)
@@ -146,7 +148,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             var _ = OnPressedCachedImage(SendAudioButton);
             ScrollToBottomButton_OnClick(null, null);
         }
-        
+
         private void SendFileButton_OnClick(object sender, EventArgs e)
         {
             var _ = OnPressedCachedImage(SendFileButton);
