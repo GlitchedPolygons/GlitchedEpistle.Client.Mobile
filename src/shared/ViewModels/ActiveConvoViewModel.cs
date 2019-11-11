@@ -367,7 +367,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         
         private void OnSendAudio(object commandParam)
         {
-            throw new NotImplementedException();
+            // TODO: implement ASAP!
         }
 
         private async void OnSendFile(object commandParam)

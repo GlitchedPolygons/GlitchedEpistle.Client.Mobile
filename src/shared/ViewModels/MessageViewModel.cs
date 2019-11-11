@@ -283,7 +283,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             OpenAttachment(path);
         }
-        
+
         private async void OpenAttachment(string filePath)
         {
             if (filePath.NullOrEmpty() || !File.Exists(filePath) || !await Application.Current.MainPage.DisplayAlert(localization["OpenAttachmentDialogTitle"], string.Format(localization["OpenAttachmentDialogText"], Path.GetFileName(FileName)), localization["Yes"], localization["No"]))
@@ -291,14 +291,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            try
-            {
-                fileOpener.OpenFile(filePath);
-            }
-            catch (Exception e)
-            {
-                alertService.AlertShort(localization["OpenAttachmentFailedErrorMessage"]);
-            }
+            fileOpener.OpenFile(filePath);
         }
 
         private void OnClickedAudioAttachment(object commandParam)
