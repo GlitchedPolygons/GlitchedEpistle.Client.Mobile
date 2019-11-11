@@ -112,6 +112,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Paths
             {".bin", "application/octet-stream"},
             {".bmp", "image/bmp"},
             {".c", "text/plain"},
+            {".cs", "text/plain"},
             {".class", "application/octet-stream"},
             {".conf", "text/plain"},
             {".cpp", "text/plain"},
