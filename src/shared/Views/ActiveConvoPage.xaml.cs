@@ -19,6 +19,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -35,6 +36,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ActiveConvoPage : ContentPage
     {
+        private bool scrollToBottomOnAddedNewMsg = true;
         private TintTransformation idle, disabled, pressed;
 
         public ActiveConvoPage()
@@ -57,6 +59,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             base.OnDisappearing();
             (BindingContext as IOnDisappearingListener)?.OnDisappearing();
             ResetAllHeaderButtonColors();
+        }
+
+        private void OnMessagesCollectionChanged(object sender, EventArgs e)
+        {
+            if (scrollToBottomOnAddedNewMsg)
+            {
+                ScrollToBottomButton_OnClick(null, null);
+            }
         }
 
         private void RefreshTintTransformations()
@@ -89,7 +99,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             cachedImage?.Transformations.Add(cachedImage.IsEnabled ? idle : disabled);
             cachedImage?.ReloadImage();
         }
-        
+
         private async Task OnPressedCachedImage(CachedImage cachedImage)
         {
             if (cachedImage is null)
@@ -102,38 +112,38 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             cachedImage.ReloadImage();
 
             await Task.Delay(250);
-            
+
             ResetHeaderButtonColor(cachedImage);
         }
 
         private void ScrollToBottomButton_OnClick(object sender, EventArgs e)
         {
-            var _=OnPressedCachedImage(ScrollToBottomButton);
+            var _ = OnPressedCachedImage(ScrollToBottomButton);
             object last = MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
-            MessagesListBox.ScrollTo(last, ScrollToPosition.End, true);
+            MessagesListBox.ScrollTo(last, ScrollToPosition.Center, true);
         }
 
         private void ExitButton_OnClick(object sender, EventArgs e)
         {
-            var _=OnPressedCachedImage(ExitButton);
+            var _ = OnPressedCachedImage(ExitButton);
             Application.Current?.MainPage?.Navigation?.PopModalAsync();
         }
 
         private void SendTextButton_OnClick(object sender, EventArgs e)
         {
-            var _=OnPressedCachedImage(SendTextButton);
+            var _ = OnPressedCachedImage(SendTextButton);
             ScrollToBottomButton_OnClick(null, null);
         }
 
         private void SendAudioButton_OnClick(object sender, EventArgs e)
         {
-            var _=OnPressedCachedImage(SendAudioButton);
+            var _ = OnPressedCachedImage(SendAudioButton);
             ScrollToBottomButton_OnClick(null, null);
         }
-        
+
         private void EditConvoButton_OnClick(object sender, EventArgs e)
         {
-            var _=OnPressedCachedImage(EditConvoButton);
+            var _ = OnPressedCachedImage(EditConvoButton);
         }
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -151,6 +161,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             if (IsLastItem(e.Item))
             {
+                scrollToBottomOnAddedNewMsg = true;
                 ScrollToBottomButton.IsEnabled = false;
                 ResetHeaderButtonColor(ScrollToBottomButton);
                 return;
@@ -166,16 +177,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             if (IsLastItem(e.Item))
             {
+                scrollToBottomOnAddedNewMsg = false;
                 ScrollToBottomButton.IsEnabled = true;
                 ResetHeaderButtonColor(ScrollToBottomButton);
             }
-            
+
             if (IsFirstItem(e.Item))
             {
                 LoadPreviousMessagesButton.IsVisible = LoadPreviousMessagesButton.IsEnabled = false;
             }
         }
-        
+
         private bool IsFirstItem(object item)
         {
             return item == MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();
@@ -189,17 +201,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         private async void LoadPreviousMessagesButton_OnClicked(object sender, EventArgs e)
         {
             object scrollLock = MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();
-            
+
             if (scrollLock is null)
             {
                 return;
             }
-            
+
             if (BindingContext is ActiveConvoViewModel vm)
             {
                 await vm.LoadPreviousMessages();
             }
-            
+
             MessagesListBox.ScrollTo(scrollLock, ScrollToPosition.Start, false);
         }
     }
