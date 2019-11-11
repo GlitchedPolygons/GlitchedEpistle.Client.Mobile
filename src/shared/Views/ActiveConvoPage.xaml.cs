@@ -122,6 +122,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             var _ = OnPressedCachedImage(ScrollToBottomButton);
             object last = MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
+            if (last is null)
+            {
+                return;
+            }
             MessagesListBox.ScrollTo(last, ScrollToPosition.Center, true);
         }
 
