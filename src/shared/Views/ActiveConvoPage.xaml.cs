@@ -34,7 +34,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ActiveConvoPage : ContentPage
     {
-        private TintTransformation idle, pressed;
+        private TintTransformation idle, disabled, pressed;
 
         public ActiveConvoPage()
         {
@@ -62,9 +62,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             Application.Current.Resources.TryGetValue("HeaderButtonIdleColorHex", out var idleColorHex);
             Application.Current.Resources.TryGetValue("HeaderButtonPressedColorHex", out var pressedColorHex);
+            Application.Current.Resources.TryGetValue("HeaderButtonDisabledColorHex", out var disabledColorHex);
 
             idle = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") {EnableSolidColor = true};
             pressed = new TintTransformation(pressedColorHex?.ToString() ?? "#00b4dd") {EnableSolidColor = true};
+            disabled = new TintTransformation(disabledColorHex?.ToString() ?? "#bababa") {EnableSolidColor = true};
         }
 
         private void ResetAllHeaderButtonColors()
@@ -83,11 +85,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         private void ResetHeaderButtonColor(CachedImage cachedImage)
         {
             cachedImage?.Transformations.Clear();
-            cachedImage?.Transformations.Add(idle);
+            cachedImage?.Transformations.Add(cachedImage.IsEnabled ? idle : disabled);
             cachedImage?.ReloadImage();
         }
         
-        private async Task TintHeaderButtonColor(CachedImage cachedImage)
+        private async Task OnPressedCachedImage(CachedImage cachedImage)
         {
             if (cachedImage is null)
             {
@@ -105,32 +107,32 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private void ScrollToBottomButton_OnClick(object sender, EventArgs e)
         {
-            var _=TintHeaderButtonColor(ScrollToBottomButton);
+            var _=OnPressedCachedImage(ScrollToBottomButton);
             object last = MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
             MessagesListBox.ScrollTo(last, ScrollToPosition.End, true);
         }
 
         private void ExitButton_OnClick(object sender, EventArgs e)
         {
-            var _=TintHeaderButtonColor(ExitButton);
+            var _=OnPressedCachedImage(ExitButton);
             Application.Current?.MainPage?.Navigation?.PopModalAsync();
         }
 
         private void SendTextButton_OnClick(object sender, EventArgs e)
         {
-            var _=TintHeaderButtonColor(SendTextButton);
+            var _=OnPressedCachedImage(SendTextButton);
             ScrollToBottomButton_OnClick(null, null);
         }
 
         private void SendAudioButton_OnClick(object sender, EventArgs e)
         {
-            var _=TintHeaderButtonColor(SendAudioButton);
+            var _=OnPressedCachedImage(SendAudioButton);
             ScrollToBottomButton_OnClick(null, null);
         }
         
         private void EditConvoButton_OnClick(object sender, EventArgs e)
         {
-            var _=TintHeaderButtonColor(EditConvoButton);
+            var _=OnPressedCachedImage(EditConvoButton);
         }
 
         private void TextBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -142,6 +144,29 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         private void SendFileButton_OnClick(object sender, EventArgs e)
         {
             //nop
+        }
+
+        private void MessagesListBox_OnItemAppearing(object sender, ItemVisibilityEventArgs e)
+        {
+            if (IsLastItem(e.Item))
+            {
+                ScrollToBottomButton.IsEnabled = false;
+                ResetHeaderButtonColor(ScrollToBottomButton);
+            }
+        }
+
+        private void MessagesListBox_OnItemDisappearing(object sender, ItemVisibilityEventArgs e)
+        {
+            if (IsLastItem(e.Item))
+            {
+                ScrollToBottomButton.IsEnabled = true;
+                ResetHeaderButtonColor(ScrollToBottomButton);
+            }
+        }
+
+        private bool IsLastItem(object item)
+        {
+            return item == MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
         }
     }
 }

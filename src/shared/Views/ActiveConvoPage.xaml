@@ -161,6 +161,8 @@
                       HasUnevenRows="true"
                       Margin="8,0,8,0"
                       CachingStrategy="RetainElement"
+                      ItemAppearing="MessagesListBox_OnItemAppearing"
+                      ItemDisappearing="MessagesListBox_OnItemDisappearing"
                       Style="{DynamicResource MessagesListBox}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
