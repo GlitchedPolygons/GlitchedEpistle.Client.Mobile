@@ -48,8 +48,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            (BindingContext as IScrollToBottom).ScrollToBottom += OnMessagesCollectionChanged;
             (BindingContext as IOnAppearingListener)?.OnAppearing();
-            (BindingContext as ActiveConvoViewModel).ScrollToBottom += OnMessagesCollectionChanged;
             TextBox_OnTextChanged(null, null);
             ScrollToBottomButton_OnClick(null, null);
             ResetAllHeaderButtonColors();
@@ -58,8 +58,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+            (BindingContext as IScrollToBottom).ScrollToBottom -= OnMessagesCollectionChanged;
             (BindingContext as IOnDisappearingListener)?.OnDisappearing();
-            (BindingContext as ActiveConvoViewModel).ScrollToBottom -= OnMessagesCollectionChanged;
             ResetAllHeaderButtonColors();
         }
 
@@ -67,7 +67,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             if (scrollToBottomOnAddedNewMsg)
             {
-                ScrollToBottomButton_OnClick(null, null);
+                Device.BeginInvokeOnMainThread(() => ScrollToBottomButton_OnClick(null, null));
             }
         }
 
@@ -146,6 +146,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             var _ = OnPressedCachedImage(SendAudioButton);
             ScrollToBottomButton_OnClick(null, null);
         }
+        
+        private void SendFileButton_OnClick(object sender, EventArgs e)
+        {
+            var _ = OnPressedCachedImage(SendFileButton);
+            ScrollToBottomButton_OnClick(null, null);
+        }
 
         private void EditConvoButton_OnClick(object sender, EventArgs e)
         {
@@ -156,11 +162,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             SendTextButton.IsVisible = TextBox.Text.NotNullNotEmpty();
             SendAudioButton.IsVisible = TextBox.Text.NullOrEmpty();
-        }
-
-        private void SendFileButton_OnClick(object sender, EventArgs e)
-        {
-            //nop
         }
 
         private void MessagesListBox_OnItemAppearing(object sender, ItemVisibilityEventArgs e)

@@ -52,7 +52,7 @@ using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class ActiveConvoViewModel : ViewModel, IOnAppearingListener, IOnDisappearingListener, IDisposable
+    public class ActiveConvoViewModel : ViewModel, IOnAppearingListener, IOnDisappearingListener, IScrollToBottom, IDisposable
     {
         #region Constants
 
@@ -395,10 +395,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     if (!await messageSender.PostFile(ActiveConvo, pickerResult.FileName, fileBytes))
                     {
                         ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
-                    }
-                    else
-                    {
-                        ScrollToBottom?.Invoke(this,EventArgs.Empty);
                     }
                 }
                 else
