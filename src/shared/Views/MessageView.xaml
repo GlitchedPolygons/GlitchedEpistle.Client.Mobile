@@ -115,7 +115,12 @@
                     </ff:CachedImage.GestureRecognizers>
                 </ff:CachedImage>
                 
-                <!-- TODO: Audio message here -->
+                <!-- Audio message -->
+                <StackLayout Orientation="Horizontal"
+                             IsVisible="{Binding AudioVisibility}">
+                    
+                    <!-- TODO: Audio message here -->
+                </StackLayout>
                 
                 <!-- Attachment -->
                 <StackLayout Orientation="Horizontal"

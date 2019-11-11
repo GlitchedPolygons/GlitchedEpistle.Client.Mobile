@@ -167,6 +167,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         }
 
         public bool GifVisibility => IsGif();
+        public bool AudioVisibility => IsAudio();
         public bool ImageVisibility => IsImage() || IsGif();
         public bool HasAttachment => FileName.NotNullNotEmpty() && FileBytes != null && FileBytes.Length > 0;
 
