@@ -37,6 +37,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Permissions;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
@@ -48,6 +49,7 @@ using Prism.Events;
 using Newtonsoft.Json.Linq;
 using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
+using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
@@ -77,6 +79,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelFactory viewModelFactory;
         private readonly IConvoPasswordProvider convoPasswordProvider;
+        private readonly IPermissionChecker permissionChecker;
 
         #endregion
         
@@ -181,6 +184,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
+            permissionChecker = DependencyService.Get<IPermissionChecker>();
 
             this.user = user;
             this.logger = logger;
@@ -366,8 +370,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
         
-        private void OnSendAudio(object commandParam)
+        private async void OnSendAudio(object commandParam)
         {
+            if (!await permissionChecker.CheckPermission(Permission.Microphone,localization["MicrophonePermissionNeededForRecordingAudioAttachmentTitle"], localization["MicrophonePermissionNeededForRecordingAudioAttachmentText"], localization["AbortedDueToMicrophonePermissionDeclined"]))
+            {
+                return;
+            }
             // TODO: implement ASAP!
         }
 

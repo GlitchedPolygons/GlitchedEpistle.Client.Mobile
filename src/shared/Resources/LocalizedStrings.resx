@@ -683,4 +683,13 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="LoadPreviousMessagesButton" xml:space="preserve">
     <value>Load previous messages</value>
   </data>
+  <data name="AbortedDueToMicrophonePermissionDeclined" xml:space="preserve">
+    <value>Cancelled due to rejected microphone permission</value>
+  </data>
+  <data name="MicrophonePermissionNeededForRecordingAudioAttachmentText" xml:space="preserve">
+    <value>Glitched Epistle needs access to your device's microphone in order to fulfill your request of recording a new audio message.</value>
+  </data>
+  <data name="MicrophonePermissionNeededForRecordingAudioAttachmentTitle" xml:space="preserve">
+    <value>Insufficient permissions</value>
+  </data>
 </root>

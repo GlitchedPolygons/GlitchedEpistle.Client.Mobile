@@ -715,4 +715,14 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="LoadPreviousMessagesButton" xml:space="preserve">
     <value>Äuteri Naachrichte lade</value>
   </data>
+  <data name="AbortedDueToMicrophonePermissionDeclined" xml:space="preserve">
+    <value>Abbroche wäge abglehntem Mikrofonzuegriff</value>
+  </data>
+  <data name="MicrophonePermissionNeededForRecordingAudioAttachmentText" xml:space="preserve">
+    <value>Glitched Epistle benötigt Zuegriff uf's Mikrofon vo dim Gräät um Spraachnachrichte ufznääh.</value>
+    <comment>Glitched Epistle benötigt Zugriff auf das Mikrofon deines Geräts um Sprachnachrichten aufnehmen zu können.</comment>
+  </data>
+  <data name="MicrophonePermissionNeededForRecordingAudioAttachmentTitle" xml:space="preserve">
+    <value>Fählendi Berächtigungeh</value>
+  </data>
 </root>

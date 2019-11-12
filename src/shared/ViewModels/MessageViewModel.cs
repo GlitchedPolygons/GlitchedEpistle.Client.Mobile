@@ -294,7 +294,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             fileOpener.OpenFile(filePath);
         }
 
-        private void OnClickedPlayAudioAttachment(object commandParam)
+        private async void OnClickedPlayAudioAttachment(object commandParam)
         {
             if (!IsAudio())
             {
