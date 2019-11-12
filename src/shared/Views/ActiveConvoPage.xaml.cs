@@ -104,7 +104,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
         private async Task OnPressedCachedImage(CachedImage cachedImage)
         {
-            if (cachedImage is null)
+            if (cachedImage is null || !cachedImage.IsEnabled)
             {
                 return;
             }
