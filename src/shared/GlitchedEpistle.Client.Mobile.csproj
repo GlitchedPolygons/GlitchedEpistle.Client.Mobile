@@ -87,6 +87,10 @@
     <EmbeddedResource Include="Resources\Images\attachment-icon-white.png" />
     <None Remove="Resources\Images\mic-icon-white.png" />
     <EmbeddedResource Include="Resources\Images\mic-icon-white.png" />
+    <None Remove="Resources\Images\pause-icon-white.png" />
+    <EmbeddedResource Include="Resources\Images\pause-icon-white.png" />
+    <None Remove="Resources\Images\play-icon-white.png" />
+    <EmbeddedResource Include="Resources\Images\play-icon-white.png" />
   </ItemGroup>
   
   <ItemGroup>
