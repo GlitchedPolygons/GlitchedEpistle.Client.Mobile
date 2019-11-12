@@ -57,7 +57,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand DownloadAttachmentCommand { get; }
         public ICommand CopyUserIdToClipboardCommand { get; }
         public ICommand ClickedOnImageAttachmentCommand { get; }
-        public ICommand ClickedOnAudioAttachmentCommand { get; }
+        public ICommand ClickedOnPlayAudioAttachmentCommand { get; }
         public ICommand LongPressedMessageTextCommand { get; }
 
         #endregion
@@ -184,8 +184,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             DownloadAttachmentCommand = new DelegateCommand(OnDownloadAttachment);
             CopyUserIdToClipboardCommand = new DelegateCommand(OnCopyUserIdToClipboard);
             ClickedOnImageAttachmentCommand = new DelegateCommand(OnClickedImagePreview);
-            ClickedOnAudioAttachmentCommand = new DelegateCommand(OnClickedAudioAttachment);
             LongPressedMessageTextCommand = new DelegateCommand(OnLongPressedMessageText);
+            ClickedOnPlayAudioAttachmentCommand = new DelegateCommand(OnClickedPlayAudioAttachment);
         }
 
         ~MessageViewModel()
@@ -294,7 +294,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             fileOpener.OpenFile(filePath);
         }
 
-        private void OnClickedAudioAttachment(object commandParam)
+        private void OnClickedPlayAudioAttachment(object commandParam)
         {
             if (!IsAudio())
             {
