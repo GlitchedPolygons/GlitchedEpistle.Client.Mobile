@@ -17,14 +17,15 @@
 */
 
 using System.Threading.Tasks;
+using Plugin.Permissions.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Permissions
 {
     /// <summary>
-    /// Ensures that Epistle has the necessary storage permissions for uploading and downloading attachments.
+    /// Ensures that Epistle has a necessary <see cref="Permission"/>.
     /// </summary>
-    public interface IStoragePermission
+    public interface IPermissionChecker
     {
-        Task<bool> CheckPermission(string dialogTitle, string dialogText, string cancellationText);
+        Task<bool> CheckPermission(Permission permission, string dialogTitle, string dialogText, string cancellationText);
     }
 }

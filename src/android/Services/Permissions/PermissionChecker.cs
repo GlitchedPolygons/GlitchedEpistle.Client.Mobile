@@ -24,22 +24,22 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Permissions;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Permissions;
 
-[assembly: Dependency(typeof(StoragePermission))]
+[assembly: Dependency(typeof(PermissionChecker))]
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Permissions
 {
     /// <summary>
-    /// Ensures that Epistle has the necessary storage permissions for uploading and downloading attachments.
+    /// Ensures that Epistle has a necessary <see cref="Permission"/>.
     /// </summary>
-    public class StoragePermission : IStoragePermission
+    public class PermissionChecker : IPermissionChecker
     {
-        public async Task<bool> CheckPermission(string dialogTitle, string dialogText, string cancellationText)
+        public async Task<bool> CheckPermission(Permission permission, string dialogTitle, string dialogText, string cancellationText)
         {
-            PermissionStatus status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+            PermissionStatus status = await CrossPermissions.Current.CheckPermissionStatusAsync(permission);
 
             if (status != PermissionStatus.Granted)
             {
-                if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Storage))
+                if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(permission))
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         title: dialogTitle,
@@ -48,10 +48,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Permis
                     );
                 }
 
-                await CrossPermissions.Current.RequestPermissionsAsync(Permission.Storage);
+                await CrossPermissions.Current.RequestPermissionsAsync(permission);
             }
 
-            status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Storage);
+            status = await CrossPermissions.Current.CheckPermissionStatusAsync(permission);
             
             if (status != PermissionStatus.Granted)
             {

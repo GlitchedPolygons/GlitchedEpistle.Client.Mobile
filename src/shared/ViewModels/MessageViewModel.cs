@@ -45,7 +45,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ILocalization localization = DependencyService.Get<ILocalization>();
         private readonly IAlertService alertService = DependencyService.Get<IAlertService>();
         private readonly IDownloadPath downloadPath = DependencyService.Get<IDownloadPath>();
-        private readonly IStoragePermission storagePermission = DependencyService.Get<IStoragePermission>();
+        private readonly IPermissionChecker permissionChecker = DependencyService.Get<IPermissionChecker>();
 
         // Injections:
         private readonly IMethodQ methodQ;
@@ -207,7 +207,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            if (!await storagePermission.CheckPermission(localization["StoragePermissionNeededForDownloadingAttachmentTitle"], localization["StoragePermissionNeededForDownloadingAttachmentText"], localization["AbortedDueToStoragePermissionDeclined"]))
+            if (!await permissionChecker.CheckPermission(Permission.Storage,localization["StoragePermissionNeededForDownloadingAttachmentTitle"], localization["StoragePermissionNeededForDownloadingAttachmentText"], localization["AbortedDueToStoragePermissionDeclined"]))
             {
                 return;
             }
@@ -268,7 +268,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            if (!await storagePermission.CheckPermission(localization["StoragePermissionNeededForDownloadingAttachmentTitle"], localization["StoragePermissionNeededForDownloadingAttachmentText"], localization["AbortedDueToStoragePermissionDeclined"]))
+            if (!await permissionChecker.CheckPermission(Permission.Storage,localization["StoragePermissionNeededForDownloadingAttachmentTitle"], localization["StoragePermissionNeededForDownloadingAttachmentText"], localization["AbortedDueToStoragePermissionDeclined"]))
             {
                 return;
             }

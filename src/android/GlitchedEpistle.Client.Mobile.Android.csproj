@@ -85,7 +85,7 @@
     <Compile Include="Services\Localization\AndroidLocalization.cs" />
     <Compile Include="Services\Paths\AndroidDownloadPath.cs" />
     <Compile Include="Services\Paths\AndroidFileOpener.cs" />
-    <Compile Include="Services\Permissions\StoragePermission.cs" />
+    <Compile Include="Services\Permissions\PermissionChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
