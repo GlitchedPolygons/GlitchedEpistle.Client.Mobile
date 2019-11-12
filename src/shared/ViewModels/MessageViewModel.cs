@@ -152,15 +152,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref clipboardTickVisible, value);
         }
 
-        private float audioAttachmentVolume = 1.0f;
-        public float AudioAttachmentVolume
+        private double audioAttachmentVolume = 1.0;
+        public double AudioAttachmentVolume
         {
             get => audioAttachmentVolume;
             set => Set(ref audioAttachmentVolume, value < 0 ? 0 : value > 1 ? 1 : value);
         }
 
-        private float audioAttachmentPos = 0.0f;
-        public float AudioAttachmentPos
+        private double audioAttachmentPos = 0.0;
+        public double AudioAttachmentPos
         {
             get => audioAttachmentPos;
             set => Set(ref audioAttachmentPos, value < 0 ? 0 : value > 1 ? 1 : value);

@@ -598,7 +598,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
     <value>Make admin</value>
   </data>
   <data name="MessageTooLargeFailureMessage" xml:space="preserve">
-    <value>Your message couldn't be uploaded to the epistle Web API because it exceeds the maximum file size limit.</value>
+    <value>Your message couldn't be uploaded to the Epistle Web API because it exceeds the maximum file size limit.</value>
   </data>
   <data name="MessageTooLargeFailureTitle" xml:space="preserve">
     <value>Message too large</value>
