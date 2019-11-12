@@ -59,6 +59,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand ClickedOnImageAttachmentCommand { get; }
         public ICommand ClickedOnPlayAudioAttachmentCommand { get; }
         public ICommand LongPressedMessageTextCommand { get; }
+        public ICommand AudioThumbDraggedCommand { get; }
 
         #endregion
 
@@ -126,6 +127,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => isOwn;
             set => Set(ref isOwn, value);
         }
+        
+        private bool isAudioPlaying;
+        public bool IsAudioPlaying
+        {
+            get => isAudioPlaying;
+            set => Set(ref isAudioPlaying, value);
+        }
 
         public string FileSize => $"({FileBytes.GetFileSizeString()})";
 
@@ -159,11 +167,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref audioAttachmentVolume, value < 0 ? 0 : value > 1 ? 1 : value);
         }
 
-        private double audioAttachmentPos = 0.0;
-        public double AudioAttachmentPos
+        private double audioThumbPos = 0.0;
+        public double AudioThumbPos
         {
-            get => audioAttachmentPos;
-            set => Set(ref audioAttachmentPos, value < 0 ? 0 : value > 1 ? 1 : value);
+            get => audioThumbPos;
+            set => Set(ref audioThumbPos, value < 0 ? 0 : value > 1 ? 1 : value);
         }
 
         public bool GifVisibility => IsGif();
@@ -182,6 +190,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.methodQ = methodQ;
 
             DownloadAttachmentCommand = new DelegateCommand(OnDownloadAttachment);
+            AudioThumbDraggedCommand = new DelegateCommand(OnAudioThumbDragged);
             CopyUserIdToClipboardCommand = new DelegateCommand(OnCopyUserIdToClipboard);
             ClickedOnImageAttachmentCommand = new DelegateCommand(OnClickedImagePreview);
             LongPressedMessageTextCommand = new DelegateCommand(OnLongPressedMessageText);
@@ -301,7 +310,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
+            IsAudioPlaying = !IsAudioPlaying;
+
             // TODO: play voice message here
+        }
+        
+        private void OnAudioThumbDragged(object commandParam)
+        {
+            // TODO: set playback offset here
         }
 
         private void OnCopyUserIdToClipboard(object commandParam)

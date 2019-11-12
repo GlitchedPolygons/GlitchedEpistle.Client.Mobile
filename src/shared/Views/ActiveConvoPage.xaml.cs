@@ -92,6 +92,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             RefreshTintTransformations();
 
             ResetHeaderButtonColor(ExitButton);
+            ResetHeaderButtonColor(SendTextButton);
+            ResetHeaderButtonColor(SendFileButton);
+            ResetHeaderButtonColor(SendAudioButton);
+            ResetHeaderButtonColor(EditConvoButton);
             ResetHeaderButtonColor(ScrollToBottomButton);
         }
 

@@ -242,7 +242,6 @@
                                     VerticalOptions="End"
                                     x:Name="SendAudioButton"
                                     IsVisible="True"
-                                    IsEnabled="{Binding CanSend}"
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.mic-icon-white.png}"
                                     Style="{DynamicResource HeaderButtonStyle}">
                         <ff:CachedImage.GestureRecognizers>
