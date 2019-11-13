@@ -120,6 +120,7 @@
                                SelectedItem="{Binding Language}"
                                ItemsSource="{Binding Languages}"
                                ItemDisplayBinding="{Binding Item2}"
+                               IsEnabled="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}"
                                Style="{DynamicResource PickerStyle}" />
 
                        <StackLayout Orientation="Horizontal"

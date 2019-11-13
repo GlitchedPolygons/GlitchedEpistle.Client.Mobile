@@ -114,6 +114,7 @@
 
                     <Picker Title="{i:Translate Language}"
                             FontSize="14"
+                            IsEnabled="{Binding UIEnabled}"
                             SelectedItem="{Binding Language}"
                             ItemsSource="{Binding Languages}"
                             ItemDisplayBinding="{Binding Item2}"
