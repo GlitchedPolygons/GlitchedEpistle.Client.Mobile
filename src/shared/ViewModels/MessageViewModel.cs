@@ -343,7 +343,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 thumbUpdater = methodQ.Schedule(() =>
                 {
                     AudioThumbPos = audioPlayer.CurrentPosition / audioPlayer.Duration;
-                    if (AudioThumbPos > 0.99d && thumbUpdater.HasValue)
+                    
+                    if (AudioThumbPos > 0.99d)
                     {
                         OnClickedPlayAudioAttachment(null);
                     }
