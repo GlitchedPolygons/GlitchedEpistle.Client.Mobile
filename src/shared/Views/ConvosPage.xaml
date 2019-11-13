@@ -27,6 +27,7 @@
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+             xmlns:views="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvosPage"
              x:Name="EpistleMainPage"
              mc:Ignorable="d"
@@ -42,7 +43,7 @@
                    HorizontalTextAlignment="Center"
                    MaxLines="1" />
 
-            <StackLayout Orientation="Horizontal" 
+            <StackLayout Orientation="Horizontal"
                          HorizontalOptions="CenterAndExpand"
                          Margin="0,-4,0,0">
                 <Label Style="{DynamicResource SubLabelStyle}"
@@ -141,7 +142,7 @@
                   x:Name="ConvosListView"
                   ItemsSource="{Binding Convos}"
                   ItemTapped="ConvosListView_OnItemTapped"
-                  HasUnevenRows="true"
+                  HasUnevenRows="True"
                   RefreshAllowed="True"
                   IsPullToRefreshEnabled="True"
                   IsRefreshing="{Binding IsRefreshing}"
@@ -173,15 +174,16 @@
                                            Text="{Binding Id}"
                                            Style="{DynamicResource SubLabelStyle}" />
                                 </StackLayout>
-                                <ff:CachedImage VerticalOptions="FillAndExpand"
-                                                Aspect="AspectFit"
-                                                Margin="6,0,6,10"
-                                                DownsampleToViewSize="True"
-                                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
+                                <views:TintedCachedImage VerticalOptions="FillAndExpand"
+                                                         Aspect="AspectFit"
+                                                         Margin="6,0,6,10"
+                                                         DownsampleToViewSize="True"
+                                                         TintColor="{DynamicResource HeaderButtonIdleColorHex}"
+                                                         Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
                                     <ff:CachedImage.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" CommandParameter="{Binding .}" />
                                     </ff:CachedImage.GestureRecognizers>
-                                </ff:CachedImage>
+                                </views:TintedCachedImage>
                             </StackLayout>
                             <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
                         </StackLayout>

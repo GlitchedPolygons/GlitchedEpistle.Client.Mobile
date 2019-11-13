@@ -46,7 +46,7 @@
                        Margin="0,0,0,-5"
                        FontSize="14"
                        FontAttributes="Bold"
-                       Style="{DynamicResource MediumLabelStyle}" />
+                       TextColor="White" />
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="Start">
@@ -55,8 +55,8 @@
                     <Label Text="{Binding SenderId}"
                            FontSize="12.5"
                            Margin="0,0,0,0"
+                           TextColor="White"
                            HorizontalOptions="Start"
-                           Style="{DynamicResource MediumLabelStyle}"
                            FontAttributes="Italic" />
 
                     <!-- Copy user id to clipboard button -->
@@ -81,19 +81,21 @@
                 </StackLayout>
 
                 <!-- Separator wall -->
-                <BoxView Color="{DynamicResource SecondaryTextColor}"
-                         BackgroundColor="{DynamicResource SecondaryTextColor}"
+                <BoxView Color="#dbdbdb"
+                         BackgroundColor="#dbdbdb"
                          Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
                 <!--{Binding Timestamp}-->
                 <Label FontSize="12"
                        Margin="0"
+                       TextColor="White"
                        Text="{Binding Timestamp}"
                        Style="{DynamicResource MediumLabelStyle}" />
 
                 <!-- Text -->
                 <Label FontSize="15"
                        Margin="0"
+                       TextColor="White"
                        Text="{Binding Text}"
                        Style="{DynamicResource MessageLabelTextBox}"
                        IsVisible="{Binding HasAttachment, Converter={converters:InverseBoolConverter}}"
@@ -162,11 +164,13 @@
                     <Label Margin="0" 
                            Text="{i:Translate AttachmentLabel}"
                            FontSize="12"
+                           TextColor="White"
                            Style="{DynamicResource MediumLabelStyle}"
                            VerticalOptions="Center" />
 
                     <Label Text="{Binding FileSize}"
                            FontSize="12"
+                           TextColor="White"
                            Style="{DynamicResource MediumLabelStyle}"
                            VerticalOptions="Center" />
                 </StackLayout>
