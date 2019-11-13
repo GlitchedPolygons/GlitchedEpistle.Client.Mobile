@@ -181,13 +181,14 @@
             </ListView>
 
             <!-- TextBox + Send Buttons -->
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal" 
+                         VerticalOptions="End">
 
                 <Editor x:Name="TextBox"
-                        MinimumHeightRequest="32"
                         FontSize="14"
                         Margin="5,0"
                         MaxLength="8192"
+                        HeightRequest="50"
                         Text="{Binding Text}"
                         IsEnabled="{Binding CanSend}"
                         Style="{DynamicResource EditorStyle}"

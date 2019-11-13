@@ -19,13 +19,10 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-
 using FFImageLoading.Forms;
 using FFImageLoading.Transformations;
-
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
@@ -131,7 +128,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             {
                 return;
             }
-            
+
             LoadPreviousMessagesButton.IsVisible = LoadPreviousMessagesButton.IsEnabled = false;
 
             MessagesListBox.ScrollTo(last, ScrollToPosition.Center, (e as ScrollToBottomEventArgs)?.Animated ?? true);
@@ -171,8 +168,28 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             SendTextButton.IsVisible = TextBox.Text.NotNullNotEmpty();
             SendAudioButton.IsVisible = TextBox.Text.NullOrEmpty();
+
+            if (TextBox.Text.NullOrEmpty())
+            {
+                TextBox.HeightRequest = 50;
+            }
+            else
+            {
+                switch (TextBox.Text.Split('\n').Length)
+                {
+                    case 1:
+                        TextBox.HeightRequest = 50;
+                        break;
+                    case 2:
+                        TextBox.HeightRequest = 75;
+                        break;
+                    default:
+                        TextBox.HeightRequest = 100;
+                        break;
+                }
+            }
         }
-        
+
         private async void LoadPreviousMessagesButton_OnClicked(object sender, EventArgs e)
         {
             object scrollLock = MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();
@@ -190,7 +207,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
             MessagesListBox.ScrollTo(scrollLock, ScrollToPosition.Start, false);
         }
-        
+
         private void MessagesListBox_OnItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             if (IsLastItem(e.Item))
