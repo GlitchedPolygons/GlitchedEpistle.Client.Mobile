@@ -27,6 +27,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Paths;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Permissions;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using Plugin.Permissions.Abstractions;
 using Plugin.SimpleAudioPlayer;
 using Xamarin.Forms;
@@ -199,6 +200,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         ~MessageViewModel()
         {
+            audioPlayer?.Stop();
             Text = FileName = null;
             if (FileBytes != null)
             {
@@ -338,6 +340,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             
             if (IsAudioPlaying)
             {
+                if (AudioThumbPos > 0.99d)
+                {
+                    audioPlayer.Seek(0);
+                }
+                
                 audioPlayer.Play();
                 
                 thumbUpdater = methodQ.Schedule(() =>

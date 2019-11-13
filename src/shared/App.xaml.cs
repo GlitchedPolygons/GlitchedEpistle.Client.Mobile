@@ -52,6 +52,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.ServerHealth;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 using GlitchedPolygons.GlitchedEpistle.Client.Utilities;
+using Plugin.SimpleAudioPlayer;
 using Prism.Events;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
@@ -62,6 +63,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// The client version number.
         /// </summary>
         public static string Version => Assembly.GetCallingAssembly()?.GetName()?.Version?.ToString();
+        
+        /// <summary>
+        /// The app's central audio player unit.
+        /// </summary>
+        public static ISimpleAudioPlayer AudioPlayer => audioPlayer;
 
         /// <summary>
         /// Gets the currently active GUI theme (appearance of the app).
@@ -73,6 +79,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// Dependency injection container.
         /// </summary>
         private readonly IUnityContainer container = new UnityContainer();
+
+        private static readonly ISimpleAudioPlayer audioPlayer = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
 
         private readonly User user;
         private readonly ILogger logger;
