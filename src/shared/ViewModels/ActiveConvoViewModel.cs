@@ -222,6 +222,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             CanSend = false;
             disposed = true;
             StopAutomaticPulling();
+
+            foreach (var msg in Messages)
+            {
+                msg.Dispose();
+            }
         }
 
         public async void OnAppearing()

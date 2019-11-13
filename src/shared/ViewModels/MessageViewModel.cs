@@ -35,7 +35,7 @@ using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class MessageViewModel : ViewModel
+    public class MessageViewModel : ViewModel, IDisposable
     {
         #region Constants
 
@@ -181,9 +181,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public string Id { get; set; }
 
+        private bool disposed;
         private ulong? thumbUpdater;
         private ulong? scheduledHideGreenTickIcon;
-        
         private ISimpleAudioPlayer audioPlayer;
 
         public MessageViewModel(IMethodQ methodQ)
@@ -200,6 +200,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         ~MessageViewModel()
         {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            disposed = true;
             audioPlayer?.Stop();
             Text = FileName = null;
             if (FileBytes != null)
