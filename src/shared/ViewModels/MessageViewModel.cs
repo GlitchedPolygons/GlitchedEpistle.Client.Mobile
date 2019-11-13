@@ -364,7 +364,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnAudioThumbDragged(object commandParam)
         {
-            if (!audioPlayer.CanSeek)
+            if (audioPlayer is null || !audioPlayer.CanSeek)
             {
                 return;
             }
