@@ -326,8 +326,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (audioPlayer is null)
             {
                 audioPlayer = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-                audioPlayer.Loop = false;
                 AudioLoadFailed = !audioPlayer.Load(FileBytesStream());
+                audioPlayer.Loop = false;
+                OnAudioThumbDragged(null);
             }
 
             if (AudioLoadFailed)
