@@ -16,6 +16,10 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Prism.Events;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -28,6 +32,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
+using GlitchedPolygons.Services.MethodQ;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
 using Xamarin.Forms;
@@ -36,11 +41,12 @@ using OtpNet;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class LoginViewModel : ViewModel, IOnAppearingListener
+    public class LoginViewModel : ViewModel, IOnAppearingListener, IOnDisappearingListener
     {
         #region Constants
 
         // Injections:
+        private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
         private readonly ILoginService loginService;
@@ -95,18 +101,48 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => showTotpField;
             set => Set(ref showTotpField, value);
         }
+        
+        private Tuple<string, string> language;
+        public Tuple<string, string> Language
+        {
+            get => language;
+            set
+            {
+                if (Set(ref language, value))
+                    appSettings["Language"] = value.Item1;
+                
+                if (initialized) 
+                    ShowLanguageRestartRequiredWarning = true;
+            }
+        }
+        
+        private ObservableCollection<Tuple<string, string>> languages;
+        public ObservableCollection<Tuple<string, string>> Languages
+        {
+            get => languages;
+            set => Set(ref languages, value);
+        }
+
+        private bool showLanguageRestartRequiredWarning = false;
+        public bool ShowLanguageRestartRequiredWarning
+        {
+            get => showLanguageRestartRequiredWarning;
+            set => Set(ref showLanguageRestartRequiredWarning, value);
+        }
 
         #endregion
 
         private volatile int failedAttempts;
         private volatile bool pendingAttempt;
-        
+        private volatile bool initialized = false;
+
         public bool AutoPromptForFingerprint { get; set; } = true;
 
-        public LoginViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator, ITotpProvider totpProvider)
+        public LoginViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator, ITotpProvider totpProvider, IMethodQ methodQ)
         {
             localization = DependencyService.Get<ILocalization>();
 
+            this.methodQ = methodQ;
             this.appSettings = appSettings;
             this.loginService = loginService;
             this.totpProvider = totpProvider;
@@ -122,6 +158,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public async void OnAppearing()
         {
             UserId = appSettings.LastUserId;
+            
+            Languages = new ObservableCollection<Tuple<string, string>>(new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("en", localization["English"] + " (English)"),
+                new Tuple<string, string>("de", localization["German"] + " (Deutsch)"),
+                new Tuple<string, string>("gsw", localization["SwissGerman"] + " (Schwiizerdütsch)"),
+                new Tuple<string, string>("it", localization["Italian"] + " (Italiano)")
+            });
+            
+            Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]) ?? Languages[0];
             
             if (appSettings["SaveUserPassword", true])
             {
@@ -142,6 +188,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 OnClickedLogin(null);
             }
+            
+            methodQ.Schedule(() => initialized = true, DateTime.UtcNow.AddMilliseconds(420));
+        }
+        
+        public void OnDisappearing()
+        {
+            appSettings["Language"] = Language.Item1;
         }
 
         private void OnClickedLogin(object commandParam)

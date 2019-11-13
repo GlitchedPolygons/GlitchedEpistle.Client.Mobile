@@ -26,6 +26,7 @@
              NavigationPage.HasBackButton="False"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.RegisterPage">
     <ContentPage.Content>
@@ -79,7 +80,7 @@
                        Placeholder="{i:Translate UserCreationSecretLabel}"
                        Text="{Binding UserCreationSecret}" />
 
-                <StackLayout Margin="0,20,0,0" Spacing="10">
+                <StackLayout Margin="0,20" Spacing="10">
 
                     <Button Text="{i:Translate ChangeServerButton}"
                             Command="{Binding EditServerUrlCommand}"
@@ -104,6 +105,34 @@
                                            WidthRequest="25"
                                            HeightRequest="25" />
                     </StackLayout>
+                </StackLayout>
+                
+                <StackLayout VerticalOptions="End">
+
+                       <Label Text="{i:Translate LanguageLabel}"
+                              FontSize="16"
+                              Margin="3,0,0,3"
+                              HorizontalOptions="Start"
+                              Style="{DynamicResource MediumLabelStyle}" />
+
+                       <Picker Title="{i:Translate Language}"
+                               FontSize="14"
+                               SelectedItem="{Binding Language}"
+                               ItemsSource="{Binding Languages}"
+                               ItemDisplayBinding="{Binding Item2}"
+                               Style="{DynamicResource PickerStyle}" />
+
+                       <StackLayout Orientation="Horizontal"
+                                    Margin="0,5"
+                                    IsVisible="{Binding ShowLanguageRestartRequiredWarning}">
+                              <forms:CachedImage WidthRequest="32"
+                                                 HeightRequest="32"
+                                                 DownsampleToViewSize="True"
+                                                 Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.warning.png}" />
+                              <Label Text="{i:Translate LanguageChangeRestartRequiredLabel}"
+                                     FontSize="12"
+                                     Style="{DynamicResource SubLabelStyle}" />
+                       </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

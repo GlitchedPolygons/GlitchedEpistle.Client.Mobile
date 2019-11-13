@@ -18,11 +18,12 @@
 
 using Prism.Events;
 using Xamarin.Forms;
-
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
-
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
@@ -32,22 +33,28 @@ using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
+using GlitchedPolygons.Services.MethodQ;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class RegisterViewModel : ViewModel
+    public class RegisterViewModel : ViewModel, IOnAppearingListener, IOnDisappearingListener
     {
         #region Injections
+
         private readonly User user;
         private readonly ILogger logger;
+        private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
         private readonly ILocalization localization;
         private readonly IEventAggregator eventAggregator;
         private readonly IRegistrationService registrationService;
+
         #endregion
 
         #region UI Bindings
+
         private string username = string.Empty;
         public string Username
         {
@@ -112,7 +119,35 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => showUserCreationSecretField;
             set => Set(ref showUserCreationSecretField, value);
         }
-        
+
+        private Tuple<string, string> language;
+        public Tuple<string, string> Language
+        {
+            get => language;
+            set
+            {
+                if (Set(ref language, value))
+                    appSettings["Language"] = value.Item1;
+
+                if (initialized)
+                    ShowLanguageRestartRequiredWarning = true;
+            }
+        }
+
+        private ObservableCollection<Tuple<string, string>> languages;
+        public ObservableCollection<Tuple<string, string>> Languages
+        {
+            get => languages;
+            set => Set(ref languages, value);
+        }
+
+        private bool showLanguageRestartRequiredWarning = false;
+        public bool ShowLanguageRestartRequiredWarning
+        {
+            get => showLanguageRestartRequiredWarning;
+            set => Set(ref showLanguageRestartRequiredWarning, value);
+        }
+
         #endregion
 
         #region Commands
@@ -123,10 +158,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #endregion
 
-        public RegisterViewModel(IEventAggregator eventAggregator, IRegistrationService registrationService, IUserSettings userSettings, ILogger logger, User user, IAppSettings appSettings)
+        private volatile bool initialized = false;
+
+        public RegisterViewModel(IEventAggregator eventAggregator, IRegistrationService registrationService, IUserSettings userSettings, ILogger logger, User user, IAppSettings appSettings, IMethodQ methodQ)
         {
             this.user = user;
             this.logger = logger;
+            this.methodQ = methodQ;
             this.appSettings = appSettings;
             this.userSettings = userSettings;
             this.eventAggregator = eventAggregator;
@@ -135,20 +173,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             localization = DependencyService.Get<ILocalization>();
 
             bool onOfficialServer = appSettings.ServerUrl.Contains("epistle.glitchedpolygons.com");
-            
+
             ShowUserCreationSecretField = !onOfficialServer;
-            
+
             if (onOfficialServer)
             {
                 UserCreationSecret = "Freedom";
             }
-            
+
             CancelCommand = new DelegateCommand(OnClickedCancel);
             RegisterCommand = new DelegateCommand(OnClickedRegister);
-            EditServerUrlCommand = new DelegateCommand(_ =>
-            {
-                eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Publish();
-            });
+            EditServerUrlCommand = new DelegateCommand(_ => { eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Publish(); });
         }
 
         private void OnClickedCancel(object commandParam)
@@ -162,7 +197,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 || Username.NullOrEmpty()
                 || Password.NullOrEmpty()
                 || PasswordConfirmation.NullOrEmpty()
-                || Password != PasswordConfirmation 
+                || Password != PasswordConfirmation
                 || Password.Length < 7)
             {
                 return;
@@ -222,6 +257,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         PasswordConfirmation.NotNullNotEmpty() &&
                         Password == PasswordConfirmation &&
                         Password.Length > 7;
+        }
+
+        public void OnAppearing()
+        {
+            Languages = new ObservableCollection<Tuple<string, string>>(new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("en", localization["English"] + " (English)"),
+                new Tuple<string, string>("de", localization["German"] + " (Deutsch)"),
+                new Tuple<string, string>("gsw", localization["SwissGerman"] + " (Schwiizerdütsch)"),
+                new Tuple<string, string>("it", localization["Italian"] + " (Italiano)")
+            });
+
+            Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]) ?? Languages[0];
+
+            methodQ.Schedule(() => initialized = true, DateTime.UtcNow.AddMilliseconds(420));
+        }
+
+        public void OnDisappearing()
+        {
+            appSettings["Language"] = Language.Item1;
         }
     }
 }

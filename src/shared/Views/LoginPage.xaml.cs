@@ -51,6 +51,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             TotpTextBox_TextChanged(this, null);
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            
+            (BindingContext as IOnDisappearingListener)?.OnDisappearing();
+        }
+
         private void UserIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             LoginButton.IsEnabled = FormReady;

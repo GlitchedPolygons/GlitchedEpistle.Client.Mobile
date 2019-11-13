@@ -25,6 +25,7 @@
              mc:Ignorable="d"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
     <ContentPage.Content>
@@ -97,11 +98,39 @@
                             IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
                 </StackLayout>
 
-                <ActivityIndicator Margin="0,5,0,0" 
+                <ActivityIndicator Margin="0,5,0,0"
                                    WidthRequest="32"
                                    HeightRequest="32"
                                    HorizontalOptions="Center"
                                    IsRunning="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
+
+                <StackLayout VerticalOptions="End">
+
+                    <Label Text="{i:Translate LanguageLabel}"
+                           FontSize="16"
+                           Margin="3,0,0,3"
+                           HorizontalOptions="Start"
+                           Style="{DynamicResource MediumLabelStyle}" />
+
+                    <Picker Title="{i:Translate Language}"
+                            FontSize="14"
+                            SelectedItem="{Binding Language}"
+                            ItemsSource="{Binding Languages}"
+                            ItemDisplayBinding="{Binding Item2}"
+                            Style="{DynamicResource PickerStyle}" />
+
+                    <StackLayout Orientation="Horizontal"
+                                 Margin="0,5"
+                                 IsVisible="{Binding ShowLanguageRestartRequiredWarning}">
+                        <forms:CachedImage WidthRequest="32"
+                                           HeightRequest="32"
+                                           DownsampleToViewSize="True"
+                                           Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.warning.png}" />
+                        <Label Text="{i:Translate LanguageChangeRestartRequiredLabel}"
+                               FontSize="12"
+                               Style="{DynamicResource SubLabelStyle}" />
+                    </StackLayout>
+                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
