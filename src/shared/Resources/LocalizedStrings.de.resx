@@ -721,4 +721,12 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="MicrophonePermissionNeededForRecordingAudioAttachmentTitle" xml:space="preserve">
     <value>Fehlende Berechtigungen</value>
   </data>
+  <data name="AudioLoadFailedErrorMessageText" xml:space="preserve">
+    <value>Die Sprachnachricht konnte leider nicht wiedergegeben werden.</value>
+    <comment>The specified audio attachment cannot be played back.</comment>
+  </data>
+  <data name="AudioLoadFailedErrorMessageTitle" xml:space="preserve">
+    <value>Tonwiedergabe fehlgeschlagen</value>
+    <comment>Audio playback failed</comment>
+  </data>
 </root>

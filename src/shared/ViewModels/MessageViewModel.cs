@@ -20,7 +20,6 @@ using System;
 using System.IO;
 using System.Globalization;
 using System.Windows.Input;
-using FFImageLoading.Forms;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
@@ -28,10 +27,8 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Paths;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Permissions;
-using Plugin.FilePicker;
-using Plugin.FilePicker.Abstractions;
-using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using Plugin.SimpleAudioPlayer;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
@@ -159,12 +156,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => clipboardTickVisible;
             set => Set(ref clipboardTickVisible, value);
         }
-
-        private double audioAttachmentVolume = 1.0;
-        public double AudioAttachmentVolume
+        
+        private bool audioLoadFailed = false;
+        public bool AudioLoadFailed
         {
-            get => audioAttachmentVolume;
-            set => Set(ref audioAttachmentVolume, value < 0 ? 0 : value > 1 ? 1 : value);
+            get => audioLoadFailed;
+            set => Set(ref audioLoadFailed, value);
         }
 
         private double audioThumbPos = 0.0;
@@ -183,7 +180,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public string Id { get; set; }
 
+        private ulong? thumbUpdater;
         private ulong? scheduledHideGreenTickIcon;
+        
+        private ISimpleAudioPlayer audioPlayer;
 
         public MessageViewModel(IMethodQ methodQ)
         {
@@ -303,21 +303,72 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             fileOpener.OpenFile(filePath);
         }
 
-        private async void OnClickedPlayAudioAttachment(object commandParam)
+        private void OnClickedPlayAudioAttachment(object commandParam)
         {
             if (!IsAudio())
             {
                 return;
             }
 
+            if (audioPlayer is null)
+            {
+                audioPlayer = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                audioPlayer.Loop = false;
+                AudioLoadFailed = !audioPlayer.Load(FileBytesStream());
+            }
+
+            if (AudioLoadFailed)
+            {
+                Application.Current.MainPage.DisplayAlert(localization["AudioLoadFailedErrorMessageTitle"], localization["AudioLoadFailedErrorMessageText"], "OK");
+                return;
+            }
+
+            if (audioPlayer is null)
+            {
+                return;
+            }
+            
             IsAudioPlaying = !IsAudioPlaying;
 
-            // TODO: play voice message here
+            if (thumbUpdater.HasValue)
+            {
+                methodQ.Cancel(thumbUpdater.Value);
+                thumbUpdater = null;
+            }
+            
+            if (IsAudioPlaying)
+            {
+                audioPlayer.Play();
+                
+                thumbUpdater = methodQ.Schedule(() =>
+                {
+                    AudioThumbPos = audioPlayer.CurrentPosition / audioPlayer.Duration;
+                    if (AudioThumbPos > 0.99d && thumbUpdater.HasValue)
+                    {
+                        OnClickedPlayAudioAttachment(null);
+                    }
+                }, TimeSpan.FromMilliseconds(420.69d));
+            }
+            else
+            {
+                audioPlayer.Pause();
+                
+                if (thumbUpdater.HasValue)
+                {
+                    methodQ.Cancel(thumbUpdater.Value);
+                    thumbUpdater = null;
+                }
+            }
         }
-        
+
         private void OnAudioThumbDragged(object commandParam)
         {
-            // TODO: set playback offset here
+            if (!audioPlayer.CanSeek)
+            {
+                return;
+            }
+
+            audioPlayer.Seek(AudioThumbPos * audioPlayer.Duration);
         }
 
         private void OnCopyUserIdToClipboard(object commandParam)

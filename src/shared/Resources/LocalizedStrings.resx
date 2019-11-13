@@ -692,4 +692,10 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="MicrophonePermissionNeededForRecordingAudioAttachmentTitle" xml:space="preserve">
     <value>Insufficient permissions</value>
   </data>
+  <data name="AudioLoadFailedErrorMessageText" xml:space="preserve">
+    <value>The specified audio attachment cannot be played back.</value>
+  </data>
+  <data name="AudioLoadFailedErrorMessageTitle" xml:space="preserve">
+    <value>Audio playback failed</value>
+  </data>
 </root>
