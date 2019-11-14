@@ -113,10 +113,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref cancelButtonEnabled, value);
         }
 
+        private Color recordingCircleColor = Color.Transparent;
+        public Color RecordingCircleColor
+        {
+            get => recordingCircleColor;
+            set => Set(ref recordingCircleColor, value);
+        }
+
         #endregion
 
         private ulong? counter;
         private ulong? thumbUpdater;
+        private ulong? recordingCirclePulse;
         private volatile int seconds;
         private ISimpleAudioPlayer audioPlayer;
         private ISimpleAudioRecorder audioRecorder;
@@ -265,6 +273,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnSend(object commandParam)
         {
+            if (Result is null)
+            {
+                return;
+            }
+            
             if (AskForConfirmation)
             {
                 if (!await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["ConfirmSendingVoiceMessageDialogText"], localization["Yes"], localization["No"]))
@@ -273,17 +286,31 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
             }
             
-            throw new NotImplementedException();
+            StopCounter();
+            
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private void OnCancel(object commandParam)
+        private async void OnCancel(object commandParam)
         {
+            if (IsRecording)
+            {
+                OnStopRecording(null);
+            }
             OnReset(null);
-            Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void StopCounter()
         {
+            if (recordingCirclePulse.HasValue)
+            {
+                methodQ.Cancel(recordingCirclePulse.Value);
+                recordingCirclePulse = null;
+            }
+            
+            RecordingCircleColor = Color.Transparent;
+            
             if (counter.HasValue)
             {
                 methodQ.Cancel(counter.Value);
@@ -294,6 +321,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private void StartCounter()
         {
             counter = methodQ.Schedule(() => Duration = TimeSpan.FromSeconds(++seconds).ToString(@"mm\:ss"), TimeSpan.FromMilliseconds(1000));
+            recordingCirclePulse = methodQ.Schedule(() => RecordingCircleColor = RecordingCircleColor == Color.Transparent ? Color.Red : Color.Transparent, TimeSpan.FromMilliseconds(500));
         }
     }
 }
