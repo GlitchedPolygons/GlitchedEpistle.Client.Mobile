@@ -32,7 +32,7 @@
         <ScrollView>
             <StackLayout HorizontalOptions="Center"
                          VerticalOptions="Center"
-                         WidthRequest="275"
+                         MinimumWidthRequest="280"
                          Margin="32,32,32,50">
 
                 <Label Style="{DynamicResource TitleLabelStyle}"

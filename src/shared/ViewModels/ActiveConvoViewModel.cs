@@ -394,12 +394,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             view.Disappearing += (sender, e) =>
             {
-                // TODO: retrieve recording and send to convo
+                if (viewModel.Result != null)
+                {
+                    SendFile($"{DateTime.UtcNow:yyyy-MM-dd-HHmm-}{ActiveConvo.Id.Substring(0,4)}.wav" ,File.ReadAllBytes(viewModel.Result.GetFilePath()));
+                }
             };
             
             await Application.Current.MainPage.Navigation.PushModalAsync(view);
-            
-            // TODO: implement ASAP!
         }
 
         private async void OnSendFile(object commandParam)
@@ -416,15 +417,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
             
+            SendFile(pickerResult.FileName, pickerResult.DataArray);
+        }
+
+        private void SendFile(string fileName, byte[] fileBytes)
+        {
             var _=Task.Run(async () =>
             {
                 CanSend = false;
                 
-                byte[] fileBytes = pickerResult.DataArray;
-
                 if (fileBytes.LongLength < MessageSender.MAX_FILE_SIZE_BYTES)
                 {
-                    if (!await messageSender.PostFile(ActiveConvo, pickerResult.FileName, fileBytes))
+                    if (!await messageSender.PostFile(ActiveConvo, fileName, fileBytes))
                     {
                         ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
                     }

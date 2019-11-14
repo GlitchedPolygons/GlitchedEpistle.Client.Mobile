@@ -264,7 +264,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             audioPlayer = null;
             
             audioRecorder = CrossSimpleAudioRecorder.CreateSimpleAudioRecorder();
-
+            
             Result = null;
             Duration = "00:00";
             Done = IsRecording = false;
@@ -276,6 +276,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (Result is null)
             {
                 return;
+            }
+            
+            if (IsAudioPlaying)
+            {
+                OnClickedPlay(null);
             }
             
             if (AskForConfirmation)
@@ -297,6 +302,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 OnStopRecording(null);
             }
+            
             OnReset(null);
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
