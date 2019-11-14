@@ -396,7 +396,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 if (viewModel.Result != null)
                 {
-                    SendFile($"{DateTime.UtcNow:yyyy-MM-dd-HHmm-}{ActiveConvo.Id.Substring(0,4)}.wav" ,File.ReadAllBytes(viewModel.Result.GetFilePath()));
+                    SendFile($"{DateTime.UtcNow:yyyy-MM-dd-HHmm-}{ActiveConvo.Id.Substring(0, 4)}.wav", viewModel.Result);
                 }
             };
             

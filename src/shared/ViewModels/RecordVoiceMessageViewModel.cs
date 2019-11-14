@@ -18,6 +18,7 @@
 
 using Xamarin.Forms;
 using System;
+using System.IO;
 using System.Windows.Input;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
@@ -32,7 +33,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
     public class RecordVoiceMessageViewModel : ViewModel, IOnAppearingListener, IOnDisappearingListener
     {
-        public AudioRecording Result { get; set; }
+        public byte[] Result { get; private set; }
 
         #region Constants
 
@@ -170,7 +171,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (audioPlayer is null)
             {
                 audioPlayer = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-                AudioLoadFailed = !audioPlayer.Load(Result.GetAudioStream());
+                AudioLoadFailed = !audioPlayer.Load(new MemoryStream(Result));
                 audioPlayer.Loop = false;
                 OnAudioThumbDragged(null);
             }
@@ -246,7 +247,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private async void OnStopRecording(object commandParam)
         {
             StopCounter();
-            Result = await audioRecorder.StopAsync();
+            Result = File.ReadAllBytes((await audioRecorder.StopAsync()).GetFilePath());
             Done = true;
             IsRecording = false;
         }
