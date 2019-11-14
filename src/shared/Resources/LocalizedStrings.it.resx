@@ -725,4 +725,22 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
     <value>Emissione audio fallita</value>
     <comment>Audio playback failed</comment>
   </data>
+  <data name="AskForConfirmationBeforeSending" xml:space="preserve">
+    <value>Richiedi conferma di spedizione</value>
+  </data>
+  <data name="PreviewAudioRecordingLabel" xml:space="preserve">
+    <value>Pronto per la registrazione!</value>
+  </data>
+  <data name="RecordAudioMessageLabel" xml:space="preserve">
+    <value>Registra messaggio vocale</value>
+  </data>
+  <data name="SendButton" xml:space="preserve">
+    <value>Invia</value>
+  </data>
+  <data name="StartRecordingButton" xml:space="preserve">
+    <value>Inizia registrazione</value>
+  </data>
+  <data name="StopRecordingButton" xml:space="preserve">
+    <value>Ferma registrazione</value>
+  </data>
 </root>

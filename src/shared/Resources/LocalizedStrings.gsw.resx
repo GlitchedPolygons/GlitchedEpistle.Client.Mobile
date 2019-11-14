@@ -733,4 +733,19 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
     <value>Ton Wiedergab fäugschlage</value>
     <comment>Audio playback failed</comment>
   </data>
+  <data name="PreviewAudioRecordingLabel" xml:space="preserve">
+    <value>Bereyt zum ufnääh!</value>
+  </data>
+  <data name="RecordAudioMessageLabel" xml:space="preserve">
+    <value>Spraachnachricht ufnääh</value>
+  </data>
+  <data name="SendButton" xml:space="preserve">
+    <value>Schicke</value>
+  </data>
+  <data name="StartRecordingButton" xml:space="preserve">
+    <value>Ufnaahm starte</value>
+  </data>
+  <data name="StopRecordingButton" xml:space="preserve">
+    <value>Ufnaahm stoppe</value>
+  </data>
 </root>

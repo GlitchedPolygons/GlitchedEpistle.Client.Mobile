@@ -698,4 +698,22 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="AudioLoadFailedErrorMessageTitle" xml:space="preserve">
     <value>Audio playback failed</value>
   </data>
+  <data name="AskForConfirmationBeforeSending" xml:space="preserve">
+    <value>Ask for confirmation before sending</value>
+  </data>
+  <data name="PreviewAudioRecordingLabel" xml:space="preserve">
+    <value>Ready to start recording!</value>
+  </data>
+  <data name="RecordAudioMessageLabel" xml:space="preserve">
+    <value>Record audio message</value>
+  </data>
+  <data name="SendButton" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="StartRecordingButton" xml:space="preserve">
+    <value>Start recording</value>
+  </data>
+  <data name="StopRecordingButton" xml:space="preserve">
+    <value>Stop recording</value>
+  </data>
 </root>

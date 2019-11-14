@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <!--
          Glitched Epistle - Mobile Client
@@ -23,13 +23,157 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
              BackgroundColor="{DynamicResource PageBackgroundColor}"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.RecordVoiceMessagePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         WidthRequest="275"
+                         Margin="32,32,32,50">
+
+                <Label Style="{DynamicResource TitleLabelStyle}"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Text="{i:Translate RecordAudioMessageLabel}" />
+
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="{DynamicResource ErrorMessageColor}"
+                       LineBreakMode="WordWrap"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       FontSize="14" />
+
+                <Label FontSize="16"
+                       Margin="0,0,0,20"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Style="{DynamicResource SubLabelStyle}"
+                       Text="{i:Translate PreviewAudioRecordingLabel}" />
+
+                <Label HeightRequest="32"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       VerticalTextAlignment="Center"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Margin="0,0,0,20"
+                       Text="{Binding Duration}"
+                       IsVisible="{Binding Done, Converter={converters:InverseBoolConverter}}"
+                       Style="{DynamicResource MediumLabelStyle}" />
+
+                <StackLayout Margin="0,0,0,20"
+                             HeightRequest="32"
+                             Orientation="Horizontal"
+                             IsVisible="{Binding Done}"
+                             HorizontalOptions="FillAndExpand">
+
+                    <ff:CachedImage Aspect="AspectFit"
+                                    WidthRequest="32"
+                                    HeightRequest="32"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Start"
+                                    DownsampleToViewSize="True"
+                                    IsEnabled="{Binding IsAudioPlaying, Converter={converters:InverseBoolConverter}}"
+                                    IsVisible="{Binding IsAudioPlaying, Converter={converters:InverseBoolConverter}}"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.play-icon-white.png}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClickedOnPlayAudioAttachmentCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+
+                    <ff:CachedImage Aspect="AspectFit"
+                                    WidthRequest="32"
+                                    HeightRequest="32"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Start"
+                                    DownsampleToViewSize="True"
+                                    IsEnabled="{Binding IsAudioPlaying}"
+                                    IsVisible="{Binding IsAudioPlaying}"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.pause-icon-white.png}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClickedOnPlayAudioAttachmentCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+
+                    <Slider Minimum="0.0"
+                            Maximum="1.0"
+                            Margin="-1,0"
+                            HeightRequest="32"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"
+                            DragCompletedCommand="{Binding AudioThumbDraggedCommand}"
+                            Value="{Binding AudioThumbPos}" />
+
+                    <Label FontSize="15"
+                           HeightRequest="32"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"
+                           Text="{Binding Duration}"
+                           IsVisible="{Binding Done, Converter={converters:InverseBoolConverter}}"
+                           Style="{DynamicResource MediumLabelStyle}" />
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand">
+
+                    <CheckBox IsChecked="{Binding AskForConfirmation}"
+                              VerticalOptions="CenterAndExpand"
+                              Scale="1.1" />
+
+                    <Label Text="{i:Translate AskForConfirmationBeforeSending}"
+                           Style="{DynamicResource MediumLabelStyle}"
+                           FontSize="16"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+
+                <StackLayout Spacing="16"
+                             Margin="0,10,0,0"
+                             IsVisible="{Binding Done, Converter={converters:InverseBoolConverter}}">
+
+                    <Button Text="{i:Translate StartRecordingButton}"
+                            x:Name="StartRecordingButton"
+                            IsEnabled="{Binding IsRecording, Converter={converters:InverseBoolConverter}}"
+                            IsVisible="{Binding IsRecording, Converter={converters:InverseBoolConverter}}"
+                            Command="{Binding StartRecordingCommand}" />
+
+                    <Button Text="{i:Translate StopRecordingButton}"
+                            x:Name="StopRecordingButton"
+                            IsEnabled="{Binding IsRecording}"
+                            IsVisible="{Binding IsRecording}"
+                            Command="{Binding StopRecordingCommand}" />
+                </StackLayout>
+
+                <StackLayout Spacing="16"
+                             Margin="0,10,0,10"
+                             IsVisible="{Binding Done}">
+
+                    <Button Text="{i:Translate SendButton}"
+                            x:Name="SendRecordingButton"
+                            IsEnabled="{Binding Done}"
+                            IsVisible="{Binding Done}"
+                            Command="{Binding SendCommand}" />
+
+                    <Button Text="{i:Translate ResetButton}"
+                            x:Name="ResetRecordingButton"
+                            IsEnabled="{Binding Done}"
+                            IsVisible="{Binding Done}"
+                            Command="{Binding ResetCommand}" />
+                </StackLayout>
+
+                <Button Text="{i:Translate CancelButton}"
+                        x:Name="CancelButton"
+                        IsEnabled="true"
+                        IsVisible="true"
+                        Command="{Binding CancelCommand}" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
