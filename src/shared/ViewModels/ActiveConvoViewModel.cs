@@ -164,6 +164,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #endregion
 
         private volatile bool disposed;
+        private volatile bool initialized;
         private volatile CancellationTokenSource autoFetch;
         private volatile CancellationTokenSource metadataUpdater;
 
@@ -231,6 +232,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public async void OnAppearing()
         {
+            if (initialized)
+            {
+                return;
+            }
+            
             if (ActiveConvo is null || ActiveConvo.Id.NullOrEmpty())
             {
                 throw new NullReferenceException($"{nameof(ActiveConvoViewModel)}::{nameof(OnAppearing)}: Tried to initialize a convo viewmodel without assigning it an {nameof(ActiveConvo)} first. Please assign that before calling init.");
@@ -257,11 +263,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs {Animated = false});
 
             methodQ.Schedule(() => Loading = false, DateTime.UtcNow.AddSeconds(4.20));
+            initialized = true;
         }
 
         public void OnDisappearing()
         {
-            Dispose();
+            //Dispose();
         }
 
         public async Task LoadPreviousMessages()

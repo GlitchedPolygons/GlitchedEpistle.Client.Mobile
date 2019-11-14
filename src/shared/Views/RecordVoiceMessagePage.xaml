@@ -116,7 +116,7 @@
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            Text="{Binding Duration}"
-                           IsVisible="{Binding Done, Converter={converters:InverseBoolConverter}}"
+                           IsVisible="true"
                            Style="{DynamicResource MediumLabelStyle}" />
                 </StackLayout>
 

@@ -23,7 +23,9 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.Services.MethodQ;
+using Plugin.SimpleAudioPlayer;
 using Plugin.SimpleAudioRecorder;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
@@ -36,8 +38,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private readonly ILogger logger;
         private readonly IMethodQ methodQ;
+        private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
-        private readonly ISimpleAudioRecorder audioRecorder;
 
         #endregion
 
@@ -82,6 +84,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => isAudioPlaying;
             set => Set(ref isAudioPlaying, value);
         }
+        
+        private bool audioLoadFailed = false;
+        public bool AudioLoadFailed
+        {
+            get => audioLoadFailed;
+            set => Set(ref audioLoadFailed, value);
+        }
 
         private bool done = false;
         public bool Done
@@ -106,13 +115,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #endregion
 
-        private ulong? counter = null;
-        private volatile int seconds = 0;
-
-        public RecordVoiceMessageViewModel(ILogger logger, IMethodQ methodQ)
+        private ulong? counter;
+        private ulong? thumbUpdater;
+        private volatile int seconds;
+        private ISimpleAudioPlayer audioPlayer;
+        private ISimpleAudioRecorder audioRecorder;
+        
+        public RecordVoiceMessageViewModel(ILogger logger, IMethodQ methodQ, IAppSettings appSettings)
         {
             this.logger = logger;
             this.methodQ = methodQ;
+            this.appSettings = appSettings;
 
             localization = DependencyService.Get<ILocalization>();
             audioRecorder = CrossSimpleAudioRecorder.CreateSimpleAudioRecorder();
@@ -123,11 +136,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             StartRecordingCommand = new DelegateCommand(OnStartRecording);
             StopRecordingCommand = new DelegateCommand(OnStopRecording);
             AudioThumbDraggedCommand = new DelegateCommand(OnAudioThumbDragged);
-            ClickedOnPlayAudioAttachmentCommand = new DelegateCommand(OnClickedOnPlay);
+            ClickedOnPlayAudioAttachmentCommand = new DelegateCommand(OnClickedPlay);
         }
 
         public async void OnAppearing()
         {
+            AskForConfirmation = appSettings["AskForConfirmationBeforeSendingVoiceMsg", true];
+            
             if (!audioRecorder.CanRecordAudio)
             {
                 await Application.Current.MainPage.DisplayAlert(localization["CannotRecordAudioErrorMessageTitle"], localization["CannotRecordAudioErrorMessageText"], "OK");
@@ -139,16 +154,77 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             StopCounter();
             audioRecorder?.StopAsync();
+            appSettings["AskForConfirmationBeforeSendingVoiceMsg"] = AskForConfirmation.ToString();
         }
 
-        private void OnClickedOnPlay(object commandParam)
+        private void OnClickedPlay(object commandParam)
         {
-            throw new NotImplementedException();
+            if (audioPlayer is null)
+            {
+                audioPlayer = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                AudioLoadFailed = !audioPlayer.Load(Result.GetAudioStream());
+                audioPlayer.Loop = false;
+                OnAudioThumbDragged(null);
+            }
+
+            if (AudioLoadFailed)
+            {
+                Application.Current.MainPage.DisplayAlert(localization["AudioLoadFailedErrorMessageTitle"], localization["AudioLoadFailedErrorMessageText"], "OK");
+                return;
+            }
+
+            if (audioPlayer is null)
+            {
+                return;
+            }
+            
+            IsAudioPlaying = !IsAudioPlaying;
+
+            if (thumbUpdater.HasValue)
+            {
+                methodQ.Cancel(thumbUpdater.Value);
+                thumbUpdater = null;
+            }
+            
+            if (IsAudioPlaying)
+            {
+                if (AudioThumbPos > 0.99d)
+                {
+                    audioPlayer.Seek(0);
+                }
+                
+                audioPlayer.Play();
+                
+                thumbUpdater = methodQ.Schedule(() =>
+                {
+                    AudioThumbPos = audioPlayer.CurrentPosition / audioPlayer.Duration;
+                    
+                    if (AudioThumbPos > 0.99d)
+                    {
+                        OnClickedPlay(null);
+                    }
+                }, TimeSpan.FromMilliseconds(420));
+            }
+            else
+            {
+                audioPlayer.Pause();
+                
+                if (thumbUpdater.HasValue)
+                {
+                    methodQ.Cancel(thumbUpdater.Value);
+                    thumbUpdater = null;
+                }
+            }
         }
 
         private void OnAudioThumbDragged(object commandParam)
         {
-            throw new NotImplementedException();
+            if (audioPlayer is null || !audioPlayer.CanSeek)
+            {
+                return;
+            }
+
+            audioPlayer.Seek(AudioThumbPos * audioPlayer.Duration);
         }
 
         private void OnStartRecording(object commandParam)
@@ -159,10 +235,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             IsRecording = true;
         }
 
-        private void OnStopRecording(object commandParam)
+        private async void OnStopRecording(object commandParam)
         {
             StopCounter();
-            audioRecorder.StopAsync();
+            Result = await audioRecorder.StopAsync();
             Done = true;
             IsRecording = false;
         }
@@ -170,6 +246,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private void OnReset(object commandParam)
         {
             StopCounter();
+            
+            if (IsAudioPlaying)
+            {
+                OnClickedPlay(null);
+            }
+            
+            audioPlayer?.Stop();
+            audioPlayer = null;
+            
+            audioRecorder = CrossSimpleAudioRecorder.CreateSimpleAudioRecorder();
+            
+            Duration = "00:00";
+            Done = IsRecording = false;
+            AudioThumbPos = seconds = 0;
         }
 
         private void OnSend(object commandParam)
@@ -179,7 +269,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnCancel(object commandParam)
         {
-            throw new NotImplementedException();
+            OnReset(null);
+            Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void StopCounter()
@@ -193,7 +284,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void StartCounter()
         {
-            counter = methodQ.Schedule(() => Duration = TimeSpan.FromSeconds(++seconds).ToString(@"mm\:ss"), TimeSpan.FromSeconds(1));
+            counter = methodQ.Schedule(() => Duration = TimeSpan.FromSeconds(++seconds).ToString(@"mm\:ss"), TimeSpan.FromMilliseconds(1000));
         }
     }
 }
