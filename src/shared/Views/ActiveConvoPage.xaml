@@ -168,6 +168,8 @@
                       HasUnevenRows="true"
                       Margin="8,0,8,0"
                       CachingStrategy="RetainElement"
+                      SeparatorVisibility="None"
+                      BackgroundColor="Transparent"
                       ItemAppearing="MessagesListBox_OnItemAppearing"
                       ItemDisappearing="MessagesListBox_OnItemDisappearing"
                       Style="{DynamicResource MessagesListBox}">
