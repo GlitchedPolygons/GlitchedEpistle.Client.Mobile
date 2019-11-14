@@ -381,6 +381,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
+
+            var viewModel = viewModelFactory.Create<RecordVoiceMessageViewModel>();
+            var view = new RecordVoiceMessagePage { BindingContext = viewModel };
+
+            view.Disappearing += (sender, e) =>
+            {
+                // TODO: retrieve recording and send to convo
+            };
+            
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
+            
             // TODO: implement ASAP!
         }
 

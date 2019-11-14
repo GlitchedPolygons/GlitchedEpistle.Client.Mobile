@@ -728,6 +728,12 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="AskForConfirmationBeforeSending" xml:space="preserve">
     <value>Richiedi conferma di spedizione</value>
   </data>
+  <data name="CannotRecordAudioErrorMessageText" xml:space="preserve">
+    <value>È successo un errore durante il tentativo di accedere al microfono di questo dispositivo.</value>
+  </data>
+  <data name="CannotRecordAudioErrorMessageTitle" xml:space="preserve">
+    <value>Registrazione audio fallita</value>
+  </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
     <value>Pronto per la registrazione!</value>
   </data>

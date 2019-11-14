@@ -733,6 +733,13 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
     <value>Ton Wiedergab fäugschlage</value>
     <comment>Audio playback failed</comment>
   </data>
+  <data name="CannotRecordAudioErrorMessageText" xml:space="preserve">
+    <value>Es isch e Fäähler ufträtte bim Versuech ufs Mikrofon vo däm Gräät zuezgryffe.</value>
+    <comment>Es ist ein Fehler aufgetreten beim Versuch auf das Mikrofon dieses Geräts zuzugreifen.</comment>
+  </data>
+  <data name="CannotRecordAudioErrorMessageTitle" xml:space="preserve">
+    <value>Ufnaahm fäugschlage</value>
+  </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
     <value>Bereyt zum ufnääh!</value>
   </data>

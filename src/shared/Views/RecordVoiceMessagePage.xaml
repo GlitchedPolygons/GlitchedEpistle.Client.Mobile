@@ -170,8 +170,8 @@
 
                 <Button Text="{i:Translate CancelButton}"
                         x:Name="CancelButton"
-                        IsEnabled="true"
                         IsVisible="true"
+                        IsEnabled="{Binding CancelButtonEnabled}"
                         Command="{Binding CancelCommand}" />
             </StackLayout>
         </ScrollView>
