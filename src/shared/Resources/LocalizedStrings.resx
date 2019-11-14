@@ -707,6 +707,9 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="CannotRecordAudioErrorMessageTitle" xml:space="preserve">
     <value>Can't record audio</value>
   </data>
+  <data name="ConfirmSendingVoiceMessageDialogText" xml:space="preserve">
+    <value>Do you want to send this voice message to the conversation?</value>
+  </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
     <value>Ready to start recording!</value>
   </data>

@@ -740,6 +740,10 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="CannotRecordAudioErrorMessageTitle" xml:space="preserve">
     <value>Ufnaahm fäugschlage</value>
   </data>
+  <data name="ConfirmSendingVoiceMessageDialogText" xml:space="preserve">
+    <value>Möchtisch die Spraachnachricht i'd' Ungerhautig schicke?</value>
+    <comment>Möchtest du die aufgenommene Nachricht an alle Teilnehmer der Unterhaltung senden?</comment>
+  </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
     <value>Bereyt zum ufnääh!</value>
   </data>

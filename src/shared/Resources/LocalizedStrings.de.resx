@@ -738,6 +738,9 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="CannotRecordAudioErrorMessageTitle" xml:space="preserve">
     <value>Aufnahme fehlgeschlagen</value>
   </data>
+  <data name="ConfirmSendingVoiceMessageDialogText" xml:space="preserve">
+    <value>Möchtest du die aufgenommene Nachricht an alle Teilnehmer der Unterhaltung senden?</value>
+  </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
     <value>Bereit für die Aufnahme!</value>
   </data>

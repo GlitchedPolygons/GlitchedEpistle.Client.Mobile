@@ -256,14 +256,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             audioPlayer = null;
             
             audioRecorder = CrossSimpleAudioRecorder.CreateSimpleAudioRecorder();
-            
+
+            Result = null;
             Duration = "00:00";
             Done = IsRecording = false;
             AudioThumbPos = seconds = 0;
         }
 
-        private void OnSend(object commandParam)
+        private async void OnSend(object commandParam)
         {
+            if (AskForConfirmation)
+            {
+                if (!await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["ConfirmSendingVoiceMessageDialogText"], localization["Yes"], localization["No"]))
+                {
+                    return;
+                }
+            }
+            
             throw new NotImplementedException();
         }
 
