@@ -19,20 +19,13 @@
 using Android.OS;
 using Android.App;
 using Android.Runtime;
-using Android.Content.PM;
 using Plugin.Fingerprint;
-using FFImageLoading.Forms.Platform;
 using Plugin.Permissions;
+using FFImageLoading.Forms.Platform;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 {
-    [Activity(
-        Label = "Glitched Epistle", 
-        Icon = "@mipmap/icon", 
-        Theme = "@style/MainTheme", 
-        MainLauncher = true, 
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation
-    )]
+    [Activity(Label = "Glitched Epistle", Icon = "@mipmap/icon", Theme = "@style/MainTheme")]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -43,7 +36,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
             base.OnCreate(savedInstanceState);
 
             CrossFingerprint.SetCurrentActivityResolver(() => this);
-            
+
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
@@ -52,7 +45,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             CachedImageRenderer.InitImageViewHandler();
 
-            
+
             LoadApplication(new App());
 
             Window.SetStatusBarColor(global::Android.Graphics.Color.Argb(255, 0, 0, 0));

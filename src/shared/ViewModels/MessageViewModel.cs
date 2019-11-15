@@ -98,6 +98,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set
             {
                 fileBytes = value;
+                
                 if (value != null && ImageVisibility)
                 {
                     try
@@ -108,6 +109,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     catch (Exception)
                     {
                     }
+                }
+                
+                if (value != null && IsAudio())
+                {
+                    audioPlayer = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                    AudioLoadFailed = !audioPlayer.Load(FileBytesStream());
+                    audioPlayer.Loop = false;
+                    OnAudioThumbDragged(null);
+                    AudioDuration = TimeSpan.FromSeconds(audioPlayer.Duration).ToString(@"mm\:ss");
                 }
             }
         }
@@ -170,6 +180,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             get => audioThumbPos;
             set => Set(ref audioThumbPos, value < 0 ? 0 : value > 1 ? 1 : value);
+        }
+
+        private string audioDuration = "00:00";
+        public string AudioDuration
+        {
+            get => audioDuration;
+            set => Set(ref audioDuration, value);
         }
 
         public bool GifVisibility => IsGif();
@@ -323,14 +340,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            if (audioPlayer is null)
-            {
-                audioPlayer = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
-                AudioLoadFailed = !audioPlayer.Load(FileBytesStream());
-                audioPlayer.Loop = false;
-                OnAudioThumbDragged(null);
-            }
-
             if (AudioLoadFailed)
             {
                 Application.Current.MainPage.DisplayAlert(localization["AudioLoadFailedErrorMessageTitle"], localization["AudioLoadFailedErrorMessageText"], "OK");
@@ -352,7 +361,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             
             if (IsAudioPlaying)
             {
-                if (AudioThumbPos > 0.99d)
+                if (AudioThumbPos >= 0.99d)
                 {
                     audioPlayer.Seek(0);
                 }
@@ -363,7 +372,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     AudioThumbPos = audioPlayer.CurrentPosition / audioPlayer.Duration;
                     
-                    if (AudioThumbPos > 0.99d)
+                    if (AudioThumbPos >= 0.99d)
                     {
                         OnClickedPlayAudioAttachment(null);
                     }

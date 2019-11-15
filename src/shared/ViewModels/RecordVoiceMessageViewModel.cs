@@ -197,7 +197,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             if (IsAudioPlaying)
             {
-                if (AudioThumbPos > 0.99d)
+                if (AudioThumbPos >= 0.99d)
                 {
                     audioPlayer.Seek(0);
                 }
@@ -208,7 +208,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     AudioThumbPos = audioPlayer.CurrentPosition / audioPlayer.Duration;
 
-                    if (AudioThumbPos > 0.99d)
+                    if (AudioThumbPos >= 0.99d)
                     {
                         OnClickedPlay(null);
                     }
@@ -329,6 +329,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
 
             Reset();
+            
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
