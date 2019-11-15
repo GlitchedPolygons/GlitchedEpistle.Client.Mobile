@@ -16,6 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using FFImageLoading.Transformations;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
@@ -25,15 +26,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RecordVoiceMessagePage : ContentPage
     {
+        private readonly TintTransformation tint;
+        
         public RecordVoiceMessagePage()
         {
             InitializeComponent();
+            
+            Application.Current.Resources.TryGetValue("HeaderButtonIdleColorHex", out var idleColorHex);
+            tint = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") {EnableSolidColor = true};
         }
         
         protected override void OnAppearing()
         {
             base.OnAppearing();
             (BindingContext as IOnAppearingListener)?.OnAppearing();
+            
+            PlayIconCachedImage.Transformations.Add(tint);
+            PlayIconCachedImage.ReloadImage();
+            
+            PauseIconCachedImage.Transformations.Add(tint);
+            PauseIconCachedImage.ReloadImage();
         }
 
         protected override void OnDisappearing()

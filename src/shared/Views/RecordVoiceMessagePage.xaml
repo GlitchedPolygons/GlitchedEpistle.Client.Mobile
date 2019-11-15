@@ -54,8 +54,6 @@
                        HorizontalTextAlignment="Center"
                        Style="{DynamicResource SubLabelStyle}"
                        Text="{i:Translate PreviewAudioRecordingLabel}" />
-
-                
                 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="CenterAndExpand"
@@ -87,7 +85,8 @@
                              IsVisible="{Binding Done}"
                              HorizontalOptions="FillAndExpand">
 
-                    <ff:CachedImage Aspect="AspectFit"
+                    <ff:CachedImage x:Name="PlayIconCachedImage" 
+                                    Aspect="AspectFit"
                                     WidthRequest="32"
                                     HeightRequest="32"
                                     VerticalOptions="Center"
@@ -101,7 +100,8 @@
                         </ff:CachedImage.GestureRecognizers>
                     </ff:CachedImage>
 
-                    <ff:CachedImage Aspect="AspectFit"
+                    <ff:CachedImage x:Name="PauseIconCachedImage" 
+                                    Aspect="AspectFit"
                                     WidthRequest="32"
                                     HeightRequest="32"
                                     VerticalOptions="Center"
