@@ -16,18 +16,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using Xamarin.Forms;
 using System;
 using System.IO;
 using System.Windows.Input;
+using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
-using GlitchedPolygons.Services.MethodQ;
 using Plugin.SimpleAudioPlayer;
 using Plugin.SimpleAudioRecorder;
+using Xamarin.Forms;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -64,7 +64,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => duration;
             set => Set(ref duration, value);
         }
-        
+
         private double audioThumbPos = 0.0;
         public double AudioThumbPos
         {
@@ -85,7 +85,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => isAudioPlaying;
             set => Set(ref isAudioPlaying, value);
         }
-        
+
         private bool audioLoadFailed = false;
         public bool AudioLoadFailed
         {
@@ -129,7 +129,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private volatile int seconds;
         private ISimpleAudioPlayer audioPlayer;
         private ISimpleAudioRecorder audioRecorder;
-        
+
         public RecordVoiceMessageViewModel(ILogger logger, IMethodQ methodQ, IAppSettings appSettings)
         {
             this.logger = logger;
@@ -137,7 +137,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.appSettings = appSettings;
 
             localization = DependencyService.Get<ILocalization>();
-            audioRecorder = CrossSimpleAudioRecorder.CreateSimpleAudioRecorder();
+            audioRecorder = DependencyService.Get<ISimpleAudioRecorder>();
 
             SendCommand = new DelegateCommand(OnSend);
             ResetCommand = new DelegateCommand(OnReset);
@@ -151,7 +151,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public async void OnAppearing()
         {
             AskForConfirmation = appSettings["AskForConfirmationBeforeSendingVoiceMsg", true];
-            
+
             if (!audioRecorder.CanRecordAudio)
             {
                 await Application.Current.MainPage.DisplayAlert(localization["CannotRecordAudioErrorMessageTitle"], localization["CannotRecordAudioErrorMessageText"], "OK");
@@ -186,7 +186,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
-            
+
             IsAudioPlaying = !IsAudioPlaying;
 
             if (thumbUpdater.HasValue)
@@ -194,20 +194,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 methodQ.Cancel(thumbUpdater.Value);
                 thumbUpdater = null;
             }
-            
+
             if (IsAudioPlaying)
             {
                 if (AudioThumbPos > 0.99d)
                 {
                     audioPlayer.Seek(0);
                 }
-                
+
                 audioPlayer.Play();
-                
+
                 thumbUpdater = methodQ.Schedule(() =>
                 {
                     AudioThumbPos = audioPlayer.CurrentPosition / audioPlayer.Duration;
-                    
+
                     if (AudioThumbPos > 0.99d)
                     {
                         OnClickedPlay(null);
@@ -217,7 +217,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             else
             {
                 audioPlayer.Pause();
-                
+
                 if (thumbUpdater.HasValue)
                 {
                     methodQ.Cancel(thumbUpdater.Value);
@@ -247,25 +247,41 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private async void OnStopRecording(object commandParam)
         {
             StopCounter();
-            Result = File.ReadAllBytes((await audioRecorder.StopAsync()).GetFilePath());
-            Done = true;
-            IsRecording = false;
+            try
+            {
+                Result = File.ReadAllBytes((await audioRecorder.StopAsync()).GetFilePath());
+                Done = true;
+                IsRecording = false;
+            }
+            catch (Exception e)
+            {
+                logger.LogError($"{nameof(RecordVoiceMessageViewModel)}::{nameof(OnStopRecording)}: Failed to record voice message. Thrown exception: {e.ToString()}");
+                Reset();
+            }
         }
 
-        private void OnReset(object commandParam)
+        private async void OnReset(object commandParam)
+        {
+            if (!await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["ConfirmVoiceMessageReset"], localization["Yes"],localization["No"]))
+            {
+                return;
+            }
+            
+            Reset();
+        }
+
+        private void Reset()
         {
             StopCounter();
-            
+
             if (IsAudioPlaying)
             {
                 OnClickedPlay(null);
             }
-            
+
             audioPlayer?.Stop();
             audioPlayer = null;
-            
-            audioRecorder = CrossSimpleAudioRecorder.CreateSimpleAudioRecorder();
-            
+
             Result = null;
             Duration = "00:00";
             Done = IsRecording = false;
@@ -278,12 +294,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
-            
+
             if (IsAudioPlaying)
             {
                 OnClickedPlay(null);
             }
-            
+
             if (AskForConfirmation)
             {
                 if (!await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["ConfirmSendingVoiceMessageDialogText"], localization["Yes"], localization["No"]))
@@ -291,20 +307,28 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     return;
                 }
             }
-            
+
             StopCounter();
-            
+
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private async void OnCancel(object commandParam)
         {
+            if (IsRecording || Done)
+            {
+                if (!await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["ConfirmVoiceMessageCancellation"], localization["Yes"],localization["No"]))
+                {
+                    return;
+                }
+            }
+
             if (IsRecording)
             {
                 OnStopRecording(null);
             }
-            
-            OnReset(null);
+
+            Reset();
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
@@ -315,9 +339,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 methodQ.Cancel(recordingCirclePulse.Value);
                 recordingCirclePulse = null;
             }
-            
+
             RecordingCircleColor = Color.Transparent;
-            
+
             if (counter.HasValue)
             {
                 methodQ.Cancel(counter.Value);

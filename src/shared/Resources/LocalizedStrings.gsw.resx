@@ -759,4 +759,11 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="StopRecordingButton" xml:space="preserve">
     <value>Ufnaahm stoppe</value>
   </data>
+  <data name="ConfirmVoiceMessageCancellation1" xml:space="preserve">
+    <value>Jetzt abbräche würd di Entwurf unwiderrueflech verwärfe. Bisch dr sicher, dass de trotzdäm abbräche wotsch?</value>
+    <comment>Jetzt abbrechen würde deinen Entwurf unwiderruflich verwerfen. Bist du dir sicher, dass du fortfahren willst?</comment>
+  </data>
+  <data name="ConfirmVoiceMessageReset" xml:space="preserve">
+    <value>Jetzt zruggsetze würd di Entwurf unwiderrueflech verwärfe. Bisch dr sicher, dass de trotzdäm zruggsetze wotsch?</value>
+  </data>
 </root>

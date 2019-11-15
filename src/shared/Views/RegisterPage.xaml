@@ -107,7 +107,8 @@
                     </StackLayout>
                 </StackLayout>
                 
-                <StackLayout VerticalOptions="End">
+                <StackLayout VerticalOptions="End"
+                             IsVisible="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}">
 
                        <Label Text="{i:Translate LanguageLabel}"
                               FontSize="16"
@@ -120,7 +121,6 @@
                                SelectedItem="{Binding Language}"
                                ItemsSource="{Binding Languages}"
                                ItemDisplayBinding="{Binding Item2}"
-                               IsEnabled="{Binding PendingAttempt, Converter={converters:InverseBoolConverter}}"
                                Style="{DynamicResource PickerStyle}" />
 
                        <StackLayout Orientation="Horizontal"

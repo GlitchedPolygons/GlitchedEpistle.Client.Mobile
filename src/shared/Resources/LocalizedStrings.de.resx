@@ -756,4 +756,11 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="StopRecordingButton" xml:space="preserve">
     <value>Aufnahme stoppen</value>
   </data>
+  <data name="ConfirmVoiceMessageCancellation" xml:space="preserve">
+    <value>Jetzt abbrechen würde deinen Entwurf unwiderruflich verwerfen. Bist du dir sicher, dass du fortfahren willst?</value>
+    <comment>Cancelling now would irreversibly discard the draft. Are you sure about this?</comment>
+  </data>
+  <data name="ConfirmVoiceMessageReset" xml:space="preserve">
+    <value>Jetzt zurücksetzen würde deinen Entwurf unwiderruflich verwerfen. Bist du dir sicher, dass du fortfahren willst?</value>
+  </data>
 </root>
