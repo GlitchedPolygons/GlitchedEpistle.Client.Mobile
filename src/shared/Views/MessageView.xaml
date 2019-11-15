@@ -167,8 +167,8 @@
                            HorizontalOptions="Center"
                            HorizontalTextAlignment="Center"
                            Text="{Binding AudioDuration}"
-                           IsVisible="true"
-                           Style="{DynamicResource MediumLabelStyle}" />
+                           TextColor="AliceBlue"
+                           IsVisible="true" />
                 </StackLayout>
 
                 <!-- Attachment -->

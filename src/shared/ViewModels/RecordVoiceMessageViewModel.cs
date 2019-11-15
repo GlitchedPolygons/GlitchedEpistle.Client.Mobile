@@ -262,6 +262,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnReset(object commandParam)
         {
+            if (IsAudioPlaying)
+            {
+                OnClickedPlay(null);
+            }
+            
             if (!await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["ConfirmVoiceMessageReset"], localization["Yes"],localization["No"]))
             {
                 return;
@@ -273,11 +278,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private void Reset()
         {
             StopCounter();
-
-            if (IsAudioPlaying)
-            {
-                OnClickedPlay(null);
-            }
 
             audioPlayer?.Stop();
             audioPlayer = null;
@@ -315,6 +315,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnCancel(object commandParam)
         {
+            if (IsAudioPlaying)
+            {
+                OnClickedPlay(null);
+            }
+            
             if (IsRecording || Done)
             {
                 if (!await Application.Current.MainPage.DisplayAlert(localization["AreYouSure"], localization["ConfirmVoiceMessageCancellation"], localization["Yes"],localization["No"]))
