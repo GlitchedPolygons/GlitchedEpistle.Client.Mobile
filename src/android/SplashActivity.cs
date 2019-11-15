@@ -20,7 +20,6 @@ using System.Threading.Tasks;
 
 using Android.OS;
 using Android.App;
-using Android.Util;
 using Android.Content;
 using Android.Content.PM;
 using Android.Support.V7.App;
@@ -43,25 +42,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
         {
             base.OnCreate(savedInstanceState, persistentState);
-            Log.Debug(TAG, "SplashActivity.OnCreate");
+            Window.SetStatusBarColor(global::Android.Graphics.Color.Argb(255, 0, 0, 0));
         }
 
-        // Launches the startup task.
+        // Launches the app startup task.
         protected override void OnResume()
         {
             base.OnResume();
-            Task startupWork = new Task(SimulateStartup);
+            Task startupWork = new Task(Start);
             startupWork.Start();
         }
 
-        // Prevent the back button from canceling the startup process.
         public override void OnBackPressed()
         {
             //nop
         }
 
-        // Simulates background work that happens behind the splash screen.
-        private void SimulateStartup()
+        private void Start()
         {
             StartActivity(new Intent(Application.Context, typeof(MainActivity)));
         }
