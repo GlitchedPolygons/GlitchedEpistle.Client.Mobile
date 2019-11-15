@@ -742,7 +742,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
     <value>Möchtest du die aufgenommene Nachricht an alle Teilnehmer der Unterhaltung senden?</value>
   </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
-    <value>Bereit für die Aufnahme!</value>
+    <value>Bitte beachte, dass die maximale Aufnahmezeit 60 Minuten beträgt!</value>
   </data>
   <data name="RecordAudioMessageLabel" xml:space="preserve">
     <value>Sprachnachricht aufnehmen</value>

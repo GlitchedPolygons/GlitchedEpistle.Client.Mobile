@@ -745,7 +745,7 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
     <comment>Möchtest du die aufgenommene Nachricht an alle Teilnehmer der Unterhaltung senden?</comment>
   </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
-    <value>Bereyt zum ufnääh!</value>
+    <value>Bitte beacht, dass d' maximali Ufnaahmezyt 60 Minute isch!</value>
   </data>
   <data name="RecordAudioMessageLabel" xml:space="preserve">
     <value>Spraachnachricht ufnääh</value>
