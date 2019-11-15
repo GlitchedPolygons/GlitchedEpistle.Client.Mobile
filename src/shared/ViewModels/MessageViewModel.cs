@@ -123,10 +123,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         }
 
         private MemoryStream fileBytesStream;
-
         public MemoryStream FileBytesStream()
         {
-            return fileBytesStream ?? (fileBytesStream = new MemoryStream(FileBytes ?? new byte[0]));
+            if (fileBytesStream != null)
+            {
+                fileBytesStream.Dispose();
+                fileBytesStream = null;
+            }
+
+            return fileBytesStream = new MemoryStream(FileBytes ?? new byte[0]);
         }
 
         private bool isOwn;
