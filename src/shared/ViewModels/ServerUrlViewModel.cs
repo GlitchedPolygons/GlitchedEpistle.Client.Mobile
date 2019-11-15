@@ -18,8 +18,15 @@
 
 using Prism.Events;
 using Xamarin.Forms;
+
+using System;
+using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Utilities;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
@@ -27,15 +34,21 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.ServerHealth;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
-    public class ServerUrlViewModel : ViewModel
+    public class ServerUrlViewModel : ViewModel, IOnAppearingListener, IOnDisappearingListener
     {
+        #region Constants
+
+        private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly IServerConnectionTest test;
         private readonly ILocalization localization;
         private readonly IEventAggregator eventAggregator;
+
+        #endregion
 
         #region Commands
         public ICommand ResetCommand { get; }
@@ -60,13 +73,52 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private bool testing = false;
         public bool Testing { get => testing; set => Set(ref testing, value); }
+
+        private Tuple<string, string> language;
+        public Tuple<string, string> Language
+        {
+            get => language;
+            set
+            {
+                if (Set(ref language, value))
+                    appSettings["Language"] = value.Item1;
+
+                if (initialized)
+                    ShowLanguageRestartRequiredWarning = true;
+            }
+        }
+
+        private ObservableCollection<Tuple<string, string>> languages;
+        public ObservableCollection<Tuple<string, string>> Languages
+        {
+            get => languages;
+            set => Set(ref languages, value);
+        }
+
+        private bool showLanguageRestartRequiredWarning = false;
+        public bool ShowLanguageRestartRequiredWarning
+        {
+            get => showLanguageRestartRequiredWarning;
+            set => Set(ref showLanguageRestartRequiredWarning, value);
+        }
+
+        private bool uiEnabled = true;
+        public bool UIEnabled
+        {
+            get => uiEnabled;
+            set => Set(ref uiEnabled, value);
+        }
+
         #endregion
+
+        private volatile bool initialized = false;
 
         public ServerUrlViewModel(IServerConnectionTest test, IAppSettings appSettings, IEventAggregator eventAggregator)
         {
             this.test = test;
             this.appSettings = appSettings;
             this.eventAggregator = eventAggregator;
+
             localization = DependencyService.Get<ILocalization>();
 
             string url = appSettings.ServerUrl;
@@ -121,6 +173,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 bool success = await test.TestConnection();
                 if (success)
                 {
+                    UIEnabled = false;
                     UrlUtility.SetEpistleServerUrl(ServerUrl);
                     appSettings.ServerUrl = UrlUtility.EpistleBaseUrl;
                     ExecUI(() => eventAggregator.GetEvent<LogoutEvent>().Publish());
@@ -130,6 +183,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 Testing = ConnectionOk = false;
                 ErrorMessage = localization["ConnectionToServerFailed"];
             });
+        }
+
+        public void OnAppearing()
+        {
+            Languages = new ObservableCollection<Tuple<string, string>>(new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("en", localization["English"] + " (English)"),
+                new Tuple<string, string>("de", localization["German"] + " (Deutsch)"),
+                new Tuple<string, string>("gsw", localization["SwissGerman"] + " (Schwiizerdütsch)"),
+                new Tuple<string, string>("it", localization["Italian"] + " (Italiano)")
+            });
+
+            Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]) ?? Languages[0];
+
+            methodQ.Schedule(() => initialized = true, DateTime.UtcNow.AddMilliseconds(420));
+        }
+
+        public void OnDisappearing()
+        {
+            appSettings["Language"] = Language.Item1;
         }
     }
 }

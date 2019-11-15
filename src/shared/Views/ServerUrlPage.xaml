@@ -22,6 +22,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
              xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
              x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ServerUrlPage"
@@ -87,6 +88,36 @@
                     <Button Text="{i:Translate ConnectButton}"
                             Command="{Binding ConnectCommand}"
                             IsEnabled="{Binding ConnectionOk}" />
+                </StackLayout>
+
+                <StackLayout VerticalOptions="End" 
+                             Margin="0,20,0,0"
+                             IsVisible="{Binding UIEnabled}">
+
+                    <Label Text="{i:Translate LanguageLabel}"
+                           FontSize="16"
+                           Margin="3,0,0,3"
+                           HorizontalOptions="Start"
+                           Style="{DynamicResource MediumLabelStyle}" />
+
+                    <Picker Title="{i:Translate Language}"
+                            FontSize="14"
+                            SelectedItem="{Binding Language}"
+                            ItemsSource="{Binding Languages}"
+                            ItemDisplayBinding="{Binding Item2}"
+                            Style="{DynamicResource PickerStyle}" />
+
+                    <StackLayout Orientation="Horizontal"
+                                 Margin="0,5"
+                                 IsVisible="{Binding ShowLanguageRestartRequiredWarning}">
+                        <ff:CachedImage WidthRequest="32"
+                                        HeightRequest="32"
+                                        DownsampleToViewSize="True"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.warning.png}" />
+                        <Label Text="{i:Translate LanguageChangeRestartRequiredLabel}"
+                               FontSize="12"
+                               Style="{DynamicResource SubLabelStyle}" />
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
