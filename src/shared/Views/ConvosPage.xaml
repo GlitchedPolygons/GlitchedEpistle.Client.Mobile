@@ -138,6 +138,26 @@
         <BoxView Margin="0,0,0,0"
                  Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
+        <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="Center"
+                     VerticalOptions="Start"
+                     Margin="32"
+                     IsVisible="{Binding Joining}">
+
+            <Label Text="{i:Translate JoiningConvoLabel}"
+                   FontSize="15"
+                   Style="{DynamicResource MediumLabelStyle}"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   VerticalTextAlignment="Center" />
+
+            <ActivityIndicator IsRunning="True"
+                               HeightRequest="32"
+                               WidthRequest="32"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" />
+        </StackLayout>
+
         <ListView SeparatorVisibility="None"
                   x:Name="ConvosListView"
                   ItemsSource="{Binding Convos}"
@@ -145,6 +165,7 @@
                   HasUnevenRows="True"
                   RefreshAllowed="True"
                   IsPullToRefreshEnabled="True"
+                  IsVisible="{Binding Joining, Converter={converters:InverseBoolConverter}}"
                   IsRefreshing="{Binding IsRefreshing}"
                   RefreshCommand="{Binding RefreshCommand}">
             <ListView.ItemTemplate>

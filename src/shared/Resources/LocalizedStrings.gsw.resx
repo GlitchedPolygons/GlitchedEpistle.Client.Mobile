@@ -766,4 +766,7 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="ConfirmVoiceMessageReset" xml:space="preserve">
     <value>Jetzt zruggsetze würd di Entwurf unwiderrueflech verwärfe. Bisch dr sicher, dass de trotzdäm zruggsetze wotsch?</value>
   </data>
+  <data name="JoiningConvoLabel" xml:space="preserve">
+    <value>Verbinde...</value>
+  </data>
 </root>

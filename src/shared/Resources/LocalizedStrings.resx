@@ -731,4 +731,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="ConfirmVoiceMessageReset" xml:space="preserve">
     <value>Resetting now would irreversibly discard the draft. Are you sure about this?</value>
   </data>
+  <data name="JoiningConvoLabel" xml:space="preserve">
+    <value>Joining convo...</value>
+  </data>
 </root>

@@ -763,4 +763,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="ConfirmVoiceMessageReset" xml:space="preserve">
     <value>Jetzt zurücksetzen würde deinen Entwurf unwiderruflich verwerfen. Bist du dir sicher, dass du fortfahren willst?</value>
   </data>
+  <data name="JoiningConvoLabel" xml:space="preserve">
+    <value>Beitrittsversuch...</value>
+  </data>
 </root>

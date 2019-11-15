@@ -759,4 +759,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="ConfirmVoiceMessageReset" xml:space="preserve">
     <value>Ripristinare adesso implicherebbe scartare la tua bozza. Sei sicuro di voler procedere?</value>
   </data>
+  <data name="JoiningConvoLabel" xml:space="preserve">
+    <value>Tentativo d'accesso...</value>
+  </data>
 </root>

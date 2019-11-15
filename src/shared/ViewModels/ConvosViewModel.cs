@@ -103,10 +103,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private bool userIdCopiedTickVisible = false;
         public bool UserIdCopiedTickVisible { get => userIdCopiedTickVisible; set => Set(ref userIdCopiedTickVisible, value); }
         
+        private bool joining = false;
+        public bool Joining { get => joining; set => Set(ref joining, value); }
+        
         #endregion
 
         private DateTime lastRefresh;
-        private volatile bool joining = false;
 
         public ConvosViewModel(User user, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IEventAggregator eventAggregator, IAsymmetricCryptographyRSA crypto, ILogger logger, IUserService userService, IUserSettings userSettings, IMethodQ methodQ, IViewModelFactory viewModelFactory, IAppSettings appSettings)
         {
@@ -209,12 +211,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public void OnClickedOnConvo(object commandParam)
         {
             var _convo = commandParam as Convo;
-            if (_convo is null || joining)
+            if (_convo is null || Joining)
             {
                 return;
             }
 
-            joining = true;
+            Joining = true;
 
             Task.Run(async () =>
             {
@@ -233,7 +235,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     viewModel.ConvoId = _convo.Id;
 
                     var view = new JoinConvoPage {BindingContext = viewModel};
-                    view.Disappearing += (_, __) => joining = false;
+                    view.Disappearing += (_, __) => Joining = false;
 
                     ExecUI(async () => await Application.Current.MainPage.Navigation.PushModalAsync(view));
                     
@@ -261,7 +263,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     SecureStorage.Remove($"convo:{_convo.Id}_pw:SHA512");
                     ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["Error"], localization["JoinConvoFailedErrorMessage"], "OK"));
 
-                    joining = false;
+                    Joining = false;
                     return;
                 }
 
@@ -278,12 +280,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     ExecUI(delegate
                     {
                         eventAggregator.GetEvent<JoinedConvoEvent>().Publish(metadata);
-                        joining = false;
+                        Joining = false;
                     });
                 }
                 else
                 {
-                    joining = false;
+                    Joining = false;
                     logger.LogWarning($"Joined convo {_convo.Id} successfully using the cached convo password's SHA512 (starts with {cachedPwSHA512.Substring(0, 6)}) but failed to pull its metadata from the server...");
                 }
             });
