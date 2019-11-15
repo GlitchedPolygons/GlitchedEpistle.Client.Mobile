@@ -113,9 +113,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private volatile bool initialized = false;
 
-        public ServerUrlViewModel(IServerConnectionTest test, IAppSettings appSettings, IEventAggregator eventAggregator)
+        public ServerUrlViewModel(IServerConnectionTest test, IAppSettings appSettings, IEventAggregator eventAggregator, IMethodQ methodQ)
         {
             this.test = test;
+            this.methodQ = methodQ;
             this.appSettings = appSettings;
             this.eventAggregator = eventAggregator;
 
