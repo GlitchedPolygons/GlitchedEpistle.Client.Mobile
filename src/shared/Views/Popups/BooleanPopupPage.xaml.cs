@@ -44,20 +44,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
             Result = defaultResult;
         }
 
-        private void TrueButton_Clicked(object sender, System.EventArgs e)
+        private async void TrueButton_Clicked(object sender, System.EventArgs e)
         {
             TrueButton.IsEnabled = FalseButton.IsEnabled = false;
 
             Result = true;
-            PopupNavigation.Instance.PopAsync();
+            await PopupNavigation.Instance.PopAsync();
         }
 
-        private void FalseButton_Clicked(object sender, System.EventArgs e)
+        private async void FalseButton_Clicked(object sender, System.EventArgs e)
         {
             TrueButton.IsEnabled = FalseButton.IsEnabled = false;
 
             Result = false;
-            PopupNavigation.Instance.PopAsync();
+            await PopupNavigation.Instance.PopAsync();
         }
 
         // ### Overridden methods which can prevent closing a popup page ###

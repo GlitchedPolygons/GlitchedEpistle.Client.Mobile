@@ -134,11 +134,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             MessagesListBox.ScrollTo(last, ScrollToPosition.Center, (e as ScrollToBottomEventArgs)?.Animated ?? true);
         }
 
-        private void ExitButton_OnClick(object sender, EventArgs e)
+        private async void ExitButton_OnClick(object sender, EventArgs e)
         {
             ExitButton.IsEnabled = false;
             var _ = OnPressedCachedImage(ExitButton);
-            Application.Current?.MainPage?.Navigation?.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void SendTextButton_OnClick(object sender, EventArgs e)

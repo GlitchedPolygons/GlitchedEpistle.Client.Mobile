@@ -106,14 +106,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         ImageSource = null;
                         ImageSource = ImageSource.FromStream(FileBytesStream);
                     }
-                    catch (Exception)
-                    {
-                    }
+                    catch{}
                 }
                 
                 if (value != null && IsAudio())
                 {
-                    audioPlayer = CrossSimpleAudioPlayer.CreateSimpleAudioPlayer();
+                    audioPlayer = DependencyService.Get<ISimpleAudioPlayer>(DependencyFetchTarget.NewInstance);
                     AudioLoadFailed = !audioPlayer.Load(FileBytesStream());
                     audioPlayer.Loop = false;
                     OnAudioThumbDragged(null);

@@ -45,18 +45,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
             CancelButton.Text = cancelButtonLabel ?? localization["CancelButton"];
         }
 
-        private void OkButton_Clicked(object sender, System.EventArgs e)
+        private async void OkButton_Clicked(object sender, System.EventArgs e)
         {
             Cancelled = false;
             Password = PasswordTextEntry.Text;
-            PopupNavigation.Instance.PopAsync();
+            await PopupNavigation.Instance.PopAsync();
         }
         
-        private void CancelButton_Clicked(object sender, EventArgs e)
+        private async void CancelButton_Clicked(object sender, EventArgs e)
         {
             Password = null;
             Cancelled = true;
-            PopupNavigation.Instance.PopAsync();
+            await PopupNavigation.Instance.PopAsync();
         }
 
         // Invoked when a hardware back button is pressed.

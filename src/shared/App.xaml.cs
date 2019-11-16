@@ -103,7 +103,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         {
             if (action != null) Device.BeginInvokeOnMainThread(action);
         }
-
+        
         public App()
         {
             InitializeComponent();
@@ -350,13 +350,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             MainPage = new UserCreationSuccessfulView {BindingContext = viewModel};
         }
         
-        private void OnJoinedConvo(Convo convo)
+        private async void OnJoinedConvo(Convo convo)
         {
             var viewModel = viewModelFactory.Create<ActiveConvoViewModel>();
             viewModel.ActiveConvo = convo;
 
             var view = new ActiveConvoPage {BindingContext = viewModel};
-            Application.Current.MainPage.Navigation.PushModalAsync(view);
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private void ShowLoginPage(bool autoPromptForFingerprint = true)

@@ -353,14 +353,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }, metadataUpdater.Token);
         }
 
-        private void OnEditConvo(object obj)
+        private async void OnEditConvo(object obj)
         {
             var view = new ConvoMetadataPage();
             var viewModel = viewModelFactory.Create<ConvoMetadataViewModel>();
             viewModel.Convo = ActiveConvo;
             view.BindingContext = viewModel;
 
-            Application.Current.MainPage.Navigation.PushModalAsync(view);
+            await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private void OnSendText(object commandParam)
