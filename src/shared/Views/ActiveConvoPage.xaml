@@ -187,12 +187,12 @@
                          VerticalOptions="End">
 
                 <Editor x:Name="TextBox"
+                        IsEnabled="true"
                         FontSize="14"
                         Margin="5,0"
                         MaxLength="8192"
                         HeightRequest="50"
                         Text="{Binding Text}"
-                        IsEnabled="{Binding CanSend}"
                         Style="{DynamicResource EditorStyle}"
                         TextChanged="TextBox_OnTextChanged"
                         Placeholder="{i:Translate EnterYourMessageHere}"

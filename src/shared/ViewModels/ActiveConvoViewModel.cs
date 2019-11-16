@@ -82,11 +82,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IPermissionChecker permissionChecker;
 
         #endregion
-        
+
         #region Events
 
         public event EventHandler<ScrollToBottomEventArgs> ScrollToBottom;
-        
+
         #endregion
 
         #region Commands
@@ -236,7 +236,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
-            
+
             if (ActiveConvo is null || ActiveConvo.Id.NullOrEmpty())
             {
                 throw new NullReferenceException($"{nameof(ActiveConvoViewModel)}::{nameof(OnAppearing)}: Tried to initialize a convo viewmodel without assigning it an {nameof(ActiveConvo)} first. Please assign that before calling init.");
@@ -249,8 +249,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             if (Messages.NullOrEmpty())
             {
-                Messages = new ObservableCollection<MessageViewModel>(DecryptMessages(await convoService.GetLastConvoMessages(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2, MSG_COLLECTION_SIZE)).Distinct().OrderBy(_=>_.TimestampDateTimeUTC));
-                
+                Messages = new ObservableCollection<MessageViewModel>(DecryptMessages(await convoService.GetLastConvoMessages(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2, MSG_COLLECTION_SIZE)).Distinct().OrderBy(_ => _.TimestampDateTimeUTC));
+
                 if (Loading)
                 {
                     Loading = false;
@@ -271,41 +271,47 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             //nop
         }
 
-        public async Task LoadPreviousMessages()
+        public Task LoadPreviousMessages()
         {
             if (Loading)
             {
-                return;
+                return Task.CompletedTask;
             }
 
             Loading = true;
 
-            var top = Messages.FirstOrDefault();
-            if (top is null)
+            return Task.Run(async () =>
             {
-                return;
-            }
+                var top = Messages.FirstOrDefault();
+                if (top is null)
+                {
+                    return;
+                }
 
-            if (!long.TryParse(top.Id, out long topMsgId))
-            {
-                return;
-            }
+                if (!long.TryParse(top.Id, out long topMsgId))
+                {
+                    return;
+                }
 
-            var decryptedMessages = DecryptMessages(await convoService.GetPreviousMessages(
-                userId: user.Id,
-                auth: user.Token.Item2,
-                convoId: ActiveConvo.Id,
-                convoPasswordSHA512: convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id),
-                fromId: topMsgId,
-                n: MSG_COLLECTION_SIZE
-            ));
+                var decryptedMessages = DecryptMessages(await convoService.GetPreviousMessages(
+                    userId: user.Id,
+                    auth: user.Token.Item2,
+                    convoId: ActiveConvo.Id,
+                    convoPasswordSHA512: convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id),
+                    fromId: topMsgId,
+                    n: MSG_COLLECTION_SIZE
+                ));
 
-            foreach (var msg in decryptedMessages.OrderByDescending(_=>_.TimestampDateTimeUTC))
-            {
-                Messages.Insert(0, msg);
-            }
+                ExecUI(() =>
+                {
+                    foreach (var msg in decryptedMessages.OrderByDescending(_ => _.TimestampDateTimeUTC))
+                    {
+                        Messages.Insert(0, msg);
+                    }
 
-            Loading = false;
+                    Loading = false;
+                });
+            });
         }
 
         private void StopAutomaticPulling()
@@ -371,7 +377,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (await messageSender.PostText(ActiveConvo, Text))
                 {
                     Text = null;
-                    ScrollToBottom?.Invoke(this,new ScrollToBottomEventArgs());
+                    ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs());
                 }
                 else
                 {
@@ -381,16 +387,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 CanSend = true;
             });
         }
-        
+
         private async void OnSendAudio(object commandParam)
         {
-            if (!await permissionChecker.CheckPermission(Permission.Microphone,localization["MicrophonePermissionNeededForRecordingAudioAttachmentTitle"], localization["MicrophonePermissionNeededForRecordingAudioAttachmentText"], localization["AbortedDueToMicrophonePermissionDeclined"]))
+            if (!await permissionChecker.CheckPermission(Permission.Microphone, localization["MicrophonePermissionNeededForRecordingAudioAttachmentTitle"], localization["MicrophonePermissionNeededForRecordingAudioAttachmentText"], localization["AbortedDueToMicrophonePermissionDeclined"]))
             {
                 return;
             }
 
             var viewModel = viewModelFactory.Create<RecordVoiceMessageViewModel>();
-            var view = new RecordVoiceMessagePage { BindingContext = viewModel };
+            var view = new RecordVoiceMessagePage {BindingContext = viewModel};
 
             view.Disappearing += (sender, e) =>
             {
@@ -399,14 +405,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     SendFile($"{DateTime.UtcNow:yyyy-MM-dd-HHmm-}{ActiveConvo.Id.Substring(0, 4)}.aac", viewModel.Result);
                 }
             };
-            
+
             await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private async void OnSendFile(object commandParam)
         {
             FileData pickerResult = await CrossFilePicker.Current.PickFile();
-            
+
             if (pickerResult is null || pickerResult.FilePath.NullOrEmpty())
             {
                 return;
@@ -416,16 +422,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 return;
             }
-            
+
             SendFile(pickerResult.FileName, pickerResult.DataArray);
         }
 
         private void SendFile(string fileName, byte[] fileBytes)
         {
-            var _=Task.Run(async () =>
+            var _ = Task.Run(async () =>
             {
                 CanSend = false;
-                
+
                 if (fileBytes.LongLength < MessageSender.MAX_FILE_SIZE_BYTES)
                 {
                     if (!await messageSender.PostFile(ActiveConvo, fileName, fileBytes))
@@ -437,7 +443,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageTooLargeFailureTitle"], localization["MessageTooLargeFailureMessage"], "OK"));
                 }
-                
+
                 CanSend = true;
             });
         }
@@ -471,7 +477,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 Loading = false;
             }
-            
+
             ExecUI(() =>
             {
                 // Decrypt and add the retrieved messages to the chatroom UI.
@@ -479,7 +485,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     Messages.Add(msg);
                 }
-                
+
                 ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs());
             });
         }

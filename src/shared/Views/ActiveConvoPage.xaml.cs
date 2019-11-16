@@ -190,7 +190,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             }
         }
 
-        private async void LoadPreviousMessagesButton_OnClicked(object sender, EventArgs e)
+        private void LoadPreviousMessagesButton_OnClicked(object sender, EventArgs e)
         {
             object scrollLock = MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();
 
@@ -201,11 +201,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 
             if (BindingContext is ActiveConvoViewModel vm)
             {
-                await vm.LoadPreviousMessages();
-                LoadPreviousMessagesButton.IsVisible = LoadPreviousMessagesButton.IsEnabled = false;
+                vm.LoadPreviousMessages().ContinueWith(_ =>
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        LoadPreviousMessagesButton.IsVisible = LoadPreviousMessagesButton.IsEnabled = false;
+                        MessagesListBox.ScrollTo(scrollLock, ScrollToPosition.Start, false);
+                    });
+                });
             }
-
-            MessagesListBox.ScrollTo(scrollLock, ScrollToPosition.Start, false);
         }
 
         private void MessagesListBox_OnItemAppearing(object sender, ItemVisibilityEventArgs e)
