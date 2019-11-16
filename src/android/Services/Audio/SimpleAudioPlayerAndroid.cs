@@ -20,7 +20,7 @@ using Xamarin.Forms;
 
 using System;
 using System.IO;
-
+using Android.Content;
 using Android.OS;
 using Android.Media;
 using Android.Content.Res;
@@ -113,9 +113,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         public SimpleAudioPlayerAndroid()
         {
             player = new MediaPlayer { Looping = Loop };
-            player.Completion += OnPlaybackEnded;    
+            player.Completion += OnPlaybackEnded;
         }
-        
+
         ///<Summary>
         /// Load wav or mp3 audio file as a stream
         ///</Summary>
@@ -167,7 +167,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
                 player.SetDataSource(fileName);
                 return PreparePlayer();
             }
-            catch(Exception e1)
+            catch
             {
                 try
                 {
@@ -176,7 +176,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
 
                     return PreparePlayer();
                 }
-                catch(Exception e2)
+                catch
                 {
                     return false;
                 }

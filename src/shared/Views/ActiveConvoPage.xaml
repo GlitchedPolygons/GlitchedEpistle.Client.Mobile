@@ -184,6 +184,7 @@
 
             <!-- TextBox + Send Buttons -->
             <StackLayout Orientation="Horizontal" 
+                         HorizontalOptions="FillAndExpand"
                          VerticalOptions="End">
 
                 <Editor x:Name="TextBox"
