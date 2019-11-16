@@ -208,15 +208,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                             Set(ref useFingerprint, value, force: true);
                             appSettings["UseFingerprint"] = value.ToString();
                             return;
-                        case FingerprintAuthenticationResultStatus.Canceled:
-                            alertService.AlertShort(localization["Cancelled"]);
-                            Set(ref useFingerprint, prev, force: true);
-                            appSettings["UseFingerprint"] = prev.ToString();
-                            return;
                         case FingerprintAuthenticationResultStatus.NotAvailable:
                             alertService.AlertShort(localization["FingerprintNotAvailable"]);
                             Set(ref useFingerprint, false, force: true);
                             appSettings["UseFingerprint"] = "false";
+                            return;
+                        default:
+                            alertService.AlertShort(localization["Cancelled"]);
+                            Set(ref useFingerprint, prev, force: true);
+                            appSettings["UseFingerprint"] = prev.ToString();
                             return;
                     }
                 });
