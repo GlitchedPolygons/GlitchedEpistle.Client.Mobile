@@ -772,4 +772,10 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="FingerprintNotAvailable" xml:space="preserve">
     <value>Fingerabdruck Sensor nit verfüegbar...</value>
   </data>
+  <data name="FingerprintSettingDisabled" xml:space="preserve">
+    <value>Fingerabdruck-Outhentifizierig deaktiviert</value>
+  </data>
+  <data name="FingerprintSettingEnabled" xml:space="preserve">
+    <value>Fingerabdruck-Outhentifizierig aktiviert</value>
+  </data>
 </root>

@@ -765,4 +765,10 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="FingerprintNotAvailable" xml:space="preserve">
     <value>Sensore biometrico non disponibile...</value>
   </data>
+  <data name="FingerprintSettingDisabled" xml:space="preserve">
+    <value>Disattivata autentificazione biometrica</value>
+  </data>
+  <data name="FingerprintSettingEnabled" xml:space="preserve">
+    <value>Attivata autentificazione biometrica</value>
+  </data>
 </root>

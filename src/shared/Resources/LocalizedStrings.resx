@@ -737,4 +737,10 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="FingerprintNotAvailable" xml:space="preserve">
     <value>Fingerprint sensor not available...</value>
   </data>
+  <data name="FingerprintSettingDisabled" xml:space="preserve">
+    <value>Disabled fingerprint authentication</value>
+  </data>
+  <data name="FingerprintSettingEnabled" xml:space="preserve">
+    <value>Enabled fingerprint authentication</value>
+  </data>
 </root>

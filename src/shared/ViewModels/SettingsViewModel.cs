@@ -210,6 +210,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     switch (auth.Status)
                     {
                         case FingerprintAuthenticationResultStatus.Succeeded:
+                            alertService.AlertShort(value ? localization["FingerprintSettingEnabled"] : localization["FingerprintSettingDisabled"]);
                             Set(ref useFingerprint, value, force: true);
                             appSettings["UseFingerprint"] = value.ToString();
                             return;
