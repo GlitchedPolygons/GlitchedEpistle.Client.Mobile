@@ -32,6 +32,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
         Theme = "@style/MainTheme.Splash", 
         NoHistory = true,
         MainLauncher = true, 
+        ResizeableActivity = false,
         ScreenOrientation = ScreenOrientation.Portrait,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation
     )]

@@ -193,15 +193,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     return;
                 }
 
-                if (!FingerprintAvailable)
-                {
-                    Set(ref useFingerprint, false);
-                    appSettings["UseFingerprint"] = "false";
-                    return;
-                }
-
                 Task.Run(async () =>
                 {
+                    if (!await CrossFingerprint.Current.IsAvailableAsync())
+                    {
+                        Set(ref useFingerprint, false);
+                        appSettings["UseFingerprint"] = "false";
+                        return;
+                    }
+
                     bool prev = useFingerprint;
                     var auth = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
 
@@ -218,8 +218,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 });
             }
         }
-
-        public bool FingerprintAvailable => CrossFingerprint.Current.IsAvailableAsync().GetAwaiter().GetResult();
 
         private Tuple<string, string> theme;
         public Tuple<string, string> Theme
