@@ -173,6 +173,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     
                     Set(ref saveTotpSecret, true);
                     appSettings["SaveTotpSecret"] = "true";
+                    await SecureStorage.SetAsync("totp:" + user.Id, input);
                 };
                 
                 Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(view);
@@ -319,12 +320,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public void OnDisappearing()
         {
             userSettings.Username = Username;
-            appSettings["Theme"] = Theme.Item1;
-            appSettings["Language"] = Language.Item1;
-            appSettings["SaveTotpSecret"] = SaveTotpSecret.ToString();
-            appSettings["SaveUserPassword"] = SaveUserPassword.ToString();
-            appSettings["SaveConvoPasswords"] = SaveConvoPasswords.ToString();
-            appSettings["UseFingerprint"] = UseFingerprint.ToString();
         }
 
         private async void OnClickedClose(object commandParam)
