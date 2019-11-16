@@ -34,12 +34,14 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Permissions;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using OtpNet;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using Plugin.Permissions.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -59,6 +61,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ILocalization localization;
         private readonly IAlertService alertService;
         private readonly IEventAggregator eventAggregator;
+        private readonly IPermissionChecker permissionChecker;
 
         private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Config") {UseDialog = false};
         #endregion
@@ -116,14 +119,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 // during construction, set the initial state without asking questions.
                 if (!initialized)
                 {
-                    Set(ref saveTotpSecret, value);
+                    Set(ref saveTotpSecret, value, force: true);
                     return;
                 }
                 
                 // Disabling this option should always be possible.
                 if (value == false)
                 {
-                    Set(ref saveTotpSecret, false);
+                    Set(ref saveTotpSecret, false, force: true);
                     appSettings["SaveTotpSecret"] = "false";
                     return;
                 }
@@ -133,7 +136,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 string totpSecret = SecureStorage.GetAsync("totp:" + user.Id).GetAwaiter().GetResult();
                 if (totpSecret.NotNullNotEmpty())
                 {
-                    Set(ref saveTotpSecret, true);
+                    Set(ref saveTotpSecret, true, force: true);
                     appSettings["SaveTotpSecret"] = "true";
                     return;
                 }
@@ -171,7 +174,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                             
                     alertService.AlertShort(localization["ActivationSuccessful"]);
                     
-                    Set(ref saveTotpSecret, true);
+                    Set(ref saveTotpSecret, true, force: true);
                     appSettings["SaveTotpSecret"] = "true";
                     await SecureStorage.SetAsync("totp:" + user.Id, input);
                 };
@@ -188,32 +191,33 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 if (!initialized)
                 {
-                    Set(ref useFingerprint, value);
-                    appSettings["UseFingerprint"] = value.ToString();
+                    Set(ref useFingerprint, value, force: true);
+                    appSettings["UseFingerprint"] = value.ToString();    
                     return;
                 }
 
                 Task.Run(async () =>
                 {
-                    if (!await CrossFingerprint.Current.IsAvailableAsync())
-                    {
-                        Set(ref useFingerprint, false);
-                        appSettings["UseFingerprint"] = "false";
-                        return;
-                    }
-
                     bool prev = useFingerprint;
-                    var auth = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    
+                    FingerprintAuthenticationResult auth = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
 
-                    if (auth.Authenticated)
+                    switch (auth.Status)
                     {
-                        Set(ref useFingerprint, value);
-                        appSettings["UseFingerprint"] = value.ToString();
-                    }
-                    else
-                    {
-                        Set(ref useFingerprint, prev);
-                        appSettings["UseFingerprint"] = prev.ToString();
+                        case FingerprintAuthenticationResultStatus.Succeeded:
+                            Set(ref useFingerprint, value, force: true);
+                            appSettings["UseFingerprint"] = value.ToString();
+                            return;
+                        case FingerprintAuthenticationResultStatus.Canceled:
+                            alertService.AlertShort(localization["Cancelled"]);
+                            Set(ref useFingerprint, prev, force: true);
+                            appSettings["UseFingerprint"] = prev.ToString();
+                            return;
+                        case FingerprintAuthenticationResultStatus.NotAvailable:
+                            alertService.AlertShort(localization["FingerprintNotAvailable"]);
+                            Set(ref useFingerprint, false, force: true);
+                            appSettings["UseFingerprint"] = "false";
+                            return;
                     }
                 });
             }
@@ -281,6 +285,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.eventAggregator = eventAggregator;
             this.alertService = DependencyService.Get<IAlertService>();
             this.localization = DependencyService.Get<ILocalization>();
+            this.permissionChecker = DependencyService.Get<IPermissionChecker>();
 
             AboutCommand = new DelegateCommand(OnClickedAbout);
             CloseCommand = new DelegateCommand(OnClickedClose);

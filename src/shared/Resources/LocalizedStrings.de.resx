@@ -766,4 +766,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="JoiningConvoLabel" xml:space="preserve">
     <value>Beitrittsversuch...</value>
   </data>
+  <data name="FingerprintNotAvailable" xml:space="preserve">
+    <value>Fingerabdruck Sensor nicht verfügbar...</value>
+  </data>
 </root>

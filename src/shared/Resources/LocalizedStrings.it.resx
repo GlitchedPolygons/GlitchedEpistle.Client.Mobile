@@ -762,4 +762,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="JoiningConvoLabel" xml:space="preserve">
     <value>Tentativo d'accesso...</value>
   </data>
+  <data name="FingerprintNotAvailable" xml:space="preserve">
+    <value>Sensore biometrico non disponibile...</value>
+  </data>
 </root>

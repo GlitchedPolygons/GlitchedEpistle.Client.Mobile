@@ -108,10 +108,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         /// <param name="newValue">The new value to give to the field.</param>
         /// <param name="propertyName">Name of the property (use the nameof operator when possible).</param>
         /// <param name="onChanged">Optional <paramref name="onChanged"/> callback to invoke if the field was changed.</param>
+        /// <param name="force">Force the update even if it wouldn't be needed.</param>
         /// <returns><c>true</c> if the property needed to be updated (and thus received a new value), <c>false</c> otherwise.</returns>
-        protected bool Set<T>(ref T field, T newValue, [CallerMemberName] string propertyName = "", Action onChanged = null)
+        protected bool Set<T>(ref T field, T newValue, [CallerMemberName] string propertyName = "", Action onChanged = null, bool force = false)
         {
-            if (EqualityComparer<T>.Default.Equals(field, newValue))
+            if (!force && EqualityComparer<T>.Default.Equals(field, newValue))
             {
                 return false;
             }

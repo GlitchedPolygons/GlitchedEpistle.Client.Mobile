@@ -769,4 +769,7 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
   <data name="JoiningConvoLabel" xml:space="preserve">
     <value>Verbinde...</value>
   </data>
+  <data name="FingerprintNotAvailable" xml:space="preserve">
+    <value>Fingerabdruck Sensor nit verfüegbar...</value>
+  </data>
 </root>
