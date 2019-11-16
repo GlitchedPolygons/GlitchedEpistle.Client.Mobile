@@ -200,6 +200,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     bool prev = useFingerprint;
                     
+                    if (value == prev)
+                    {
+                        return;
+                    }
+                    
                     FingerprintAuthenticationResult auth = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
 
                     switch (auth.Status)
