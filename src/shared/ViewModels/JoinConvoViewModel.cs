@@ -22,16 +22,18 @@ using System.Windows.Input;
 using System.Threading.Tasks;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
+using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
-using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
-using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using Newtonsoft.Json;
 using Prism.Events;
+using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -42,12 +44,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         // Injections:
         private readonly User user;
         private readonly ILogger logger;
+        private readonly IAppSettings appSettings;
         private readonly IConvoService convoService;
         private readonly ILocalization localization;
         private readonly IEventAggregator eventAggregator;
         private readonly IAsymmetricCryptographyRSA crypto;
         private readonly IConvoPasswordProvider convoPasswordProvider;
-        
+
         #endregion
 
         #region Commands
@@ -80,7 +83,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 UpdateJoinButton();
             }
         }
-        
+
         private bool cancelButtonEnabled = true;
         public bool CancelButtonEnabled
         {
@@ -96,27 +99,28 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         }
 
         #endregion
-        
-        public JoinConvoViewModel(User user, ILogger logger, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IAsymmetricCryptographyRSA crypto, IEventAggregator eventAggregator)
+
+        public JoinConvoViewModel(User user, ILogger logger, IAppSettings appSettings, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IAsymmetricCryptographyRSA crypto, IEventAggregator eventAggregator)
         {
             localization = DependencyService.Get<ILocalization>();
-            
+
             this.user = user;
             this.logger = logger;
             this.crypto = crypto;
-            this.eventAggregator = eventAggregator;
+            this.appSettings = appSettings;
             this.convoService = convoService;
+            this.eventAggregator = eventAggregator;
             this.convoPasswordProvider = convoPasswordProvider;
 
             CancelCommand = new DelegateCommand(OnCancel);
             JoinCommand = new DelegateCommand(OnClickedJoin);
         }
-        
+
         public void OnAppearing()
         {
             UpdateJoinButton();
         }
-        
+
         private void UpdateJoinButton()
         {
             JoinButtonEnabled = ConvoId.NotNullNotEmpty() && ConvoPassword.NotNullNotEmpty();
@@ -129,9 +133,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ErrorMessage = localization["EmptyConvoIdFieldErrorMessage"];
                 return;
             }
-            
+
             string passwordSHA512 = ConvoPassword?.SHA512();
-            
+
             if (passwordSHA512.NullOrEmpty())
             {
                 ErrorMessage = localization["EmptyPasswordFieldErrorMessage"];
@@ -165,7 +169,22 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
 
                 ConvoMetadataDto metadata = await convoService.GetConvoMetadata(ConvoId, passwordSHA512, user.Id, user.Token.Item2);
+
+                if (metadata is null)
+                {
+                    convoPasswordProvider.RemovePasswordSHA512(ConvoId);
+                    ErrorMessage = localization["JoinConvoFailedErrorMessage"];
+                    CancelButtonEnabled = true;
+                    UpdateJoinButton();
+                    return;
+                }
+
                 convoPasswordProvider.SetPasswordSHA512(ConvoId, passwordSHA512);
+
+                if (appSettings["SaveConvoPasswords", true])
+                {
+                    await SecureStorage.SetAsync($"convo:{ConvoId}_pw:SHA512", passwordSHA512);
+                }
 
                 ExecUI(() =>
                 {
@@ -174,7 +193,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 });
             });
         }
-        
+
         private async void OnCancel(object commandParam)
         {
             JoinButtonEnabled = CancelButtonEnabled = false;

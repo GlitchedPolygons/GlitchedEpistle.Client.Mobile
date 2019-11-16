@@ -274,7 +274,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     if (appSettings["SaveConvoPasswords", true])
                     {
-                        var _ = SecureStorage.SetAsync($"convo:{_convo.Id}_pw:SHA512", cachedPwSHA512);
+                        await SecureStorage.SetAsync($"convo:{_convo.Id}_pw:SHA512", cachedPwSHA512);
                     }
 
                     ExecUI(delegate
