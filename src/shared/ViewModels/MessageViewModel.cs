@@ -220,11 +220,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             ClickedOnPlayAudioAttachmentCommand = new DelegateCommand(OnClickedPlayAudioAttachment);
         }
 
-        ~MessageViewModel()
-        {
-            Dispose();
-        }
-
         public void Dispose()
         {
             if (disposed)

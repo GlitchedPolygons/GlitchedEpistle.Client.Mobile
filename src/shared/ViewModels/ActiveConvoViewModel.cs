@@ -220,8 +220,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (disposed)
                 return;
 
-            CanSend = false;
             disposed = true;
+            CanSend = false;
             StopAutomaticPulling();
 
             foreach (var msg in Messages)
@@ -268,7 +268,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public void OnDisappearing()
         {
-            //Dispose();
+            //nop
         }
 
         public async Task LoadPreviousMessages()
