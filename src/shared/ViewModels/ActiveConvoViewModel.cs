@@ -268,7 +268,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public void OnDisappearing()
         {
-            //nop
+            foreach (var msg in Messages)
+            {
+                if (msg.IsAudioPlaying)
+                {
+                    msg.ClickedOnPlayAudioAttachmentCommand.Execute(null);
+                }
+            }
         }
 
         public Task LoadPreviousMessages()
