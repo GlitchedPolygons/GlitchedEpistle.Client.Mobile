@@ -40,6 +40,7 @@
                 <Editor x:Name="BackupCodesText"
                         Margin="0,16,0,0"
                         IsReadOnly="True"
+                        FontSize="14"
                         Style="{DynamicResource EditorStyle}" />
 
                 <StackLayout Spacing="10">
