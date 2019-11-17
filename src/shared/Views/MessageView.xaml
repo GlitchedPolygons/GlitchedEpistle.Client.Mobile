@@ -35,7 +35,6 @@
     <ContentView.Content>
 
         <Frame Opacity="0.675"
-               Margin="0,0,0,0"
                Padding="13.37"
                CornerRadius="25.00">
 
@@ -212,16 +211,19 @@
                         </Style.Triggers>
                     </Style>
                 </StackLayout.Style>
+                
             </StackLayout>
 
             <Frame.Style>
                 <Style TargetType="Frame">
                     <Style.Triggers>
                         <DataTrigger TargetType="Frame" Binding="{Binding IsOwn}" Value="True">
+                            <Setter Property="Margin" Value="64,0,0,0"/>
                             <Setter Property="HorizontalOptions" Value="End" />
                             <Setter Property="BackgroundColor" Value="{DynamicResource MessageSpeechBubbleColorOwn}" />
                         </DataTrigger>
                         <DataTrigger TargetType="Frame" Binding="{Binding IsOwn}" Value="False">
+                            <Setter Property="Margin" Value="0,0,64,0"/>
                             <Setter Property="HorizontalOptions" Value="Start" />
                             <Setter Property="BackgroundColor" Value="{DynamicResource MessageSpeechBubbleColor}" />
                         </DataTrigger>

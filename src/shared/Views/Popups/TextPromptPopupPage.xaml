@@ -48,6 +48,11 @@
                 Text="{i:Translate CancelButton}"
                 Clicked="CancelButton_OnClicked" />
 
+        <Button x:Name="PasteFromClipboard"
+                Margin="0,5,0,0"
+                Text="{i:Translate PasteButton}"
+                Clicked="PasteFromClipboard_Clicked"/>
+
         <Button x:Name="OkButton"
                 Text="OK"
                 Margin="0,5,0,0"

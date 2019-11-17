@@ -21,7 +21,11 @@ using System.Threading.Tasks;
 using GlitchedPolygons.ExtensionMethods;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 {
@@ -30,6 +34,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
     {
         public string Text { get; private set; }
 
+        private readonly IAlertService alertService;
+        private readonly ILocalization localization;
         private readonly bool allowCancel, allowNullOrEmptyString;
 
         public TextPromptPopupPage(string title, string description, string okButtonText = null, string cancelButtonText = null, bool allowCancel = true, bool allowNullOrEmptyString = false)
@@ -38,6 +44,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 
             this.allowCancel = allowCancel;
             this.allowNullOrEmptyString = allowNullOrEmptyString;
+
+            alertService = DependencyService.Get<IAlertService>();
+            localization = DependencyService.Get<ILocalization>();
 
             TitleLabel.Text = title;
             DescriptionLabel.Text = description;
@@ -155,6 +164,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
 
             //return base.OnBackgroundClicked();
             return false;
+        }
+
+        private async void PasteFromClipboard_Clicked(object sender, EventArgs e)
+        {
+            string paste = await Clipboard.GetTextAsync();
+            if (paste.NullOrEmpty())
+            {
+                alertService.AlertShort(localization["ClipboardEmpty"]);
+                return;
+            }
+            TextEntry.Text = Text = paste;
         }
 
         private void Entry_TextChanged(object sender, Xamarin.Forms.TextChangedEventArgs e)

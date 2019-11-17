@@ -91,7 +91,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref desc, value);
         }
 
-        private DateTime exp = DateTime.UtcNow.AddDays(3);
+        private DateTime exp = DateTime.UtcNow.AddDays(14);
         public DateTime ExpirationUTC
         {
             get => exp;
