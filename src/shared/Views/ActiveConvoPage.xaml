@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<!--
+    <!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -16,209 +16,217 @@
          
          You should have received a copy of the GNU General Public License
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
+    -->
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Name="ConvoPage"
-             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ActiveConvoPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}"
-             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
-             xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
-             xmlns:views="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
-    <ContentPage.Content>
+    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 x:Name="ConvoPage"
+                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ActiveConvoPage"
+                 BackgroundColor="{DynamicResource PageBackgroundColor}"
+                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+                 xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                 xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+                 xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+                 xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+                 xmlns:views="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile">
+        <ContentPage.Content>
 
-        <StackLayout HorizontalOptions="Fill" 
-                     Margin="0,10,0,0">
+            <StackLayout HorizontalOptions="Fill" 
+                         Margin="0,10,0,0">
 
-            <!-- Header -->
-            <StackLayout Margin="0,0,0,0"
-                         Orientation="Vertical"
-                         HorizontalOptions="FillAndExpand"
-                         VerticalOptions="Start">
+                <!-- Header -->
+                <StackLayout Margin="0,0,0,0"
+                             Orientation="Vertical"
+                             HorizontalOptions="FillAndExpand"
+                             VerticalOptions="Start">
+
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="CenterAndExpand"
+                                 Margin="0,0,0,5">
+
+                        <!-- Convo Name/Title -->
+                        <Label FontSize="24"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center"
+                               Text="{Binding Path=Name}"
+                               Style="{DynamicResource TitleLabelStyle}" />
+
+                        <ff:CachedImage Aspect="AspectFit"
+                                        WidthRequest="35"
+                                        HeightRequest="35"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="Center"
+                                        DownsampleToViewSize="True"
+                                        x:Name="EditConvoButton"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
+                            <ff:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="EditConvoButton_OnClick" Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference ConvoPage}}" />
+                            </ff:CachedImage.GestureRecognizers>
+                        </ff:CachedImage>
+                    </StackLayout>
+
+                    <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
+
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="CenterAndExpand">
+
+                        <!-- Exit Convo Button -->
+                        <ff:CachedImage WidthRequest="35"
+                                        HeightRequest="35"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        Margin="0,0,5,0"
+                                        x:Name="ExitButton"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.leave-convo-icon-white.png}"
+                                        Style="{DynamicResource HeaderButtonStyle}">
+                            <ff:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ExitButton_OnClick" />
+                            </ff:CachedImage.GestureRecognizers>
+                        </ff:CachedImage>
+
+                        <!-- Convo ID -->
+                        <Label Text="{Binding Path=ActiveConvo.Id}"
+                               FontSize="12"
+                               HorizontalTextAlignment="Center"
+                               HorizontalOptions="CenterAndExpand"
+                               Style="{DynamicResource SubLabelStyle}"
+                               VerticalOptions="Center"
+                               FontAttributes="Italic" />
+
+                        <!-- Copy Convo ID Button -->
+                        <ff:CachedImage WidthRequest="18"
+                                        HeightRequest="18"
+                                        DownsampleToViewSize="True"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsEnabled="{Binding ClipboardTickVisible, Converter={converters:InverseBoolConverter}}"
+                                        IsVisible="{Binding ClipboardTickVisible, Converter={converters:InverseBoolConverter}}"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.clipboard-icon.png}">
+                            <ff:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CopyConvoIdToClipboardCommand}" />
+                            </ff:CachedImage.GestureRecognizers>
+                        </ff:CachedImage>
+                        <ff:CachedImage WidthRequest="18"
+                                        HeightRequest="18"
+                                        DownsampleToViewSize="True"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        IsVisible="{Binding ClipboardTickVisible}"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
+
+                        <!-- Scroll-to-bottom Button -->
+                        <ff:CachedImage WidthRequest="35"
+                                        HeightRequest="35"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="End"
+                                        Margin="5,0,0,0"
+                                        x:Name="ScrollToBottomButton"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.scroll-to-bottom-icon-white.png}"
+                                        Style="{DynamicResource HeaderButtonStyle}">
+                            <ff:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ScrollToBottomButton_OnClick" />
+                            </ff:CachedImage.GestureRecognizers>
+                        </ff:CachedImage>
+
+                    </StackLayout>
+
+                </StackLayout>
 
                 <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="CenterAndExpand"
-                             Margin="0,0,0,5">
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center"
+                             IsVisible="{Binding Loading}">
 
-                    <!-- Convo Name/Title -->
-                    <Label FontSize="24"
+                    <Label Text="{i:Translate LoadingMessagesLabel}"
+                           Style="{DynamicResource MediumLabelStyle}"
                            VerticalOptions="Center"
                            HorizontalOptions="Center"
-                           VerticalTextAlignment="Center"
-                           HorizontalTextAlignment="Center"
-                           Text="{Binding Path=Name}"
-                           Style="{DynamicResource TitleLabelStyle}" />
+                           FontSize="13" />
 
-                    <ff:CachedImage Aspect="AspectFit"
-                                    WidthRequest="35"
-                                    HeightRequest="35"
-                                    VerticalOptions="Center"
-                                    HorizontalOptions="Center"
-                                    DownsampleToViewSize="True"
-                                    x:Name="EditConvoButton"
-                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
-                        <ff:CachedImage.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="EditConvoButton_OnClick" Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference ConvoPage}}" />
-                        </ff:CachedImage.GestureRecognizers>
-                    </ff:CachedImage>
+                    <ActivityIndicator IsRunning="true"
+                                       WidthRequest="25"
+                                       HeightRequest="25"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
                 </StackLayout>
-
-                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
-
-                <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="CenterAndExpand">
-
-                    <!-- Exit Convo Button -->
-                    <ff:CachedImage WidthRequest="35"
-                                    HeightRequest="35"
-                                    VerticalOptions="Start"
-                                    HorizontalOptions="Start"
-                                    Margin="0,0,5,0"
-                                    x:Name="ExitButton"
-                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.leave-convo-icon-white.png}"
-                                    Style="{DynamicResource HeaderButtonStyle}">
-                        <ff:CachedImage.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ExitButton_OnClick" />
-                        </ff:CachedImage.GestureRecognizers>
-                    </ff:CachedImage>
-
-                    <!-- Convo ID -->
-                    <Label Text="{Binding Path=ActiveConvo.Id}"
-                           FontSize="12"
-                           HorizontalTextAlignment="Center"
-                           HorizontalOptions="CenterAndExpand"
-                           Style="{DynamicResource SubLabelStyle}"
-                           VerticalOptions="Center"
-                           FontAttributes="Italic" />
-
-                    <!-- Copy Convo ID Button -->
-                    <ff:CachedImage WidthRequest="18"
-                                    HeightRequest="18"
-                                    DownsampleToViewSize="True"
-                                    VerticalOptions="CenterAndExpand"
-                                    HorizontalOptions="CenterAndExpand"
-                                    IsEnabled="{Binding ClipboardTickVisible, Converter={converters:InverseBoolConverter}}"
-                                    IsVisible="{Binding ClipboardTickVisible, Converter={converters:InverseBoolConverter}}"
-                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.clipboard-icon.png}">
-                        <ff:CachedImage.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding CopyConvoIdToClipboardCommand}" />
-                        </ff:CachedImage.GestureRecognizers>
-                    </ff:CachedImage>
-                    <ff:CachedImage WidthRequest="18"
-                                    HeightRequest="18"
-                                    DownsampleToViewSize="True"
-                                    VerticalOptions="CenterAndExpand"
-                                    HorizontalOptions="CenterAndExpand"
-                                    IsVisible="{Binding ClipboardTickVisible}"
-                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
-
-                    <!-- Scroll-to-bottom Button -->
-                    <ff:CachedImage WidthRequest="35"
-                                    HeightRequest="35"
-                                    VerticalOptions="Start"
-                                    HorizontalOptions="End"
-                                    Margin="5,0,0,0"
-                                    x:Name="ScrollToBottomButton"
-                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.scroll-to-bottom-icon-white.png}"
-                                    Style="{DynamicResource HeaderButtonStyle}">
-                        <ff:CachedImage.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="ScrollToBottomButton_OnClick" />
-                        </ff:CachedImage.GestureRecognizers>
-                    </ff:CachedImage>
-
-                </StackLayout>
-
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal"
-                         VerticalOptions="Center"
-                         HorizontalOptions="Center"
-                         IsVisible="{Binding Loading}">
-
-                <Label Text="{i:Translate LoadingMessagesLabel}"
-                       Style="{DynamicResource MediumLabelStyle}"
-                       VerticalOptions="Center"
-                       HorizontalOptions="Center"
-                       FontSize="13" />
-
-                <ActivityIndicator IsRunning="true"
-                                   WidthRequest="25"
-                                   HeightRequest="25"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center" />
-            </StackLayout>
             
-            <Button x:Name="LoadPreviousMessagesButton" 
-                    IsVisible="False"
-                    IsEnabled="False"
-                    HorizontalOptions="Center"
-                    Text="{i:Translate LoadPreviousMessagesButton}" 
-                    Clicked="LoadPreviousMessagesButton_OnClicked"/>
+                <Button x:Name="LoadPreviousMessagesButton" 
+                        IsVisible="False"
+                        IsEnabled="False"
+                        HorizontalOptions="Center"
+                        Text="{i:Translate LoadPreviousMessagesButton}" 
+                        Clicked="LoadPreviousMessagesButton_OnClicked"/>
 
-            <!-- Chatroom -->
-            <ListView SelectionMode="None"
-                      x:Name="MessagesListBox"
-                      ItemsSource="{Binding Messages}"
-                      HasUnevenRows="true"
-                      Margin="8,0,8,0"
-                      CachingStrategy="RetainElement"
-                      SeparatorVisibility="None"
-                      BackgroundColor="Transparent"
-                      ItemAppearing="MessagesListBox_OnItemAppearing"
-                      ItemDisappearing="MessagesListBox_OnItemDisappearing"
-                      Style="{DynamicResource MessagesListBox}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <views:MessageView />
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                <!-- Chatroom -->
+                <ListView SelectionMode="None"
+                          x:Name="MessagesListBox"
+                          ItemsSource="{Binding Messages}"
+                          HasUnevenRows="true"
+                          Margin="8,0,8,0"
+                          CachingStrategy="RetainElement"
+                          SeparatorVisibility="None"
+                          BackgroundColor="Transparent"
+                          ItemAppearing="MessagesListBox_OnItemAppearing"
+                          ItemDisappearing="MessagesListBox_OnItemDisappearing"
+                          Style="{DynamicResource MessagesListBox}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <views:MessageView />
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-            <!-- TextBox + Send Buttons -->
-            <StackLayout Orientation="Horizontal" 
-                         HorizontalOptions="FillAndExpand"
-                         VerticalOptions="End">
-
-                <Editor x:Name="TextBox"
-                        IsEnabled="true"
-                        FontSize="14"
-                        Margin="5,0"
-                        MaxLength="8192"
-                        HeightRequest="50"
-                        Text="{Binding Text}"
-                        Style="{DynamicResource EditorStyle}"
-                        TextChanged="TextBox_OnTextChanged"
-                        Placeholder="{i:Translate EnterYourMessageHere}"
-                        HorizontalOptions="FillAndExpand"
-                        VerticalOptions="End" />
-
-                <ActivityIndicator WidthRequest="50" 
-                                   HeightRequest="50"
-                                   Margin="0,0,60,5"
-                                   IsRunning="true" 
-                                   IsVisible="{Binding CanSend, Converter={converters:InverseBoolConverter}}"/>
-                
-                <StackLayout Orientation="Horizontal"
-                             IsVisible="{Binding CanSend}"
-                             IsEnabled="{Binding CanSend}">
+                <!-- TextBox + Send Buttons -->
+                <Grid HorizontalOptions="FillAndExpand" 
+                      VerticalOptions="End">
                     
-                    <ff:CachedImage WidthRequest="50"
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="55"/>
+                        <ColumnDefinition Width="55"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Editor Grid.Column="0" 
+                            MinimumHeightRequest="50"
+                            x:Name="TextBox"
+                            IsEnabled="true"
+                            FontSize="14"
+                            Margin="5,0"
+                            MaxLength="8192"
+                            Text="{Binding Text}"
+                            TextChanged="TextBox_OnTextChanged"
+                            Style="{DynamicResource EditorStyle}"
+                            Placeholder="{i:Translate EnterYourMessageHere}"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="End" />
+
+                    <ActivityIndicator Grid.Column="0" 
+                                       WidthRequest="50" 
+                                       HeightRequest="50"
+                                       Margin="0,0,60,5"
+                                       IsRunning="true" 
+                                       VerticalOptions="End"
+                                       HorizontalOptions="End"
+                                       IsVisible="{Binding CanSend, Converter={converters:InverseBoolConverter}}"/>
+
+                    <ff:CachedImage Grid.Column="1" 
+                                    WidthRequest="50"
                                     HeightRequest="50"
                                     Margin="0,0,2.5,5"
                                     HorizontalOptions="End"
                                     VerticalOptions="End"
                                     x:Name="SendFileButton"
                                     IsVisible="True"
-                                    IsEnabled="True"
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.attachment-icon-white.png}"
                                     Style="{DynamicResource HeaderButtonStyle}">
                         <ff:CachedImage.GestureRecognizers>
@@ -226,7 +234,8 @@
                         </ff:CachedImage.GestureRecognizers>
                     </ff:CachedImage>
 
-                    <ff:CachedImage WidthRequest="50"
+                    <ff:CachedImage Grid.Column="2" 
+                                    WidthRequest="50"
                                     HeightRequest="50"
                                     Margin="0,0,5,5"
                                     HorizontalOptions="End"
@@ -240,7 +249,8 @@
                         </ff:CachedImage.GestureRecognizers>
                     </ff:CachedImage>
 
-                    <ff:CachedImage WidthRequest="50"
+                    <ff:CachedImage Grid.Column="2" 
+                                    WidthRequest="50"
                                     HeightRequest="50"
                                     Margin="0,0,5,5"
                                     HorizontalOptions="End"
@@ -253,8 +263,7 @@
                             <TapGestureRecognizer Tapped="SendAudioButton_OnClick" Command="{Binding SendAudioCommand}" />
                         </ff:CachedImage.GestureRecognizers>
                     </ff:CachedImage>
-                </StackLayout>
+                </Grid>
             </StackLayout>
-        </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+        </ContentPage.Content>
+    </ContentPage>
