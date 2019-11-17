@@ -53,7 +53,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ITotpProvider totpProvider;
         private readonly IEventAggregator eventAggregator;
 
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") {UseDialog = false};
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") { UseDialog = false };
 
         #endregion
 
@@ -94,14 +94,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => uiEnabled;
             set => Set(ref uiEnabled, value);
         }
-        
+
         private bool showTotpField = true;
         public bool ShowTotpField
         {
             get => showTotpField;
             set => Set(ref showTotpField, value);
         }
-        
+
         private Tuple<string, string> language;
         public Tuple<string, string> Language
         {
@@ -110,12 +110,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 if (Set(ref language, value))
                     appSettings["Language"] = value.Item1;
-                
-                if (initialized) 
+
+                if (initialized)
                     ShowLanguageRestartRequiredWarning = true;
             }
         }
-        
+
         private ObservableCollection<Tuple<string, string>> languages;
         public ObservableCollection<Tuple<string, string>> Languages
         {
@@ -158,7 +158,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public async void OnAppearing()
         {
             UserId = appSettings.LastUserId;
-            
+
             Languages = new ObservableCollection<Tuple<string, string>>(new List<Tuple<string, string>>
             {
                 new Tuple<string, string>("en", localization["English"] + " (English)"),
@@ -166,9 +166,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 new Tuple<string, string>("gsw", localization["SwissGerman"] + " (Schwiizerdütsch)"),
                 new Tuple<string, string>("it", localization["Italian"] + " (Italiano)")
             });
-            
+
             Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]) ?? Languages[0];
-            
+
             if (appSettings["SaveUserPassword", true])
             {
                 var storedPw = await SecureStorage.GetAsync("pw:" + UserId);
@@ -181,17 +181,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
 
             bool saveTotpSecret = appSettings["SaveTotpSecret", false];
-            
+
             ShowTotpField = !saveTotpSecret;
 
             if (AutoPromptForFingerprint && saveTotpSecret && appSettings["UseFingerprint", false])
             {
                 OnClickedLogin(null);
             }
-            
+
             methodQ.Schedule(() => initialized = true, DateTime.UtcNow.AddMilliseconds(420));
         }
-        
+
         public void OnDisappearing()
         {
             appSettings["Language"] = Language.Item1;
@@ -230,7 +230,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (appSettings["SaveTotpSecret", false])
                 {
                     Totp = await totpProvider.GetTotp(await SecureStorage.GetAsync("totp:" + UserId));
-                    
+
                     if (Totp.NullOrEmpty())
                     {
                         ShowTotpField = true;
@@ -256,12 +256,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         var serverSideFailureAlertTask = Application.Current.MainPage.DisplayAlert(localization["Error"], localization["ConnectionToServerFailed"], "OK");
                         break;
                     case 2: // Login failed server-side.
-                        failedAttempts++;
                         SecureStorage.Remove("pw:" + UserId);
                         ErrorMessage = localization["InvalidUserIdPwOrTOTP"];
-                        if (failedAttempts >= 3)
+                        if (++failedAttempts >= 2)
                         {
-                            ErrorMessage += "\n" + localization["LoginMultiFailedAttemptsErrorMessage"];
+                            ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["Error"], localization["InvalidUserIdPwOrTOTP"] + "\n\n" + localization["LoginMultiFailedAttemptsErrorMessage"], "OK"));
                         }
 
                         break;
