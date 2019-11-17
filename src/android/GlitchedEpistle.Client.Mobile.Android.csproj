@@ -88,6 +88,7 @@
     <Compile Include="Services\Alerts\ToastAlert.cs" />
     <Compile Include="Services\Audio\SimpleAudioPlayerAndroid.cs" />
     <Compile Include="Services\Audio\SimpleAudioRecorderAndroid.cs" />
+    <Compile Include="Services\Hardware\ProximitySensorAndroid.cs" />
     <Compile Include="Services\Localization\AndroidLocalization.cs" />
     <Compile Include="Services\Paths\AndroidDownloadPath.cs" />
     <Compile Include="Services\Paths\AndroidFileOpener.cs" />

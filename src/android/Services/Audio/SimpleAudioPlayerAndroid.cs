@@ -17,17 +17,16 @@
 */
 
 using Xamarin.Forms;
-
 using System;
 using System.IO;
 using Android.Content;
 using Android.OS;
 using Android.Media;
-using Android.Content.Res;
 using Android.Hardware;
+using Android.Content.Res;
 using Plugin.SimpleAudioPlayer;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio;
-
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Hardware;
 using Uri = Android.Net.Uri;
 using Stream = System.IO.Stream;
 using Runtime = Android.Runtime;
@@ -109,11 +108,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         private MediaPlayer player;
         private string deleteOnDispose;
         private volatile bool disposed = false;
+        private readonly IProximitySensor proximitySensor;
 
         public SimpleAudioPlayerAndroid()
         {
             player = new MediaPlayer { Looping = Loop };
             player.Completion += OnPlaybackEnded;
+
+            proximitySensor = DependencyService.Get<IProximitySensor>(DependencyFetchTarget.GlobalInstance);
+            proximitySensor.ProximitySensorChanged += OnProximitySensorChanged;
+            proximitySensor.Enabled = true;
+        }
+
+        private void OnProximitySensorChanged(bool near)
+        {
+            if (!IsPlaying)
+            {
+                return;
+            }
+            
+            // TODO: turn on/off screen and ear speaker here
         }
 
         ///<Summary>
@@ -152,7 +166,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
             }
 
             return false;
-            
         }
 
         ///<Summary>
@@ -186,7 +199,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         private bool PreparePlayer()
         {
             player?.Prepare();
-            
+
             return player != null;
         }
 
@@ -280,14 +293,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
             {
                 return;
             }
-            
+
             DeletePlayer();
             DeleteTempFile();
-            
+
+            if (proximitySensor != null)
+            {
+                proximitySensor.ProximitySensorChanged -= OnProximitySensorChanged;
+            }
+
             disposed = true;
             GC.SuppressFinalize(this);
         }
-        
+
         private void DeletePlayer()
         {
             Stop();
@@ -313,7 +331,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
             File.Delete(deleteOnDispose);
             deleteOnDispose = null;
         }
-        
+
         ~SimpleAudioPlayerAndroid()
         {
             Dispose();

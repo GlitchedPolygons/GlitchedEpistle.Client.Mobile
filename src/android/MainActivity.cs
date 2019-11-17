@@ -27,17 +27,10 @@ using FFImageLoading.Forms.Platform;
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 {
     [Activity(Label = "Glitched Epistle", Icon = "@mipmap/icon", Theme = "@style/MainTheme")]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity, ISensorEventListener
+    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        private SensorManager sensorManager;
-
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            if (sensorManager is null)
-            {
-                sensorManager = (SensorManager)Application.Context.GetSystemService(SensorService);
-            }
-            
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
@@ -75,37 +68,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
             else
             {
                 // Do something if there are not any pages in the `PopupStack`
-            }
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-            sensorManager?.UnregisterListener(this);
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-            var proximitySensor = sensorManager?.GetDefaultSensor(SensorType.Proximity);
-            if (proximitySensor != null)
-            {
-                sensorManager.RegisterListener(this, proximitySensor, SensorDelay.Ui);
-            }
-        }
-
-        public void OnAccuracyChanged(Sensor sensor, SensorStatus accuracy)
-        {
-            //nop
-        }
-
-        public void OnSensorChanged(SensorEvent e)
-        {
-            switch (e.Sensor.Type)
-            {
-                case SensorType.Proximity:
-                    var s = e.Values[0];
-                    break;
             }
         }
     }
