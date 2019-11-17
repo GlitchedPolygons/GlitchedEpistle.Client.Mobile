@@ -168,26 +168,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             SendTextButton.IsVisible = TextBox.Text.NotNullNotEmpty();
             SendAudioButton.IsVisible = TextBox.Text.NullOrEmpty();
-
-            if (TextBox.Text.NullOrEmpty())
-            {
-                TextBox.HeightRequest = 50;
-            }
-            else
-            {
-                switch (TextBox.Text.Split('\n').Length)
-                {
-                    case 1:
-                        TextBox.HeightRequest = 50;
-                        break;
-                    case 2:
-                        TextBox.HeightRequest = 75;
-                        break;
-                    default:
-                        TextBox.HeightRequest = 100;
-                        break;
-                }
-            }
         }
 
         private void LoadPreviousMessagesButton_OnClicked(object sender, EventArgs e)

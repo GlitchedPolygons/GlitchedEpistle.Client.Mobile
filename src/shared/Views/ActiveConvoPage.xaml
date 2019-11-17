@@ -185,10 +185,11 @@
 
                 <!-- TextBox + Send Buttons -->
                 <Grid HorizontalOptions="FillAndExpand" 
-                      VerticalOptions="End">
+                      VerticalOptions="End"
+                      Margin="0,0,0,5">
                     
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="{Binding TextBoxHeight}"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -197,7 +198,6 @@
                     </Grid.ColumnDefinitions>
 
                     <Editor Grid.Column="0" 
-                            MinimumHeightRequest="50"
                             x:Name="TextBox"
                             IsEnabled="true"
                             FontSize="14"
@@ -208,25 +208,25 @@
                             Style="{DynamicResource EditorStyle}"
                             Placeholder="{i:Translate EnterYourMessageHere}"
                             HorizontalOptions="FillAndExpand"
-                            VerticalOptions="End" />
+                            VerticalOptions="FillAndExpand" />
 
                     <ActivityIndicator Grid.Column="0" 
-                                       WidthRequest="50" 
-                                       HeightRequest="50"
-                                       Margin="0,0,60,5"
+                                       WidthRequest="32" 
+                                       HeightRequest="32"
                                        IsRunning="true" 
-                                       VerticalOptions="End"
+                                       Margin="0,0,5,0"
                                        HorizontalOptions="End"
+                                       VerticalOptions="Center"
                                        IsVisible="{Binding CanSend, Converter={converters:InverseBoolConverter}}"/>
 
                     <ff:CachedImage Grid.Column="1" 
                                     WidthRequest="50"
                                     HeightRequest="50"
-                                    Margin="0,0,2.5,5"
                                     HorizontalOptions="End"
                                     VerticalOptions="End"
                                     x:Name="SendFileButton"
                                     IsVisible="True"
+                                    Margin="0,0,2.5,0"
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.attachment-icon-white.png}"
                                     Style="{DynamicResource HeaderButtonStyle}">
                         <ff:CachedImage.GestureRecognizers>
@@ -237,11 +237,11 @@
                     <ff:CachedImage Grid.Column="2" 
                                     WidthRequest="50"
                                     HeightRequest="50"
-                                    Margin="0,0,5,5"
                                     HorizontalOptions="End"
                                     VerticalOptions="End"
                                     x:Name="SendTextButton"
                                     IsVisible="False"
+                                    Margin="0,0,2.5,0"
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.send-icon-white.png}"
                                     Style="{DynamicResource HeaderButtonStyle}">
                         <ff:CachedImage.GestureRecognizers>
@@ -252,11 +252,11 @@
                     <ff:CachedImage Grid.Column="2" 
                                     WidthRequest="50"
                                     HeightRequest="50"
-                                    Margin="0,0,5,5"
                                     HorizontalOptions="End"
                                     VerticalOptions="End"
                                     x:Name="SendAudioButton"
                                     IsVisible="True"
+                                    Margin="0,0,5,0"
                                     Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.mic-icon-white.png}"
                                     Style="{DynamicResource HeaderButtonStyle}">
                         <ff:CachedImage.GestureRecognizers>

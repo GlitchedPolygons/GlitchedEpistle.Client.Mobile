@@ -614,7 +614,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   </data>
   <data name="ParticipantsListLabel" xml:space="preserve">
     <value>Participants 
-(tap + hold for options):</value>
+(hold for options):</value>
   </data>
   <data name="PleaseProvideConvoPassword" xml:space="preserve">
     <value>Please provide the convo's current password in order to authenticate your request!</value>
