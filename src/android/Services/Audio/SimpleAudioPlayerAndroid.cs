@@ -17,16 +17,20 @@
 */
 
 using Xamarin.Forms;
+
 using System;
 using System.IO;
-using Android.Content;
+
 using Android.OS;
 using Android.Media;
+using Android.Content;
 using Android.Hardware;
 using Android.Content.Res;
+
 using Plugin.SimpleAudioPlayer;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Hardware;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio;
+
 using Uri = Android.Net.Uri;
 using Stream = System.IO.Stream;
 using Runtime = Android.Runtime;
@@ -108,10 +112,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         private MediaPlayer player;
         private string deleteOnDispose;
         private volatile bool disposed = false;
+        private readonly AudioManager audioManager;
         private readonly IProximitySensor proximitySensor;
 
         public SimpleAudioPlayerAndroid()
         {
+            audioManager = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
+
             player = new MediaPlayer { Looping = Loop };
             player.Completion += OnPlaybackEnded;
 
@@ -122,16 +129,35 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
 
         private void OnProximitySensorChanged(bool near)
         {
-            if (!IsPlaying)
+            if (!IsPlaying || player is null || audioManager is null)
+            {
+                return;
+            }
+
+            SwitchOutput(near);
+
+            // TODO: turn on/off screen here
+        }
+
+        private void SwitchOutput(bool ear)
+        {
+            if (disposed)
             {
                 return;
             }
             
-            // TODO: turn on/off screen and ear speaker here
+            double pos = CurrentPosition;
+
+            Pause();
+            audioManager.Mode = ear ? Mode.InCommunication : Mode.Normal;
+            audioManager.SpeakerphoneOn = !ear;
+            Load(deleteOnDispose);
+            Seek(pos);
+            Play();
         }
 
         ///<Summary>
-        /// Load wav or mp3 audio file as a stream
+        /// Load wav or mp3 audio file as a stream.
         ///</Summary>
         public bool Load(Stream audioStream)
         {
@@ -273,6 +299,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
 
         private void OnPlaybackEnded(object sender, EventArgs e)
         {
+            SwitchOutput(false);
+            Stop();
+            
             PlaybackEnded?.Invoke(sender, e);
 
             // This improves stability on older devices but has minor performance impact.
