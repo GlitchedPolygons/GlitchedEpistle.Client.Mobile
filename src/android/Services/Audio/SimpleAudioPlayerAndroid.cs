@@ -148,14 +148,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
                 return;
             }
             
-            //double pos = CurrentPosition;
-
-            //Pause();
             audioManager.Mode = ear ? Mode.InCommunication : Mode.Normal;
             audioManager.SpeakerphoneOn = !ear;
-            //Load(deleteOnDispose);
-            //Seek(pos);
-            //Play();
+            SetVolume(1,0);
         }
 
         private void SwitchScreenWakeLock(bool ear)
