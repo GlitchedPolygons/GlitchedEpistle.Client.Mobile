@@ -146,14 +146,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
                 return;
             }
             
-            double pos = CurrentPosition;
+            //double pos = CurrentPosition;
 
-            Pause();
+            //Pause();
             audioManager.Mode = ear ? Mode.InCommunication : Mode.Normal;
             audioManager.SpeakerphoneOn = !ear;
-            Load(deleteOnDispose);
-            Seek(pos);
-            Play();
+            //Load(deleteOnDispose);
+            //Seek(pos);
+            //Play();
         }
 
         ///<Summary>
