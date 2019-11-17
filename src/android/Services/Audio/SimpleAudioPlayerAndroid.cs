@@ -124,7 +124,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
 
             player = new MediaPlayer { Looping = Loop };
             player.Completion += OnPlaybackEnded;
-
+            player.SetAudioStreamType(global::Android.Media.Stream.VoiceCall);
+            
             proximitySensor = DependencyService.Get<IProximitySensor>(DependencyFetchTarget.GlobalInstance);
             proximitySensor.ProximitySensorChanged += OnProximitySensorChanged;
             proximitySensor.Enabled = true;
@@ -236,7 +237,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
                 {
                     var uri = Uri.Parse(Uri.Encode(fileName));
                     player.SetDataSource(Application.Context, uri);
-
+                    player.SetAudioAttributes(new AudioAttributes.Builder().SetUsage(AudioUsageKind.VoiceCommunication).SetContentType(AudioContentType.Speech).Build());
                     return PreparePlayer();
                 }
                 catch
