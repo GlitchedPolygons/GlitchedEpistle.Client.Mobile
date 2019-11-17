@@ -73,9 +73,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         private double volume = 1.0;
 
         ///<Summary>
-        /// Balance left/right:             <para> </para>
-        /// -1 is 100% left &amp; 0% right, <para> </para>
-        /// 1 is 100% right &amp; 0% left,  <para> </para>
+        /// Balance left/right:                 <para> </para>
+        /// -1 is 100% left &amp; 0% right,     <para> </para>
+        /// 1 is 100% right &amp; 0% left,      <para> </para>
         /// 0 is equal volume left/right.
         ///</Summary>
         public double Balance
@@ -112,12 +112,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         private MediaPlayer player;
         private string deleteOnDispose;
         private volatile bool disposed = false;
+        private PowerManager.WakeLock wakeLock;
+        private readonly PowerManager powerManager;
         private readonly AudioManager audioManager;
         private readonly IProximitySensor proximitySensor;
 
         public SimpleAudioPlayerAndroid()
         {
             audioManager = (AudioManager)Application.Context.GetSystemService(Context.AudioService);
+            powerManager = (PowerManager)Application.Context.GetSystemService(Context.PowerService);
 
             player = new MediaPlayer { Looping = Loop };
             player.Completion += OnPlaybackEnded;
@@ -134,12 +137,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
                 return;
             }
 
-            SwitchOutput(near);
-
-            // TODO: turn on/off screen here
+            SwitchAudioOutput(near);
+            SwitchScreenWakeLock(near);
         }
 
-        private void SwitchOutput(bool ear)
+        private void SwitchAudioOutput(bool ear)
         {
             if (disposed)
             {
@@ -154,6 +156,33 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
             //Load(deleteOnDispose);
             //Seek(pos);
             //Play();
+        }
+
+        private void SwitchScreenWakeLock(bool ear)
+        {
+            if (ear)
+            {
+                if (wakeLock != null && wakeLock.IsHeld)
+                {
+                    wakeLock.Release();
+                    wakeLock = null;
+                }
+
+                wakeLock = powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "voice_msg_wake_lock");
+                
+                if (!wakeLock.IsHeld)
+                {
+                    wakeLock.Acquire();
+                }
+
+                return;
+            }
+
+            if (wakeLock != null && wakeLock.IsHeld)
+            {
+                wakeLock.Release(WakeLockFlags.ReleaseFlagWaitForNoProximity);
+                wakeLock = null;
+            }
         }
 
         ///<Summary>
@@ -268,6 +297,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         public void Pause()
         {
             player?.Pause();
+            
+            SwitchAudioOutput(false);
+            SwitchScreenWakeLock(false);
         }
 
         ///<Summary>
@@ -299,7 +331,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
 
         private void OnPlaybackEnded(object sender, EventArgs e)
         {
-            SwitchOutput(false);
             Stop();
             
             PlaybackEnded?.Invoke(sender, e);
