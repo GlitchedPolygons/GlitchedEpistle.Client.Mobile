@@ -199,16 +199,15 @@
 
                     <Editor Grid.Column="0" 
                             x:Name="TextBox"
-                            IsEnabled="true"
                             FontSize="14"
                             Margin="5,0"
                             MaxLength="8192"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
                             Text="{Binding Text}"
                             TextChanged="TextBox_OnTextChanged"
                             Style="{DynamicResource EditorStyle}"
-                            Placeholder="{i:Translate EnterYourMessageHere}"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="FillAndExpand" />
+                            Placeholder="{i:Translate EnterYourMessageHere}"/>
 
                     <ActivityIndicator Grid.Column="0" 
                                        WidthRequest="32" 
@@ -267,3 +266,4 @@
             </StackLayout>
         </ContentPage.Content>
     </ContentPage>
+    

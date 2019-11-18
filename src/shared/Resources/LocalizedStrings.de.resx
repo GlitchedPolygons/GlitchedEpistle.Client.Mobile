@@ -778,6 +778,16 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
   <data name="ClipboardEmpty" xml:space="preserve">
     <value>Zwischenablage leer...</value>
   </data>
+  <data name="HelpDialogText2FA" xml:space="preserve">
+    <value>Glitched Epistle hat einen obligatorischen zweiten Authentifizierungsfaktor direkt eingebettet in den kritischen Server-Endpoints.
+
+Bitte beachte, dass du im Falle eines Verlustes deines Authentifizierungsgeräts auf gar keine Weise Zugriff auf dein Konto erlangen kannst AUSSER mit den Notfall-Codes die dir während der ersten Registrierung gegeben wurden.
+
+Ausserdem: die 2FA Tokens sind nur einmal verwendbar und jeweils nur 30 Sekunden gültig. Aus diesem Grund kann es manchmal vorkommen, dass man trotz korrekter Parameter einen Fehler angezeigt bekommt (z.B. 2x hintereinander einloggen geht nicht wegen diesem 30-sekündigem Cooldown). In so einem Fall: Ruhe bewahren und in ein paar Sekunden erneut versuchen.</value>
+  </data>
+  <data name="HelpDialogTitle2FA" xml:space="preserve">
+    <value>Zwei-Faktor Authentifizierung</value>
+  </data>
   <data name="PasteButton" xml:space="preserve">
     <value>Einfügen</value>
   </data>

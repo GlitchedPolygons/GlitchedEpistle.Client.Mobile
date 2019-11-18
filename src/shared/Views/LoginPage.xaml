@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<!--
+    <!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -16,123 +16,138 @@
          
          You should have received a copy of the GNU General Public License
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
+    -->
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
-             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
-             BackgroundColor="{DynamicResource PageBackgroundColor}">
-    <ContentPage.Content>
-        <ScrollView>
-            <StackLayout HorizontalOptions="Center"
-                         VerticalOptions="Center"
-                         WidthRequest="275"
-                         Margin="32,32,32,50">
+    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 mc:Ignorable="d"
+                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+                 xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters"
+                 xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.LoginPage"
+                 BackgroundColor="{DynamicResource PageBackgroundColor}">
+        <ContentPage.Content>
+            <ScrollView>
+                <StackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center"
+                             WidthRequest="275"
+                             Margin="32,32,32,50">
 
-                <Label Style="{DynamicResource TitleLabelStyle}"
-                       FontAttributes="Bold"
-                       Text="{i:Translate WelcomeLabel}" />
+                    <Label Style="{DynamicResource TitleLabelStyle}"
+                           FontAttributes="Bold"
+                           Text="{i:Translate WelcomeLabel}" />
 
-                <Label Text="{Binding ErrorMessage}"
-                       TextColor="{DynamicResource ErrorMessageColor}"
-                       LineBreakMode="WordWrap"
-                       HorizontalOptions="Start"
-                       FontSize="14" />
-
-                <Label FontSize="16"
-                       Margin="0,0,0,10"
-                       Style="{DynamicResource SubLabelStyle}"
-                       Text="{i:Translate PleaseLoginLabel}" />
-
-                <Entry MinimumWidthRequest="250"
-                       IsPassword="False"
-                       x:Name="UserIdTextBox"
-                       MaxLength="256"
-                       Style="{DynamicResource EntryStyle}"
-                       Placeholder="{i:Translate UserIdLabel}"
-                       Text="{Binding UserId}"
-                       TextChanged="UserIdTextBox_TextChanged" />
-
-                <Entry x:Name="PasswordBox"
-                       IsPassword="True"
-                       MinimumWidthRequest="250"
-                       Style="{DynamicResource EntryStyle}"
-                       Placeholder="{i:Translate PasswordLabel}"
-                       Text="{Binding Password}"
-                       TextChanged="PasswordBox_TextChanged" />
-
-                <Entry x:Name="TotpTextBox"
-                       MinimumWidthRequest="250"
-                       MaxLength="128"
-                       Style="{DynamicResource EntryStyle}"
-                       Placeholder="{i:Translate TotpLabel}"
-                       Text="{Binding Totp}"
-                       IsVisible="{Binding ShowTotpField}"
-                       TextChanged="TotpTextBox_TextChanged" />
-
-                <StackLayout Margin="0,20,0,0" Spacing="10">
-
-                    <Button Text="{i:Translate ChangeServerButton}"
-                            x:Name="ChangeServerButton"
-                            IsEnabled="{Binding UIEnabled}"
-                            Command="{Binding EditServerUrlCommand}" />
-
-                    <Button Text="{i:Translate RegisterButton}"
-                            x:Name="RegisterButton"
-                            IsEnabled="{Binding UIEnabled}"
-                            Command="{Binding RegisterCommand}" />
-
-                    <Button Text="{i:Translate LoginButton}"
-                            x:Name="LoginButton"
-                            IsVisible="{Binding UIEnabled}"
-                            Command="{Binding LoginCommand}" />
-
-                    <Button Text="{i:Translate AttemptingLoginButton}"
-                            IsEnabled="False"
-                            IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
-                </StackLayout>
-
-                <ActivityIndicator Margin="0,5,0,0"
-                                   WidthRequest="32"
-                                   HeightRequest="32"
-                                   HorizontalOptions="Center"
-                                   IsRunning="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
-
-                <StackLayout VerticalOptions="End" 
-                             IsVisible="{Binding UIEnabled}">
-
-                    <Label Text="{i:Translate LanguageLabel}"
-                           FontSize="16"
-                           Margin="3,0,0,3"
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="{DynamicResource ErrorMessageColor}"
+                           LineBreakMode="WordWrap"
                            HorizontalOptions="Start"
-                           Style="{DynamicResource MediumLabelStyle}" />
+                           FontSize="14" />
 
-                    <Picker Title="{i:Translate Language}"
-                            FontSize="14"
-                            SelectedItem="{Binding Language}"
-                            ItemsSource="{Binding Languages}"
-                            ItemDisplayBinding="{Binding Item2}"
-                            Style="{DynamicResource PickerStyle}" />
+                    <StackLayout Orientation="Horizontal" 
+                                 HorizontalOptions="FillAndExpand">
 
-                    <StackLayout Orientation="Horizontal"
-                                 Margin="0,5"
-                                 IsVisible="{Binding ShowLanguageRestartRequiredWarning}">
-                        <forms:CachedImage WidthRequest="32"
-                                           HeightRequest="32"
-                                           DownsampleToViewSize="True"
-                                           Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.warning.png}" />
-                        <Label Text="{i:Translate LanguageChangeRestartRequiredLabel}"
-                               FontSize="12"
-                               Style="{DynamicResource SubLabelStyle}" />
+                        <Label FontSize="16"
+                               Margin="0,0,0,10"
+                               HorizontalOptions="StartAndExpand"
+                               Style="{DynamicResource SubLabelStyle}"
+                               Text="{i:Translate PleaseLoginLabel}" />
+
+                        <ff:CachedImage WidthRequest="26" 
+                                        HeightRequest="26" 
+                                        HorizontalOptions="End"
+                                        x:Name="Help2FA_Button"
+                                        Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.help-icon-white.png}">
+                            <ff:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Help2FAButton_OnClick" />
+                            </ff:CachedImage.GestureRecognizers>
+                        </ff:CachedImage>
+                    </StackLayout>
+                    
+                    <Entry MinimumWidthRequest="250"
+                           IsPassword="False"
+                           x:Name="UserIdTextBox"
+                           MaxLength="256"
+                           Style="{DynamicResource EntryStyle}"
+                           Placeholder="{i:Translate UserIdLabel}"
+                           Text="{Binding UserId}"
+                           TextChanged="UserIdTextBox_TextChanged" />
+
+                    <Entry x:Name="PasswordBox"
+                           IsPassword="True"
+                           MinimumWidthRequest="250"
+                           Style="{DynamicResource EntryStyle}"
+                           Placeholder="{i:Translate PasswordLabel}"
+                           Text="{Binding Password}"
+                           TextChanged="PasswordBox_TextChanged" />
+
+                    <Entry x:Name="TotpTextBox"
+                           MinimumWidthRequest="250"
+                           MaxLength="128"
+                           Style="{DynamicResource EntryStyle}"
+                           Placeholder="{i:Translate TotpLabel}"
+                           Text="{Binding Totp}"
+                           IsVisible="{Binding ShowTotpField}"
+                           TextChanged="TotpTextBox_TextChanged" />
+
+                    <StackLayout Margin="0,20,0,0" Spacing="10">
+
+                        <Button Text="{i:Translate ChangeServerButton}"
+                                x:Name="ChangeServerButton"
+                                IsEnabled="{Binding UIEnabled}"
+                                Command="{Binding EditServerUrlCommand}" />
+
+                        <Button Text="{i:Translate RegisterButton}"
+                                x:Name="RegisterButton"
+                                IsEnabled="{Binding UIEnabled}"
+                                Command="{Binding RegisterCommand}" />
+
+                        <Button Text="{i:Translate LoginButton}"
+                                x:Name="LoginButton"
+                                IsVisible="{Binding UIEnabled}"
+                                Command="{Binding LoginCommand}" />
+
+                        <Button Text="{i:Translate AttemptingLoginButton}"
+                                IsEnabled="False"
+                                IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
+                    </StackLayout>
+
+                    <ActivityIndicator Margin="0,5,0,0"
+                                       WidthRequest="32"
+                                       HeightRequest="32"
+                                       HorizontalOptions="Center"
+                                       IsRunning="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
+
+                    <StackLayout VerticalOptions="End" 
+                                 IsVisible="{Binding UIEnabled}">
+
+                        <Label Text="{i:Translate LanguageLabel}"
+                               FontSize="16"
+                               Margin="3,0,0,3"
+                               HorizontalOptions="Start"
+                               Style="{DynamicResource MediumLabelStyle}" />
+
+                        <Picker Title="{i:Translate Language}"
+                                FontSize="14"
+                                SelectedItem="{Binding Language}"
+                                ItemsSource="{Binding Languages}"
+                                ItemDisplayBinding="{Binding Item2}"
+                                Style="{DynamicResource PickerStyle}" />
+
+                        <StackLayout Orientation="Horizontal"
+                                     Margin="0,5"
+                                     IsVisible="{Binding ShowLanguageRestartRequiredWarning}">
+                            <ff:CachedImage WidthRequest="32"
+                                            HeightRequest="32"
+                                            DownsampleToViewSize="True"
+                                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.warning.png}" />
+                            <Label Text="{i:Translate LanguageChangeRestartRequiredLabel}"
+                                   FontSize="12"
+                                   Style="{DynamicResource SubLabelStyle}" />
+                        </StackLayout>
                     </StackLayout>
                 </StackLayout>
-            </StackLayout>
-        </ScrollView>
-    </ContentPage.Content>
-</ContentPage>
+            </ScrollView>
+        </ContentPage.Content>
+    </ContentPage>

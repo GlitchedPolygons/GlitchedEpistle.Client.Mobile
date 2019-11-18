@@ -16,20 +16,29 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FFImageLoading.Forms;
+using FFImageLoading.Transformations;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        private TintTransformation idle, disabled, pressed;
+        private readonly ILocalization localization = DependencyService.Get<ILocalization>();
+
         public LoginPage()
         {
             InitializeComponent();
-            
+            RefreshTintTransformations();
+
             if (UserIdTextBox.Text.NullOrEmpty())
             {
                 UserIdTextBox.Focus();
@@ -38,6 +47,40 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             {
                 PasswordBox.Focus();
             }
+        }
+        
+        private void RefreshTintTransformations()
+        {
+            Application.Current.Resources.TryGetValue("HeaderButtonIdleColorHex", out var idleColorHex);
+            Application.Current.Resources.TryGetValue("HeaderButtonPressedColorHex", out var pressedColorHex);
+            Application.Current.Resources.TryGetValue("HeaderButtonDisabledColorHex", out var disabledColorHex);
+
+            idle = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") { EnableSolidColor = true };
+            pressed = new TintTransformation(pressedColorHex?.ToString() ?? "#00b4dd") { EnableSolidColor = true };
+            disabled = new TintTransformation(disabledColorHex?.ToString() ?? "#bababa") { EnableSolidColor = true };
+        }
+
+        private void ResetHeaderButtonColor(CachedImage cachedImage)
+        {
+            cachedImage?.Transformations.Clear();
+            cachedImage?.Transformations.Add(cachedImage.IsEnabled ? idle : disabled);
+            cachedImage?.ReloadImage();
+        }
+
+        private async Task OnPressedCachedImage(CachedImage cachedImage)
+        {
+            if (cachedImage is null || !cachedImage.IsEnabled)
+            {
+                return;
+            }
+
+            cachedImage.Transformations.Clear();
+            cachedImage.Transformations.Add(pressed);
+            cachedImage.ReloadImage();
+
+            await Task.Delay(250);
+
+            ResetHeaderButtonColor(cachedImage);
         }
 
         protected override void OnAppearing()
@@ -58,6 +101,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             (BindingContext as IOnDisappearingListener)?.OnDisappearing();
         }
 
+        private async void Help2FAButton_OnClick(object sender, EventArgs e)
+        {
+            var _ = OnPressedCachedImage(Help2FA_Button);
+            await Application.Current.MainPage.DisplayAlert(localization["HelpDialogTitle2FA"], localization["HelpDialogText2FA"], "OK");
+        }
+
         private void UserIdTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             LoginButton.IsEnabled = FormReady;
@@ -73,7 +122,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             LoginButton.IsEnabled = FormReady;
         }
 
-        private bool FormReady => UserIdTextBox.Text.NotNullNotEmpty()
-                                  && PasswordBox.Text.NotNullNotEmpty();
+        private bool FormReady => UserIdTextBox.Text.NotNullNotEmpty() && PasswordBox.Text.NotNullNotEmpty();
     }
 }

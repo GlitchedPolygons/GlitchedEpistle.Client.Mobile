@@ -74,9 +74,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             Application.Current.Resources.TryGetValue("HeaderButtonPressedColorHex", out var pressedColorHex);
             Application.Current.Resources.TryGetValue("HeaderButtonDisabledColorHex", out var disabledColorHex);
 
-            idle = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") {EnableSolidColor = true};
-            pressed = new TintTransformation(pressedColorHex?.ToString() ?? "#00b4dd") {EnableSolidColor = true};
-            disabled = new TintTransformation(disabledColorHex?.ToString() ?? "#bababa") {EnableSolidColor = true};
+            idle = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") { EnableSolidColor = true };
+            pressed = new TintTransformation(pressedColorHex?.ToString() ?? "#00b4dd") { EnableSolidColor = true };
+            disabled = new TintTransformation(disabledColorHex?.ToString() ?? "#bababa") { EnableSolidColor = true };
         }
 
         private void ResetAllHeaderButtonColors()
