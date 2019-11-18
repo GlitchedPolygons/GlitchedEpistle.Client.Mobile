@@ -114,6 +114,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     audioPlayer = DependencyService.Get<ISimpleAudioPlayer>(DependencyFetchTarget.NewInstance);
                     AudioLoadFailed = !audioPlayer.Load(FileBytesStream());
                     audioPlayer.Loop = false;
+                    audioPlayer.PlaybackEnded += OnAudioPlaybackEnded;
                     OnAudioThumbDragged(null);
                     AudioDuration = TimeSpan.FromSeconds(audioPlayer.Duration).ToString(@"mm\:ss");
                 }
@@ -226,8 +227,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
 
             disposed = true;
-            audioPlayer?.Stop();
+
+            if (audioPlayer != null)
+            {
+                audioPlayer.Stop();
+                audioPlayer.PlaybackEnded -= OnAudioPlaybackEnded;
+                audioPlayer.Dispose(); // TODO: check dis iz bueno ricky
+            }
+
             Text = FileName = null;
+
             if (FileBytes != null)
             {
                 for (var i = 0; i < FileBytes.Length; i++)
@@ -359,22 +368,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             
             if (IsAudioPlaying)
             {
-                if (AudioThumbPos >= 0.99d)
-                {
-                    audioPlayer.Seek(0);
-                }
-                
                 audioPlayer.Play();
-                
-                thumbUpdater = methodQ.Schedule(() =>
-                {
-                    AudioThumbPos = audioPlayer.CurrentPosition / audioPlayer.Duration;
-                    
-                    if (AudioThumbPos >= 0.99d)
-                    {
-                        OnClickedPlayAudioAttachment(null);
-                    }
-                }, TimeSpan.FromMilliseconds(420.69d));
+
+                thumbUpdater = methodQ.Schedule(() => AudioThumbPos = audioPlayer.CurrentPosition / audioPlayer.Duration, TimeSpan.FromMilliseconds(420.69d));
             }
             else
             {
@@ -386,6 +382,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     thumbUpdater = null;
                 }
             }
+        }
+
+        private void OnAudioPlaybackEnded(object sender, EventArgs e)
+        {
+            AudioThumbPos = 0;
+            audioPlayer.Stop();
+            IsAudioPlaying = false;
         }
 
         private void OnAudioThumbDragged(object commandParam)

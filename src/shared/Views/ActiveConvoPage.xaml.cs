@@ -223,6 +223,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             }
         }
 
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            if (TextBox?.Text?.Replace("\n", string.Empty)?.NullOrEmpty() ?? false)
+            {
+                TextBox.Text = null;
+            }
+        }
+
         private bool IsFirstItem(object item)
         {
             return item == MessagesListBox.ItemsSource.Cast<object>().FirstOrDefault();

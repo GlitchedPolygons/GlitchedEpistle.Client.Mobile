@@ -111,6 +111,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
 
         private MediaPlayer player;
         private string deleteOnDispose;
+        private string currentAudioSource;
         private volatile bool disposed = false;
         private PowerManager.WakeLock wakeLock;
         private readonly PowerManager powerManager;
@@ -124,8 +125,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
 
             player = new MediaPlayer { Looping = Loop };
             player.Completion += OnPlaybackEnded;
-            player.SetAudioStreamType(global::Android.Media.Stream.VoiceCall);
-            
+            player.SetAudioStreamType(global::Android.Media.Stream.Music);
+
             proximitySensor = DependencyService.Get<IProximitySensor>(DependencyFetchTarget.GlobalInstance);
             proximitySensor.ProximitySensorChanged += OnProximitySensorChanged;
             proximitySensor.Enabled = true;
@@ -148,10 +149,39 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
             {
                 return;
             }
-            
+
+            bool wasPlaying = IsPlaying;
+            double lastPos = CurrentPosition;
+
+            if (player != null)
+            {
+                if (wasPlaying)
+                {
+                    player.Pause();
+                }
+
+                player.Completion -= OnPlaybackEnded;
+                player.Release();
+                player.Dispose();
+                player = null;
+            }
+
+            player = new MediaPlayer { Looping = Loop };
+            player.Completion += OnPlaybackEnded;
+            player.SetAudioStreamType(ear ? global::Android.Media.Stream.VoiceCall : global::Android.Media.Stream.Music);
+
+            Load(currentAudioSource);
+            Seek(lastPos);
+
+            if (wasPlaying)
+            {
+                Play();
+            }
+
             audioManager.Mode = ear ? Mode.InCommunication : Mode.Normal;
             audioManager.SpeakerphoneOn = !ear;
-            SetVolume(1,0);
+
+            SetVolume(1, 0);
         }
 
         private void SwitchScreenWakeLock(bool ear)
@@ -165,7 +195,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
                 }
 
                 wakeLock = powerManager.NewWakeLock(WakeLockFlags.ProximityScreenOff, "voice_msg_wake_lock");
-                
+
                 if (!wakeLock.IsHeld)
                 {
                     wakeLock.Acquire();
@@ -207,6 +237,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
 
                 if (Load(tempFile))
                 {
+                    DeleteTempFile();
                     deleteOnDispose = tempFile;
                     return true;
                 }
@@ -229,6 +260,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
             try
             {
                 player.SetDataSource(fileName);
+                currentAudioSource = fileName;
                 return PreparePlayer();
             }
             catch
@@ -238,6 +270,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
                     var uri = Uri.Parse(Uri.Encode(fileName));
                     player.SetDataSource(Application.Context, uri);
                     player.SetAudioAttributes(new AudioAttributes.Builder().SetUsage(AudioUsageKind.VoiceCommunication).SetContentType(AudioContentType.Speech).Build());
+                    currentAudioSource = fileName;
                     return PreparePlayer();
                 }
                 catch
@@ -278,11 +311,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         ///</Summary>
         public void Stop()
         {
-            if (!IsPlaying)
-            {
-                return;
-            }
-
             Pause();
             Seek(0);
         }
@@ -293,7 +321,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         public void Pause()
         {
             player?.Pause();
-            
+
             SwitchAudioOutput(false);
             SwitchScreenWakeLock(false);
         }
@@ -328,7 +356,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
         private void OnPlaybackEnded(object sender, EventArgs e)
         {
             Stop();
-            
+
             PlaybackEnded?.Invoke(sender, e);
 
             // This improves stability on older devices but has minor performance impact.
