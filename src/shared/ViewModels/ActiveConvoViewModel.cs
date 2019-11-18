@@ -112,39 +112,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public string Text
         {
             get => text;
-            set
-            {
-                Set(ref text, value);
-                if (value.NullOrEmpty())
-                {
-                    TextBoxHeight = 50;
-                    return;
-                }
-                switch (value.Split('\n').Length)
-                {
-                    case 0:
-                    case 1:
-                        TextBoxHeight = 50;
-                        break;
-                        
-                    case 2:
-                        TextBoxHeight = 75;
-                        break;
-                    case 3:
-                        TextBoxHeight = 100;
-                        break;
-                    default:
-                        TextBoxHeight = 125;
-                        break;
-                }
-            }
-        }
-
-        private double textBoxHeight = 50.0d;
-        public double TextBoxHeight
-        {
-            get => textBoxHeight;
-            set => Set(ref textBoxHeight, value);
+            set => Set(ref text, value);
         }
 
         private string name;
