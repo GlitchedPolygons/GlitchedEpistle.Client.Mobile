@@ -38,7 +38,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
         private readonly ILocalization localization;
         private readonly bool allowCancel, allowNullOrEmptyString;
 
-        public TextPromptPopupPage(string title, string description, string okButtonText = null, string cancelButtonText = null, bool allowCancel = true, bool allowNullOrEmptyString = false)
+        public TextPromptPopupPage(string title, string description, string okButtonText = null, string cancelButtonText = null, bool allowCancel = true, bool allowPaste = false, bool allowNullOrEmptyString = false)
         {
             InitializeComponent();
 
@@ -65,6 +65,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups
             {
                 CancelButton.IsVisible = CancelButton.IsEnabled = false;
             }
+
+            PasteFromClipboard.IsEnabled = PasteFromClipboard.IsVisible = allowPaste;
         }
 
         protected override void OnAppearing()

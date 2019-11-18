@@ -751,7 +751,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
 
 Please note that if you lost your second factor device, there's nothing you can do to access your account EXCEPT the few recovery codes that were given to you upon first registration. 
 
-Also: these tokens are single-use and refresh only every 30 seconds of cooldown. Because of this, it might happen that you can't log in despite correct credentials (e.g. loggin in twice in a row is not possible). In such a case: don't worry and try again in a few seconds.</value>
+Also: these tokens are single-use and refresh only every 30 seconds of cooldown. Because of this, it might happen that you can't log in despite correct credentials (e.g. logging in twice in a row is not possible). In such a case: don't worry and try again in a few seconds.</value>
   </data>
   <data name="HelpDialogTitle2FA" xml:space="preserve">
     <value>Two-Factor Authentication</value>

@@ -144,6 +144,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 var view = new TextPromptPopupPage(
                     title: localization["PleaseEnterTotpSecretDialogTitleLabel"],
                     description: localization["PleaseEnterTotpSecretDialogTextLabel"],
+                    allowPaste: true,
                     allowCancel: true, 
                     allowNullOrEmptyString: true
                 );
