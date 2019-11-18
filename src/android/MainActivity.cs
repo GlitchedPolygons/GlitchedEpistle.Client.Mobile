@@ -21,13 +21,14 @@ using Android.App;
 using Android.Runtime;
 using Android.Hardware;
 using Android.Content.PM;
+using Android.Views;
 using Plugin.Fingerprint;
 using Plugin.Permissions;
 using FFImageLoading.Forms.Platform;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 {
-    [Activity(Label = "Glitched Epistle", Icon = "@mipmap/icon", Theme = "@style/MainTheme", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Glitched Epistle", Icon = "@mipmap/icon", Theme = "@style/MainTheme", ScreenOrientation = ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustResize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
