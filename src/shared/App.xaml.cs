@@ -267,11 +267,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         protected override void OnSleep()
         {
-            StopAuthRefreshingCycle();
+            //nop
         }
 
         protected override void OnResume()
         {
+            StopAuthRefreshingCycle();
             RefreshAuth();
             StartAuthRefreshingCycle();
         }

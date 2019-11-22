@@ -17,12 +17,11 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using Prism.Events;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
@@ -35,6 +34,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.Services.MethodQ;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
+using Prism.Events;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using OtpNet;

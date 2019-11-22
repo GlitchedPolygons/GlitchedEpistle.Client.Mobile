@@ -759,4 +759,10 @@ Also: these tokens are single-use and refresh only every 30 seconds of cooldown.
   <data name="PasteButton" xml:space="preserve">
     <value>Paste</value>
   </data>
+  <data name="Vibration" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="VibrationNotAvailable" xml:space="preserve">
+    <value>Vibration not available</value>
+  </data>
 </root>

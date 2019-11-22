@@ -794,4 +794,10 @@ Usserdäm: die 6-stellige Outhentifizerigscodes sy immr nume eynisch verwändbar
   <data name="PasteButton" xml:space="preserve">
     <value>Iifüege</value>
   </data>
+  <data name="Vibration" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="VibrationNotAvailable" xml:space="preserve">
+    <value>Vibration nit verfüegbar</value>
+  </data>
 </root>

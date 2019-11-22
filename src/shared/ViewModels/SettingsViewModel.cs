@@ -230,6 +230,31 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
         }
 
+        private bool vibration = true;
+        public bool Vibration
+        {
+            get => vibration;
+            set
+            {
+                Set(ref vibration, value);
+                appSettings["Vibration"] = value.ToString();
+
+                if (initialized && value)
+                {
+                    try
+                    {
+                        Xamarin.Essentials.Vibration.Vibrate(TimeSpan.FromMilliseconds(250));
+                    }
+                    catch
+                    {
+                        Set(ref vibration, false);
+                        appSettings["Vibration"] = "false";
+                        alertService.AlertLong(localization["VibrationNotAvailable"]);
+                    }
+                }
+            }
+        }
+
         private Tuple<string, string> theme;
         public Tuple<string, string> Theme
         {
@@ -317,6 +342,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
             
             Username = userSettings.Username;
+            Vibration = appSettings["Vibration", true];
             SaveUserPassword = appSettings["SaveUserPassword", true];
             SaveTotpSecret = appSettings["SaveTotpSecret", false];
             SaveConvoPasswords = appSettings["SaveConvoPasswords", true];

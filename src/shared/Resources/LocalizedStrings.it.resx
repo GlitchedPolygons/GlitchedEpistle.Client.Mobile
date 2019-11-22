@@ -787,4 +787,10 @@ Inoltre: questi token sono mono-uso. Una volta obliterati non è possibile effet
   <data name="PasteButton" xml:space="preserve">
     <value>Incolla</value>
   </data>
+  <data name="Vibration" xml:space="preserve">
+    <value>Vibrazione</value>
+  </data>
+  <data name="VibrationNotAvailable" xml:space="preserve">
+    <value>Vibrazione non disponibile</value>
+  </data>
 </root>

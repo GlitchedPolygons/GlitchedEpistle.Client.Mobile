@@ -30,7 +30,7 @@
 
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Padding="32">
+            <StackLayout VerticalOptions="Start" Padding="32">
 
                 <Label Text="{i:Translate MasterMenuItemSettings}"
                        Style="{DynamicResource MediumLabelStyle}"
@@ -88,6 +88,20 @@
                            Style="{DynamicResource SubLabelStyle}" />
                 </StackLayout>
 
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand">
+
+                    <CheckBox IsChecked="{Binding Vibration}"
+                              VerticalOptions="CenterAndExpand"
+                              Scale="1.1" />
+
+                    <Label Text="{i:Translate Vibration}"
+                           Style="{DynamicResource MediumLabelStyle}"
+                           FontSize="16"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+                
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 

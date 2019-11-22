@@ -791,4 +791,10 @@ Ausserdem: die 2FA Tokens sind nur einmal verwendbar und jeweils nur 30 Sekunden
   <data name="PasteButton" xml:space="preserve">
     <value>Einfügen</value>
   </data>
+  <data name="Vibration" xml:space="preserve">
+    <value>Vibration</value>
+  </data>
+  <data name="VibrationNotAvailable" xml:space="preserve">
+    <value>Vibration nicht verfügbar</value>
+  </data>
 </root>
