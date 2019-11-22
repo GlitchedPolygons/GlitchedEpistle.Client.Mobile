@@ -1,6 +1,8 @@
 # Glitched Epistle
 ## Mobile Client (Android & iOS)
 
+* Available now for Android on [Google Play Store](https://play.google.com/store/apps/details?id=com.glitchedpolygons.glitchedepistle.client.mobile).
+
 ### How to set up the development environment:
 
 * Make sure you have [Visual Studio](https://visualstudio.microsoft.com/) >2017 installed with the [.NET Framework SDK](https://dotnet.microsoft.com/download/visual-studio-sdks) >=4.7.1 or basically any other IDE with support for [Xamarin.Forms](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/)
