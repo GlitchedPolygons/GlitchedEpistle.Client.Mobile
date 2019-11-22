@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<!--
+    <!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -18,45 +18,47 @@
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
     -->
 
-<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups.TextPromptPopupPage"
-                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-                 BackgroundColor="{DynamicResource PageBackgroundColor}"
-                 CloseWhenBackgroundIsClicked="False">
-    <StackLayout VerticalOptions="CenterAndExpand"
-                 HorizontalOptions="CenterAndExpand"
-                 Margin="32,32,32,64">
+    <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                     x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups.TextPromptPopupPage"
+                     xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+                     BackgroundColor="{DynamicResource PageBackgroundColor}"
+                     CloseWhenBackgroundIsClicked="False">
+        <ScrollView>
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="32,32,32,64">
 
-        <Label x:Name="TitleLabel"
-               Style="{DynamicResource TitleLabelStyle}" />
+                <Label x:Name="TitleLabel"
+                       Style="{DynamicResource TitleLabelStyle}" />
 
-        <Label x:Name="DescriptionLabel"
-               Style="{DynamicResource MediumLabelStyle}"
-               LineBreakMode="WordWrap"
-               FontSize="14" />
+                <Label x:Name="DescriptionLabel"
+                       Style="{DynamicResource MediumLabelStyle}"
+                       LineBreakMode="WordWrap"
+                       FontSize="14" />
 
-        <Entry MaxLength="25"
-               Margin="0,20,0,0"
-               x:Name="TextEntry"
-               Style="{DynamicResource EntryStyle}"
-               TextChanged="Entry_TextChanged" />
+                <Entry MaxLength="25"
+                       Margin="0,20,0,0"
+                       x:Name="TextEntry"
+                       Style="{DynamicResource EntryStyle}"
+                       TextChanged="Entry_TextChanged" />
 
-        <Button x:Name="CancelButton"
-                Margin="0,5,0,0"
-                Text="{i:Translate CancelButton}"
-                Clicked="CancelButton_OnClicked" />
+                <Button x:Name="CancelButton"
+                        Margin="0,5,0,0"
+                        Text="{i:Translate CancelButton}"
+                        Clicked="CancelButton_OnClicked" />
 
-        <Button x:Name="PasteFromClipboard"
-                Margin="0,5,0,0"
-                Text="{i:Translate PasteButton}"
-                Clicked="PasteFromClipboard_Clicked"/>
+                <Button x:Name="PasteFromClipboard"
+                        Margin="0,5,0,0"
+                        Text="{i:Translate PasteButton}"
+                        Clicked="PasteFromClipboard_Clicked"/>
 
-        <Button x:Name="OkButton"
-                Text="OK"
-                Margin="0,5,0,0"
-                IsEnabled="false"
-                Clicked="OkButton_Clicked" />
-    </StackLayout>
-</pages:PopupPage>
+                <Button x:Name="OkButton"
+                        Text="OK"
+                        Margin="0,5,0,0"
+                        IsEnabled="false"
+                        Clicked="OkButton_Clicked" />
+            </StackLayout>
+        </ScrollView>
+    </pages:PopupPage>

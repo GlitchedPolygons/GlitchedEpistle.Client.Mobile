@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<!--
+    <!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -16,47 +16,49 @@
          
          You should have received a copy of the GNU General Public License
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
+    -->
 
-<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-                 mc:Ignorable="d"
-                 CloseWhenBackgroundIsClicked="False"
-                 BackgroundColor="{DynamicResource PageBackgroundColor}"
-                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups.ParticipantContextMenuPopupPage">
-    <StackLayout VerticalOptions="CenterAndExpand"
-                 HorizontalOptions="CenterAndExpand"
-                 Margin="32,32,32,64">
+    <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                     xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+                     mc:Ignorable="d"
+                     CloseWhenBackgroundIsClicked="False"
+                     BackgroundColor="{DynamicResource PageBackgroundColor}"
+                     x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups.ParticipantContextMenuPopupPage">
+        <ScrollView>
+            <StackLayout VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Margin="32,32,32,64">
 
-        <Label Text="{i:Translate ParticipantContextMenuTitle}"
-               Style="{DynamicResource TitleLabelStyle}" 
-               Margin="0,0,0,5"/>
+                <Label Text="{i:Translate ParticipantContextMenuTitle}"
+                       Style="{DynamicResource TitleLabelStyle}" 
+                       Margin="0,0,0,5"/>
 
-        <Label x:Name="ParticipantContextMenuDescriptionLabel"
-               Style="{DynamicResource MediumLabelStyle}"
-               LineBreakMode="WordWrap"
-               FontSize="14" 
-               Margin="0,0,0,15"/>
+                <Label x:Name="ParticipantContextMenuDescriptionLabel"
+                       Style="{DynamicResource MediumLabelStyle}"
+                       LineBreakMode="WordWrap"
+                       FontSize="14" 
+                       Margin="0,0,0,15"/>
 
-        <Button Text="{i:Translate CopyUserIdToClipboard}"
-                x:Name="CopyButton"
-                Clicked="CopyButton_OnClicked"
-                HorizontalOptions="FillAndExpand" />
-        <Button Text="{i:Translate MakeAdminButton}"
-                x:Name="MakeAdminButton"
-                Clicked="MakeAdmin_OnClicked"
-                HorizontalOptions="FillAndExpand" />
-        <Button Text="{i:Translate KickAndBanButton}"
-                x:Name="KickAndBanButton"
-                Clicked="KickAndBan_OnClicked"
-                HorizontalOptions="FillAndExpand" />
-        <Button Text="{i:Translate CancelButton}"
-                x:Name="CancelButton"
-                Clicked="CancelButton_OnClicked"
-                HorizontalOptions="FillAndExpand" />
-    </StackLayout>
-</pages:PopupPage>
+                <Button Text="{i:Translate CopyUserIdToClipboard}"
+                        x:Name="CopyButton"
+                        Clicked="CopyButton_OnClicked"
+                        HorizontalOptions="FillAndExpand" />
+                <Button Text="{i:Translate MakeAdminButton}"
+                        x:Name="MakeAdminButton"
+                        Clicked="MakeAdmin_OnClicked"
+                        HorizontalOptions="FillAndExpand" />
+                <Button Text="{i:Translate KickAndBanButton}"
+                        x:Name="KickAndBanButton"
+                        Clicked="KickAndBan_OnClicked"
+                        HorizontalOptions="FillAndExpand" />
+                <Button Text="{i:Translate CancelButton}"
+                        x:Name="CancelButton"
+                        Clicked="CancelButton_OnClicked"
+                        HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+        </ScrollView>
+    </pages:PopupPage>

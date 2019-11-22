@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<!--
+    <!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -18,28 +18,30 @@
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
     -->
 
-<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups.BooleanPopupPage"
-                 BackgroundColor="{DynamicResource PageBackgroundColor}">
-    <StackLayout VerticalOptions="CenterAndExpand"
-                 HorizontalOptions="CenterAndExpand"
-                 Margin="32,32,32,64">
+    <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                     x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups.BooleanPopupPage"
+                     BackgroundColor="{DynamicResource PageBackgroundColor}">
+        <ScrollView>
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="32,32,32,64">
 
-        <Label x:Name="TitleLabel"
-               Style="{DynamicResource TitleLabelStyle}" />
+                <Label x:Name="TitleLabel"
+                       Style="{DynamicResource TitleLabelStyle}" />
 
-        <Label x:Name="DescriptionLabel"
-               Style="{DynamicResource MediumLabelStyle}"
-               LineBreakMode="WordWrap"
-               FontSize="14" />
+                <Label x:Name="DescriptionLabel"
+                       Style="{DynamicResource MediumLabelStyle}"
+                       LineBreakMode="WordWrap"
+                       FontSize="14" />
 
-        <StackLayout Orientation="Horizontal">
-            <Button x:Name="TrueButton"
-                    Clicked="TrueButton_Clicked" />
-            <Button x:Name="FalseButton"
-                    Clicked="FalseButton_Clicked" />
-        </StackLayout>
-    </StackLayout>
-</pages:PopupPage>
+                <StackLayout Orientation="Horizontal">
+                    <Button x:Name="TrueButton"
+                            Clicked="TrueButton_Clicked" />
+                    <Button x:Name="FalseButton"
+                            Clicked="FalseButton_Clicked" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </pages:PopupPage>
