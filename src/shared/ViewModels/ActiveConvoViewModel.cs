@@ -62,7 +62,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private const int MSG_COLLECTION_SIZE = 10;
         private const string MSG_TIMESTAMP_FORMAT = "dd.MM.yyyy HH:mm";
         private const int MSG_PULL_FREQUENCY_ACTIVE = 314;
-        private const int MSG_PULL_FREQUENCY_PASSIVE = 3500;
+        private const int MSG_PULL_FREQUENCY_PASSIVE = 5000;
         private static readonly TimeSpan METADATA_PULL_FREQUENCY = TimeSpan.FromMilliseconds(30000);
 
         // Injections:
