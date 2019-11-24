@@ -26,7 +26,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
 {
-    public class ConvoExpirationLabelConverter : IValueConverter, IMarkupExtension
+    public class ConvoExpirationLabelVisibilityConverter : IValueConverter, IMarkupExtension
     {
         /// <summary>
         /// Don't use this directly! Use <see cref="Localization"/> for the included <c>null</c> check!
@@ -43,7 +43,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
             DateTime exp = (DateTime)value;
             int days = (exp - DateTime.UtcNow).Days;
 
-            return days > 5 ? string.Empty : "-" + days;
+            return days > 5 ? false : true;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

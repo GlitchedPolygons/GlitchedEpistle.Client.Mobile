@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<!--
+    <!--
          Glitched Epistle - Mobile Client
          Copyright (C) 2019 Raphael Beck
          
@@ -16,201 +16,213 @@
          
          You should have received a copy of the GNU General Public License
          along with this program.  If not, see <https://www.gnu.org/licenses/>.
--->
+    -->
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
-             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
-             xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
-             xmlns:views="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
-             x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvosPage"
-             x:Name="EpistleMainPage"
-             mc:Ignorable="d"
-             BackgroundColor="{DynamicResource PageBackgroundColor}">
+    <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:i="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Extensions"
+                 xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+                 xmlns:converters="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+                 xmlns:fft="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+                 xmlns:effects="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Effects;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+                 xmlns:views="clr-namespace:GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;assembly=GlitchedPolygons.GlitchedEpistle.Client.Mobile"
+                 x:Class="GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.ConvosPage"
+                 x:Name="EpistleMainPage"
+                 mc:Ignorable="d"
+                 BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <StackLayout HorizontalOptions="FillAndExpand">
+        <StackLayout HorizontalOptions="FillAndExpand">
 
-        <StackLayout Padding="5,4,5,1">
+            <StackLayout Padding="5,4,5,1">
 
-            <Label Style="{DynamicResource MediumLabelStyle}"
-                   Text="{Binding Username}"
-                   HorizontalOptions="CenterAndExpand"
-                   HorizontalTextAlignment="Center"
-                   MaxLines="1" />
-
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="CenterAndExpand"
-                         Margin="0,-4,0,0">
-                <Label Style="{DynamicResource SubLabelStyle}"
-                       Text="{Binding UserId}"
+                <Label Style="{DynamicResource MediumLabelStyle}"
+                       Text="{Binding Username}"
                        HorizontalOptions="CenterAndExpand"
                        HorizontalTextAlignment="Center"
                        MaxLines="1" />
-                <ff:CachedImage WidthRequest="18"
-                                HeightRequest="18"
-                                DownsampleToViewSize="True"
-                                VerticalOptions="CenterAndExpand"
-                                HorizontalOptions="CenterAndExpand"
-                                IsEnabled="{Binding UserIdCopiedTickVisible, Converter={converters:InverseBoolConverter}}"
-                                IsVisible="{Binding UserIdCopiedTickVisible, Converter={converters:InverseBoolConverter}}"
-                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.clipboard-icon.png}">
-                    <ff:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding CopyUserIdToClipboardCommand}" />
-                    </ff:CachedImage.GestureRecognizers>
-                </ff:CachedImage>
-                <ff:CachedImage WidthRequest="18"
-                                HeightRequest="18"
-                                DownsampleToViewSize="True"
-                                VerticalOptions="CenterAndExpand"
-                                HorizontalOptions="CenterAndExpand"
-                                IsVisible="{Binding UserIdCopiedTickVisible}"
-                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
+
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand"
+                             Margin="0,-4,0,0">
+                    <Label Style="{DynamicResource SubLabelStyle}"
+                           Text="{Binding UserId}"
+                           HorizontalOptions="CenterAndExpand"
+                           HorizontalTextAlignment="Center"
+                           MaxLines="1" />
+                    <ff:CachedImage WidthRequest="18"
+                                    HeightRequest="18"
+                                    DownsampleToViewSize="True"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="CenterAndExpand"
+                                    IsEnabled="{Binding UserIdCopiedTickVisible, Converter={converters:InverseBoolConverter}}"
+                                    IsVisible="{Binding UserIdCopiedTickVisible, Converter={converters:InverseBoolConverter}}"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.clipboard-icon.png}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CopyUserIdToClipboardCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+                    <ff:CachedImage WidthRequest="18"
+                                    HeightRequest="18"
+                                    DownsampleToViewSize="True"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="CenterAndExpand"
+                                    IsVisible="{Binding UserIdCopiedTickVisible}"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.green-tick.png}" />
+                </StackLayout>
+
             </StackLayout>
 
-        </StackLayout>
+            <BoxView HeightRequest="4"
+                     HorizontalOptions="FillAndExpand"
+                     Color="{DynamicResource PrimaryColor}" />
 
-        <BoxView HeightRequest="4"
-                 HorizontalOptions="FillAndExpand"
-                 Color="{DynamicResource PrimaryColor}" />
+            <StackLayout Orientation="Horizontal"
+                         Padding="0"
+                         Margin="0,3"
+                         x:Name="HeaderButtons"
+                         HorizontalOptions="CenterAndExpand">
 
-        <StackLayout Orientation="Horizontal"
-                     Padding="0"
-                     Margin="0,3"
-                     x:Name="HeaderButtons"
-                     HorizontalOptions="CenterAndExpand">
+                <ff:CachedImage WidthRequest="64"
+                                HeightRequest="64"
+                                IsEnabled="{Binding HeaderButtonsEnabled}"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-white.png}"
+                                Style="{DynamicResource HeaderButtonStyle}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CreateConvoCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
 
-            <ff:CachedImage WidthRequest="64"
-                            HeightRequest="64"
-                            IsEnabled="{Binding HeaderButtonsEnabled}"
-                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.plus-icon-white.png}"
-                            Style="{DynamicResource HeaderButtonStyle}">
-                <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CreateConvoCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
-                </ff:CachedImage.GestureRecognizers>
-            </ff:CachedImage>
+                <ff:CachedImage WidthRequest="64"
+                                HeightRequest="64"
+                                IsEnabled="{Binding HeaderButtonsEnabled}"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.join-icon-white.png}"
+                                Style="{DynamicResource HeaderButtonStyle}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding JoinConvoCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
 
-            <ff:CachedImage WidthRequest="64"
-                            HeightRequest="64"
-                            IsEnabled="{Binding HeaderButtonsEnabled}"
-                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.join-icon-white.png}"
-                            Style="{DynamicResource HeaderButtonStyle}">
-                <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding JoinConvoCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
-                </ff:CachedImage.GestureRecognizers>
-            </ff:CachedImage>
+                <ff:CachedImage WidthRequest="64"
+                                HeightRequest="64"
+                                IsEnabled="{Binding HeaderButtonsEnabled}"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-white.png}"
+                                Style="{DynamicResource HeaderButtonStyle}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ChangePasswordCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
 
-            <ff:CachedImage WidthRequest="64"
-                            HeightRequest="64"
-                            IsEnabled="{Binding HeaderButtonsEnabled}"
-                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.change-pw-icon-white.png}"
-                            Style="{DynamicResource HeaderButtonStyle}">
-                <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding ChangePasswordCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
-                </ff:CachedImage.GestureRecognizers>
-            </ff:CachedImage>
+                <ff:CachedImage WidthRequest="64"
+                                HeightRequest="64"
+                                IsEnabled="{Binding HeaderButtonsEnabled}"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.settings-icon-white.png}"
+                                Style="{DynamicResource HeaderButtonStyle}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding SettingsCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
 
-            <ff:CachedImage WidthRequest="64"
-                            HeightRequest="64"
-                            IsEnabled="{Binding HeaderButtonsEnabled}"
-                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.settings-icon-white.png}"
-                            Style="{DynamicResource HeaderButtonStyle}">
-                <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding SettingsCommand}" Tapped="HeaderButtonTapGestureRecognizer_OnTapped" />
-                </ff:CachedImage.GestureRecognizers>
-            </ff:CachedImage>
+                <ff:CachedImage WidthRequest="64"
+                                HeightRequest="64"
+                                IsEnabled="{Binding HeaderButtonsEnabled}"
+                                Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.logout-icon-white.png}"
+                                Style="{DynamicResource HeaderButtonStyle}">
+                    <ff:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LogoutCommand}" Tapped="LogoutHeaderButtonTapGestureRecognizer_OnTapped" />
+                    </ff:CachedImage.GestureRecognizers>
+                </ff:CachedImage>
+            </StackLayout>
 
-            <ff:CachedImage WidthRequest="64"
-                            HeightRequest="64"
-                            IsEnabled="{Binding HeaderButtonsEnabled}"
-                            Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.logout-icon-white.png}"
-                            Style="{DynamicResource HeaderButtonStyle}">
-                <ff:CachedImage.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding LogoutCommand}" Tapped="LogoutHeaderButtonTapGestureRecognizer_OnTapped" />
-                </ff:CachedImage.GestureRecognizers>
-            </ff:CachedImage>
-        </StackLayout>
+            <BoxView Margin="0,0,0,0"
+                     Style="{DynamicResource HorizontalSeparatorLineStyle}" />
 
-        <BoxView Margin="0,0,0,0"
-                 Style="{DynamicResource HorizontalSeparatorLineStyle}" />
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="Center"
+                         VerticalOptions="Start"
+                         Margin="32"
+                         IsVisible="{Binding Joining}">
 
-        <StackLayout Orientation="Horizontal"
-                     HorizontalOptions="Center"
-                     VerticalOptions="Start"
-                     Margin="32"
-                     IsVisible="{Binding Joining}">
+                <Label Text="{i:Translate JoiningConvoLabel}"
+                       FontSize="15"
+                       Style="{DynamicResource MediumLabelStyle}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       VerticalTextAlignment="Center" />
 
-            <Label Text="{i:Translate JoiningConvoLabel}"
-                   FontSize="15"
-                   Style="{DynamicResource MediumLabelStyle}"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   VerticalTextAlignment="Center" />
+                <ActivityIndicator IsRunning="True"
+                                   HeightRequest="32"
+                                   WidthRequest="32"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Center" />
+            </StackLayout>
 
-            <ActivityIndicator IsRunning="True"
-                               HeightRequest="32"
-                               WidthRequest="32"
-                               VerticalOptions="Center"
-                               HorizontalOptions="Center" />
-        </StackLayout>
-
-        <ListView SeparatorVisibility="None"
-                  x:Name="ConvosListView"
-                  ItemsSource="{Binding Convos}"
-                  ItemTapped="ConvosListView_OnItemTapped"
-                  HasUnevenRows="True"
-                  RefreshAllowed="True"
-                  IsPullToRefreshEnabled="True"
-                  IsVisible="{Binding Joining, Converter={converters:InverseBoolConverter}}"
-                  IsRefreshing="{Binding IsRefreshing}"
-                  RefreshCommand="{Binding RefreshCommand}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Padding="15,10"
-                                     HorizontalOptions="FillAndExpand">
-                            <StackLayout Orientation="Horizontal">
-                                <StackLayout HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label VerticalOptions="FillAndExpand"
-                                               VerticalTextAlignment="Center"
-                                               HorizontalTextAlignment="Start"
-                                               FontSize="20"
-                                               Text="{Binding Name}"
-                                               Style="{DynamicResource MediumLabelStyle}" />
+            <ListView SeparatorVisibility="None"
+                      x:Name="ConvosListView"
+                      ItemsSource="{Binding Convos}"
+                      ItemTapped="ConvosListView_OnItemTapped"
+                      HasUnevenRows="True"
+                      RefreshAllowed="True"
+                      IsPullToRefreshEnabled="True"
+                      IsVisible="{Binding Joining, Converter={converters:InverseBoolConverter}}"
+                      IsRefreshing="{Binding IsRefreshing}"
+                      RefreshCommand="{Binding RefreshCommand}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="15,10"
+                                         HorizontalOptions="FillAndExpand">
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout HorizontalOptions="FillAndExpand">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label VerticalOptions="FillAndExpand"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   FontSize="20"
+                                                   Text="{Binding Name}"
+                                                   Style="{DynamicResource MediumLabelStyle}" />
+                                            <Frame Padding="3.25"
+                                                   Margin="4,-3,0,0"
+                                                   CornerRadius="16" 
+                                                   HeightRequest="16"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Center"
+                                                   BackgroundColor="#CD531B"
+                                                   IsVisible="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelVisibilityConverter}}}">
+                                                <Label HorizontalOptions="CenterAndExpand" 
+                                                       VerticalOptions="CenterAndExpand" 
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center" 
+                                                       FontAttributes="Bold"
+                                                       FontSize="11"
+                                                       Margin="3,0"
+                                                       Text="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelConverter}}" 
+                                                       TextColor="AliceBlue"/>
+                                            </Frame>
+                                        </StackLayout>
                                         <Label VerticalTextAlignment="Center"
                                                VerticalOptions="FillAndExpand"
-                                               HorizontalTextAlignment="End"
-                                               FontSize="20"
-                                               Text="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelConverter}}"
-                                               Style="{DynamicResource MediumLabelStyle}" />
+                                               FontSize="16"
+                                               Text="{Binding Id}"
+                                               Style="{DynamicResource SubLabelStyle}" />
                                     </StackLayout>
-                                    <Label VerticalTextAlignment="Center"
-                                           VerticalOptions="FillAndExpand"
-                                           FontSize="16"
-                                           Text="{Binding Id}"
-                                           Style="{DynamicResource SubLabelStyle}" />
+                                    <views:TintedCachedImage VerticalOptions="FillAndExpand"
+                                                             Aspect="AspectFit"
+                                                             Margin="6,0,6,10"
+                                                             DownsampleToViewSize="True"
+                                                             TintColor="{DynamicResource HeaderButtonIdleColorHex}"
+                                                             Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
+                                        <ff:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" CommandParameter="{Binding .}" />
+                                        </ff:CachedImage.GestureRecognizers>
+                                    </views:TintedCachedImage>
                                 </StackLayout>
-                                <views:TintedCachedImage VerticalOptions="FillAndExpand"
-                                                         Aspect="AspectFit"
-                                                         Margin="6,0,6,10"
-                                                         DownsampleToViewSize="True"
-                                                         TintColor="{DynamicResource HeaderButtonIdleColorHex}"
-                                                         Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
-                                    <ff:CachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.EditConvoCommand, Source={x:Reference EpistleMainPage}}" CommandParameter="{Binding .}" />
-                                    </ff:CachedImage.GestureRecognizers>
-                                </views:TintedCachedImage>
+                                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
                             </StackLayout>
-                            <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
-</ContentPage>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage>
