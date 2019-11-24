@@ -28,6 +28,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using Plugin.SimpleAudioPlayer;
 using Plugin.SimpleAudioRecorder;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -163,6 +164,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             StopCounter();
             audioRecorder?.StopAsync();
+            DeviceDisplay.KeepScreenOn = false;
             appSettings["AskForConfirmationBeforeSendingVoiceMsg"] = AskForConfirmation.ToString();
         }
 
@@ -242,6 +244,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             StartCounter();
             audioRecorder.RecordAsync();
             IsRecording = true;
+            DeviceDisplay.KeepScreenOn = true;
         }
 
         private async void OnStopRecording(object commandParam)
@@ -258,6 +261,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 logger.LogError($"{nameof(RecordVoiceMessageViewModel)}::{nameof(OnStopRecording)}: Failed to record voice message. Thrown exception: {e.ToString()}");
                 Reset();
             }
+            DeviceDisplay.KeepScreenOn = false;
         }
 
         private async void OnReset(object commandParam)
