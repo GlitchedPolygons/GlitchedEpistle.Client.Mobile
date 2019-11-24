@@ -177,13 +177,13 @@
                                     <StackLayout HorizontalOptions="FillAndExpand">
                                         <StackLayout Orientation="Horizontal">
                                             <Label VerticalOptions="FillAndExpand"
-                                                   VerticalTextAlignment="Center"
+                                                   VerticalTextAlignment="Start"
                                                    HorizontalTextAlignment="Start"
                                                    FontSize="20"
                                                    Text="{Binding Name}"
                                                    Style="{DynamicResource MediumLabelStyle}" />
                                             <Frame Padding="3.25"
-                                                   Margin="4,-3,0,0"
+                                                   Margin="4,0,0,0"
                                                    CornerRadius="16" 
                                                    HeightRequest="16"
                                                    HorizontalOptions="Start"
@@ -196,7 +196,7 @@
                                                        VerticalTextAlignment="Center" 
                                                        FontAttributes="Bold"
                                                        FontSize="11"
-                                                       Margin="3,0"
+                                                       Margin="4,0"
                                                        Text="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelConverter}}" 
                                                        TextColor="AliceBlue"/>
                                             </Frame>

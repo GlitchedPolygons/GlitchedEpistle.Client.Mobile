@@ -42,6 +42,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
         {
             DateTime exp = (DateTime)value;
             int days = (exp - DateTime.UtcNow).Days;
+            if (days < 1) days = 1;
 
             return days > 5 ? string.Empty : "-" + days;
         }
