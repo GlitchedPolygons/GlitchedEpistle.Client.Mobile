@@ -61,6 +61,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private const int MSG_COLLECTION_SIZE = 10;
         private const string MSG_TIMESTAMP_FORMAT = "dd.MM.yyyy HH:mm";
+        private const int MSG_PULL_FREQUENCY_ACTIVE = 314;
+        private const int MSG_PULL_FREQUENCY_PASSIVE = 3500;
         private static readonly TimeSpan METADATA_PULL_FREQUENCY = TimeSpan.FromMilliseconds(30000);
 
         // Injections:
@@ -161,10 +163,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref messages, value);
         }
 
+        private bool hasNewMessages;
+        public bool HasNewMessages
+        {
+            get => hasNewMessages;
+            set => Set(ref hasNewMessages, value);
+        }
+
         #endregion
 
         private volatile bool disposed;
-        private volatile bool initialized;
         private volatile CancellationTokenSource autoFetch;
         private volatile CancellationTokenSource metadataUpdater;
 
@@ -232,11 +240,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public async void OnAppearing()
         {
-            if (initialized)
-            {
-                return;
-            }
-
             if (ActiveConvo is null || ActiveConvo.Id.NullOrEmpty())
             {
                 throw new NullReferenceException($"{nameof(ActiveConvoViewModel)}::{nameof(OnAppearing)}: Tried to initialize a convo viewmodel without assigning it an {nameof(ActiveConvo)} first. Please assign that before calling init.");
@@ -249,7 +252,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             if (Messages.NullOrEmpty())
             {
-                Messages = new ObservableCollection<MessageViewModel>(DecryptMessages(await convoService.GetLastConvoMessages(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2, MSG_COLLECTION_SIZE)).Distinct().OrderBy(_ => _.TimestampDateTimeUTC));
+                var lastMessages = await convoService.GetLastConvoMessages(ActiveConvo.Id, convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id), user.Id, user.Token.Item2, MSG_COLLECTION_SIZE);
+
+                if (lastMessages.NotNullNotEmpty())
+                {
+                    var decryptedMessages = DecryptMessages(lastMessages).ToArray();
+                    Messages = decryptedMessages.NotNullNotEmpty() ? new ObservableCollection<MessageViewModel>(decryptedMessages.Distinct().OrderBy(_ => _.TimestampDateTimeUTC)) : new ObservableCollection<MessageViewModel>();
+                }
 
                 if (Loading)
                 {
@@ -257,17 +266,22 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
             }
 
-            StartAutomaticPulling();
+            StartAutomaticPulling(MSG_PULL_FREQUENCY_ACTIVE);
+
             CanSend = true;
 
             ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs {Animated = false});
 
             methodQ.Schedule(() => Loading = false, DateTime.UtcNow.AddSeconds(4.20));
-            initialized = true;
+
+            HasNewMessages = false;
         }
 
         public void OnDisappearing()
         {
+            StopAutomaticPulling();
+            StartAutomaticPulling(MSG_PULL_FREQUENCY_PASSIVE);
+
             foreach (var msg in Messages)
             {
                 if (msg.IsAudioPlaying)
@@ -275,6 +289,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     msg.ClickedOnPlayAudioAttachmentCommand.Execute(null);
                 }
             }
+
+            HasNewMessages = false;
         }
 
         public Task LoadPreviousMessages()
@@ -329,7 +345,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             metadataUpdater = null;
         }
 
-        private void StartAutomaticPulling()
+        private void StartAutomaticPulling(int intervalMilliseconds)
         {
             StopAutomaticPulling();
 
@@ -343,6 +359,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             autoFetch = messageFetcher.StartAutoFetchingMessages(
                 tailId: tailId,
                 callback: OnFetchedNewMessages,
+                fetchTimeoutMilliseconds: intervalMilliseconds,
                 convoId: ActiveConvo.Id,
                 convoPasswordSHA512: convoPasswordProvider.GetPasswordSHA512(ActiveConvo.Id)
             );
@@ -495,8 +512,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs());
             });
 
-            if (appSettings["Vibration", true] && decryptedMessages.Any(m => m.SenderId != user.Id))
+            if (appSettings["Vibration", true])
             {
+#if !DEBUG
+                if (decryptedMessages.Any(m => m?.SenderId != user.Id))
+#endif
                 try
                 {
                     Vibration.Vibrate(TimeSpan.FromMilliseconds(250));
@@ -507,6 +527,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     alertService.AlertLong(localization["VibrationNotAvailable"]);
                 }
             }
+
+            HasNewMessages = true;
         }
 
         /// <summary>

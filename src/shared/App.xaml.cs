@@ -21,6 +21,7 @@ using Xamarin.Essentials;
 using Unity;
 using Unity.Lifetime;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Globalization;
@@ -94,6 +95,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly IConvoPasswordProvider convoPasswordProvider;
 
         private ulong? scheduledAuthRefresh;
+
+        private Dictionary<string, ActiveConvoViewModel> activeConvos = new Dictionary<string, ActiveConvoViewModel>(4);
 
         /// <summary>
         /// Shorthand for <c>Device.BeginInvokeOnMainThread(action);</c>
@@ -310,8 +313,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             }
         }
 
+        private void ClearActiveConvos()
+        {
+            activeConvos?.Clear();
+            activeConvos = null;
+            activeConvos = new Dictionary<string, ActiveConvoViewModel>(4);
+        }
+
         private void OnLoginSuccessful()
         {
+            ClearActiveConvos();
             StopAuthRefreshingCycle();
             StartAuthRefreshingCycle();
             ShowConvosPage();
@@ -328,7 +339,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             // Nullify all stored user tokens, passwords and such...
             user.Token = null;
             user.PasswordSHA512 = user.PublicKeyPem = user.PrivateKeyPem = null;
-            
+
+            ClearActiveConvos();
             StopAuthRefreshingCycle();
 
             //convoProvider = null;
@@ -353,8 +365,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         
         private async void OnJoinedConvo(Convo convo)
         {
-            var viewModel = viewModelFactory.Create<ActiveConvoViewModel>();
-            viewModel.ActiveConvo = convo;
+            if (!activeConvos.TryGetValue(convo.Id, out var viewModel) || viewModel is null)
+            {
+                viewModel = viewModelFactory.Create<ActiveConvoViewModel>();
+                viewModel.ActiveConvo = convo;
+                activeConvos[convo.Id] = viewModel;
+            }
 
             var view = new ActiveConvoPage {BindingContext = viewModel};
             await Application.Current.MainPage.Navigation.PushModalAsync(view);

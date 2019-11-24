@@ -17,6 +17,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -139,14 +140,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     methodQ.Schedule(() => ExecUI(eventAggregator.GetEvent<LogoutEvent>().Publish), DateTime.UtcNow.AddSeconds(0.2));
                 }
             });
-            
-            CopyUserIdToClipboardCommand = new DelegateCommand(_ =>
-            {
-                Clipboard.SetTextAsync(UserId);
-                UserIdCopiedTickVisible = true;
-                methodQ.Schedule(() => UserIdCopiedTickVisible = false, DateTime.UtcNow.AddSeconds(2.5));
-                ExecUI(() => alertService.AlertLong(localization["Copied"]));
-            });
+
+            CopyUserIdToClipboardCommand = new DelegateCommand(_ => OnCopyUserIdToClipboard());
 
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
             EditConvoCommand = new DelegateCommand(OnClickedEditConvo);
@@ -166,6 +161,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             UserId = user.Id;
             Username = userSettings.Username;
+        }
+
+        private void OnCopyUserIdToClipboard()
+        {
+            Clipboard.SetTextAsync(UserId);
+            UserIdCopiedTickVisible = true;
+            methodQ.Schedule(() => UserIdCopiedTickVisible = false, DateTime.UtcNow.AddSeconds(2.5));
+            ExecUI(() => alertService.AlertLong(localization["Copied"]));
         }
 
         private void UpdateList(bool forceRefresh = false)
@@ -188,7 +191,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 try
                 {
                     var userConvos = (await userService.GetConvos(user.Id, user.Token.Item2))
-                        .Select(dto => (Convo) dto)
+                        .Select(dto => (Convo)dto)
                         .Distinct()
                         .Where(convo => !convo.IsExpired())
                         .OrderByDescending(convo => convo.ExpirationUTC)
