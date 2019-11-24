@@ -189,7 +189,7 @@
                                                    HorizontalOptions="Start"
                                                    VerticalOptions="Center"
                                                    BackgroundColor="#CD531B"
-                                                   IsVisible="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelVisibilityConverter}}}">
+                                                   IsVisible="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelVisibilityConverter}}">
                                                 <Label HorizontalOptions="CenterAndExpand" 
                                                        VerticalOptions="CenterAndExpand" 
                                                        HorizontalTextAlignment="Center"
