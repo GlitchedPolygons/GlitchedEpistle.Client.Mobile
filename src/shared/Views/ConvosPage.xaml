@@ -171,7 +171,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="15,10"
+                            <StackLayout Padding="15,4"
                                          HorizontalOptions="FillAndExpand">
                                 <StackLayout Orientation="Horizontal">
                                     <StackLayout HorizontalOptions="FillAndExpand">
@@ -203,13 +203,16 @@
                                         </StackLayout>
                                         <Label VerticalTextAlignment="Center"
                                                VerticalOptions="FillAndExpand"
-                                               FontSize="16"
+                                               FontSize="15.50"
                                                Text="{Binding Id}"
                                                Style="{DynamicResource SubLabelStyle}" />
                                     </StackLayout>
-                                    <views:TintedCachedImage VerticalOptions="FillAndExpand"
+                                    <views:TintedCachedImage VerticalOptions="CenterAndExpand"
+                                                             HorizontalOptions="EndAndExpand"
+                                                             HeightRequest="50"
+                                                             WidthRequest="50"
                                                              Aspect="AspectFit"
-                                                             Margin="6,0,6,10"
+                                                             Margin="6,0,6,-2"
                                                              DownsampleToViewSize="True"
                                                              TintColor="{DynamicResource HeaderButtonIdleColorHex}"
                                                              Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.info-icon-white.png}">
@@ -218,7 +221,7 @@
                                         </ff:CachedImage.GestureRecognizers>
                                     </views:TintedCachedImage>
                                 </StackLayout>
-                                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" />
+                                <BoxView Style="{DynamicResource HorizontalSeparatorLineStyle}" Margin="0,5.5,0,0" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
@@ -226,3 +229,4 @@
             </ListView>
         </StackLayout>
     </ContentPage>
+    
