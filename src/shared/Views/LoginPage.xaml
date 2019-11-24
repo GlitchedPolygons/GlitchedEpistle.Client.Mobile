@@ -93,16 +93,6 @@
 
                     <StackLayout Margin="0,20,0,0" Spacing="10">
 
-                        <Button Text="{i:Translate ChangeServerButton}"
-                                x:Name="ChangeServerButton"
-                                IsEnabled="{Binding UIEnabled}"
-                                Command="{Binding EditServerUrlCommand}" />
-
-                        <Button Text="{i:Translate RegisterButton}"
-                                x:Name="RegisterButton"
-                                IsEnabled="{Binding UIEnabled}"
-                                Command="{Binding RegisterCommand}" />
-
                         <Button Text="{i:Translate LoginButton}"
                                 x:Name="LoginButton"
                                 IsVisible="{Binding UIEnabled}"
@@ -111,6 +101,16 @@
                         <Button Text="{i:Translate AttemptingLoginButton}"
                                 IsEnabled="False"
                                 IsVisible="{Binding UIEnabled, Converter={converters:InverseBoolConverter}}" />
+                        
+                        <Button Text="{i:Translate RegisterButton}"
+                                x:Name="RegisterButton"
+                                IsEnabled="{Binding UIEnabled}"
+                                Command="{Binding RegisterCommand}" />
+
+                        <Button Text="{i:Translate ChangeServerButton}"
+                                x:Name="ChangeServerButton"
+                                IsEnabled="{Binding UIEnabled}"
+                                Command="{Binding EditServerUrlCommand}" />
                     </StackLayout>
 
                     <ActivityIndicator Margin="0,5,0,0"
