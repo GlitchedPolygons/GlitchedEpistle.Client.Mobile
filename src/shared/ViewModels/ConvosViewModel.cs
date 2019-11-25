@@ -150,6 +150,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(_ => UpdateList(true));
             eventAggregator.GetEvent<DeletedConvoEvent>().Subscribe(_ => UpdateList(true));
+            eventAggregator.GetEvent<FetchedNewMessagesEvent>().Subscribe(() => UpdateList(true));
             eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(_ => UpdateList(true));
             eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList(true));
             eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);

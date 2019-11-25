@@ -533,6 +533,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (f)
 #endif
             HasNewMessages = true;
+            eventAggregator.GetEvent<FetchedNewMessagesEvent>().Publish();
         }
 
         /// <summary>
