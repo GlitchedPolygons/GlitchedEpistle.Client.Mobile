@@ -50,6 +50,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
+            (BindingContext as IOnDisappearingListener)?.OnDisappearing();
             ResetAllHeaderButtonColors();
         }
 
