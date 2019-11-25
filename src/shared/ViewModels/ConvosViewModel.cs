@@ -146,19 +146,20 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             OpenConvoCommand = new DelegateCommand(OnClickedOnConvo);
             EditConvoCommand = new DelegateCommand(OnClickedEditConvo);
             CopyConvoIdCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
-            RefreshCommand = new DelegateCommand(_ => UpdateList(true));
+            RefreshCommand = new DelegateCommand(_ => UpdateList(true,true));
 
-            eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(_ => UpdateList(true));
-            eventAggregator.GetEvent<DeletedConvoEvent>().Subscribe(_ => UpdateList(true));
-            eventAggregator.GetEvent<FetchedNewMessagesEvent>().Subscribe(() => UpdateList(true));
-            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(_ => UpdateList(true));
-            eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList(true));
+            eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(_ => Joining = false);
+            eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(_ => UpdateList(true,false));
+            eventAggregator.GetEvent<DeletedConvoEvent>().Subscribe(_ => UpdateList(true,false));
+            eventAggregator.GetEvent<FetchedNewMessagesEvent>().Subscribe(() => UpdateList(true,false));
+            eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(_ => UpdateList(true,true));
+            eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList(true,true));
             eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);
         }
         
         public void OnAppearing()
         {
-            UpdateList(false);
+            UpdateList(true, false);
 
             UserId = user.Id;
             Username = userSettings.Username;
@@ -172,7 +173,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             ExecUI(() => alertService.AlertLong(localization["Copied"]));
         }
 
-        private void UpdateList(bool forceRefresh = false)
+        private void UpdateList(bool forceRefresh = false, bool showSpinningIndicator = true)
         {
             if (!forceRefresh && DateTime.UtcNow - lastRefresh < TimeSpan.FromMinutes(3))
             {
@@ -181,13 +182,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             
             if (user.Token is null || user.Token.Item2.NullOrEmpty())
             {
-                IsRefreshing = false;
+                if (showSpinningIndicator)
+                    IsRefreshing = false;
+                
                 return;
             }
 
             Task.Run(async () =>
             {
-                IsRefreshing = true;
+                if (showSpinningIndicator)
+                    IsRefreshing = true;
                 
                 try
                 {
@@ -207,8 +211,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     logger?.LogError($"{nameof(ConvosViewModel)}::{nameof(UpdateList)}: User convos sync failed! Thrown exception: " + e.ToString());
                 }
-                
-                IsRefreshing = false;
+
+                if (showSpinningIndicator)
+                    IsRefreshing = false;
             });
         }
 
@@ -225,9 +230,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             Task.Run(async () =>
             {
                 bool useSavedPw = appSettings["SaveConvoPasswords", true];
-                
+
                 string cachedPwSHA512 = convoPasswordProvider.GetPasswordSHA512(_convo.Id);
-            
+
                 if (cachedPwSHA512.NullOrEmpty() && useSavedPw)
                 {
                     cachedPwSHA512 = await SecureStorage.GetAsync($"convo:{_convo.Id}_pw:SHA512");
@@ -238,11 +243,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     var viewModel = viewModelFactory.Create<JoinConvoViewModel>();
                     viewModel.ConvoId = _convo.Id;
 
-                    var view = new JoinConvoPage {BindingContext = viewModel};
+                    var view = new JoinConvoPage { BindingContext = viewModel };
                     view.Disappearing += (_, __) => Joining = false;
 
                     ExecUI(async () => await Application.Current.MainPage.Navigation.PushModalAsync(view));
-                    
+
                     return;
                 }
 
@@ -274,6 +279,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 convoPasswordProvider.SetPasswordSHA512(_convo.Id, cachedPwSHA512);
 
                 ConvoMetadataDto metadata = await convoService.GetConvoMetadata(_convo.Id, cachedPwSHA512, user.Id, user.Token.Item2);
+
                 if (metadata != null)
                 {
                     if (appSettings["SaveConvoPasswords", true])
