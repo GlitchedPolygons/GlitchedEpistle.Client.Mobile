@@ -765,4 +765,10 @@ Also: these tokens are single-use and refresh only every 30 seconds of cooldown.
   <data name="VibrationNotAvailable" xml:space="preserve">
     <value>Vibration not available</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>day</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>days</value>
+  </data>
 </root>

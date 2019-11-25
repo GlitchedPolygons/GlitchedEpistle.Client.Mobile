@@ -800,4 +800,10 @@ Usserdäm: die 6-stellige Outhentifizerigscodes sy immr nume eynisch verwändbar
   <data name="VibrationNotAvailable" xml:space="preserve">
     <value>Vibration nit verfüegbar</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Tääg</value>
+  </data>
 </root>

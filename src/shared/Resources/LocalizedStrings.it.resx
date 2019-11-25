@@ -793,4 +793,10 @@ Inoltre: questi token sono mono-uso. Una volta obliterati non è possibile effet
   <data name="VibrationNotAvailable" xml:space="preserve">
     <value>Vibrazione non disponibile</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>giorno</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>giorni</value>
+  </data>
 </root>

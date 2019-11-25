@@ -797,4 +797,10 @@ Ausserdem: die 2FA Tokens sind nur einmal verwendbar und jeweils nur 30 Sekunden
   <data name="VibrationNotAvailable" xml:space="preserve">
     <value>Vibration nicht verfügbar</value>
   </data>
+  <data name="Day" xml:space="preserve">
+    <value>Tag</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Tage</value>
+  </data>
 </root>

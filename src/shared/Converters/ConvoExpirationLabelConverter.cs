@@ -20,6 +20,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using System;
+using System.Text;
 using System.Globalization;
 
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
@@ -43,8 +44,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
             DateTime exp = (DateTime)value;
             int days = (exp - DateTime.UtcNow).Days;
             if (days < 1) days = 1;
-
-            return days > 5 ? string.Empty : "-" + days;
+            return new StringBuilder(16).Append(days > 5 ? string.Empty : "-").Append(days).Append(' ').Append(Localization[days == 1 ? "Day" : "Days"]).ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
