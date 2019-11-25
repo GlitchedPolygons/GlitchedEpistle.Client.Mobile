@@ -320,6 +320,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             activeConvos = new Dictionary<string, ActiveConvoViewModel>(4);
         }
 
+        public bool HasNewMessages(string convoId)
+        {
+            if (activeConvos is null || !activeConvos.TryGetValue(convoId, out var vm))
+            {
+                return false;
+            }
+
+            return vm.HasNewMessages;
+        }
+
         private void OnLoginSuccessful()
         {
             ClearActiveConvos();

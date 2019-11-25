@@ -512,10 +512,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs());
             });
 
+            bool f = decryptedMessages.Any(m => m?.SenderId != user.Id);
+            
             if (appSettings["Vibration", true])
             {
 #if !DEBUG
-                if (decryptedMessages.Any(m => m?.SenderId != user.Id))
+                if (f)
 #endif
                 try
                 {
@@ -527,7 +529,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     alertService.AlertLong(localization["VibrationNotAvailable"]);
                 }
             }
-
+#if !DEBUG
+            if (f)
+#endif
             HasNewMessages = true;
         }
 

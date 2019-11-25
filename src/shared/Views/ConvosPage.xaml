@@ -200,6 +200,25 @@
                                                        Text="{Binding ExpirationUTC, Converter={converters:ConvoExpirationLabelConverter}}" 
                                                        TextColor="AliceBlue"/>
                                             </Frame>
+                                            <Frame Padding="3.25"
+                                                   Margin="4,0,0,0"
+                                                   CornerRadius="16" 
+                                                   HeightRequest="16"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Center"
+                                                   BackgroundColor="#57afcf"
+                                                   IsVisible="{Binding Id, Converter={converters:ConvoHasNewMessagesLabelConverter}}">
+                                                <Label HorizontalOptions="CenterAndExpand" 
+                                                       VerticalOptions="CenterAndExpand" 
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center" 
+                                                       FontAttributes="Bold"
+                                                       FontSize="11"
+                                                       Margin="4,0"
+                                                       Text="📜" 
+                                                       TextColor="AliceBlue"/>
+                                            </Frame>
+                                        
                                         </StackLayout>
                                         <Label VerticalTextAlignment="Center"
                                                VerticalOptions="FillAndExpand"
