@@ -219,8 +219,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public void OnClickedOnConvo(object commandParam)
         {
-            var _convo = commandParam as Convo;
-            if (_convo is null || Joining)
+            var clickedConvo = commandParam as Convo;
+            if (clickedConvo is null || Joining)
             {
                 return;
             }
@@ -231,17 +231,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 bool useSavedPw = appSettings["SaveConvoPasswords", true];
 
-                string cachedPwSHA512 = convoPasswordProvider.GetPasswordSHA512(_convo.Id);
+                string cachedPwSHA512 = convoPasswordProvider.GetPasswordSHA512(clickedConvo.Id);
 
                 if (cachedPwSHA512.NullOrEmpty() && useSavedPw)
                 {
-                    cachedPwSHA512 = await SecureStorage.GetAsync($"convo:{_convo.Id}_pw:SHA512");
+                    cachedPwSHA512 = await SecureStorage.GetAsync($"convo:{clickedConvo.Id}_pw:SHA512");
                 }
 
                 if (cachedPwSHA512.NullOrEmpty())
                 {
                     var viewModel = viewModelFactory.Create<JoinConvoViewModel>();
-                    viewModel.ConvoId = _convo.Id;
+                    viewModel.ConvoId = clickedConvo.Id;
 
                     var view = new JoinConvoPage { BindingContext = viewModel };
                     view.Disappearing += (_, __) => Joining = false;
@@ -253,7 +253,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 var dto = new ConvoJoinRequestDto
                 {
-                    ConvoId = _convo.Id,
+                    ConvoId = clickedConvo.Id,
                     ConvoPasswordSHA512 = cachedPwSHA512
                 };
 
@@ -268,23 +268,23 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 if (!joined)
                 {
-                    convoPasswordProvider.RemovePasswordSHA512(_convo.Id);
-                    SecureStorage.Remove($"convo:{_convo.Id}_pw:SHA512");
+                    convoPasswordProvider.RemovePasswordSHA512(clickedConvo.Id);
+                    SecureStorage.Remove($"convo:{clickedConvo.Id}_pw:SHA512");
                     ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["Error"], localization["JoinConvoFailedErrorMessage"], "OK"));
 
                     Joining = false;
                     return;
                 }
 
-                convoPasswordProvider.SetPasswordSHA512(_convo.Id, cachedPwSHA512);
+                convoPasswordProvider.SetPasswordSHA512(clickedConvo.Id, cachedPwSHA512);
 
-                ConvoMetadataDto metadata = await convoService.GetConvoMetadata(_convo.Id, cachedPwSHA512, user.Id, user.Token.Item2);
+                ConvoMetadataDto metadata = await convoService.GetConvoMetadata(clickedConvo.Id, cachedPwSHA512, user.Id, user.Token.Item2);
 
                 if (metadata != null)
                 {
                     if (appSettings["SaveConvoPasswords", true])
                     {
-                        await SecureStorage.SetAsync($"convo:{_convo.Id}_pw:SHA512", cachedPwSHA512);
+                        await SecureStorage.SetAsync($"convo:{clickedConvo.Id}_pw:SHA512", cachedPwSHA512);
                     }
 
                     ExecUI(delegate
@@ -296,7 +296,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 else
                 {
                     Joining = false;
-                    logger.LogWarning($"Joined convo {_convo.Id} successfully using the cached convo password's SHA512 (starts with {cachedPwSHA512.Substring(0, 6)}) but failed to pull its metadata from the server...");
+                    logger.LogWarning($"Joined convo {clickedConvo.Id} successfully using the cached convo password's SHA512 (starts with {cachedPwSHA512.Substring(0, 6)}) but failed to pull its metadata from the server...");
                 }
             });
         }
