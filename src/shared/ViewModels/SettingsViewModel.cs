@@ -31,6 +31,7 @@ using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
@@ -60,6 +61,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IUserSettings userSettings;
         private readonly ILocalization localization;
         private readonly IAlertService alertService;
+        private readonly ISilenceDetector silenceDetector;
         private readonly IEventAggregator eventAggregator;
         private readonly IPermissionChecker permissionChecker;
 
@@ -85,6 +87,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (Set(ref username, value))
                     userSettings.Username = Username;
             }
+        }
+
+        private bool isMuted = false;
+        public bool IsMuted
+        {
+            get => isMuted;
+            set => Set(ref isMuted, value);
         }
         
         private bool notifications = true;
@@ -316,6 +325,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #endregion
         
+        private ulong? muteCheck = null;
         private volatile bool initialized = false;
 
         public SettingsViewModel(User user, IAppSettings appSettings, IEventAggregator eventAggregator, IUserSettings userSettings, IMethodQ methodQ, IUserService userService)
@@ -328,6 +338,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.eventAggregator = eventAggregator;
             this.alertService = DependencyService.Get<IAlertService>();
             this.localization = DependencyService.Get<ILocalization>();
+            this.silenceDetector = DependencyService.Get<ISilenceDetector>();
             this.permissionChecker = DependencyService.Get<IPermissionChecker>();
 
             AboutCommand = new DelegateCommand(OnClickedAbout);
@@ -363,13 +374,21 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             Theme = Themes.FirstOrDefault(tuple => tuple.Item1 == appSettings["Theme", Constants.Themes.DARK_THEME]);
 
             methodQ.Schedule(() => initialized = true, DateTime.UtcNow.AddMilliseconds(420));
+            muteCheck = methodQ.Schedule(MuteCheck, TimeSpan.FromSeconds(1.50));
+            MuteCheck();
         }
 
         public void OnDisappearing()
         {
             userSettings.Username = Username;
+            
+            if (muteCheck.HasValue)
+            {
+                methodQ.Cancel(muteCheck.Value);
+                muteCheck = null;
+            }
         }
-
+        
         private async void OnClickedClose(object commandParam)
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
@@ -402,6 +421,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 Theme = Themes[1];
                 Language = Languages[0];
             }
+        }
+        
+        private void MuteCheck()
+        {
+            IsMuted = silenceDetector.IsAudioMuted();
         }
     }
 }

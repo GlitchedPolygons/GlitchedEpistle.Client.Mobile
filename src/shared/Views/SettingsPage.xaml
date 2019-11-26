@@ -100,6 +100,13 @@
                            FontSize="16"
                            VerticalTextAlignment="Center"
                            VerticalOptions="CenterAndExpand" />
+                    
+                    <Label Text="{i:Translate DeviceMuted}"
+                           Style="{DynamicResource SubLabelStyle}"
+                           FontSize="16"
+                           IsVisible="{Binding IsMuted}"
+                           VerticalTextAlignment="Center"
+                           VerticalOptions="CenterAndExpand"/>
                 </StackLayout>
                 
                 <StackLayout Orientation="Horizontal"

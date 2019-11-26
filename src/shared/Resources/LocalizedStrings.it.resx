@@ -811,4 +811,7 @@ Convos with the Epistle icon badge contain new unread messages.</comment>
   <data name="Notifications" xml:space="preserve">
     <value>Notifiche</value>
   </data>
+  <data name="DeviceMuted" xml:space="preserve">
+    <value>(dispositivo muto)</value>
+  </data>
 </root>
