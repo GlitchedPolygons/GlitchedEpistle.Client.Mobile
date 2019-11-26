@@ -86,6 +86,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     userSettings.Username = Username;
             }
         }
+        
+        private bool notifications = true;
+        public bool Notifications
+        {
+            get => notifications;
+            set
+            {
+                if (Set(ref notifications, value))
+                    appSettings["Notifications"] = value.ToString();
+            }
+        }
 
         private bool saveConvoPasswords = true;
         public bool SaveConvoPasswords
@@ -343,8 +354,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             
             Username = userSettings.Username;
             Vibration = appSettings["Vibration", true];
-            SaveUserPassword = appSettings["SaveUserPassword", true];
+            Notifications = appSettings["Notifications", true];
             SaveTotpSecret = appSettings["SaveTotpSecret", false];
+            SaveUserPassword = appSettings["SaveUserPassword", true];
             SaveConvoPasswords = appSettings["SaveConvoPasswords", true];
             UseFingerprint = appSettings["UseFingerprint", false];
             Language = Languages.FirstOrDefault(tuple => tuple.Item1 == appSettings["Language", "en"]) ?? Languages[0];

@@ -105,6 +105,20 @@
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="FillAndExpand">
 
+                       <CheckBox IsChecked="{Binding Notifications}"
+                                 VerticalOptions="CenterAndExpand"
+                                 Scale="1.1" />
+
+                       <Label Text="{i:Translate Notifications}"
+                              Style="{DynamicResource MediumLabelStyle}"
+                              FontSize="16"
+                              VerticalTextAlignment="Center"
+                              VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="FillAndExpand">
+
                     <CheckBox IsChecked="{Binding SaveUserPassword}"
                               VerticalOptions="CenterAndExpand"
                               Scale="1.1" />

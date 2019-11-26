@@ -16,14 +16,18 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using Prism.Events;
-
-namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents
+namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services
 {
     /// <summary>
-    /// This event is raised whenever the client has successfully fetched new messages of a convo.<para> </para>
+    /// Dependency service for finding out if audio playback is eligible
+    /// (if audio has been muted on the current device altogether).
     /// </summary>
-    public class FetchedNewMessagesEvent : PubSubEvent<string>
+    public interface ISilenceDetector
     {
+        /// <summary>
+        /// Checks if audio has been silenced on the current device.
+        /// </summary>
+        /// <returns>Whether audio has been silenced on the current device or not.</returns>
+        bool IsAudioMuted();
     }
 }

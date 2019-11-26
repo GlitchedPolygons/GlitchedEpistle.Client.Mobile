@@ -87,6 +87,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Alerts\GenericMessageNotification.cs" />
     <Compile Include="Services\Alerts\ToastAlert.cs" />
+    <Compile Include="Services\Audio\SilenceDetector.cs" />
     <Compile Include="Services\Audio\SimpleAudioPlayerAndroid.cs" />
     <Compile Include="Services\Audio\SimpleAudioRecorderAndroid.cs" />
     <Compile Include="Services\Hardware\ProximitySensorAndroid.cs" />

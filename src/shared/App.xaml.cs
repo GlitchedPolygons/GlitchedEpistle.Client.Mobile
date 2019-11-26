@@ -46,6 +46,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.Base;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
@@ -77,6 +78,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         public string CurrentTheme { get; private set; } = Themes.DARK_THEME;
 
         /// <summary>
+        /// Is the app sleeping (not open and active)?
+        /// </summary>
+        public bool Sleeping => sleeping;
+
+        /// <summary>
         /// Dependency injection container.
         /// </summary>
         private readonly IUnityContainer container = new UnityContainer();
@@ -94,6 +100,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly IServerConnectionTest connectionTest;
         private readonly IConvoPasswordProvider convoPasswordProvider;
 
+        private bool sleeping;
         private ulong? scheduledAuthRefresh;
 
         private Dictionary<string, ActiveConvoViewModel> activeConvos = new Dictionary<string, ActiveConvoViewModel>(4);
@@ -106,7 +113,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         {
             if (action != null) Device.BeginInvokeOnMainThread(action);
         }
-        
+
         public App()
         {
             InitializeComponent();
@@ -159,7 +166,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             eventAggregator.GetEvent<ClickedRegisterButtonEvent>().Subscribe(ShowRegistrationPage);
             eventAggregator.GetEvent<ClickedConfigureServerUrlButtonEvent>().Subscribe(ShowConfigServerUrlPage);
             eventAggregator.GetEvent<UserCreationSucceededEvent>().Subscribe(OnUserCreationSuccessful);
-            eventAggregator.GetEvent<UserCreationVerifiedEvent>().Subscribe(()=>ShowLoginPage(false));
+            eventAggregator.GetEvent<UserCreationVerifiedEvent>().Subscribe(() => ShowLoginPage(false));
             eventAggregator.GetEvent<LoginSucceededEvent>().Subscribe(OnLoginSuccessful);
             eventAggregator.GetEvent<JoinedConvoEvent>().Subscribe(OnJoinedConvo);
         }
@@ -270,11 +277,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         protected override void OnSleep()
         {
-            //nop
+            sleeping = true;
         }
 
         protected override void OnResume()
         {
+            sleeping = false;
             StopAuthRefreshingCycle();
             RefreshAuth();
             StartAuthRefreshingCycle();

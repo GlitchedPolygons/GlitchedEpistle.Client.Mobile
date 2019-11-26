@@ -26,14 +26,14 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows.Input;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Models;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
@@ -78,6 +78,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IMessageCryptography crypto;
         private readonly IMessageSender messageSender;
         private readonly IMessageFetcher messageFetcher;
+        private readonly ISilenceDetector silenceDetector;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelFactory viewModelFactory;
         private readonly IConvoPasswordProvider convoPasswordProvider;
@@ -194,6 +195,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
+            silenceDetector = DependencyService.Get<ISilenceDetector>();
             permissionChecker = DependencyService.Get<IPermissionChecker>();
             notification = DependencyService.Get<IGenericMessageNotification>();
 
@@ -272,7 +274,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             CanSend = true;
 
-            ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs {Animated = false});
+            ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs { Animated = false });
 
             methodQ.Schedule(() => Loading = false, DateTime.UtcNow.AddSeconds(4.20));
 
@@ -421,7 +423,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
 
             var viewModel = viewModelFactory.Create<RecordVoiceMessageViewModel>();
-            var view = new RecordVoiceMessagePage {BindingContext = viewModel};
+            var view = new RecordVoiceMessagePage { BindingContext = viewModel };
 
             view.Disappearing += (sender, e) =>
             {
@@ -514,29 +516,34 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs());
             });
 
-            bool f = decryptedMessages.Any(m => m?.SenderId != user.Id);
-            
-            if (appSettings["Vibration", true])
+            bool sleeping = ((App)Application.Current).Sleeping;
+       
+#if !DEBUG
+            if (decryptedMessages.Any(m => m?.SenderId != user.Id))
+#endif
             {
-#if !DEBUG
-                if (f)
-#endif
-                try
+                if (!sleeping && appSettings["Vibration", true] && !silenceDetector.IsAudioMuted())
                 {
-                    Vibration.Vibrate(TimeSpan.FromMilliseconds(250));
+                    try
+                    {
+                        Vibration.Vibrate(TimeSpan.FromMilliseconds(250));
+                    }
+                    catch
+                    {
+                        appSettings["Vibration"] = "false";
+                        alertService.AlertLong(localization["VibrationNotAvailable"]);
+                    }
                 }
-                catch
+
+                if (sleeping && appSettings["Notifications", true])
                 {
-                    appSettings["Vibration"] = "false";
-                    alertService.AlertLong(localization["VibrationNotAvailable"]);
+                    notification?.Push();
                 }
+                
+                HasNewMessages = true;
             }
-#if !DEBUG
-            if (f)
-#endif
-            HasNewMessages = true;
-            eventAggregator.GetEvent<FetchedNewMessagesEvent>().Publish();
-            notification.Push();
+            
+            eventAggregator.GetEvent<FetchedNewMessagesEvent>().Publish(ActiveConvo.Id);
         }
 
         /// <summary>
