@@ -812,4 +812,7 @@ Unterhaltungen mit dem Epistle Logo hinter dem Titel beinhalten neue, ungelesene
     <comment>Click here to open Epistle and check them all out! 
 Convos with the Epistle icon badge contain new unread messages.</comment>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Benachrichtigungen</value>
+  </data>
 </root>

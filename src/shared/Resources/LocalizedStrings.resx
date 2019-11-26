@@ -778,4 +778,7 @@ Also: these tokens are single-use and refresh only every 30 seconds of cooldown.
     <value>Click here to open Epistle and check them all out!
 Convos with the Epistle icon badge contain new unread messages.</value>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
 </root>

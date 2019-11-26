@@ -808,4 +808,7 @@ Conversazioni con l'icona di Epistle dietro il titolo contengono nuovi messaggi 
     <comment>Click here to open Epistle and check them all out! 
 Convos with the Epistle icon badge contain new unread messages.</comment>
   </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifiche</value>
+  </data>
 </root>

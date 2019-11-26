@@ -806,13 +806,16 @@ Usserdäm: die 6-stellige Outhentifizerigscodes sy immr nume eynisch verwändbar
   <data name="Days" xml:space="preserve">
     <value>Tääg</value>
   </data>
-    <data name="NewMessagesNotificationTitle" xml:space="preserve">
+  <data name="NewMessagesNotificationTitle" xml:space="preserve">
     <value>Du hesh neui Epistle Naachrichte bechoo!</value>
   </data>
-    <data name="NewMessagesNotificationText" xml:space="preserve">
+  <data name="NewMessagesNotificationText" xml:space="preserve">
     <value>Hye klicke um Epistle z'öffne u die neue Nachrichte abchecke!
 Aui Ungerhautige mitem Epistle Logo hingerem Titu hey neui Nachrichte.</value>
-        <comment>Click here to open Epistle and check them all out! 
+    <comment>Click here to open Epistle and check them all out! 
 Convos with the Epistle icon badge contain new unread messages.</comment>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Benachrichtigunge</value>
   </data>
 </root>
