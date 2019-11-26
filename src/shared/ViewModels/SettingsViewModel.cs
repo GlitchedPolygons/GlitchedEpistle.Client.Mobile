@@ -236,8 +236,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => vibration;
             set
             {
-                Set(ref vibration, value);
-                appSettings["Vibration"] = value.ToString();
+                if (Set(ref vibration, value))
+                    appSettings["Vibration"] = value.ToString();
 
                 if (initialized && value)
                 {

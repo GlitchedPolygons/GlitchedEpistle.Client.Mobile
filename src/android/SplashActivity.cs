@@ -27,12 +27,13 @@ using Android.Support.V7.App;
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 {
     [Activity(
-        Label = "Glitched Epistle", 
-        Icon = "@mipmap/icon", 
-        Theme = "@style/MainTheme.Splash", 
+        Label = "Glitched Epistle",
+        Icon = "@mipmap/icon",
+        Theme = "@style/MainTheme.Splash",
         NoHistory = true,
-        MainLauncher = true, 
+        MainLauncher = true,
         ResizeableActivity = false,
+        LaunchMode = LaunchMode.SingleTask,
         ScreenOrientation = ScreenOrientation.Portrait,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation
     )]

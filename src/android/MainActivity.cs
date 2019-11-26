@@ -28,7 +28,13 @@ using FFImageLoading.Forms.Platform;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 {
-    [Activity(Label = "Glitched Epistle", Icon = "@mipmap/icon", Theme = "@style/MainTheme", ScreenOrientation = ScreenOrientation.Portrait, WindowSoftInputMode = SoftInput.AdjustResize)]
+    [Activity(
+        Label = "Glitched Epistle", 
+        Theme = "@style/MainTheme", 
+        Icon = "@mipmap/icon", 
+        ScreenOrientation = ScreenOrientation.Portrait, 
+        WindowSoftInputMode = SoftInput.AdjustResize, 
+        LaunchMode = LaunchMode.SingleTask)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -47,6 +53,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
             global::ZXing.Net.Mobile.Forms.Android.Platform.Init();
             CachedImageRenderer.Init(enableFastRenderer: true);
             CachedImageRenderer.InitImageViewHandler();
+            CreateNotificationChannel();
 
             LoadApplication(new App());
 
@@ -71,6 +78,25 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
             {
                 // Do something if there are not any pages in the `PopupStack`
             }
+        }
+
+        private void CreateNotificationChannel()
+        {
+            if (Build.VERSION.SdkInt < BuildVersionCodes.O)
+            {
+                // Notification channels are new in API 26 (and not a part of the
+                // support library). There is no need to create a notification
+                // channel on older versions of Android.
+                return;
+            }
+
+            var channel = new NotificationChannel("Messages", "Messages", NotificationImportance.Default)
+            {
+                Description = ""//GetString(Resource.String.channel_description)
+            };
+
+            var notificationManager = GetSystemService(NotificationService) as NotificationManager;
+            notificationManager?.CreateNotificationChannel(channel);
         }
     }
 }

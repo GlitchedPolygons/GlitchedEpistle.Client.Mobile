@@ -82,6 +82,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IViewModelFactory viewModelFactory;
         private readonly IConvoPasswordProvider convoPasswordProvider;
         private readonly IPermissionChecker permissionChecker;
+        private readonly IGenericMessageNotification notification;
 
         #endregion
 
@@ -194,6 +195,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
             permissionChecker = DependencyService.Get<IPermissionChecker>();
+            notification = DependencyService.Get<IGenericMessageNotification>();
 
             this.user = user;
             this.logger = logger;
@@ -534,6 +536,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 #endif
             HasNewMessages = true;
             eventAggregator.GetEvent<FetchedNewMessagesEvent>().Publish();
+            notification.Push();
         }
 
         /// <summary>

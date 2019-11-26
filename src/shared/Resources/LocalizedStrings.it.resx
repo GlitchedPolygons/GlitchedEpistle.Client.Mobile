@@ -799,4 +799,13 @@ Inoltre: questi token sono mono-uso. Una volta obliterati non è possibile effet
   <data name="Days" xml:space="preserve">
     <value>giorni</value>
   </data>
+  <data name="NewMessagesNotificationTitle" xml:space="preserve">
+    <value>Hai ricevuto messaggi su Epistle!</value>
+  </data>
+  <data name="NewMessagesNotificationText" xml:space="preserve">
+    <value>Clicca qui per aprire Epistle e leggere i tuoi nuovi messaggi ricevuti!
+Conversazioni con l'icona di Epistle dietro il titolo contengono nuovi messaggi non letti.</value>
+    <comment>Click here to open Epistle and check them all out! 
+Convos with the Epistle icon badge contain new unread messages.</comment>
+  </data>
 </root>

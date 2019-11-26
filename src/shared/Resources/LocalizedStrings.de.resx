@@ -803,4 +803,13 @@ Ausserdem: die 2FA Tokens sind nur einmal verwendbar und jeweils nur 30 Sekunden
   <data name="Days" xml:space="preserve">
     <value>Tage</value>
   </data>
+  <data name="NewMessagesNotificationTitle" xml:space="preserve">
+    <value>Du hast neue Epistle Nachrichten bekommen!</value>
+  </data>
+  <data name="NewMessagesNotificationText" xml:space="preserve">
+    <value>Hier klicken um die Epistle App zu öffnen und die neuen Nachrichten durchzulesen!
+Unterhaltungen mit dem Epistle Logo hinter dem Titel beinhalten neue, ungelesene Nachrichten.</value>
+    <comment>Click here to open Epistle and check them all out! 
+Convos with the Epistle icon badge contain new unread messages.</comment>
+  </data>
 </root>
