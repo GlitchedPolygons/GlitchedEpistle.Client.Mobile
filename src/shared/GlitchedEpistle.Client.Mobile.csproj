@@ -6,7 +6,7 @@
     <AssemblyName>GlitchedPolygons.GlitchedEpistle.Client.Mobile</AssemblyName>
     <AssemblyVersion>2020.1.0.1</AssemblyVersion>
     <FileVersion>2020.1.0.1</FileVersion>
-    <Version>2020.1.0.2</Version>
+    <Version>2020.1.0.3</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

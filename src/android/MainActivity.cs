@@ -92,7 +92,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 
             var channel = new NotificationChannel("Messages", "Messages", NotificationImportance.Default)
             {
-                Description = ""//GetString(Resource.String.channel_description)
+                Description = ""
             };
 
             var notificationManager = GetSystemService(NotificationService) as NotificationManager;
