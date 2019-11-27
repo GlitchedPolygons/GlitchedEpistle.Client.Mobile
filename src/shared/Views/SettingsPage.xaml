@@ -40,8 +40,8 @@
                                Style="{DynamicResource MediumLabelStyle}"
                                HorizontalOptions="Center" />
                         
-                        <ff:CachedImage WidthRequest="23"
-                                        HeightRequest="23"
+                        <ff:CachedImage WidthRequest="32"
+                                        HeightRequest="32"
                                         Margin="2.5,0,0,0"
                                         HorizontalOptions="Center"
                                         VerticalOptions="Center"
