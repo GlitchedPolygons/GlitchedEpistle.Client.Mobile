@@ -95,6 +95,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
         private readonly IUserService userService;
+        private readonly ILoginService loginService;
+        private readonly ITotpProvider totpProvider;
         private readonly IEventAggregator eventAggregator;
         private readonly IViewModelFactory viewModelFactory;
         private readonly IServerConnectionTest connectionTest;
@@ -156,6 +158,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             userService = container.Resolve<IUserService>();
             appSettings = container.Resolve<IAppSettings>();
             userSettings = container.Resolve<IUserSettings>();
+            loginService = container.Resolve<ILoginService>();
+            totpProvider = container.Resolve<ITotpProvider>();
             eventAggregator = container.Resolve<IEventAggregator>();
             viewModelFactory = container.Resolve<IViewModelFactory>();
             connectionTest = container.Resolve<IServerConnectionTest>();
@@ -299,7 +303,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void StartAuthRefreshingCycle()
         {
-            scheduledAuthRefresh = methodQ.Schedule(RefreshAuth, TimeSpan.FromMinutes(13.37));
+            scheduledAuthRefresh = methodQ.Schedule(RefreshAuth, TimeSpan.FromMinutes(10));
         }
 
         private async void RefreshAuth()
@@ -310,15 +314,40 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             }
             
             string freshToken = await userService.RefreshAuthToken(user.Id, user.Token.Item2);
-                
+
             if (freshToken.NotNullNotEmpty())
             {
                 user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, freshToken);
+                return;
             }
-            else
+            
+            if (loginService != null)
             {
-                Logout();
+                string pw = null, totp = null;
+                
+                if (appSettings["SaveUserPassword", true])
+                {
+                    pw = await SecureStorage.GetAsync("pw:" + user.Id);
+                }
+                
+                if (appSettings["SaveTotpSecret", false])
+                {
+                    totp = await totpProvider.GetTotp(await SecureStorage.GetAsync("totp:" + user.Id));
+                }
+
+                if (pw.NullOrEmpty() || totp.NullOrEmpty())
+                {
+                    Logout();
+                }
+
+                if (await loginService.Login(user.Id, pw, totp) == 0) // The login service also updates the user instance's auth token.
+                {
+                    // If this succeeds, there's no need to log the user out. Just carry on normally...
+                    return;
+                }
             }
+
+            Logout();
         }
 
         private void ClearActiveConvos()
