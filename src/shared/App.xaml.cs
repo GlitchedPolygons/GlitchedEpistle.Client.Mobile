@@ -21,11 +21,13 @@ using Xamarin.Essentials;
 using Unity;
 using Unity.Lifetime;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.Concurrent;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.Services.JwtService;
@@ -54,8 +56,9 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.ServerHealth;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 using GlitchedPolygons.GlitchedEpistle.Client.Utilities;
-using Plugin.SimpleAudioPlayer;
 using Prism.Events;
+using Newtonsoft.Json;
+using Plugin.SimpleAudioPlayer;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 {
@@ -65,7 +68,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         /// The client version number.
         /// </summary>
         public static string Version => Assembly.GetCallingAssembly()?.GetName()?.Version?.ToString();
-        
+
         /// <summary>
         /// The app's central audio player unit.
         /// </summary>
@@ -95,9 +98,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly IAppSettings appSettings;
         private readonly IUserSettings userSettings;
         private readonly IUserService userService;
+        private readonly IConvoService convoService;
         private readonly ILoginService loginService;
         private readonly ITotpProvider totpProvider;
         private readonly IEventAggregator eventAggregator;
+        private readonly IAsymmetricCryptographyRSA crypto;
         private readonly IViewModelFactory viewModelFactory;
         private readonly IServerConnectionTest connectionTest;
         private readonly IConvoPasswordProvider convoPasswordProvider;
@@ -158,9 +163,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             userService = container.Resolve<IUserService>();
             appSettings = container.Resolve<IAppSettings>();
             userSettings = container.Resolve<IUserSettings>();
+            convoService = container.Resolve<IConvoService>();
             loginService = container.Resolve<ILoginService>();
             totpProvider = container.Resolve<ITotpProvider>();
             eventAggregator = container.Resolve<IEventAggregator>();
+            crypto = container.Resolve<IAsymmetricCryptographyRSA>();
             viewModelFactory = container.Resolve<IViewModelFactory>();
             connectionTest = container.Resolve<IServerConnectionTest>();
             convoPasswordProvider = container.Resolve<IConvoPasswordProvider>();
@@ -312,7 +319,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             {
                 return;
             }
-            
+
             string freshToken = await userService.RefreshAuthToken(user.Id, user.Token.Item2);
 
             if (freshToken.NotNullNotEmpty())
@@ -320,16 +327,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                 user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, freshToken);
                 return;
             }
-            
+
             if (loginService != null)
             {
                 string pw = null, totp = null;
-                
+
                 if (appSettings["SaveUserPassword", true])
                 {
                     pw = await SecureStorage.GetAsync("pw:" + user.Id);
                 }
-                
+
                 if (appSettings["SaveTotpSecret", false])
                 {
                     totp = await totpProvider.GetTotp(await SecureStorage.GetAsync("totp:" + user.Id));
@@ -367,12 +374,77 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             return vm.HasNewMessages;
         }
 
+        public bool IsActiveConvo(string convoId)
+        {
+            if (activeConvos is null || !activeConvos.TryGetValue(convoId, out var vm))
+            {
+                return false;
+            }
+
+            return vm != null;
+        }
+
         private void OnLoginSuccessful()
         {
             ClearActiveConvos();
             StopAuthRefreshingCycle();
             StartAuthRefreshingCycle();
+            TryJoinConvos();
             ShowConvosPage();
+        }
+
+        private async void TryJoinConvos()
+        {
+            if (!appSettings["SaveConvoPasswords", true])
+            {
+                return;
+            }
+
+            var userConvos = (await userService.GetConvos(user.Id, user.Token.Item2))
+                .Select(c => (Convo)c)
+                .Distinct()
+                .Where(convo => !convo.IsExpired()).ToArray();
+
+            foreach (var convo in userConvos)
+            {
+                string cachedPwSHA512 = convoPasswordProvider.GetPasswordSHA512(convo.Id);
+
+                if (cachedPwSHA512.NullOrEmpty())
+                {
+                    cachedPwSHA512 = await SecureStorage.GetAsync($"convo:{convo.Id}_pw:SHA512");
+                }
+
+                if (cachedPwSHA512.NotNullNotEmpty())
+                {
+                    var dto = new ConvoJoinRequestDto
+                    {
+                        ConvoId = convo.Id,
+                        ConvoPasswordSHA512 = cachedPwSHA512
+                    };
+
+                    var body = new EpistleRequestBody
+                    {
+                        UserId = user.Id,
+                        Auth = user.Token.Item2,
+                        Body = JsonConvert.SerializeObject(dto)
+                    };
+
+                    if (await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem)))
+                    {
+                        ConvoMetadataDto metadata = await convoService.GetConvoMetadata(convo.Id, cachedPwSHA512, user.Id, user.Token.Item2);
+                        if (metadata != null)
+                        {
+                            var viewModel = viewModelFactory.Create<ActiveConvoViewModel>();
+                            viewModel.ActiveConvo = convo;
+                            viewModel.OnAppearing();
+
+                            activeConvos[convo.Id] = viewModel;
+                        }
+                    }
+                }
+            }
+
+            eventAggregator.GetEvent<TriggerUpdateConvosListEvent>().Publish();
         }
 
         private void Logout()
@@ -392,7 +464,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
             //convoProvider = null;
             convoPasswordProvider?.Clear();
-            
+
             // Show the login page.
             ShowLoginPage(false);
         }
@@ -407,9 +479,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             viewModel.QR = $"otpauth://totp/GlitchedEpistle:{userCreationResponseDto.Id}?secret={userCreationResponseDto.TotpSecret}";
             viewModel.BackupCodes = userCreationResponseDto.TotpEmergencyBackupCodes;
 
-            MainPage = new UserCreationSuccessfulView {BindingContext = viewModel};
+            MainPage = new UserCreationSuccessfulView { BindingContext = viewModel };
         }
-        
+
         private async void OnJoinedConvo(Convo convo)
         {
             if (!activeConvos.TryGetValue(convo.Id, out var viewModel) || viewModel is null)
@@ -419,36 +491,36 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                 activeConvos[convo.Id] = viewModel;
             }
 
-            var view = new ActiveConvoPage {BindingContext = viewModel};
+            var view = new ActiveConvoPage { BindingContext = viewModel };
             await Application.Current.MainPage.Navigation.PushModalAsync(view);
         }
 
         private void ShowLoginPage(bool autoPromptForFingerprint = true)
         {
             var viewModel = viewModelFactory.Create<LoginViewModel>();
-            
+
             viewModel.UserId = appSettings.LastUserId;
             viewModel.AutoPromptForFingerprint = autoPromptForFingerprint;
 
-            MainPage = new LoginPage {BindingContext = viewModel};
+            MainPage = new LoginPage { BindingContext = viewModel };
         }
 
         private void ShowRegistrationPage()
         {
             var viewModel = viewModelFactory.Create<RegisterViewModel>();
-            MainPage = new RegisterPage {BindingContext = viewModel};
+            MainPage = new RegisterPage { BindingContext = viewModel };
         }
 
         private void ShowConfigServerUrlPage()
         {
             var viewModel = viewModelFactory.Create<ServerUrlViewModel>();
-            MainPage = new ServerUrlPage {BindingContext = viewModel};
+            MainPage = new ServerUrlPage { BindingContext = viewModel };
         }
 
         private void ShowConvosPage()
         {
             var viewModel = viewModelFactory.Create<ConvosViewModel>();
-            MainPage = new ConvosPage {BindingContext = viewModel};
+            MainPage = new ConvosPage { BindingContext = viewModel };
         }
     }
 }

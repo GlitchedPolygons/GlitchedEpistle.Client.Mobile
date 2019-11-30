@@ -26,13 +26,16 @@ using GlitchedPolygons.ExtensionMethods;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
 {
-    public class ConvoHasNewMessagesLabelConverter : IValueConverter, IMarkupExtension
+    public class ConvoIsActiveConverter : IValueConverter, IMarkupExtension
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string convoId;
-            if ((convoId = value as string).NullOrEmpty()) return false;
-            return (Application.Current as App)?.HasNewMessages(convoId) ?? false;
+            Application.Current.Resources.TryGetValue("PrimaryTextColor", out var color);
+            
+            if ((convoId = value as string).NullOrEmpty()) return color;
+            
+            return ((Application.Current as App)?.IsActiveConvo(convoId) ?? false) ? color : Color.DimGray;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

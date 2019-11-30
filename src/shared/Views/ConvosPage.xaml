@@ -181,7 +181,8 @@
                                                    HorizontalTextAlignment="Start"
                                                    FontSize="20"
                                                    Text="{Binding Name}"
-                                                   Style="{DynamicResource MediumLabelStyle}" />
+                                                   Style="{DynamicResource MediumLabelStyle}"
+                                                   TextColor="{Binding Id, Converter={converters:ConvoIsActiveConverter}}"/>
                                             <Frame Padding="3.25"
                                                    Margin="4,0,0,0"
                                                    CornerRadius="16" 

@@ -154,6 +154,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             eventAggregator.GetEvent<FetchedNewMessagesEvent>().Subscribe(_ => UpdateList(true,false));
             eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(_ => UpdateList(true,true));
             eventAggregator.GetEvent<ConvoCreationSucceededEvent>().Subscribe(_ => UpdateList(true,true));
+            eventAggregator.GetEvent<TriggerUpdateConvosListEvent>().Subscribe(() => UpdateList(true, false));
             eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);
         }
         
@@ -199,8 +200,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         .Select(dto => (Convo)dto)
                         .Distinct()
                         .Where(convo => !convo.IsExpired())
-                        .OrderByDescending(convo => convo.ExpirationUTC)
-                        .ThenBy(convo => convo.Name.ToUpper());
+                        .OrderByDescending(convo=> (Application.Current as App)?.IsActiveConvo(convo.Id) ?? false)
+                        .ThenByDescending(convo => convo.ExpirationUTC);
 
                     lastRefresh = DateTime.UtcNow;
 
