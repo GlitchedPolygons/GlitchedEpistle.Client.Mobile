@@ -431,7 +431,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
                     if (await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem)))
                     {
+                        convoPasswordProvider.SetPasswordSHA512(convo.Id, cachedPwSHA512);
                         ConvoMetadataDto metadata = await convoService.GetConvoMetadata(convo.Id, cachedPwSHA512, user.Id, user.Token.Item2);
+                        
                         if (metadata != null)
                         {
                             var viewModel = viewModelFactory.Create<ActiveConvoViewModel>();

@@ -200,8 +200,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         .Select(dto => (Convo)dto)
                         .Distinct()
                         .Where(convo => !convo.IsExpired())
-                        .OrderByDescending(convo=> (Application.Current as App)?.IsActiveConvo(convo.Id) ?? false)
-                        .ThenByDescending(convo => convo.ExpirationUTC);
+                        .OrderByDescending(convo => (Application.Current as App)?.IsActiveConvo(convo.Id) ?? false)
+                        .ThenByDescending(convo => (Application.Current as App)?.HasNewMessages(convo.Id) ?? false)
+                        .ThenByDescending(convo => convo.ExpirationUTC)
+                        .ThenBy(convo => convo.Name);
 
                     lastRefresh = DateTime.UtcNow;
 

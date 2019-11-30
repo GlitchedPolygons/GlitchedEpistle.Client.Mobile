@@ -219,6 +219,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             EditConvoCommand = new DelegateCommand(OnEditConvo);
             CopyConvoIdToClipboardCommand = new DelegateCommand(OnClickedCopyConvoIdToClipboard);
 
+            eventAggregator.GetEvent<DeletedConvoEvent>().Subscribe(OnDeletedConvo);
             eventAggregator.GetEvent<ChangedConvoMetadataEvent>().Subscribe(OnChangedConvoMetadata);
         }
 
@@ -278,7 +279,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             methodQ.Schedule(() => Loading = false, DateTime.UtcNow.AddSeconds(4.20));
 
-            HasNewMessages = false;
+            var lastMsg = Messages.LastOrDefault();
+            var lastSeenMsg = await SecureStorage.GetAsync("last_msg:" + ActiveConvo.Id);
+            
+            if (lastMsg is null || lastSeenMsg.NullOrEmpty())
+            {
+                HasNewMessages = false;
+            }
+            else
+            {
+                HasNewMessages = lastMsg.Id != lastSeenMsg;
+            }
+            
+            await SecureStorage.SetAsync("last_msg:" + ActiveConvo.Id, lastMsg?.Id ?? "0");
         }
 
         public void OnDisappearing()
@@ -672,6 +685,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             if (messageCount > MSG_COLLECTION_SIZE * 2)
             {
                 Messages = new ObservableCollection<MessageViewModel>(Messages.SkipWhile((msg, i) => i < messageCount - MSG_COLLECTION_SIZE).ToArray());
+            }
+        }
+        
+        private void OnDeletedConvo(string convoId)
+        {
+            if (ActiveConvo?.Id == convoId)
+            {
+                Application.Current.MainPage.Navigation.PopModalAsync();
             }
         }
     }
