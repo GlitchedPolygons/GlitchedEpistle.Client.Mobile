@@ -814,4 +814,14 @@ Convos with the Epistle icon badge contain new unread messages.</comment>
   <data name="DeviceMuted" xml:space="preserve">
     <value>(dispositivo muto)</value>
   </data>
+  <data name="Tutorial_1" xml:space="preserve">
+    <value>Questa è la lista di conversazioni. Se è vuota, puoi crearne una nuova o unirti ad una già esistente con la sua id e password d'accesso.
+
+Conversazioni di cui sei un partecipante ma che non hai mai aperto su questo dispositivo appaiono grigie in questa lista.
+Devi accedere minimo una volta ad ogni conversazione per poterne ricevere notifiche e aggiornamenti.</value>
+    <comment>This is the list of conversations. If it's empty, you can create a new convo or join an existing one using its convo id and access password.
+
+Convos that you are a participant of but that were never opened on this device yet appear as greyed out in this list. 
+You need to access a conversation at least once in order to receive updates and notifications from it.</comment>
+  </data>
 </root>

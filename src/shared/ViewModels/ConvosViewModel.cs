@@ -158,12 +158,18 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);
         }
         
-        public void OnAppearing()
+        public async void OnAppearing()
         {
             UpdateList(true, false);
 
             UserId = user.Id;
             Username = userSettings.Username;
+
+            if (await SecureStorage.GetAsync("tutorial_1_seen") != "true")
+            {
+                await SecureStorage.SetAsync("tutorial_1_seen", "true");
+                await Application.Current.MainPage.DisplayAlert("Tutorial", localization["Tutorial_1"], "OK");
+            }
         }
 
         private void OnCopyUserIdToClipboard()

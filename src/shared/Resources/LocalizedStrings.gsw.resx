@@ -821,4 +821,14 @@ Convos with the Epistle icon badge contain new unread messages.</comment>
   <data name="DeviceMuted" xml:space="preserve">
     <value>(Gräät stumm)</value>
   </data>
+  <data name="Tutorial_1" xml:space="preserve">
+    <value>Das isch d Lischte vo dine Ungerhautige. Wenn sy läär isch chasch e neui erstelle odr anere scho existierende biiträtte (mit dr Ungerhautigs-ID + Zuegriffspasswort).
+
+Ungerhautige a dene du teylnimmsch aber du uf däm Gräät no nye g'öffnet hesch erschiine hye grau i dr Lischte.
+Me muess e Ungerhautig mindeschtens eynisch g'öffnet haa um dere ihri Updates u Benachrichtigunge z bechoo.</value>
+    <comment>Dies ist die Liste deiner Unterhaltungen. Wenn sie leer ist, kannst du eine neue Unterhaltung erstellen oder einer bereits existierenden beitreten mithilfe deren Unterhaltungs-ID und Zugriffspasswort.
+
+Unterhaltungen an denen du teilnimmst aber du auf diese Gerät noch nie geöffnet hast erscheinen hier grau in der Liste.
+Man muss eine Unterhaltung mindestens einmal geöffnet haben um deren Updates und Benachrichtigungen zu bekommen.</comment>
+  </data>
 </root>
