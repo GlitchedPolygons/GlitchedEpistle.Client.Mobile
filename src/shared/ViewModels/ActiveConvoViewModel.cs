@@ -290,11 +290,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 HasNewMessages = lastMsg.Id != lastSeenMsg;
             }
-            
-            await SecureStorage.SetAsync("last_msg:" + ActiveConvo.Id, lastMsg?.Id ?? "0");
         }
 
-        public void OnDisappearing()
+        public async void OnDisappearing()
         {
             StopAutomaticPulling();
             StartAutomaticPulling(MSG_PULL_FREQUENCY_PASSIVE);
@@ -308,6 +306,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
 
             HasNewMessages = false;
+            await SecureStorage.SetAsync("last_msg:" + ActiveConvo.Id, Messages.LastOrDefault()?.Id ?? "0");
         }
 
         public Task LoadPreviousMessages()
