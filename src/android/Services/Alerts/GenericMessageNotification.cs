@@ -16,7 +16,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
 using Xamarin.Forms;
 
 using Android.App;
@@ -37,6 +36,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Alerts
     {
         private readonly ILocalization localization = DependencyService.Get<ILocalization>();
 
+        /// <summary>
+        /// Displays the notification to the user (if possible).
+        /// </summary>
         public void Push()
         {
             // Set up an intent so that tapping the notifications returns to this app:
@@ -58,6 +60,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Alerts
             var notificationManager = Application.Context?.GetSystemService(Context.NotificationService) as NotificationManager;
             
             notificationManager?.Notify(0, notification);
+        }
+
+        /// <summary>
+        /// Cancels any pending user message notification.
+        /// </summary>
+        public void Pop()
+        {
+            var notificationManager = Application.Context?.GetSystemService(Context.NotificationService) as NotificationManager;
+            notificationManager?.Cancel(0);
         }
     }
 }

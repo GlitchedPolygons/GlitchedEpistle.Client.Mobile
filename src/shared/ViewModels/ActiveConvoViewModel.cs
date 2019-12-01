@@ -290,6 +290,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 HasNewMessages = lastMsg.Id != lastSeenMsg;
             }
+            
+            notification.Pop();
         }
 
         public async void OnDisappearing()

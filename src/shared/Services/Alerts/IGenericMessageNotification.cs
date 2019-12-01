@@ -27,5 +27,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts
         /// Displays the notification to the user (if possible).
         /// </summary>
         void Push();
+
+        /// <summary>
+        /// Cancels any pending user message notification.
+        /// </summary>
+        void Pop();
     }
 }
