@@ -109,7 +109,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly IConvoPasswordProvider convoPasswordProvider;
 
         private bool sleeping;
-        private ulong? scheduledAuthRefresh;
 
         private Dictionary<string, ActiveConvoViewModel> activeConvos = new Dictionary<string, ActiveConvoViewModel>(4);
 
@@ -263,6 +262,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
             Logout();
 
+            MessagingCenter.Unsubscribe<object>(this, "GlitchedEpistle_RefreshAuth");
+            MessagingCenter.Subscribe<object>(this, "GlitchedEpistle_RefreshAuth", (sender) => RefreshAuth());
+            
             Task.Run(async () =>
             {
                 bool serverUrlConfigured = false;
@@ -303,60 +305,84 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void StopAuthRefreshingCycle()
         {
-            if (scheduledAuthRefresh.HasValue)
+            Device.BeginInvokeOnMainThread(() =>
             {
-                methodQ.Cancel(scheduledAuthRefresh.Value);
-                scheduledAuthRefresh = null;
-            }
+                MessagingCenter.Send<App>(this,"GlitchedEpistle_StopRefreshingAuth");
+            });
         }
 
         private void StartAuthRefreshingCycle()
         {
-            scheduledAuthRefresh = methodQ.Schedule(RefreshAuth, TimeSpan.FromMinutes(10));
+            StopAuthRefreshingCycle();
+            
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                MessagingCenter.Send<App>(this,"GlitchedEpistle_StartRefreshingAuth");
+            });
         }
 
-        private async void RefreshAuth()
+        private void RefreshAuth()
         {
             if (user?.Token is null)
             {
                 return;
             }
 
-            string freshToken = await userService.RefreshAuthToken(user.Id, user.Token.Item2);
-
-            if (freshToken.NotNullNotEmpty())
+            Task.Run(async () =>
             {
-                user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, freshToken);
-                return;
-            }
+                string freshToken = await userService.RefreshAuthToken(user.Id, user.Token.Item2);
 
-            if (loginService != null)
-            {
-                string pw = null, totp = null;
-
-                if (appSettings["SaveUserPassword", true])
+                if (freshToken.NotNullNotEmpty())
                 {
-                    pw = await SecureStorage.GetAsync("pw:" + user.Id);
-                }
-
-                if (appSettings["SaveTotpSecret", false])
-                {
-                    totp = await totpProvider.GetTotp(await SecureStorage.GetAsync("totp:" + user.Id));
-                }
-
-                if (pw.NullOrEmpty() || totp.NullOrEmpty())
-                {
-                    Logout();
-                }
-
-                if (await loginService.Login(user.Id, pw, totp) == 0) // The login service also updates the user instance's auth token.
-                {
-                    // If this succeeds, there's no need to log the user out. Just carry on normally...
+                    user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, freshToken);
+#if DEBUG
+                    Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
+                        title: "Auth token refresh",
+                        message: "SUCCESSFUL",
+                        cancel: "OK"
+                    ));
+#endif
                     return;
                 }
-            }
 
-            Logout();
+                if (loginService != null)
+                {
+                    string pw = null, totp = null;
+
+                    if (appSettings["SaveUserPassword", true])
+                    {
+                        pw = await SecureStorage.GetAsync("pw:" + user.Id);
+                    }
+
+                    if (appSettings["SaveTotpSecret", false])
+                    {
+                        totp = await totpProvider.GetTotp(await SecureStorage.GetAsync("totp:" + user.Id));
+                    }
+
+                    // The login service also updates the user instance's auth token.
+                    if (pw.NotNullNotEmpty() && totp.NotNullNotEmpty() && await loginService.Login(user.Id, pw, totp) == 0) 
+                    {
+#if DEBUG
+                        Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
+                            title: "Auth token refresh",
+                            message: "SUCCESSFUL",
+                            cancel: "OK"
+                        ));
+#endif
+                        // If this succeeds, there's no need to log the user out. Just carry on normally...
+                        return;
+                    }
+                }
+#if DEBUG
+                Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
+                    title: "Auth token refresh",
+                    message: "FAILED",
+                    cancel: "OK"
+                ));
+#endif
+                // In case of a failure, instantly log out!
+                Logout();
+            });
         }
 
         private void ClearActiveConvos()
@@ -389,7 +415,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private void OnLoginSuccessful()
         {
             ClearActiveConvos();
-            StopAuthRefreshingCycle();
             StartAuthRefreshingCycle();
             TryJoinConvos();
             ShowConvosPage();
@@ -453,24 +478,27 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 
         private void Logout()
         {
-            // If we're already logging in, nvm.
-            if (MainPage is LoginPage)
+            Device.BeginInvokeOnMainThread(() =>
             {
-                return;
-            }
+                // If we're already logging in, nvm.
+                if (MainPage is LoginPage)
+                {
+                    return;
+                }
 
-            // Nullify all stored user tokens, passwords and such...
-            user.Token = null;
-            user.PasswordSHA512 = user.PublicKeyPem = user.PrivateKeyPem = null;
+                // Nullify all stored user tokens, passwords and such...
+                user.Token = null;
+                user.PasswordSHA512 = user.PublicKeyPem = user.PrivateKeyPem = null;
+                
+                ClearActiveConvos();
+                StopAuthRefreshingCycle();
 
-            ClearActiveConvos();
-            StopAuthRefreshingCycle();
+                //convoProvider = null;
+                convoPasswordProvider?.Clear();
 
-            //convoProvider = null;
-            convoPasswordProvider?.Clear();
-
-            // Show the login page.
-            ShowLoginPage(false);
+                // Show the login page.
+                ShowLoginPage(false);
+            });
         }
 
         private void OnUserCreationSuccessful(UserCreationResponseDto userCreationResponseDto)

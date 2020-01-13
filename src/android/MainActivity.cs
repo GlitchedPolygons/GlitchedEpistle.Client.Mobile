@@ -16,14 +16,19 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Android.OS;
 using Android.App;
+using Android.Content;
 using Android.Views;
 using Android.Runtime;
 using Android.Content.PM;
 using Plugin.Fingerprint;
 using Plugin.Permissions;
 using FFImageLoading.Forms.Platform;
+using Xamarin.Forms;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
 {
@@ -36,12 +41,58 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
         LaunchMode = LaunchMode.SingleTask)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        [Service]
+        private class AuthRefreshService : Service
+        {
+            private volatile CancellationTokenSource authRefreshCycle = null;
+            
+            public override IBinder OnBind(Intent intent)
+            {
+                return null;
+            }
+
+            public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+            {
+                authRefreshCycle?.Cancel();
+                authRefreshCycle = new CancellationTokenSource();
+                
+                Task.Run(async () =>
+                {
+                    do
+                    {
+                        MessagingCenter.Send<object>(this, "GlitchedEpistle_RefreshAuth");
+                        await Task.Delay(TimeSpan.FromMinutes(10));
+                    }
+                    while (!authRefreshCycle.IsCancellationRequested);
+                }, authRefreshCycle.Token);
+
+                return StartCommandResult.Sticky;
+            }
+
+            public override void OnDestroy()
+            {
+                authRefreshCycle?.Cancel();
+                authRefreshCycle = null;
+                base.OnDestroy();
+            }
+        };
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
+            MessagingCenter.Subscribe<App>(this, "GlitchedEpistle_StopRefreshingAuth", sender =>
+            {
+                StopService(new Intent(this, typeof(AuthRefreshService)));
+            });
+
+            MessagingCenter.Subscribe<App>(this, "GlitchedEpistle_StartRefreshingAuth", sender =>
+            {
+                StartService(new Intent(this, typeof(AuthRefreshService)));
+            });
 
             CrossFingerprint.SetCurrentActivityResolver(() => this);
 
