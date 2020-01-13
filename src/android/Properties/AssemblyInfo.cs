@@ -1,6 +1,6 @@
 ﻿/*
     Glitched Epistle - Mobile Client
-    Copyright (C) 2019 Raphael Beck
+    Copyright (C) 2020 Raphael Beck
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android")]
-[assembly: AssemblyCopyright("Copyright © Raphael Beck 2019")]
+[assembly: AssemblyCopyright("Copyright © Raphael Beck 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
@@ -43,8 +43,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2020.1.0.5")]
-[assembly: AssemblyFileVersion("2020.1.0.5")]
+[assembly: AssemblyVersion("2020.2.0.0")]
+[assembly: AssemblyFileVersion("2020.2.0.0")]
 
 // Add some common permissions, these can be removed if not needed
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
