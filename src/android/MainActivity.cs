@@ -18,12 +18,9 @@
 
 using Android.OS;
 using Android.App;
-using Android.Content;
-using Android.Runtime;
-using Android.Hardware;
-using Android.Content.PM;
-using Android.Icu.Util;
 using Android.Views;
+using Android.Runtime;
+using Android.Content.PM;
 using Plugin.Fingerprint;
 using Plugin.Permissions;
 using FFImageLoading.Forms.Platform;
@@ -35,7 +32,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
         Theme = "@style/MainTheme",
         Icon = "@mipmap/icon",
         ScreenOrientation = ScreenOrientation.Portrait,
-        WindowSoftInputMode = SoftInput.AdjustResize,
+        WindowSoftInputMode = SoftInput.AdjustPan,
         LaunchMode = LaunchMode.SingleTask)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
