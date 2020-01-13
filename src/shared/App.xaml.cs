@@ -55,6 +55,7 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.ServerHealth;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.KeyExchange;
 using GlitchedPolygons.GlitchedEpistle.Client.Utilities;
 using Prism.Events;
 using Newtonsoft.Json;
@@ -133,8 +134,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             container.RegisterType<JwtService>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IConvoService, ConvoService>();
-            container.RegisterType<ICompressionUtility, GZipUtility>();
-            container.RegisterType<ICompressionUtilityAsync, GZipUtilityAsync>();
+            container.RegisterType<ICompressionUtility, BrotliUtility>();
+            container.RegisterType<ICompressionUtilityAsync, BrotliUtilityAsync>();
             container.RegisterType<IAsymmetricKeygenRSA, AsymmetricKeygenRSA>();
             container.RegisterType<ISymmetricCryptography, SymmetricCryptography>();
             container.RegisterType<IAsymmetricCryptographyRSA, AsymmetricCryptographyRSA>();
@@ -143,6 +144,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             container.RegisterType<IMessageSender, MessageSender>();
             container.RegisterType<ILoginService, LoginService>();
             container.RegisterType<ITotpProvider, TotpProvider>();
+            container.RegisterType<IKeyExchange, KeyExchange>();
             container.RegisterType<IPasswordChanger, PasswordChanger>();
             container.RegisterType<IRegistrationService, RegistrationService>();
 
