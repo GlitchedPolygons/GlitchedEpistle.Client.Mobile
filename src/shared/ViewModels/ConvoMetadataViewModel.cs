@@ -58,9 +58,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IConvoService convoService;
         private readonly ITotpProvider totpProvider;
         private readonly IAlertService alertService;
-        private readonly ICompressionUtilityAsync gzip;
         private readonly IEventAggregator eventAggregator;
         private readonly IAsymmetricCryptographyRSA crypto;
+        private readonly ICompressionUtilityAsync compressionUtility;
         private readonly IConvoPasswordProvider convoPasswordProvider;
 
         private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Metadata Mod.") {UseDialog = false};
@@ -221,15 +221,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private volatile bool pendingAttempt = false;
 
-        public ConvoMetadataViewModel(User user, IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, ICompressionUtilityAsync gzip, IConvoService convoService, IAsymmetricCryptographyRSA crypto, IConvoPasswordProvider convoPasswordProvider, IMethodQ methodQ)
+        public ConvoMetadataViewModel(User user, IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, ICompressionUtilityAsync compressionUtility, IConvoService convoService, IAsymmetricCryptographyRSA crypto, IConvoPasswordProvider convoPasswordProvider, IMethodQ methodQ)
         {
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
 
             this.user = user;
-            this.gzip = gzip;
             this.crypto = crypto;
             this.methodQ = methodQ;
+            this.compressionUtility = compressionUtility;
             this.appSettings = appSettings;
             this.convoService = convoService;
             this.totpProvider = totpProvider;
@@ -458,7 +458,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             UserId = user.Id,
                             Auth = user.Token.Item2,
-                            Body = await gzip.Compress(JsonConvert.SerializeObject(dto))
+                            Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
                         };
 
                         bool success = await convoService.ChangeConvoMetadata(body.Sign(crypto, user.PrivateKeyPem));
@@ -548,7 +548,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             UserId = user.Id,
                             Auth = user.Token.Item2,
-                            Body = await gzip.Compress(JsonConvert.SerializeObject(dto))
+                            Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
                         };
 
                         bool success = await convoService.KickUser(body.Sign(crypto, user.PrivateKeyPem));
@@ -765,7 +765,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = await gzip.Compress(JsonConvert.SerializeObject(dto))
+                    Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
                 };
 
                 bool successful = await convoService.ChangeConvoMetadata(body.Sign(crypto, user.PrivateKeyPem));

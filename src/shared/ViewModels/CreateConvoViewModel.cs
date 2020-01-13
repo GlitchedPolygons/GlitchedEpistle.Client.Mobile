@@ -59,7 +59,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ILocalization localization;
         private readonly IAlertService alertService;
         private readonly ITotpProvider totpProvider;
-        private readonly ICompressionUtilityAsync gzip;
+        private readonly ICompressionUtilityAsync compressionUtility;
         private readonly IEventAggregator eventAggregator;
         private readonly IAsymmetricCryptographyRSA crypto;
         private readonly IConvoPasswordProvider convoPasswordProvider;
@@ -162,19 +162,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         #endregion
 
-        public CreateConvoViewModel(User user, ILogger logger, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IAsymmetricCryptographyRSA crypto, IEventAggregator eventAggregator, IAppSettings appSettings, ICompressionUtilityAsync gzip, ITotpProvider totpProvider)
+        public CreateConvoViewModel(User user, ILogger logger, IConvoService convoService, IConvoPasswordProvider convoPasswordProvider, IAsymmetricCryptographyRSA crypto, IEventAggregator eventAggregator, IAppSettings appSettings, ICompressionUtilityAsync compressionUtility, ITotpProvider totpProvider)
         {
             localization = DependencyService.Get<ILocalization>();
             alertService = DependencyService.Get<IAlertService>();
 
             this.user = user;
-            this.gzip = gzip;
             this.logger = logger;
             this.crypto = crypto;
             this.appSettings = appSettings;
             this.totpProvider = totpProvider;
             this.convoService = convoService;
             this.eventAggregator = eventAggregator;
+            this.compressionUtility = compressionUtility;
             this.convoPasswordProvider = convoPasswordProvider;
 
             CancelCommand = new DelegateCommand(OnCancel);
@@ -270,7 +270,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = await gzip.Compress(JsonConvert.SerializeObject(convoCreationDto))
+                    Body = await compressionUtility.Compress(JsonConvert.SerializeObject(convoCreationDto))
                 };
 
                 string id = await convoService.CreateConvo(body.Sign(crypto, user.PrivateKeyPem));
