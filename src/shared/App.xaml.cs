@@ -134,8 +134,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             container.RegisterType<JwtService>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IConvoService, ConvoService>();
-            container.RegisterType<ICompressionUtility, BrotliUtility>();
-            container.RegisterType<ICompressionUtilityAsync, BrotliUtilityAsync>();
+            container.RegisterType<ICompressionUtility, LzmaUtility>();
+            container.RegisterType<ICompressionUtilityAsync, LzmaUtilityAsync>();
             container.RegisterType<IAsymmetricKeygenRSA, AsymmetricKeygenRSA>();
             container.RegisterType<ISymmetricCryptography, SymmetricCryptography>();
             container.RegisterType<IAsymmetricCryptographyRSA, AsymmetricCryptographyRSA>();

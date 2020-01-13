@@ -4,9 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>GlitchedPolygons.GlitchedEpistle.Client.Mobile</RootNamespace>
     <AssemblyName>GlitchedPolygons.GlitchedEpistle.Client.Mobile</AssemblyName>
-    <AssemblyVersion>2020.1.0.5</AssemblyVersion>
-    <FileVersion>2020.1.0.5</FileVersion>
+    <AssemblyVersion>2020.2.0.2</AssemblyVersion>
+    <FileVersion>2020.2.0.2</FileVersion>
     <Version>2020.1.0.5</Version>
+    <PackageVersion>0.0.0.0</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -97,7 +98,7 @@
   <ItemGroup>
     <PackageReference Include="ExpandableView" Version="1.0.9" />
     <PackageReference Include="GlitchedPolygons.ExtensionMethods" Version="1.0.6" />
-    <PackageReference Include="GlitchedPolygons.GlitchedEpistle.Client" Version="2020.2.0" />
+    <PackageReference Include="GlitchedPolygons.GlitchedEpistle.Client" Version="2020.2.0.2" />
     <PackageReference Include="GlitchedPolygons.Services.Cryptography.Asymmetric" Version="1.0.1" />
     <PackageReference Include="GlitchedPolygons.Services.Cryptography.Symmetric" Version="1.0.1" />
     <PackageReference Include="GlitchedPolygons.Services.JwtService" Version="1.2.1" />
