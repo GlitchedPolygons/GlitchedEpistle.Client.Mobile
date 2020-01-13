@@ -240,5 +240,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
         {
             return item == MessagesListBox.ItemsSource.Cast<object>().LastOrDefault();
         }
+
+        private void TextBox_OnFocused(object sender, FocusEventArgs e)
+        {
+            TextBox.HeightRequest = 150;
+        }
+
+        private void TextBox_OnUnfocused(object sender, FocusEventArgs e)
+        {
+            TextBox.HeightRequest = 50;
+        }
     }
 }
