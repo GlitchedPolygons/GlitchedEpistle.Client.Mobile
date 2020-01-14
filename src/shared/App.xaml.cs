@@ -298,9 +298,17 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         protected override void OnResume()
         {
             sleeping = false;
-            StopAuthRefreshingCycle();
-            RefreshAuth();
-            StartAuthRefreshingCycle();
+
+            if (user?.Token != null && DateTime.UtcNow < user.Token.Item1 + TimeSpan.FromMinutes(10))
+            {
+                StopAuthRefreshingCycle();
+                RefreshAuth();
+                StartAuthRefreshingCycle();
+            }
+            else
+            {
+                Logout();
+            }
         }
 
         private void StopAuthRefreshingCycle()
