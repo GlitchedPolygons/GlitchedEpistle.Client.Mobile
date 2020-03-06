@@ -37,14 +37,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
         /// <summary>
         /// Localizer service.
         /// </summary>
-        public ILocalization Localization => _localization ?? (_localization = DependencyService.Get<ILocalization>());
+        public ILocalization Localization => _localization ??= DependencyService.Get<ILocalization>();
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            DateTime exp = ((long)value).FromUnixTimeSeconds();
+            DateTime exp = ((long)value).FromUnixTimeMilliseconds();
             int days = (exp - DateTime.UtcNow).Days;
 
-            return days > 5 ? false : true;
+            return days <= 5;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -127,7 +127,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 // Convo expiration check 
                 // (adapt the title label accordingly).
-                DateTime? exp = ActiveConvo?.ExpirationUTC.FromUnixTimeSeconds();
+                DateTime? exp = ActiveConvo?.ExpirationUTC.FromUnixTimeMilliseconds();
                 if (exp.HasValue)
                 {
                     if (DateTime.UtcNow > exp.Value)
@@ -388,8 +388,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 while (!metadataUpdater.IsCancellationRequested)
                 {
-                    await PullConvoMetadata();
-                    Thread.Sleep(METADATA_PULL_FREQUENCY);
+                    await PullConvoMetadata().ConfigureAwait(false);
+                    await Task.Delay(METADATA_PULL_FREQUENCY).ConfigureAwait(false);
                 }
             }, metadataUpdater.Token);
         }
@@ -415,7 +415,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             Task.Run(async () =>
             {
-                if (await messageSender.PostText(ActiveConvo, Text))
+                if (await messageSender.PostText(ActiveConvo, Text).ConfigureAwait(false))
                 {
                     Text = null;
                     ScrollToBottom?.Invoke(this, new ScrollToBottomEventArgs());
@@ -431,7 +431,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnSendAudio(object commandParam)
         {
-            if (!await permissionChecker.CheckPermission(Permission.Microphone, localization["MicrophonePermissionNeededForRecordingAudioAttachmentTitle"], localization["MicrophonePermissionNeededForRecordingAudioAttachmentText"], localization["AbortedDueToMicrophonePermissionDeclined"]))
+            if (!await permissionChecker.CheckPermission(Permission.Microphone, localization["MicrophonePermissionNeededForRecordingAudioAttachmentTitle"], localization["MicrophonePermissionNeededForRecordingAudioAttachmentText"], localization["AbortedDueToMicrophonePermissionDeclined"]).ConfigureAwait(false))
             {
                 return;
             }
@@ -452,14 +452,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnSendFile(object commandParam)
         {
-            FileData pickerResult = await CrossFilePicker.Current.PickFile();
+            FileData pickerResult = await CrossFilePicker.Current.PickFile().ConfigureAwait(false);
 
             if (pickerResult is null || pickerResult.FilePath.NullOrEmpty())
             {
                 return;
             }
 
-            if (!await Application.Current.MainPage.DisplayAlert(localization["ConfirmAttachmentUploadDialogTitle"], string.Format(localization["ConfirmAttachmentUploadDialogText"], pickerResult.FileName), localization["Yes"], localization["No"]))
+            if (!await Application.Current.MainPage.DisplayAlert(localization["ConfirmAttachmentUploadDialogTitle"], string.Format(localization["ConfirmAttachmentUploadDialogText"], pickerResult.FileName), localization["Yes"], localization["No"]).ConfigureAwait(false))
             {
                 return;
             }
@@ -475,7 +475,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 if (fileBytes.LongLength < MessageSender.MAX_FILE_SIZE_BYTES)
                 {
-                    if (!await messageSender.PostFile(ActiveConvo, fileName, fileBytes))
+                    if (!await messageSender.PostFile(ActiveConvo, fileName, fileBytes).ConfigureAwait(false))
                     {
                         ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
                     }
@@ -558,6 +558,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             }
             
             eventAggregator.GetEvent<FetchedNewMessagesEvent>().Publish(ActiveConvo.Id);
+            SecureStorage.SetAsync("last_msg:" + ActiveConvo.Id, Messages.LastOrDefault()?.Id ?? "0");
         }
 
         /// <summary>
@@ -580,8 +581,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     SenderId = message.SenderId,
                     SenderName = message.SenderName,
                     IsFromServer = message.IsFromServer(),
-                    TimestampDateTimeUTC = message.TimestampUTC.FromUnixTimeSeconds(),
-                    Timestamp = message.TimestampUTC.FromUnixTimeSeconds().ToLocalTime().ToString(MSG_TIMESTAMP_FORMAT),
+                    TimestampDateTimeUTC = message.TimestampUTC.FromUnixTimeMilliseconds(),
+                    Timestamp = message.TimestampUTC.FromUnixTimeMilliseconds().ToLocalTime().ToString(MSG_TIMESTAMP_FORMAT),
                     IsOwn = message.SenderId.Equals(user.Id),
                 };
 

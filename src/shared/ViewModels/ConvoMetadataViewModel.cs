@@ -200,8 +200,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     Name = convo.Name;
                     Description = convo.Description;
-                    ExpirationUTC = convo.ExpirationUTC.FromUnixTimeSeconds().Date;
-                    ExpirationTime = convo.ExpirationUTC.FromUnixTimeSeconds().TimeOfDay;
+                    ExpirationUTC = convo.ExpirationUTC.FromUnixTimeMilliseconds().Date;
+                    ExpirationTime = convo.ExpirationUTC.FromUnixTimeMilliseconds().TimeOfDay;
                     RefreshParticipantLists();
                 }
             }
@@ -736,12 +736,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     ConvoPasswordSHA512 = OldConvoPassword.SHA512(),
                 };
 
-                if (ExpirationUTC.Date != Convo.ExpirationUTC.FromUnixTimeSeconds().Date || ExpirationTime != Convo.ExpirationUTC.FromUnixTimeSeconds().TimeOfDay)
+                if (ExpirationUTC.Date != Convo.ExpirationUTC.FromUnixTimeMilliseconds().Date || ExpirationTime != Convo.ExpirationUTC.FromUnixTimeMilliseconds().TimeOfDay)
                 {
-                    dto.ExpirationUTC = ExpirationUTC.Date.ToUnixTimeSeconds();
+                    dto.ExpirationUTC = ExpirationUTC.Date.ToUnixTimeMilliseconds();
                     if (ExpirationTime > TimeSpan.Zero && ExpirationTime < TimeSpan.FromHours(24))
                     {
-                        dto.ExpirationUTC += (long)TimeSpan.FromTicks(new DateTime(ExpirationTime.Ticks).ToUniversalTime().Ticks).TotalSeconds;
+                        dto.ExpirationUTC += (long)TimeSpan.FromTicks(new DateTime(ExpirationTime.Ticks).ToUniversalTime().Ticks).TotalMilliseconds;
                     }
                 }
 
