@@ -22,6 +22,7 @@ using Xamarin.Forms.Xaml;
 using System;
 using System.Globalization;
 
+using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
@@ -40,7 +41,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            DateTime exp = (DateTime)value;
+            DateTime exp = ((long)value).FromUnixTimeSeconds();
             int days = (exp - DateTime.UtcNow).Days;
 
             return days > 5 ? false : true;

@@ -826,4 +826,14 @@ You need to access a conversation at least once in order to receive updates and 
   <data name="ConvoExpiration" xml:space="preserve">
     <value>Expiration date</value>
   </data>
+  <data name="InvalidUserIdPasswordOr2FA" xml:space="preserve">
+    <value>ERROR: Invalid user id, password or two-factor authentication token.</value>
+    <comment>ERROR: Invalid user id, password or two-factor authentication token.</comment>
+  </data>
+  <data name="InvalidUserIdPasswordOr2FA_Detailed" xml:space="preserve">
+    <value>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
+Please try again in 15 minutes.</value>
+    <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
+Please try again in 15 minutes.</comment>
+  </data>
 </root>

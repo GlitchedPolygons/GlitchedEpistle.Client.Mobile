@@ -864,4 +864,14 @@ You need to access a conversation at least once in order to receive updates and 
   <data name="ConvoExpiration" xml:space="preserve">
     <value>Ablaufdatum</value>
   </data>
+  <data name="InvalidUserIdPasswordOr2FA" xml:space="preserve">
+    <value>FEHLER: Ungültige Nutzer-ID, Passwort oder Zwei-Faktor Authentifizierungstoken.</value>
+    <comment>ERROR: Invalid user id, password or two-factor authentication token.</comment>
+  </data>
+  <data name="InvalidUserIdPasswordOr2FA_Detailed" xml:space="preserve">
+    <value>Bitte beachte: wenn die Anmeldung fehlschlägt trotz korrekter Anmeldedaten, kann es sein, dass du aufgrund zu vieler Fehlversüche temporär gesperrt wurdest!
+Probiere es in dem Fall in 15 Minuten nochmal.</value>
+    <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
+Please try again in 15 minutes.</comment>
+  </data>
 </root>

@@ -860,4 +860,14 @@ You need to access a conversation at least once in order to receive updates and 
   <data name="ConvoExpiration" xml:space="preserve">
     <value>Scadenza</value>
   </data>
+  <data name="InvalidUserIdPasswordOr2FA" xml:space="preserve">
+    <value>ERRORE: ID utente, password e/o token di autentificazione a due fattori invalido.</value>
+    <comment>ERROR: Invalid user id, password or two-factor authentication token.</comment>
+  </data>
+  <data name="InvalidUserIdPasswordOr2FA_Detailed" xml:space="preserve">
+    <value>Ricorda che se le tue credenziali d'accesso sono corrette e il login fallisce ciò nonostante, potrebbe essere che sei stato temporaneamente sospeso per motivi di sicurezza (troppi tentativi).
+P.f. riprova tra 15 minuti.</value>
+    <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
+Please try again in 15 minutes.</comment>
+  </data>
 </root>

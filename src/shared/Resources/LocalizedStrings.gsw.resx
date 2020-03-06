@@ -867,4 +867,14 @@ Man muss eine Unterhaltung mindestens einmal geöffnet haben um deren Updates un
   <data name="ConvoExpiration" xml:space="preserve">
     <value>Abloufdatum</value>
   </data>
+  <data name="InvalidUserIdPasswordOr2FA" xml:space="preserve">
+    <value>FÄHLER: Ungüutigi Nutzer-ID, Passwort odr Zwe-Faktor Outhentifizierigs-Token.</value>
+    <comment>ERROR: Invalid user id, password or two-factor authentication token.</comment>
+  </data>
+  <data name="InvalidUserIdPasswordOr2FA_Detailed" xml:space="preserve">
+    <value>Bitte beacht, dass wenn d Aamäudig trotz korrekter Date fäuschlaat es cha sii, dass de ufgrund vo zu viilne Fäuversüech temporär gsperrt worde bisch!
+Probier's am beschte i 15 Minute nomau.</value>
+    <comment>Bitte beachte: wenn die Anmeldung fehlschlägt trotz korrekter Anmeldedaten, kann es sein, dass du aufgrund zu vieler Fehlversüche temporär gesperrt wurdest!
+Probiere es in dem Fall in 15 Minuten nochmal.</comment>
+  </data>
 </root>

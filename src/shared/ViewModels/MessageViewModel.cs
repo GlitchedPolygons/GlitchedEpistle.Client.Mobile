@@ -199,6 +199,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref audioDuration, value);
         }
 
+        public FontAttributes TextFontAttributes => IsFromServer ? FontAttributes.Italic : FontAttributes.None;
+        public FontAttributes SenderNameFontAttributes => IsFromServer ? FontAttributes.Bold | FontAttributes.Italic : FontAttributes.Bold;
+        
         public bool GifVisibility => IsGif();
         public bool AudioVisibility => IsAudio();
         public bool ImageVisibility => IsImage() || IsGif();
