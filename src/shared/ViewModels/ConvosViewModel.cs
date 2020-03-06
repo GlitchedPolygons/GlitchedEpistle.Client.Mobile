@@ -21,6 +21,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
@@ -266,7 +267,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = JsonConvert.SerializeObject(dto)
+                    Body = JsonSerializer.Serialize(dto)
                 };
 
                 bool joined = await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem));

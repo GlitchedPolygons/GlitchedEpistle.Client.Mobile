@@ -145,6 +145,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => isAudioPlaying;
             set => Set(ref isAudioPlaying, value);
         }
+        
+        private bool isFromServer;
+        public bool IsFromServer
+        {
+            get => isFromServer;
+            set => Set(ref isFromServer, value);
+        }
 
         public string FileSize => $"({FileBytes.GetFileSizeString()})";
 

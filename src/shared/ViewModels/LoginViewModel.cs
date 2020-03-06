@@ -29,7 +29,9 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
+using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.KeyExchange;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.Services.MethodQ;
 using Plugin.Fingerprint;
@@ -45,11 +47,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         #region Constants
 
         // Injections:
+        private User user;
         private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
         private readonly ITotpProvider totpProvider;
         private readonly IUserService userService;
+        private readonly IKeyExchange keyExchange;
         private readonly IEventAggregator eventAggregator;
 
         private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login", "Epistle Biometric Login");
@@ -137,12 +141,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public bool AutoPromptForFingerprint { get; set; } = true;
 
-        public LoginViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, IMethodQ methodQ, IUserService userService)
+        public LoginViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, IMethodQ methodQ, IUserService userService, IKeyExchange keyExchange, User user)
         {
             localization = DependencyService.Get<ILocalization>();
 
+            this.user = user;
             this.methodQ = methodQ;
             this.userService = userService;
+            this.keyExchange = keyExchange;
             this.appSettings = appSettings;
             this.totpProvider = totpProvider;
             this.eventAggregator = eventAggregator;
@@ -208,16 +214,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             Task.Run(async () =>
             {
-                if (appSettings["UseFingerprint", false])
+                if (appSettings["UseFingerprint", defaultValue: false])
                 {
                     if (await CrossFingerprint.Current.IsAvailableAsync())
                     {
                         var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
                         if (!fingerprintAuthenticationResult.Authenticated)
                         {
-                            UIEnabled = true;
-                            pendingAttempt = false;
-                            return;
+                            goto end;
                         }
                     }
                     else
@@ -226,7 +230,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     }
                 }
 
-                if (appSettings["SaveTotpSecret", false])
+                if (appSettings["SaveTotpSecret", defaultValue: false])
                 {
                     Totp = await totpProvider.GetTotp(await SecureStorage.GetAsync("totp:" + UserId));
 
@@ -243,40 +247,45 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     PasswordSHA512 = password.SHA512(),
                     Totp = totp
                 };
-            
-                UserLoginSuccessResponseDto response = await userService.Login(request).ConfigureAwait(false);
 
-                switch (result)
+                UserLoginSuccessResponseDto response = await userService.Login(request);
+
+                if (response is null || response.Auth.NullOrEmpty() || response.PrivateKey.NullOrEmpty())
                 {
-                    case 0: // Login succeeded.
-                        failedAttempts = 0;
-                        if (appSettings["SaveUserPassword", true])
-                        {
-                            var saveUserPwTask = SecureStorage.SetAsync("pw:" + UserId, Password);
-                        }
-                        ExecUI(() => eventAggregator.GetEvent<LoginSucceededEvent>().Publish());
-                        break;
-                    case 1: // Connection to server failed.
-                        pendingAttempt = false;
-                        UIEnabled = true;
-                        var serverSideFailureAlertTask = Application.Current.MainPage.DisplayAlert(localization["Error"], localization["ConnectionToServerFailed"], "OK");
-                        break;
-                    case 2: // Login failed server-side.
-                        SecureStorage.Remove("pw:" + UserId);
-                        ErrorMessage = localization["InvalidUserIdPwOrTOTP"];
-                        if (++failedAttempts >= 2)
-                        {
-                            ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["Error"], localization["InvalidUserIdPwOrTOTP"] + "\n\n" + localization["LoginMultiFailedAttemptsErrorMessage"], "OK"));
-                        }
+                    ErrorMessage = localization["InvalidUserIdPasswordOr2FA"];
+                    if (++failedAttempts > 2)
+                    {
+                        ErrorMessage += "\n" + localization["InvalidUserIdPasswordOr2FA_Detailed"];
+                    }
+                    goto end;
+                }
+                
+                try
+                {
+                    user.Id = appSettings.LastUserId = userId;
+                    user.PublicKeyPem = await keyExchange.DecompressPublicKeyAsync(response.PublicKey).ConfigureAwait(false);
+                    user.PrivateKeyPem = await keyExchange.DecompressAndDecryptPrivateKeyAsync(response.PrivateKey, password).ConfigureAwait(false);
+                    user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, response.Auth);
 
-                        break;
-                    case 3: // Login failed client-side.
-                        failedAttempts++;
-                        SecureStorage.Remove("pw:" + UserId);
-                        ErrorMessage = localization["LoginFailedClientSide"];
-                        break;
+                    if (response.Message.NotNullNotEmpty())
+                    {
+                        ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["EpistleServerBroadcastMessage"], response.Message, localization["Dismiss"]));
+                    }
+                    
+                    failedAttempts = 0;
+                    if (appSettings["SaveUserPassword", true])
+                    {
+                        var _ = SecureStorage.SetAsync("pw:" + UserId, Password);
+                    }
+                    ExecUI(() => eventAggregator.GetEvent<LoginSucceededEvent>().Publish());
+                }
+                catch
+                {
+                    failedAttempts++;
+                    ErrorMessage = localization["LoginSucceededServerSideButResponseCouldNotBeHandledClientSide"];
                 }
 
+                end:
                 UIEnabled = true;
                 pendingAttempt = false;
             });

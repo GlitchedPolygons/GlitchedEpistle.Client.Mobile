@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Windows.Input;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
@@ -126,7 +127,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 // Convo expiration check 
                 // (adapt the title label accordingly).
-                DateTime? exp = ActiveConvo?.ExpirationUTC;
+                DateTime? exp = ActiveConvo?.ExpirationUTC.FromUnixTimeSeconds();
                 if (exp.HasValue)
                 {
                     if (DateTime.UtcNow > exp.Value)
@@ -571,30 +572,117 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return null;
             }
 
-            string decryptedJson = crypto.DecryptMessage(message.Body, user.PrivateKeyPem);
-            JToken json = JToken.Parse(decryptedJson);
+            try
+            {
+                var messageViewModel = new MessageViewModel(methodQ)
+                {
+                    Id = message.Id.ToString(),
+                    SenderId = message.SenderId,
+                    SenderName = message.SenderName,
+                    IsFromServer = message.IsFromServer(),
+                    TimestampDateTimeUTC = message.TimestampUTC.FromUnixTimeSeconds(),
+                    Timestamp = message.TimestampUTC.FromUnixTimeSeconds().ToLocalTime().ToString(MSG_TIMESTAMP_FORMAT),
+                    IsOwn = message.SenderId.Equals(user.Id),
+                };
 
-            if (json == null)
+                if (message.IsFromServer())
+                {
+                    string[] split = message.Body.Split(':');
+                    if (split.Length != 3 || !int.TryParse(split[1], out int messageType))
+                    {
+                        logger.LogError($"{nameof(ActiveConvoViewModel)}::{nameof(DecryptMessage)}: Broadcast message from the backend was submitted to the convo '{activeConvo.Id}' in an invalid format: was the server compromised?!");
+                        return null;
+                    }
+
+                    switch (messageType)
+                    {
+                        case 0:
+                            messageViewModel.Text = string.Format(localization["UserJoinedConvo"], split[2]);
+                            break;
+                        case 1:
+                            messageViewModel.Text = string.Format(localization["UserLeftConvo"], split[2]);
+                            break;
+                        case 2:
+                            messageViewModel.Text = string.Format(localization["UserWasKickedFromConvo"], split[2]);
+                            break;
+                        case 3:
+                            messageViewModel.Text = localization["ConvoAboutToExpire"];
+                            break;
+                        case 4:
+                            if (!int.TryParse(split[2], out int change))
+                            {
+                                logger.LogError($"{nameof(ActiveConvoViewModel)}::{nameof(DecryptMessage)}: Broadcast message from the backend was submitted to the convo '{activeConvo.Id}' in an invalid format: was the server compromised?!");
+                                return null;
+                            }
+
+                            var sb = new StringBuilder(localization["ConvoMetadataChanged"]).Append(' ');
+
+                            if ((change & 1 << 0) > 0)
+                            {
+                                sb.Append(localization["ConvoAdmin"]).Append(", ");
+                            }
+
+                            if ((change & 1 << 1) > 0)
+                            {
+                                sb.Append(localization["ConvoTitle"]).Append(", ");
+                            }
+
+                            if ((change & 1 << 2) > 0)
+                            {
+                                sb.Append(localization["ConvoDescription"]).Append(", ");
+                            }
+
+                            if ((change & 1 << 3) > 0)
+                            {
+                                sb.Append(localization["ConvoExpiration"]).Append(", ");
+                            }
+
+                            if ((change & 1 << 4) > 0)
+                            {
+                                sb.Append(localization["ConvoPassword"]).Append(", ");
+                            }
+
+                            sb.Length -= 2;
+                            messageViewModel.Text = sb.ToString();
+                            break;
+                    }
+
+                    messageViewModel.FileName = null;
+                    messageViewModel.FileBytes = null;
+                }
+                else
+                {
+                    string decryptedMessage = crypto.DecryptMessage(message.Body, user.PrivateKeyPem);
+
+                    if (decryptedMessage.StartsWith("TEXT="))
+                    {
+                        messageViewModel.Text = decryptedMessage.Substring(5);
+                    }
+                    else if (decryptedMessage.StartsWith("FILE="))
+                    {
+                        int base64 = decryptedMessage.IndexOf("///BASE64=", StringComparison.Ordinal);
+                        if (base64 == -1)
+                        {
+                            logger?.LogError($"{nameof(ActiveConvoViewModel)}::{nameof(DecryptMessage)}: Decryption succeeded but message has invalid format: a \"FILE=\" name was specified but then there was no \"///BASE64=\"  token with the actual file's content...");
+                            return null;
+                        }
+
+                        messageViewModel.FileName = decryptedMessage.Substring(5, base64 - 5);
+                        messageViewModel.FileBytes = Convert.FromBase64String(decryptedMessage.Substring(base64 + 10, decryptedMessage.Length - base64 - 10));
+                    }
+                    else
+                    {
+                        logger?.LogError($"{nameof(ActiveConvoViewModel)}::{nameof(DecryptMessage)}: Decryption succeeded but message has invalid format!");
+                        return null;
+                    }
+                }
+
+                return messageViewModel;
+            }
+            catch
             {
                 return null;
             }
-
-            var messageViewModel = new MessageViewModel(methodQ)
-            {
-                Id = message.Id.ToString(),
-                SenderId = message.SenderId,
-                SenderName = message.SenderName,
-                TimestampDateTimeUTC = message.TimestampUTC,
-                Timestamp = message.TimestampUTC.ToLocalTime().ToString(MSG_TIMESTAMP_FORMAT),
-                Text = json["text"]?.Value<string>(),
-                FileName = json["fileName"]?.Value<string>(),
-                IsOwn = message.SenderId.Equals(user.Id),
-            };
-
-            string fileBase64 = json["fileBase64"]?.Value<string>();
-            messageViewModel.FileBytes = string.IsNullOrEmpty(fileBase64) ? null : Convert.FromBase64String(fileBase64);
-
-            return messageViewModel;
         }
 
         /// <summary>
@@ -616,7 +704,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
                 catch (Exception e)
                 {
-                    logger.LogError($"{nameof(ActiveConvoViewModel)}::{nameof(DecryptMessages)}: Failed to decrypt message {message?.Id}. Error message: {e}");
+                    logger.LogError($"{nameof(ActiveConvoViewModel)}::{nameof(DecryptMessages)}: Failed to decrypt message {message?.Id}. Error message: {e.Message}");
                 }
             });
 #else
