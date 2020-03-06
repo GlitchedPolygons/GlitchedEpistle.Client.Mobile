@@ -21,10 +21,10 @@ using System.Windows.Input;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
-using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
@@ -38,7 +38,6 @@ using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.Services.MethodQ;
 using Prism.Events;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using Plugin.Fingerprint;
@@ -63,7 +62,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ICompressionUtilityAsync compressionUtility;
         private readonly IConvoPasswordProvider convoPasswordProvider;
 
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Metadata Mod.") {UseDialog = false};
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Metadata Mod.", "Epistle Convo Metadata Mod.");
 
         #endregion
 
@@ -369,7 +368,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = JsonConvert.SerializeObject(dto)
+                    Body = JsonSerializer.Serialize(dto)
                 };
 
                 bool success = await convoService.LeaveConvo(body.Sign(crypto, user.PrivateKeyPem));
@@ -458,7 +457,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             UserId = user.Id,
                             Auth = user.Token.Item2,
-                            Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
+                            Body = await compressionUtility.Compress(JsonSerializer.Serialize(dto))
                         };
 
                         bool success = await convoService.ChangeConvoMetadata(body.Sign(crypto, user.PrivateKeyPem));
@@ -548,7 +547,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             UserId = user.Id,
                             Auth = user.Token.Item2,
-                            Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
+                            Body = await compressionUtility.Compress(JsonSerializer.Serialize(dto))
                         };
 
                         bool success = await convoService.KickUser(body.Sign(crypto, user.PrivateKeyPem));
@@ -643,7 +642,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = JsonConvert.SerializeObject(dto)
+                    Body = JsonSerializer.Serialize(dto)
                 };
 
                 bool success = await convoService.DeleteConvo(body.Sign(crypto, user.PrivateKeyPem));
@@ -765,7 +764,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
+                    Body = await compressionUtility.Compress(JsonSerializer.Serialize(dto))
                 };
 
                 bool successful = await convoService.ChangeConvoMetadata(body.Sign(crypto, user.PrivateKeyPem));

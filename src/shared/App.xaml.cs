@@ -27,10 +27,9 @@ using System.Reflection;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
+using System.Text.Json;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
-using GlitchedPolygons.Services.JwtService;
 using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.Services.Cryptography.Symmetric;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
@@ -48,7 +47,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Themes.Base;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
@@ -58,7 +56,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.Messages;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Cryptography.KeyExchange;
 using GlitchedPolygons.GlitchedEpistle.Client.Utilities;
 using Prism.Events;
-using Newtonsoft.Json;
 using Plugin.SimpleAudioPlayer;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
@@ -100,7 +97,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         private readonly IUserSettings userSettings;
         private readonly IUserService userService;
         private readonly IConvoService convoService;
-        private readonly ILoginService loginService;
         private readonly ITotpProvider totpProvider;
         private readonly IEventAggregator eventAggregator;
         private readonly IAsymmetricCryptographyRSA crypto;
@@ -130,18 +126,16 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             DependencyService.Register<MockDataStore>();
 
             // Register transient types:
-            container.RegisterType<JwtService>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IConvoService, ConvoService>();
-            container.RegisterType<ICompressionUtility, LzmaUtility>();
-            container.RegisterType<ICompressionUtilityAsync, LzmaUtilityAsync>();
+            container.RegisterType<ICompressionUtility, BrotliUtility>();
+            container.RegisterType<ICompressionUtilityAsync, BrotliUtilityAsync>();
             container.RegisterType<IAsymmetricKeygenRSA, AsymmetricKeygenRSA>();
             container.RegisterType<ISymmetricCryptography, SymmetricCryptography>();
             container.RegisterType<IAsymmetricCryptographyRSA, AsymmetricCryptographyRSA>();
             container.RegisterType<IMessageCryptography, MessageCryptography>();
             container.RegisterType<IServerConnectionTest, ServerConnectionTest>();
             container.RegisterType<IMessageSender, MessageSender>();
-            container.RegisterType<ILoginService, LoginService>();
             container.RegisterType<ITotpProvider, TotpProvider>();
             container.RegisterType<IKeyExchange, KeyExchange>();
             container.RegisterType<IPasswordChanger, PasswordChanger>();
@@ -165,7 +159,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
             appSettings = container.Resolve<IAppSettings>();
             userSettings = container.Resolve<IUserSettings>();
             convoService = container.Resolve<IConvoService>();
-            loginService = container.Resolve<ILoginService>();
             totpProvider = container.Resolve<ITotpProvider>();
             eventAggregator = container.Resolve<IEventAggregator>();
             crypto = container.Resolve<IAsymmetricCryptographyRSA>();
@@ -353,7 +346,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                     return;
                 }
 
-                if (loginService != null)
+                if (userService != null)
                 {
                     string pw = null, totp = null;
 
@@ -368,17 +361,28 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                     }
 
                     // The login service also updates the user instance's auth token.
-                    if (pw.NotNullNotEmpty() && totp.NotNullNotEmpty() && await loginService.Login(user.Id, pw, totp) == 0) 
+                    if (pw.NotNullNotEmpty() && totp.NotNullNotEmpty()) 
                     {
+                        var response = await userService.Login(new UserLoginRequestDto
+                        {
+                            UserId = user.Id,
+                            PasswordSHA512 = pw.SHA512(),
+                            Totp = totp
+                        });
+
+                        if (response != null)
+                        {
+                            user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, response.Auth);
 #if DEBUG
-                        Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
-                            title: "Auth token refresh",
-                            message: "SUCCESSFUL",
-                            cancel: "OK"
-                        ));
+                            Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
+                                title: "Auth token refresh",
+                                message: "SUCCESSFUL",
+                                cancel: "OK"
+                            ));
 #endif
-                        // If this succeeds, there's no need to log the user out. Just carry on normally...
-                        return;
+                            // If this succeeds, there's no need to log the user out. Just carry on normally...
+                            return;
+                        }
                     }
                 }
 #if DEBUG
@@ -388,6 +392,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                     cancel: "OK"
                 ));
 #endif
+                
                 // In case of a failure, instantly log out!
                 Logout();
             });
@@ -461,7 +466,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                     {
                         UserId = user.Id,
                         Auth = user.Token.Item2,
-                        Body = JsonConvert.SerializeObject(dto)
+                        Body = JsonSerializer.Serialize(dto)
                     };
 
                     if (await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem)))

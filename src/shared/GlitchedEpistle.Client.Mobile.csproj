@@ -97,8 +97,8 @@
   
   <ItemGroup>
     <PackageReference Include="ExpandableView" Version="1.0.10" />
-    <PackageReference Include="GlitchedPolygons.ExtensionMethods" Version="1.0.6" />
-    <PackageReference Include="GlitchedPolygons.GlitchedEpistle.Client" Version="2020.2.0.2" />
+    <PackageReference Include="GlitchedPolygons.ExtensionMethods" Version="1.0.7" />
+    <PackageReference Include="GlitchedPolygons.GlitchedEpistle.Client" Version="3.0.0" />
     <PackageReference Include="GlitchedPolygons.Services.Cryptography.Asymmetric" Version="2.0.0" />
     <PackageReference Include="GlitchedPolygons.Services.Cryptography.Symmetric" Version="2.0.0" />
     <PackageReference Include="GlitchedPolygons.Services.MethodQ" Version="1.0.4" />
@@ -114,7 +114,7 @@
     <PackageReference Include="Unity" Version="5.11.4" />
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />  
-    <PackageReference Include="Xamarin.Essentials" Version="1.5.0" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />  
     <PackageReference Include="Xamarin.Plugin.FilePicker" Version="2.1.34" />  
     <PackageReference Include="ZXing.Net.Mobile" Version="2.4.1" />  
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />

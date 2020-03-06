@@ -29,7 +29,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
-using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
@@ -208,19 +207,19 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             Task.Run(async () =>
             {
-                Tuple<int, UserCreationResponseDto> result = await registrationService.CreateUser(Password, UserCreationSecret);
+                (int statusCode, var userCreationResponseDto) = await registrationService.CreateUser(Password, UserCreationSecret);
 
-                switch (result.Item1)
+                switch (statusCode)
                 {
                     case 0: // Success!
-                        user.Id = result.Item2.Id;
+                        user.Id = userCreationResponseDto.Id;
                         userSettings.Username = Username;
                         ExecUI(() =>
                         {
                             // Handle this event back in the main view,
                             // since it's there where the backup codes + 2FA secret will be shown.
-                            eventAggregator.GetEvent<UserCreationSucceededEvent>().Publish(result.Item2);
-                            logger?.LogMessage($"Created user {result.Item2.Id}.");
+                            eventAggregator.GetEvent<UserCreationSucceededEvent>().Publish(userCreationResponseDto);
+                            logger?.LogMessage($"Created user {userCreationResponseDto.Id}.");
                         });
                         break;
                     case 1: // Epistle backend connectivity issues

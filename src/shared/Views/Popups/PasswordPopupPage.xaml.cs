@@ -17,7 +17,6 @@
 */
 
 using System;
-using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;

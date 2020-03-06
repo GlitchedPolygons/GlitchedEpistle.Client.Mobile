@@ -17,7 +17,6 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -31,7 +30,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
@@ -40,7 +38,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.Services.MethodQ;
 using Prism.Events;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 

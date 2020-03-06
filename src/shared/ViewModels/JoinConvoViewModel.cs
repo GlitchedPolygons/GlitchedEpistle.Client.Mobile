@@ -16,7 +16,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System;
+using System.Text.Json;
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -31,7 +31,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
-using Newtonsoft.Json;
 using Prism.Events;
 using Xamarin.Essentials;
 
@@ -156,7 +155,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = JsonConvert.SerializeObject(dto)
+                    Body = JsonSerializer.Serialize(dto)
                 };
 
                 if (!await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem)))

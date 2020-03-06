@@ -23,7 +23,7 @@ using System;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using System.Text.Json;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
@@ -40,7 +40,6 @@ using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 
 using Prism.Events;
-using Newtonsoft.Json;
 
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
@@ -64,7 +63,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IAsymmetricCryptographyRSA crypto;
         private readonly IConvoPasswordProvider convoPasswordProvider;
         
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Convo Gen.") {UseDialog = false};
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Convo Gen.", "Epistle Convo Creation");
 
         #endregion
 
@@ -262,7 +261,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     Totp = Totp,
                     Name = Name,
                     Description = Description,
-                    ExpirationUTC = expirationUTC,
+                    ExpirationUTC = expirationUTC.ToUnixTimeSeconds(),
                     PasswordSHA512 = sha512
                 };
 
@@ -270,7 +269,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = await compressionUtility.Compress(JsonConvert.SerializeObject(convoCreationDto))
+                    Body = await compressionUtility.Compress(JsonSerializer.Serialize(convoCreationDto))
                 };
 
                 string id = await convoService.CreateConvo(body.Sign(crypto, user.PrivateKeyPem));
@@ -283,9 +282,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         Id = id,
                         Name = Name,
                         CreatorId = user.Id,
-                        CreationUTC = DateTime.UtcNow,
                         Description = Description,
-                        ExpirationUTC = expirationUTC,
+                        CreationUTC = DateTime.UtcNow.ToUnixTimeSeconds(),
+                        ExpirationUTC = expirationUTC.ToUnixTimeSeconds(),
                         Participants = new List<string> {user.Id}
                     };
 

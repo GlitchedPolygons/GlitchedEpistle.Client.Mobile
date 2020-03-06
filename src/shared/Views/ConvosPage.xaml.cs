@@ -23,7 +23,6 @@ using FFImageLoading.Transformations;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using GlitchedPolygons.ExtensionMethods;
-using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 

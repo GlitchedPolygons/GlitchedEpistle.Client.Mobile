@@ -23,7 +23,6 @@ using Xamarin.Essentials;
 using System;
 using System.Linq;
 using System.Windows.Input;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,7 +41,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using OtpNet;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
-using Plugin.Permissions.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -65,7 +63,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IEventAggregator eventAggregator;
         private readonly IPermissionChecker permissionChecker;
 
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Config") {UseDialog = false};
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Config", "Epistle Config Mod.");
         #endregion
 
         #region Commands

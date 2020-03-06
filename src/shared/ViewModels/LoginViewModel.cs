@@ -24,11 +24,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
-using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.Services.MethodQ;
@@ -37,7 +35,6 @@ using Plugin.Fingerprint.Abstractions;
 using Prism.Events;
 using Xamarin.Forms;
 using Xamarin.Essentials;
-using OtpNet;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -49,11 +46,10 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
-        private readonly ILoginService loginService;
         private readonly ITotpProvider totpProvider;
         private readonly IEventAggregator eventAggregator;
 
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login") { UseDialog = false };
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login", "Epistle Biometric Login");
 
         #endregion
 
@@ -138,13 +134,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public bool AutoPromptForFingerprint { get; set; } = true;
 
-        public LoginViewModel(IAppSettings appSettings, ILoginService loginService, IEventAggregator eventAggregator, ITotpProvider totpProvider, IMethodQ methodQ)
+        public LoginViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, IMethodQ methodQ)
         {
             localization = DependencyService.Get<ILocalization>();
 
             this.methodQ = methodQ;
             this.appSettings = appSettings;
-            this.loginService = loginService;
             this.totpProvider = totpProvider;
             this.eventAggregator = eventAggregator;
 
