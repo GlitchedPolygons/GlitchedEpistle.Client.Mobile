@@ -29,6 +29,8 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Totp;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
+using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
+using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.Services.MethodQ;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
@@ -47,6 +49,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
         private readonly ITotpProvider totpProvider;
+        private readonly IUserService userService;
         private readonly IEventAggregator eventAggregator;
 
         private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Biom. Login", "Epistle Biometric Login");
@@ -134,11 +137,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         public bool AutoPromptForFingerprint { get; set; } = true;
 
-        public LoginViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, IMethodQ methodQ)
+        public LoginViewModel(IAppSettings appSettings, IEventAggregator eventAggregator, ITotpProvider totpProvider, IMethodQ methodQ, IUserService userService)
         {
             localization = DependencyService.Get<ILocalization>();
 
             this.methodQ = methodQ;
+            this.userService = userService;
             this.appSettings = appSettings;
             this.totpProvider = totpProvider;
             this.eventAggregator = eventAggregator;
@@ -232,8 +236,15 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         appSettings["SaveTotpSecret"] = "false";
                     }
                 }
-
-                int result = await loginService.Login(UserId, Password, Totp);
+                
+                var request = new UserLoginRequestDto
+                {
+                    UserId = UserId,
+                    PasswordSHA512 = password.SHA512(),
+                    Totp = totp
+                };
+            
+                UserLoginSuccessResponseDto response = await userService.Login(request).ConfigureAwait(false);
 
                 switch (result)
                 {

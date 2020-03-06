@@ -824,4 +824,40 @@ Devi accedere minimo una volta ad ogni conversazione per poterne ricevere notifi
 Convos that you are a participant of but that were never opened on this device yet appear as greyed out in this list. 
 You need to access a conversation at least once in order to receive updates and notifications from it.</comment>
   </data>
+  <data name="EpistleServerBroadcastMessage" xml:space="preserve">
+    <value>Messaggio dal server</value>
+    <comment>Server Broadcast Message</comment>
+  </data>
+  <data name="UserJoinedConvo" xml:space="preserve">
+    <value>L'utente {0} si è unito alla conversazione.</value>
+    <comment>User XYZ has joined the convo</comment>
+  </data>
+  <data name="UserLeftConvo" xml:space="preserve">
+    <value>L'utente {0} ha abbandonato la conversazione.</value>
+    <comment>User XYZ has left the convo</comment>
+  </data>
+  <data name="UserWasKickedFromConvo" xml:space="preserve">
+    <value>L'utente {0} è stato espulso dalla conversazione.</value>
+    <comment>User XYZ was banned from the convo</comment>
+  </data>
+  <data name="ConvoAboutToExpire" xml:space="preserve">
+    <value>Questa conversazione sta per scadere (verrà distrutta in meno di 24h) - dite quello che avete da dire!</value>
+    <comment>The convo XYZ is about to expire (say what ya gotta say 'fore itz 2 late m8).</comment>
+  </data>
+  <data name="ConvoMetadataChanged" xml:space="preserve">
+    <value>La conversazione è stata modificata. Metadati colpiti:</value>
+    <comment>The convo's metadata has been modified. Affected fields:</comment>
+  </data>
+  <data name="ConvoAdmin" xml:space="preserve">
+    <value>Amministratore</value>
+  </data>
+  <data name="ConvoDescription" xml:space="preserve">
+    <value>Descrizione</value>
+  </data>
+  <data name="ConvoTitle" xml:space="preserve">
+    <value>Titolo</value>
+  </data>
+  <data name="ConvoExpiration" xml:space="preserve">
+    <value>Scadenza</value>
+  </data>
 </root>

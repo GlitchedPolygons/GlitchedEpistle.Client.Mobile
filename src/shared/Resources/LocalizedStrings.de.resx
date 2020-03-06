@@ -828,4 +828,40 @@ Man muss eine Unterhaltung mindestens einmal geöffnet haben um deren Updates un
 Convos that you are a participant of but that were never opened on this device yet appear as greyed out in this list. 
 You need to access a conversation at least once in order to receive updates and notifications from it.</comment>
   </data>
+  <data name="EpistleServerBroadcastMessage" xml:space="preserve">
+    <value>Nachricht vom Server</value>
+    <comment>Server Broadcast Message</comment>
+  </data>
+  <data name="UserJoinedConvo" xml:space="preserve">
+    <value>Der Benutzer {0} ist der Unterhaltung beigetreten.</value>
+    <comment>User XYZ has joined the convo</comment>
+  </data>
+  <data name="UserLeftConvo" xml:space="preserve">
+    <value>Der Benutzer {0} hat die Unterhaltung verlassen.</value>
+    <comment>User XYZ has left the convo</comment>
+  </data>
+  <data name="UserWasKickedFromConvo" xml:space="preserve">
+    <value>Der Benutzer {0} wurde von der Unterhaltung ausgeschlossen.</value>
+    <comment>User XYZ was banned from the convo</comment>
+  </data>
+  <data name="ConvoAboutToExpire" xml:space="preserve">
+    <value>Diese Unterhaltung läuft bald ab (wird in weniger als 24h zerstört) - sagt was ihr euch zu sagen habt!</value>
+    <comment>The convo XYZ is about to expire (say what ya gotta say 'fore itz 2 late m8).</comment>
+  </data>
+  <data name="ConvoMetadataChanged" xml:space="preserve">
+    <value>Die Unterhaltung wurde modifiziert. Betroffene Eigenschaften:</value>
+    <comment>The convo's metadata has been modified. Affected fields:</comment>
+  </data>
+  <data name="ConvoAdmin" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="ConvoDescription" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="ConvoTitle" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="ConvoExpiration" xml:space="preserve">
+    <value>Ablaufdatum</value>
+  </data>
 </root>
