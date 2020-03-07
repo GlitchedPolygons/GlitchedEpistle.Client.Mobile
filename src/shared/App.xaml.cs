@@ -292,7 +292,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         {
             sleeping = false;
 
-            if (user?.Token != null && DateTime.UtcNow < user.Token.Item1 + TimeSpan.FromMinutes(10))
+            if (user?.Token != null && user.Token.Item1.ToUnixTimeMilliseconds() + 600000 > DateTime.UtcNow.ToUnixTimeMilliseconds())
             {
                 StopAuthRefreshingCycle();
                 RefreshAuth();

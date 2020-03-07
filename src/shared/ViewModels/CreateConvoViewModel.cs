@@ -188,9 +188,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             AutoCopyId = appSettings["AutoCopyConvoIdAfterSuccessfulCreation", false];
         }
 
-        private void OnClickedCreate(object commandParam)
+        private async void OnClickedCreate(object commandParam)
         {
-            Task.Run(async () =>
+            if (appSettings["UseFingerprint", false])
+            {
+                if (await CrossFingerprint.Current.IsAvailableAsync())
+                {
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(fingerprintConfig);
+                    if (!fingerprintAuthenticationResult.Authenticated)
+                    {
+                        CreateButtonEnabled = CancelButtonEnabled = true;
+                        return;
+                    }
+                }
+                else
+                {
+                    appSettings["UseFingerprint"] = "false";
+                }
+            }
+            
+            var _ = Task.Run(async () =>
             {
                 CreateButtonEnabled = CancelButtonEnabled = false;
 
@@ -200,25 +217,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     CreateButtonEnabled = CancelButtonEnabled = true;
                     return;
                 }
-                
-                if (appSettings["UseFingerprint", false])
-                {
-                    if (await CrossFingerprint.Current.IsAvailableAsync())
-                    {
-                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(fingerprintConfig);
-                        if (!fingerprintAuthenticationResult.Authenticated)
-                        {
-                            CreateButtonEnabled = CancelButtonEnabled = true;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        appSettings["UseFingerprint"] = "false";
-                    }
-                }
 
-                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
+                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is { } totpSecret)
                 {
                     Totp = await totpProvider.GetTotp(totpSecret);
 

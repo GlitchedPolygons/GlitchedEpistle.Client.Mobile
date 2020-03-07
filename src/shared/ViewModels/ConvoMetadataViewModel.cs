@@ -328,26 +328,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             pendingAttempt = true;
             UIEnabled = false;
             
-            var _=Task.Run(async()=>
+            if (appSettings["UseFingerprint", false])
             {
-                if (appSettings["UseFingerprint", false])
+                if (await CrossFingerprint.Current.IsAvailableAsync())
                 {
-                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    if (!fingerprintAuthenticationResult.Authenticated)
                     {
-                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                        if (!fingerprintAuthenticationResult.Authenticated)
-                        {
-                            UIEnabled = true;
-                            pendingAttempt = false;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        appSettings["UseFingerprint"] = "false";
+                        UIEnabled = true;
+                        pendingAttempt = false;
+                        return;
                     }
                 }
-
+                else
+                {
+                    appSettings["UseFingerprint"] = "false";
+                }
+            }
+            
+            var _=Task.Run(async()=>
+            {
                 await AutoFillTotp();
 
                 if (Totp.NullOrEmpty())
@@ -411,26 +411,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 
                 if (confirmed == true)
                 {
-                    var _=Task.Run(async() =>
+                    if (appSettings["UseFingerprint", false])
                     {
-                        if (appSettings["UseFingerprint", false])
+                        if (await CrossFingerprint.Current.IsAvailableAsync())
                         {
-                            if (await CrossFingerprint.Current.IsAvailableAsync())
+                            var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                            if (!fingerprintAuthenticationResult.Authenticated)
                             {
-                                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                                if (!fingerprintAuthenticationResult.Authenticated)
-                                {
-                                    pendingAttempt = false;
-                                    UIEnabled = true;
-                                    return;
-                                }
-                            }
-                            else
-                            {
-                                appSettings["UseFingerprint"] = "false";
+                                pendingAttempt = false;
+                                UIEnabled = true;
+                                return;
                             }
                         }
-                        
+                        else
+                        {
+                            appSettings["UseFingerprint"] = "false";
+                        }
+                    }
+                    
+                    var _=Task.Run(async() =>
+                    {
                         await AutoFillTotp();
                         
                         if (Totp.NullOrEmpty())
@@ -504,26 +504,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 
                 if (confirmed)
                 {
-                    var _=Task.Run(async () =>
+                    if (appSettings["UseFingerprint", false])
                     {
-                        if (appSettings["UseFingerprint", false])
+                        if (await CrossFingerprint.Current.IsAvailableAsync())
                         {
-                            if (await CrossFingerprint.Current.IsAvailableAsync())
+                            var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                            if (!fingerprintAuthenticationResult.Authenticated)
                             {
-                                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                                if (!fingerprintAuthenticationResult.Authenticated)
-                                {
-                                    pendingAttempt = false;
-                                    UIEnabled = true;
-                                    return;
-                                }
-                            }
-                            else
-                            {
-                                appSettings["UseFingerprint"] = "false";
+                                pendingAttempt = false;
+                                UIEnabled = true;
+                                return;
                             }
                         }
-                        
+                        else
+                        {
+                            appSettings["UseFingerprint"] = "false";
+                        }
+                    }
+                    
+                    var _=Task.Run(async () =>
+                    {
                         await AutoFillTotp();
                         
                         if (Totp.NullOrEmpty())
@@ -602,26 +602,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            var _=Task.Run(async () =>
+            if (appSettings["UseFingerprint", false])
             {
-                if (appSettings["UseFingerprint", false])
+                if (await CrossFingerprint.Current.IsAvailableAsync())
                 {
-                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    if (!fingerprintAuthenticationResult.Authenticated)
                     {
-                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                        if (!fingerprintAuthenticationResult.Authenticated)
-                        {
-                            UIEnabled = true;
-                            pendingAttempt = false;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        appSettings["UseFingerprint"] = "false";
+                        UIEnabled = true;
+                        pendingAttempt = false;
+                        return;
                     }
                 }
-
+                else
+                {
+                    appSettings["UseFingerprint"] = "false";
+                }
+            }
+            
+            var _=Task.Run(async () =>
+            {
                 await AutoFillTotp();
 
                 if (Totp.NullOrEmpty())
@@ -664,7 +664,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
 
-        private void OnClickedSubmit(object commandParam)
+        private async void OnClickedSubmit(object commandParam)
         {
             if (pendingAttempt)
             {
@@ -677,29 +677,29 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            pendingAttempt = true;
             UIEnabled = false;
+            pendingAttempt = true;
 
-            Task.Run(async () =>
+            if (appSettings["UseFingerprint", false])
             {
-                if (appSettings["UseFingerprint", false])
+                if (await CrossFingerprint.Current.IsAvailableAsync())
                 {
-                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    if (!fingerprintAuthenticationResult.Authenticated)
                     {
-                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                        if (!fingerprintAuthenticationResult.Authenticated)
-                        {
-                            UIEnabled = true;
-                            pendingAttempt = false;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        appSettings["UseFingerprint"] = "false";
+                        UIEnabled = true;
+                        pendingAttempt = false;
+                        return;
                     }
                 }
-
+                else
+                {
+                    appSettings["UseFingerprint"] = "false";
+                }
+            }
+            
+            var _ = Task.Run(async () =>
+            {
                 await AutoFillTotp();
 
                 if (Totp.NullOrEmpty())
