@@ -79,6 +79,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand OpenConvoCommand { get; }
         public ICommand EditConvoCommand { get; }
         public ICommand CopyConvoIdCommand { get; }
+        public ICommand ShowTutorialCommand { get; }
 
         #endregion
 
@@ -138,6 +139,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     methodQ.Schedule(() => ExecUI(eventAggregator.GetEvent<LogoutEvent>().Publish), DateTime.UtcNow.AddSeconds(0.2));
                 }
             });
+            
+            ShowTutorialCommand = new DelegateCommand(async _ => { await Application.Current.MainPage.DisplayAlert("Tutorial", localization["Tutorial_1"], "OK"); });
 
             CopyUserIdToClipboardCommand = new DelegateCommand(_ => OnCopyUserIdToClipboard());
 
@@ -162,12 +165,6 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             UserId = user.Id;
             Username = userSettings.Username;
-
-            if (await SecureStorage.GetAsync("tutorial_1_seen") != "true")
-            {
-                await SecureStorage.SetAsync("tutorial_1_seen", "true");
-                await Application.Current.MainPage.DisplayAlert("Tutorial", localization["Tutorial_1"], "OK");
-            }
         }
 
         private void OnCopyUserIdToClipboard()
