@@ -215,7 +215,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     return;
                 }
 
-                Task.Run(async () =>
+                ExecUI(async () =>
                 {
                     bool prev = useFingerprint;
                     

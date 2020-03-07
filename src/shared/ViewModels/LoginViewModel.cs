@@ -263,8 +263,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 try
                 {
                     user.Id = appSettings.LastUserId = userId;
-                    user.PublicKeyPem = await keyExchange.DecompressPublicKeyAsync(response.PublicKey).ConfigureAwait(false);
-                    user.PrivateKeyPem = await keyExchange.DecompressAndDecryptPrivateKeyAsync(response.PrivateKey, password).ConfigureAwait(false);
+                    user.PublicKeyPem = await keyExchange.DecompressPublicKeyAsync(response.PublicKey);
+                    user.PrivateKeyPem = await keyExchange.DecompressAndDecryptPrivateKeyAsync(response.PrivateKey, password);
                     user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, response.Auth);
 
                     if (response.Message.NotNullNotEmpty())

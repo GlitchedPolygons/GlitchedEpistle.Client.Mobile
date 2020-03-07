@@ -388,8 +388,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 while (!metadataUpdater.IsCancellationRequested)
                 {
-                    await PullConvoMetadata().ConfigureAwait(false);
-                    await Task.Delay(METADATA_PULL_FREQUENCY).ConfigureAwait(false);
+                    await PullConvoMetadata();
+                    await Task.Delay(METADATA_PULL_FREQUENCY);
                 }
             }, metadataUpdater.Token);
         }
@@ -431,7 +431,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnSendAudio(object commandParam)
         {
-            if (!await permissionChecker.CheckPermission(Permission.Microphone, localization["MicrophonePermissionNeededForRecordingAudioAttachmentTitle"], localization["MicrophonePermissionNeededForRecordingAudioAttachmentText"], localization["AbortedDueToMicrophonePermissionDeclined"]).ConfigureAwait(false))
+            if (!await permissionChecker.CheckPermission(Permission.Microphone, localization["MicrophonePermissionNeededForRecordingAudioAttachmentTitle"], localization["MicrophonePermissionNeededForRecordingAudioAttachmentText"], localization["AbortedDueToMicrophonePermissionDeclined"]))
             {
                 return;
             }
@@ -452,14 +452,14 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private async void OnSendFile(object commandParam)
         {
-            FileData pickerResult = await CrossFilePicker.Current.PickFile().ConfigureAwait(false);
+            FileData pickerResult = await CrossFilePicker.Current.PickFile();
 
             if (pickerResult is null || pickerResult.FilePath.NullOrEmpty())
             {
                 return;
             }
 
-            if (!await Application.Current.MainPage.DisplayAlert(localization["ConfirmAttachmentUploadDialogTitle"], string.Format(localization["ConfirmAttachmentUploadDialogText"], pickerResult.FileName), localization["Yes"], localization["No"]).ConfigureAwait(false))
+            if (!await Application.Current.MainPage.DisplayAlert(localization["ConfirmAttachmentUploadDialogTitle"], string.Format(localization["ConfirmAttachmentUploadDialogText"], pickerResult.FileName), localization["Yes"], localization["No"]))
             {
                 return;
             }
@@ -475,7 +475,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
                 if (fileBytes.LongLength < MessageSender.MAX_FILE_SIZE_BYTES)
                 {
-                    if (!await messageSender.PostFile(ActiveConvo, fileName, fileBytes).ConfigureAwait(false))
+                    if (!await messageSender.PostFile(ActiveConvo, fileName, fileBytes))
                     {
                         ExecUI(() => Application.Current.MainPage.DisplayAlert(localization["MessageUploadFailureTitle"], localization["MessageUploadFailureMessage"], "OK"));
                     }
