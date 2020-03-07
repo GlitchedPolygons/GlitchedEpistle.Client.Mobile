@@ -295,6 +295,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
         {
             sleeping = false;
 
+            if (MainPage is UserCreationSuccessfulView || MainPage is BackupCodesPage || MainPage is LoginPage || MainPage is RegisterPage || MainPage is ServerUrlPage)
+            {
+                return;
+            }
+            
             if (user?.Token != null && user.Token.Item1.ToUnixTimeMilliseconds() + 600000 > DateTime.UtcNow.ToUnixTimeMilliseconds())
             {
                 StopAuthRefreshingCycle();
