@@ -24,6 +24,7 @@ using System.Text;
 using System.Globalization;
 
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
+using GlitchedPolygons.ExtensionMethods;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
 {
@@ -41,7 +42,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            DateTime exp = (DateTime)value;
+            DateTime exp = ((long)value).FromUnixTimeMilliseconds();
             int days = (exp - DateTime.UtcNow).Days;
             if (days < 1) days = 1;
             return new StringBuilder(16).Append(days > 5 ? string.Empty : "-").Append(days).Append(' ').Append(Localization[days == 1 ? "Day" : "Days"]).ToString();

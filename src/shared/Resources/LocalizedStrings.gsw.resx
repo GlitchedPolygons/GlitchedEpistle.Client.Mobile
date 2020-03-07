@@ -831,4 +831,56 @@ Me muess e Ungerhautig mindeschtens eynisch g'öffnet haa um dere ihri Updates u
 Unterhaltungen an denen du teilnimmst aber du auf diese Gerät noch nie geöffnet hast erscheinen hier grau in der Liste.
 Man muss eine Unterhaltung mindestens einmal geöffnet haben um deren Updates und Benachrichtigungen zu bekommen.</comment>
   </data>
+  <data name="EpistleServerBroadcastMessage" xml:space="preserve">
+    <value>Naachricht vom Sörver</value>
+    <comment>Server Broadcast Message</comment>
+  </data>
+  <data name="UserJoinedConvo" xml:space="preserve">
+    <value>Dr Benutzer {0} isch dr Ungerhautig biiträtte.</value>
+    <comment>User XYZ has joined the convo</comment>
+  </data>
+  <data name="UserLeftConvo" xml:space="preserve">
+    <value>Dr Benutzer {0} het d' Ungerhautig verlaa.</value>
+    <comment>User XYZ has left the convo</comment>
+  </data>
+  <data name="UserWasKickedFromConvo" xml:space="preserve">
+    <value>Dr Benutzer {0} isch vo dr Ungerhautig usegschmisse worde.</value>
+    <comment>User XYZ was banned from the convo</comment>
+  </data>
+  <data name="ConvoAboutToExpire" xml:space="preserve">
+    <value>D'Ungerhautig louft glii ab (wird i weniger als 24h zerstört) - säget was der nech z säge heyt!</value>
+    <comment>The convo XYZ is about to expire (say what ya gotta say 'fore itz 2 late m8).</comment>
+  </data>
+  <data name="ConvoMetadataChanged" xml:space="preserve">
+    <value>D'Ungerhautig isch veränderet worde. Betroffeni Eygeschafte:</value>
+    <comment>The convo's metadata has been modified. Affected fields:</comment>
+  </data>
+  <data name="ConvoAdmin" xml:space="preserve">
+    <value>Adminischtrator</value>
+  </data>
+  <data name="ConvoDescription" xml:space="preserve">
+    <value>Beschriibig</value>
+  </data>
+  <data name="ConvoTitle" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="ConvoExpiration" xml:space="preserve">
+    <value>Abloufdatum</value>
+  </data>
+  <data name="InvalidUserIdPasswordOr2FA" xml:space="preserve">
+    <value>FÄHLER: Ungüutigi Nutzer-ID, Passwort odr Zwe-Faktor Outhentifizierigs-Token.</value>
+    <comment>ERROR: Invalid user id, password or two-factor authentication token.</comment>
+  </data>
+  <data name="InvalidUserIdPasswordOr2FA_Detailed" xml:space="preserve">
+    <value>Bitte beacht, dass wenn d Aamäudig trotz korrekter Date fäuschlaat es cha sii, dass de ufgrund vo zu viilne Fäuversüech temporär gsperrt worde bisch!
+Probier's am beschte i 15 Minute nomau.</value>
+    <comment>Bitte beachte: wenn die Anmeldung fehlschlägt trotz korrekter Anmeldedaten, kann es sein, dass du aufgrund zu vieler Fehlversüche temporär gesperrt wurdest!
+Probiere es in dem Fall in 15 Minuten nochmal.</comment>
+  </data>
+  <data name="ChangeEpistleSettings" xml:space="preserve">
+    <value>Epistle iistellige übernäh</value>
+  </data>
+  <data name="EpistleCreateConvo" xml:space="preserve">
+    <value>Epistle Ungerhautig erstelle</value>
+  </data>
 </root>

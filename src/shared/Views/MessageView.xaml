@@ -44,11 +44,12 @@
                 <Label Text="{Binding SenderName}"
                        Margin="0,0,0,-5"
                        FontSize="14"
-                       FontAttributes="Bold"
+                       FontAttributes="{Binding SenderNameFontAttributes}"
                        TextColor="White" />
 
                 <StackLayout Orientation="Horizontal"
-                             HorizontalOptions="Start">
+                             HorizontalOptions="Start"
+                             IsVisible="{Binding IsFromServer, Converter={converters:InverseBoolConverter}}">
 
                     <!--{Binding SenderId}-->
                     <Label Text="{Binding SenderId}"
@@ -89,6 +90,7 @@
                        Margin="0"
                        TextColor="White"
                        Text="{Binding Timestamp}"
+                       FontAttributes="{Binding TextFontAttributes}"
                        Style="{DynamicResource MediumLabelStyle}" />
 
                 <!-- Text -->
@@ -96,6 +98,7 @@
                        Margin="0"
                        TextColor="White"
                        Text="{Binding Text}"
+                       FontAttributes="{Binding TextFontAttributes}"
                        Style="{DynamicResource MessageLabelTextBox}"
                        IsVisible="{Binding HasAttachment, Converter={converters:InverseBoolConverter}}"
                        effects:LongPressedEffect.Command="{Binding Path=BindingContext.LongPressedMessageTextCommand, Source={x:Reference Message}}">

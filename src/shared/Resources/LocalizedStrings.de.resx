@@ -821,11 +821,63 @@ Convos with the Epistle icon badge contain new unread messages.</comment>
   <data name="Tutorial_1" xml:space="preserve">
     <value>Dies ist die Liste deiner Unterhaltungen. Wenn sie leer ist, kannst du eine neue Unterhaltung erstellen oder einer bereits existierenden beitreten mithilfe deren Unterhaltungs-ID und Zugriffspasswort.
 
-Unterhaltungen an denen du teilnimmst aber du auf diese Gerät noch nie geöffnet hast erscheinen hier grau in der Liste.
+Unterhaltungen an denen du teilnimmst aber du auf diesem Gerät noch nie geöffnet hast erscheinen hier grau in der Liste.
 Man muss eine Unterhaltung mindestens einmal geöffnet haben um deren Updates und Benachrichtigungen zu bekommen.</value>
     <comment>This is the list of conversations. If it's empty, you can create a new convo or join an existing one using its convo id and access password.
 
 Convos that you are a participant of but that were never opened on this device yet appear as greyed out in this list. 
 You need to access a conversation at least once in order to receive updates and notifications from it.</comment>
+  </data>
+  <data name="EpistleServerBroadcastMessage" xml:space="preserve">
+    <value>Nachricht vom Server</value>
+    <comment>Server Broadcast Message</comment>
+  </data>
+  <data name="UserJoinedConvo" xml:space="preserve">
+    <value>Der Benutzer {0} ist der Unterhaltung beigetreten.</value>
+    <comment>User XYZ has joined the convo</comment>
+  </data>
+  <data name="UserLeftConvo" xml:space="preserve">
+    <value>Der Benutzer {0} hat die Unterhaltung verlassen.</value>
+    <comment>User XYZ has left the convo</comment>
+  </data>
+  <data name="UserWasKickedFromConvo" xml:space="preserve">
+    <value>Der Benutzer {0} wurde von der Unterhaltung ausgeschlossen.</value>
+    <comment>User XYZ was banned from the convo</comment>
+  </data>
+  <data name="ConvoAboutToExpire" xml:space="preserve">
+    <value>Diese Unterhaltung läuft bald ab (wird in weniger als 24h zerstört) - sagt was ihr euch zu sagen habt!</value>
+    <comment>The convo XYZ is about to expire (say what ya gotta say 'fore itz 2 late m8).</comment>
+  </data>
+  <data name="ConvoMetadataChanged" xml:space="preserve">
+    <value>Die Unterhaltung wurde modifiziert. Betroffene Eigenschaften:</value>
+    <comment>The convo's metadata has been modified. Affected fields:</comment>
+  </data>
+  <data name="ConvoAdmin" xml:space="preserve">
+    <value>Administrator</value>
+  </data>
+  <data name="ConvoDescription" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="ConvoTitle" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="ConvoExpiration" xml:space="preserve">
+    <value>Ablaufdatum</value>
+  </data>
+  <data name="InvalidUserIdPasswordOr2FA" xml:space="preserve">
+    <value>FEHLER: Ungültige Nutzer-ID, Passwort oder Zwei-Faktor Authentifizierungstoken.</value>
+    <comment>ERROR: Invalid user id, password or two-factor authentication token.</comment>
+  </data>
+  <data name="InvalidUserIdPasswordOr2FA_Detailed" xml:space="preserve">
+    <value>Bitte beachte: wenn die Anmeldung fehlschlägt trotz korrekter Anmeldedaten, kann es sein, dass du aufgrund zu vieler Fehlversüche temporär gesperrt wurdest!
+Probiere es in dem Fall in 15 Minuten nochmal.</value>
+    <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
+Please try again in 15 minutes.</comment>
+  </data>
+  <data name="ChangeEpistleSettings" xml:space="preserve">
+    <value>Epistle Einstellungen verändern</value>
+  </data>
+  <data name="EpistleCreateConvo" xml:space="preserve">
+    <value>Epistle Unterhaltung erstellen</value>
   </data>
 </root>

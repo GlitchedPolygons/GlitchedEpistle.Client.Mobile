@@ -24,9 +24,6 @@ using System.IO;
 using Android.OS;
 using Android.Media;
 using Android.Content;
-using Android.Hardware;
-using Android.Content.Res;
-
 using Plugin.SimpleAudioPlayer;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Hardware;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio;
@@ -34,7 +31,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio;
 using Uri = Android.Net.Uri;
 using Stream = System.IO.Stream;
 using Runtime = Android.Runtime;
-using Environment = System.Environment;
 using Application = Android.App.Application;
 
 [assembly: Dependency(typeof(SimpleAudioPlayerAndroid))]

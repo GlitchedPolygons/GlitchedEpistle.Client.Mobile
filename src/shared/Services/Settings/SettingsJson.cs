@@ -19,10 +19,10 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.Json;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
-using Newtonsoft.Json;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
 {
@@ -32,6 +32,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
     /// <seealso cref="ISettings" />
     public abstract class SettingsJson : ISettings
     {
+        private static readonly JsonSerializerOptions INDENTED = new JsonSerializerOptions { WriteIndented = true }; 
+        
         /// <summary>
         /// Internal settings dictionary.
         /// </summary>
@@ -73,7 +75,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
                 {
                     try
                     {
-                        settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(FilePath)) ?? new Dictionary<string, string>(16) { { "Version", App.Version } };
+                        settings = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(FilePath)) ?? new Dictionary<string, string>(16) { { "Version", App.Version } };
                     }
                     catch (Exception e)
                     {
@@ -102,11 +104,11 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Settings
                     settings["Version"] = App.Version;
                     try
                     {
-                        File.WriteAllText(FilePath, JsonConvert.SerializeObject(settings, Formatting.Indented));
+                        File.WriteAllText(FilePath, JsonSerializer.Serialize(settings, INDENTED));
                     }
                     catch (Exception e)
                     {
-                        logger?.LogError($"Failed to save settings out to json file: {e.ToString()}");
+                        logger?.LogError($"Failed to save settings out to json file: {e.Message}");
                     }
                 }
             }

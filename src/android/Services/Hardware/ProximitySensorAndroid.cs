@@ -17,7 +17,6 @@
 */
 
 using System;
-using Java.Interop;
 using Xamarin.Forms;
 using Android.Content;
 using Android.Hardware;

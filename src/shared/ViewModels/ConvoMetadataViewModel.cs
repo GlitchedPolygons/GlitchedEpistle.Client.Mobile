@@ -21,10 +21,10 @@ using System.Windows.Input;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
-using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.PubSubEvents;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
@@ -38,7 +38,6 @@ using GlitchedPolygons.Services.CompressionUtility;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.Services.MethodQ;
 using Prism.Events;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 using Plugin.Fingerprint;
@@ -63,7 +62,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ICompressionUtilityAsync compressionUtility;
         private readonly IConvoPasswordProvider convoPasswordProvider;
 
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Metadata Mod.") {UseDialog = false};
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Metadata Mod.", "Epistle Convo Metadata Mod.");
 
         #endregion
 
@@ -201,8 +200,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     Name = convo.Name;
                     Description = convo.Description;
-                    ExpirationUTC = convo.ExpirationUTC.Date;
-                    ExpirationTime = convo.ExpirationUTC.TimeOfDay;
+                    ExpirationUTC = convo.ExpirationUTC.FromUnixTimeMilliseconds().Date;
+                    ExpirationTime = convo.ExpirationUTC.FromUnixTimeMilliseconds().TimeOfDay;
                     RefreshParticipantLists();
                 }
             }
@@ -329,26 +328,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             pendingAttempt = true;
             UIEnabled = false;
             
-            var _=Task.Run(async()=>
+            if (appSettings["UseFingerprint", false])
             {
-                if (appSettings["UseFingerprint", false])
+                if (await CrossFingerprint.Current.IsAvailableAsync())
                 {
-                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    if (!fingerprintAuthenticationResult.Authenticated)
                     {
-                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                        if (!fingerprintAuthenticationResult.Authenticated)
-                        {
-                            UIEnabled = true;
-                            pendingAttempt = false;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        appSettings["UseFingerprint"] = "false";
+                        UIEnabled = true;
+                        pendingAttempt = false;
+                        return;
                     }
                 }
-
+                else
+                {
+                    appSettings["UseFingerprint"] = "false";
+                }
+            }
+            
+            var _=Task.Run(async()=>
+            {
                 await AutoFillTotp();
 
                 if (Totp.NullOrEmpty())
@@ -369,7 +368,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = JsonConvert.SerializeObject(dto)
+                    Body = JsonSerializer.Serialize(dto)
                 };
 
                 bool success = await convoService.LeaveConvo(body.Sign(crypto, user.PrivateKeyPem));
@@ -412,26 +411,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 
                 if (confirmed == true)
                 {
-                    var _=Task.Run(async() =>
+                    if (appSettings["UseFingerprint", false])
                     {
-                        if (appSettings["UseFingerprint", false])
+                        if (await CrossFingerprint.Current.IsAvailableAsync())
                         {
-                            if (await CrossFingerprint.Current.IsAvailableAsync())
+                            var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                            if (!fingerprintAuthenticationResult.Authenticated)
                             {
-                                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                                if (!fingerprintAuthenticationResult.Authenticated)
-                                {
-                                    pendingAttempt = false;
-                                    UIEnabled = true;
-                                    return;
-                                }
-                            }
-                            else
-                            {
-                                appSettings["UseFingerprint"] = "false";
+                                pendingAttempt = false;
+                                UIEnabled = true;
+                                return;
                             }
                         }
-                        
+                        else
+                        {
+                            appSettings["UseFingerprint"] = "false";
+                        }
+                    }
+                    
+                    var _=Task.Run(async() =>
+                    {
                         await AutoFillTotp();
                         
                         if (Totp.NullOrEmpty())
@@ -458,7 +457,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             UserId = user.Id,
                             Auth = user.Token.Item2,
-                            Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
+                            Body = await compressionUtility.Compress(JsonSerializer.Serialize(dto))
                         };
 
                         bool success = await convoService.ChangeConvoMetadata(body.Sign(crypto, user.PrivateKeyPem));
@@ -505,26 +504,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 
                 if (confirmed)
                 {
-                    var _=Task.Run(async () =>
+                    if (appSettings["UseFingerprint", false])
                     {
-                        if (appSettings["UseFingerprint", false])
+                        if (await CrossFingerprint.Current.IsAvailableAsync())
                         {
-                            if (await CrossFingerprint.Current.IsAvailableAsync())
+                            var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                            if (!fingerprintAuthenticationResult.Authenticated)
                             {
-                                var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                                if (!fingerprintAuthenticationResult.Authenticated)
-                                {
-                                    pendingAttempt = false;
-                                    UIEnabled = true;
-                                    return;
-                                }
-                            }
-                            else
-                            {
-                                appSettings["UseFingerprint"] = "false";
+                                pendingAttempt = false;
+                                UIEnabled = true;
+                                return;
                             }
                         }
-                        
+                        else
+                        {
+                            appSettings["UseFingerprint"] = "false";
+                        }
+                    }
+                    
+                    var _=Task.Run(async () =>
+                    {
                         await AutoFillTotp();
                         
                         if (Totp.NullOrEmpty())
@@ -548,7 +547,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         {
                             UserId = user.Id,
                             Auth = user.Token.Item2,
-                            Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
+                            Body = await compressionUtility.Compress(JsonSerializer.Serialize(dto))
                         };
 
                         bool success = await convoService.KickUser(body.Sign(crypto, user.PrivateKeyPem));
@@ -603,26 +602,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            var _=Task.Run(async () =>
+            if (appSettings["UseFingerprint", false])
             {
-                if (appSettings["UseFingerprint", false])
+                if (await CrossFingerprint.Current.IsAvailableAsync())
                 {
-                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    if (!fingerprintAuthenticationResult.Authenticated)
                     {
-                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                        if (!fingerprintAuthenticationResult.Authenticated)
-                        {
-                            UIEnabled = true;
-                            pendingAttempt = false;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        appSettings["UseFingerprint"] = "false";
+                        UIEnabled = true;
+                        pendingAttempt = false;
+                        return;
                     }
                 }
-
+                else
+                {
+                    appSettings["UseFingerprint"] = "false";
+                }
+            }
+            
+            var _=Task.Run(async () =>
+            {
                 await AutoFillTotp();
 
                 if (Totp.NullOrEmpty())
@@ -643,7 +642,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = JsonConvert.SerializeObject(dto)
+                    Body = JsonSerializer.Serialize(dto)
                 };
 
                 bool success = await convoService.DeleteConvo(body.Sign(crypto, user.PrivateKeyPem));
@@ -665,7 +664,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             });
         }
 
-        private void OnClickedSubmit(object commandParam)
+        private async void OnClickedSubmit(object commandParam)
         {
             if (pendingAttempt)
             {
@@ -678,29 +677,29 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            pendingAttempt = true;
             UIEnabled = false;
+            pendingAttempt = true;
 
-            Task.Run(async () =>
+            if (appSettings["UseFingerprint", false])
             {
-                if (appSettings["UseFingerprint", false])
+                if (await CrossFingerprint.Current.IsAvailableAsync())
                 {
-                    if (await CrossFingerprint.Current.IsAvailableAsync())
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    if (!fingerprintAuthenticationResult.Authenticated)
                     {
-                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
-                        if (!fingerprintAuthenticationResult.Authenticated)
-                        {
-                            UIEnabled = true;
-                            pendingAttempt = false;
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        appSettings["UseFingerprint"] = "false";
+                        UIEnabled = true;
+                        pendingAttempt = false;
+                        return;
                     }
                 }
-
+                else
+                {
+                    appSettings["UseFingerprint"] = "false";
+                }
+            }
+            
+            var _ = Task.Run(async () =>
+            {
                 await AutoFillTotp();
 
                 if (Totp.NullOrEmpty())
@@ -737,12 +736,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     ConvoPasswordSHA512 = OldConvoPassword.SHA512(),
                 };
 
-                if (ExpirationUTC.Date != Convo.ExpirationUTC.Date || ExpirationTime != Convo.ExpirationUTC.TimeOfDay)
+                if (ExpirationUTC.Date != Convo.ExpirationUTC.FromUnixTimeMilliseconds().Date || ExpirationTime != Convo.ExpirationUTC.FromUnixTimeMilliseconds().TimeOfDay)
                 {
-                    dto.ExpirationUTC = ExpirationUTC.Date;
+                    dto.ExpirationUTC = ExpirationUTC.Date.ToUnixTimeMilliseconds();
                     if (ExpirationTime > TimeSpan.Zero && ExpirationTime < TimeSpan.FromHours(24))
                     {
-                        dto.ExpirationUTC += TimeSpan.FromTicks(new DateTime(ExpirationTime.Ticks).ToUniversalTime().Ticks);
+                        dto.ExpirationUTC += (long)TimeSpan.FromTicks(new DateTime(ExpirationTime.Ticks).ToUniversalTime().Ticks).TotalMilliseconds;
                     }
                 }
 
@@ -765,7 +764,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = await compressionUtility.Compress(JsonConvert.SerializeObject(dto))
+                    Body = await compressionUtility.Compress(JsonSerializer.Serialize(dto))
                 };
 
                 bool successful = await convoService.ChangeConvoMetadata(body.Sign(crypto, user.PrivateKeyPem));

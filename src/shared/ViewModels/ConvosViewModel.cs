@@ -17,11 +17,11 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.Cryptography.Asymmetric;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
@@ -31,7 +31,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Factories;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views.Popups;
 using GlitchedPolygons.GlitchedEpistle.Client.Models;
 using GlitchedPolygons.GlitchedEpistle.Client.Models.DTOs;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
@@ -40,7 +39,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Convos;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using GlitchedPolygons.Services.MethodQ;
 using Prism.Events;
-using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
@@ -81,6 +79,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         public ICommand OpenConvoCommand { get; }
         public ICommand EditConvoCommand { get; }
         public ICommand CopyConvoIdCommand { get; }
+        public ICommand ShowTutorialCommand { get; }
 
         #endregion
 
@@ -140,6 +139,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     methodQ.Schedule(() => ExecUI(eventAggregator.GetEvent<LogoutEvent>().Publish), DateTime.UtcNow.AddSeconds(0.2));
                 }
             });
+            
+            ShowTutorialCommand = new DelegateCommand(async _ => { await Application.Current.MainPage.DisplayAlert("Tutorial", localization["Tutorial_1"], "OK"); });
 
             CopyUserIdToClipboardCommand = new DelegateCommand(_ => OnCopyUserIdToClipboard());
 
@@ -158,18 +159,12 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);
         }
         
-        public async void OnAppearing()
+        public void OnAppearing()
         {
             UpdateList(true, false);
 
             UserId = user.Id;
             Username = userSettings.Username;
-
-            if (await SecureStorage.GetAsync("tutorial_1_seen") != "true")
-            {
-                await SecureStorage.SetAsync("tutorial_1_seen", "true");
-                await Application.Current.MainPage.DisplayAlert("Tutorial", localization["Tutorial_1"], "OK");
-            }
         }
 
         private void OnCopyUserIdToClipboard()
@@ -217,7 +212,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 }
                 catch (Exception e)
                 {
-                    logger?.LogError($"{nameof(ConvosViewModel)}::{nameof(UpdateList)}: User convos sync failed! Thrown exception: " + e.ToString());
+                    logger?.LogError($"{nameof(ConvosViewModel)}::{nameof(UpdateList)}: User convos sync failed! Thrown exception: " + e.Message);
                 }
 
                 if (showSpinningIndicator)
@@ -269,7 +264,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     UserId = user.Id,
                     Auth = user.Token.Item2,
-                    Body = JsonConvert.SerializeObject(dto)
+                    Body = JsonSerializer.Serialize(dto)
                 };
 
                 bool joined = await convoService.JoinConvo(body.Sign(crypto, user.PrivateKeyPem));

@@ -28,6 +28,7 @@ using Android.Content.PM;
 using Plugin.Fingerprint;
 using Plugin.Permissions;
 using FFImageLoading.Forms.Platform;
+using Plugin.CurrentActivity;
 using Xamarin.Forms;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
@@ -94,7 +95,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android
                 StartService(new Intent(this, typeof(AuthRefreshService)));
             });
 
-            CrossFingerprint.SetCurrentActivityResolver(() => this);
+            CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
 
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);

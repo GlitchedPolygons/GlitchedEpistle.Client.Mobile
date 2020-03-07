@@ -27,7 +27,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Alerts;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Paths;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Permissions;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using Plugin.Permissions.Abstractions;
 using Plugin.SimpleAudioPlayer;
 using Xamarin.Forms;
@@ -146,6 +145,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => isAudioPlaying;
             set => Set(ref isAudioPlaying, value);
         }
+        
+        private bool isFromServer;
+        public bool IsFromServer
+        {
+            get => isFromServer;
+            set => Set(ref isFromServer, value);
+        }
 
         public string FileSize => $"({FileBytes.GetFileSizeString()})";
 
@@ -193,6 +199,9 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             set => Set(ref audioDuration, value);
         }
 
+        public FontAttributes TextFontAttributes => IsFromServer ? FontAttributes.Italic : FontAttributes.None;
+        public FontAttributes SenderNameFontAttributes => IsFromServer ? FontAttributes.Bold | FontAttributes.Italic : FontAttributes.Bold;
+        
         public bool GifVisibility => IsGif();
         public bool AudioVisibility => IsAudio();
         public bool ImageVisibility => IsImage() || IsGif();

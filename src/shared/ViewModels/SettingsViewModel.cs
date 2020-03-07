@@ -23,7 +23,6 @@ using Xamarin.Essentials;
 using System;
 using System.Linq;
 using System.Windows.Input;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,7 +41,6 @@ using GlitchedPolygons.GlitchedEpistle.Client.Services.Web.Users;
 using OtpNet;
 using Plugin.Fingerprint;
 using Plugin.Fingerprint.Abstractions;
-using Plugin.Permissions.Abstractions;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 {
@@ -65,7 +63,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IEventAggregator eventAggregator;
         private readonly IPermissionChecker permissionChecker;
 
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Config") {UseDialog = false};
+        private readonly AuthenticationRequestConfiguration fingerprintConfig;
         #endregion
 
         #region Commands
@@ -217,7 +215,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                     return;
                 }
 
-                Task.Run(async () =>
+                ExecUI(async () =>
                 {
                     bool prev = useFingerprint;
                     
@@ -226,7 +224,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         return;
                     }
                     
-                    FingerprintAuthenticationResult auth = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    FingerprintAuthenticationResult auth = await CrossFingerprint.Current.AuthenticateAsync(fingerprintConfig);
 
                     switch (auth.Status)
                     {
@@ -344,6 +342,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             AboutCommand = new DelegateCommand(OnClickedAbout);
             CloseCommand = new DelegateCommand(OnClickedClose);
             RevertCommand = new DelegateCommand(OnClickedRevert);
+            
+            fingerprintConfig = new AuthenticationRequestConfiguration("Glitched Epistle - Config", localization["ChangeEpistleSettings"]);
         }
 
         public void OnAppearing()

@@ -23,7 +23,6 @@ using System.Reflection;
 using System.Globalization;
 using System.Collections.Generic;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile;
-using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using Xamarin.Forms;
 using Foundation;

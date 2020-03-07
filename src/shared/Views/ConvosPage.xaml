@@ -37,11 +37,24 @@
 
             <StackLayout Padding="5,4,5,1">
 
-                <Label Style="{DynamicResource MediumLabelStyle}"
-                       Text="{Binding Username}"
-                       HorizontalOptions="CenterAndExpand"
-                       HorizontalTextAlignment="Center"
-                       MaxLines="1" />
+                <StackLayout Orientation="Horizontal">
+                    <ff:CachedImage WidthRequest="18" 
+                                    HeightRequest="18" 
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center"
+                                    Source="{i:ImageResource GlitchedPolygons.GlitchedEpistle.Client.Mobile.Resources.Images.help-icon-white.png}">
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowTutorialCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+                
+                    <Label Style="{DynamicResource MediumLabelStyle}"
+                           Text="{Binding Username}"
+                           HorizontalOptions="CenterAndExpand"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center"
+                           MaxLines="1" />
+                </StackLayout>
 
                 <StackLayout Orientation="Horizontal"
                              HorizontalOptions="CenterAndExpand"
