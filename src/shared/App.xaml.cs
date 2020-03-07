@@ -58,6 +58,9 @@ using GlitchedPolygons.GlitchedEpistle.Client.Utilities;
 using Prism.Events;
 using Plugin.SimpleAudioPlayer;
 
+// Uncomment the following to be notified when the automatic token refresh cycle succeeds (works only when building in Debug mode).
+// #define DEBUG_LOG_SUCCESSFUL_AUTH_REFRESH
+
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
 {
     public partial class App : Application
@@ -336,7 +339,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                 if (freshToken.NotNullNotEmpty())
                 {
                     user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, freshToken);
-#if DEBUG
+#if DEBUG && DEBUG_LOG_SUCCESSFUL_AUTH_REFRESH
                     Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
                         title: "Auth token refresh",
                         message: "SUCCESSFUL",
@@ -373,7 +376,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                         if (response != null)
                         {
                             user.Token = new Tuple<DateTime, string>(DateTime.UtcNow, response.Auth);
-#if DEBUG
+#if DEBUG && DEBUG_LOG_SUCCESSFUL_AUTH_REFRESH
                             Device.BeginInvokeOnMainThread(() => Application.Current.MainPage.DisplayAlert(
                                 title: "Auth token refresh",
                                 message: "SUCCESSFUL",
@@ -473,7 +476,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile
                     {
                         convoPasswordProvider.SetPasswordSHA512(convo.Id, cachedPwSHA512);
                         ConvoMetadataDto metadata = await convoService.GetConvoMetadata(convo.Id, cachedPwSHA512, user.Id, user.Token.Item2);
-                        
+
                         if (metadata != null)
                         {
                             var viewModel = viewModelFactory.Create<ActiveConvoViewModel>();

@@ -159,7 +159,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             eventAggregator.GetEvent<UsernameChangedEvent>().Subscribe(newName => Username = newName);
         }
         
-        public async void OnAppearing()
+        public void OnAppearing()
         {
             UpdateList(true, false);
 
