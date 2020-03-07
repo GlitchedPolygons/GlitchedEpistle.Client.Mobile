@@ -289,7 +289,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 File.WriteAllBytes(path, FileBytes);
                 alertService.AlertLong(string.Format(localization["DownloadCompleteSuccessMessage"], path));
             }
-            catch (Exception)
+            catch
             {
                 alertService.AlertShort(localization["DownloadFailedErrorMessage"]);
                 return;

@@ -56,7 +56,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IKeyExchange keyExchange;
         private readonly IEventAggregator eventAggregator;
 
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle", "Biometric Login");
+        private readonly AuthenticationRequestConfiguration fingerprintConfig;
 
         #endregion
 
@@ -160,6 +160,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.appSettings = appSettings;
             this.totpProvider = totpProvider;
             this.eventAggregator = eventAggregator;
+            
+            fingerprintConfig = new AuthenticationRequestConfiguration("Glitched Epistle", localization["BiometricLogin"]);
 
             LoginCommand = new DelegateCommand(OnClickedLogin);
 
@@ -224,7 +226,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             {
                 if (await CrossFingerprint.Current.IsAvailableAsync())
                 {
-                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(fingerprintConfig);
                     if (!fingerprintAuthenticationResult.Authenticated)
                     {
                         goto end;

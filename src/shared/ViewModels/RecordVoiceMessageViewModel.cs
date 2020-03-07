@@ -19,12 +19,16 @@
 using System;
 using System.IO;
 using System.Windows.Input;
+using GlitchedPolygons.ExtensionMethods;
 using GlitchedPolygons.Services.MethodQ;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Commands;
+using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.Services.Localization;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Logging;
 using GlitchedPolygons.GlitchedEpistle.Client.Services.Settings;
+using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
 using Plugin.SimpleAudioPlayer;
 using Plugin.SimpleAudioRecorder;
 using Xamarin.Forms;
@@ -42,6 +46,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IMethodQ methodQ;
         private readonly IAppSettings appSettings;
         private readonly ILocalization localization;
+        private readonly ISilenceDetector silenceDetector;
 
         #endregion
 
@@ -126,6 +131,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private ulong? counter;
         private ulong? thumbUpdater;
+        private ulong? durationClamper;
         private ulong? recordingCirclePulse;
         private volatile int seconds;
         private ISimpleAudioPlayer audioPlayer;
@@ -138,6 +144,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.appSettings = appSettings;
 
             localization = DependencyService.Get<ILocalization>();
+            silenceDetector = DependencyService.Get<ISilenceDetector>();
             audioRecorder = DependencyService.Get<ISimpleAudioRecorder>();
 
             SendCommand = new DelegateCommand(OnSend);
@@ -240,25 +247,58 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
         private void OnStartRecording(object commandParam)
         {
+            if (IsRecording)
+            {
+                return;
+            }
+            
             StopCounter();
             StartCounter();
             audioRecorder.RecordAsync();
             IsRecording = true;
             DeviceDisplay.KeepScreenOn = true;
+            
+            if (durationClamper.HasValue)
+                methodQ.Cancel(durationClamper.Value);
+
+            durationClamper = methodQ.Schedule(() =>
+            {
+                OnStopRecording(null);
+                
+                if (appSettings["Vibration", true] && !silenceDetector.IsAudioMuted())
+                {
+                    try
+                    {
+                        Vibration.Vibrate(TimeSpan.FromMilliseconds(120));
+                    }
+                    catch
+                    {
+                        appSettings["Vibration"] = "false";
+                    }
+                }
+            }, DateTime.UtcNow.AddMinutes(30));
         }
 
         private async void OnStopRecording(object commandParam)
         {
             StopCounter();
+            
+            if (durationClamper.HasValue)
+            {
+                methodQ.Cancel(durationClamper.Value);
+                durationClamper = null;
+            }
+
             try
             {
-                Result = File.ReadAllBytes((await audioRecorder.StopAsync()).GetFilePath());
+                AudioRecording r = await audioRecorder.StopAsync();
+                Result = File.ReadAllBytes(r.GetFilePath());
                 Done = true;
                 IsRecording = false;
             }
             catch (Exception e)
             {
-                logger.LogError($"{nameof(RecordVoiceMessageViewModel)}::{nameof(OnStopRecording)}: Failed to record voice message. Thrown exception: {e.ToString()}");
+                logger.LogError($"{nameof(RecordVoiceMessageViewModel)}::{nameof(OnStopRecording)}: Failed to record voice message. Thrown exception: {e.Message}");
                 Reset();
             }
             DeviceDisplay.KeepScreenOn = false;

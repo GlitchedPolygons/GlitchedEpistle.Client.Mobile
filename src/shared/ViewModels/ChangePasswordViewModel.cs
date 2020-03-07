@@ -50,7 +50,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly ITotpProvider totpProvider;
         private readonly IPasswordChanger passwordChanger;
         
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Password Mod.", "Epistle Password Modification");
+        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle", "Password Modification");
 
         #endregion
 
@@ -158,7 +158,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             
             Task.Run(async () =>
             {
-                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is string totpSecret)
+                if (appSettings["SaveTotpSecret", false] && await SecureStorage.GetAsync("totp:" + user.Id) is { } totpSecret)
                 {
                     Totp = await totpProvider.GetTotp(totpSecret);
                     

@@ -63,6 +63,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Android.Services.Audio
                     recorder.SetAudioSource(AudioSource.Mic);
                     recorder.SetOutputFormat(OutputFormat.AacAdts);
                     recorder.SetAudioEncoder(AudioEncoder.Aac);
+                    recorder.SetAudioEncodingBitRate(32000);
+                    recorder.SetAudioSamplingRate(44100);
                     recorder.SetOutputFile(filePath);
                     recorder.Prepare();
                     recorder.Start();

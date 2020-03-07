@@ -711,7 +711,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
     <value>Do you want to send this voice message to the conversation?</value>
   </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
-    <value>Please note that the maximum recording length is set at 60 minutes.</value>
+    <value>Please note that the maximum recording length is set at 30 minutes.</value>
   </data>
   <data name="RecordAudioMessageLabel" xml:space="preserve">
     <value>Record audio message</value>
@@ -841,5 +841,11 @@ Please try again in 15 minutes.</comment>
   </data>
   <data name="EpistleCreateConvo" xml:space="preserve">
     <value>Epistle Create Convo</value>
+  </data>
+  <data name="SaveToDeviceButton" xml:space="preserve">
+    <value>Save to device</value>
+  </data>
+  <data name="BiometricLogin" xml:space="preserve">
+    <value>Biometric Login</value>
   </data>
 </root>

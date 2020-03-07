@@ -738,7 +738,7 @@ He or she will be banned forever from this conversation, and this is IRREVERSIBL
     <value>Vuoi inviare il messaggio vocale registrato a tutti i partecipanti della conversazione?</value>
   </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
-    <value>P.f. tieni conto che la lunghezza massima di registrazione è di 60 minuti.</value>
+    <value>P.f. tieni conto che la lunghezza massima di registrazione è di 30 minuti.</value>
   </data>
   <data name="RecordAudioMessageLabel" xml:space="preserve">
     <value>Registra messaggio vocale</value>
@@ -875,5 +875,11 @@ Please try again in 15 minutes.</comment>
   </data>
   <data name="EpistleCreateConvo" xml:space="preserve">
     <value>Epistle crea convo</value>
+  </data>
+  <data name="SaveToDeviceButton" xml:space="preserve">
+    <value>Salva come file</value>
+  </data>
+  <data name="BiometricLogin" xml:space="preserve">
+    <value>Login Biometrico</value>
   </data>
 </root>

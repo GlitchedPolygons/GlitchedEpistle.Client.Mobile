@@ -745,7 +745,7 @@ Er oder sie würde für immer gesperrt, UNWIDERRUFLICH!</comment>
     <comment>Möchtest du die aufgenommene Nachricht an alle Teilnehmer der Unterhaltung senden?</comment>
   </data>
   <data name="PreviewAudioRecordingLabel" xml:space="preserve">
-    <value>Bitte beacht, dass d' maximali Ufnaahmezyt 60 Minute isch!</value>
+    <value>Bitte beacht, dass d' maximali Ufnaahmezyt 30 Minute isch!</value>
   </data>
   <data name="RecordAudioMessageLabel" xml:space="preserve">
     <value>Spraachnachricht ufnääh</value>
@@ -882,5 +882,11 @@ Probiere es in dem Fall in 15 Minuten nochmal.</comment>
   </data>
   <data name="EpistleCreateConvo" xml:space="preserve">
     <value>Epistle Ungerhautig erstelle</value>
+  </data>
+  <data name="SaveToDeviceButton" xml:space="preserve">
+    <value>Ufem Gräät spichere</value>
+  </data>
+  <data name="BiometricLogin" xml:space="preserve">
+    <value>Biometrisches Login</value>
   </data>
 </root>

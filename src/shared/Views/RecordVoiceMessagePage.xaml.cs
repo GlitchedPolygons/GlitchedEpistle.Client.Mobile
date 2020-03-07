@@ -16,9 +16,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using FFImageLoading.Transformations;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using FFImageLoading.Transformations;
 using GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels.Interfaces;
 
 namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
@@ -33,7 +33,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.Views
             InitializeComponent();
             
             Application.Current.Resources.TryGetValue("HeaderButtonIdleColorHex", out var idleColorHex);
-            tint = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") {EnableSolidColor = true};
+            tint = new TintTransformation(idleColorHex?.ToString() ?? "#ffffff") { EnableSolidColor = true };
         }
         
         protected override void OnAppearing()
