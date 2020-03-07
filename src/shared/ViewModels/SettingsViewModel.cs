@@ -63,7 +63,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IEventAggregator eventAggregator;
         private readonly IPermissionChecker permissionChecker;
 
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Config", "Epistle Config Mod.");
+        private readonly AuthenticationRequestConfiguration fingerprintConfig;
         #endregion
 
         #region Commands
@@ -224,7 +224,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                         return;
                     }
                     
-                    FingerprintAuthenticationResult auth = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                    FingerprintAuthenticationResult auth = await CrossFingerprint.Current.AuthenticateAsync(fingerprintConfig);
 
                     switch (auth.Status)
                     {
@@ -342,6 +342,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             AboutCommand = new DelegateCommand(OnClickedAbout);
             CloseCommand = new DelegateCommand(OnClickedClose);
             RevertCommand = new DelegateCommand(OnClickedRevert);
+            
+            fingerprintConfig = new AuthenticationRequestConfiguration("Glitched Epistle - Config", localization["ChangeEpistleSettings"]);
         }
 
         public void OnAppearing()

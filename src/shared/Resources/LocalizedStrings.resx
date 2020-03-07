@@ -836,4 +836,10 @@ Please try again in 15 minutes.</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
 Please try again in 15 minutes.</comment>
   </data>
+  <data name="ChangeEpistleSettings" xml:space="preserve">
+    <value>Change Epistle Settings</value>
+  </data>
+  <data name="EpistleCreateConvo" xml:space="preserve">
+    <value>Epistle Create Convo</value>
+  </data>
 </root>

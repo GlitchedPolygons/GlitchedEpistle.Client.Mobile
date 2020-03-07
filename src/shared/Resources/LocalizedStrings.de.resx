@@ -874,4 +874,10 @@ Probiere es in dem Fall in 15 Minuten nochmal.</value>
     <comment>Note that if your credentials are correct but login fails nonetheless, it might be that you're locked out due to too many failed attempts!
 Please try again in 15 minutes.</comment>
   </data>
+  <data name="ChangeEpistleSettings" xml:space="preserve">
+    <value>Epistle Einstellungen verändern</value>
+  </data>
+  <data name="EpistleCreateConvo" xml:space="preserve">
+    <value>Epistle Unterhaltung erstellen</value>
+  </data>
 </root>

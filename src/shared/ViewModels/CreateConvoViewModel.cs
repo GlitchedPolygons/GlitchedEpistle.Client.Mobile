@@ -62,8 +62,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         private readonly IEventAggregator eventAggregator;
         private readonly IAsymmetricCryptographyRSA crypto;
         private readonly IConvoPasswordProvider convoPasswordProvider;
-        
-        private static readonly AuthenticationRequestConfiguration FINGERPRINT_CONFIG = new AuthenticationRequestConfiguration("Glitched Epistle - Convo Gen.", "Epistle Convo Creation");
+
+        private readonly AuthenticationRequestConfiguration fingerprintConfig;
 
         #endregion
 
@@ -175,6 +175,8 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             this.eventAggregator = eventAggregator;
             this.compressionUtility = compressionUtility;
             this.convoPasswordProvider = convoPasswordProvider;
+            
+            fingerprintConfig = new AuthenticationRequestConfiguration("Glitched Epistle", localization["EpistleCreateConvo"]);
 
             CancelCommand = new DelegateCommand(OnCancel);
             CreateCommand = new DelegateCommand(OnClickedCreate);
@@ -203,7 +205,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 {
                     if (await CrossFingerprint.Current.IsAvailableAsync())
                     {
-                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(FINGERPRINT_CONFIG);
+                        var fingerprintAuthenticationResult = await CrossFingerprint.Current.AuthenticateAsync(fingerprintConfig);
                         if (!fingerprintAuthenticationResult.Authenticated)
                         {
                             CreateButtonEnabled = CancelButtonEnabled = true;

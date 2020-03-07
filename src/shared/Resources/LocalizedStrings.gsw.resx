@@ -877,4 +877,10 @@ Probier's am beschte i 15 Minute nomau.</value>
     <comment>Bitte beachte: wenn die Anmeldung fehlschlägt trotz korrekter Anmeldedaten, kann es sein, dass du aufgrund zu vieler Fehlversüche temporär gesperrt wurdest!
 Probiere es in dem Fall in 15 Minuten nochmal.</comment>
   </data>
+  <data name="ChangeEpistleSettings" xml:space="preserve">
+    <value>Epistle iistellige übernäh</value>
+  </data>
+  <data name="EpistleCreateConvo" xml:space="preserve">
+    <value>Epistle Ungerhautig erstelle</value>
+  </data>
 </root>
