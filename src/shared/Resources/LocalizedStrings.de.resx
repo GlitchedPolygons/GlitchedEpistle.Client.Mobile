@@ -821,7 +821,7 @@ Convos with the Epistle icon badge contain new unread messages.</comment>
   <data name="Tutorial_1" xml:space="preserve">
     <value>Dies ist die Liste deiner Unterhaltungen. Wenn sie leer ist, kannst du eine neue Unterhaltung erstellen oder einer bereits existierenden beitreten mithilfe deren Unterhaltungs-ID und Zugriffspasswort.
 
-Unterhaltungen an denen du teilnimmst aber du auf diese Gerät noch nie geöffnet hast erscheinen hier grau in der Liste.
+Unterhaltungen an denen du teilnimmst aber du auf diesem Gerät noch nie geöffnet hast erscheinen hier grau in der Liste.
 Man muss eine Unterhaltung mindestens einmal geöffnet haben um deren Updates und Benachrichtigungen zu bekommen.</value>
     <comment>This is the list of conversations. If it's empty, you can create a new convo or join an existing one using its convo id and access password.
 
