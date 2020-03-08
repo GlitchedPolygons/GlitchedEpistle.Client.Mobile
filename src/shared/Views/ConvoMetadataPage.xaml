@@ -124,6 +124,7 @@
                     <DatePicker Style="{DynamicResource DatePickerStyle}"
                                 Date="{Binding ExpirationUTC}"
                                 MinimumDate="{Binding MinExpirationUTC}"
+                                MaximumDate="{Binding MaxExpirationUTC}"
                                 HorizontalOptions="FillAndExpand" />
 
                     <TimePicker Time="{Binding ExpirationTime}"

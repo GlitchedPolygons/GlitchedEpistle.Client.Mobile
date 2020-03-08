@@ -136,6 +136,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
             get => minExpirationUTC;
             set => Set(ref minExpirationUTC, value);
         }
+        
+        private DateTime maxExp = DateTime.UtcNow.AddDays(30);
+        public DateTime MaxExpirationUTC
+        {
+            get => maxExp;
+            set => Set(ref maxExp, value);
+        }
 
         private DateTime expirationUTC = DateTime.UtcNow.AddDays(14);
         public DateTime ExpirationUTC
@@ -149,6 +156,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         {
             get => expirationTime;
             set => Set(ref expirationTime, value);
+        }
+        
+        private TimeSpan maxExpirationTime;
+        public TimeSpan MaxExpirationTime
+        {
+            get => maxExpirationTime;
+            set => Set(ref maxExpirationTime, value);
         }
 
         public string ExpirationLabel => (ExpirationUTC.Date + ExpirationTime).ToString(CultureInfo.CurrentCulture);
@@ -247,6 +261,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 ExecUI(() => alertService.AlertLong(localization["Copied"]));
             });
             OpenParticipantContextMenuCommand = new DelegateCommand(OnOpenParticipantContextMenu);
+            
+            Task.Run(async () =>
+            {
+                int maxDays = await convoService.GetMaximumConvoDurationDays().ConfigureAwait(false);
+                MaxExpirationUTC = maxDays > 0 ? DateTime.UtcNow.AddDays(maxDays) : DateTime.MaxValue;
+                MaxExpirationTime = MaxExpirationUTC.TimeOfDay;
+            });
         }
 
         public void OnAppearing()

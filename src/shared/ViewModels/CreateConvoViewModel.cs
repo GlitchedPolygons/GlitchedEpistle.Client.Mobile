@@ -98,12 +98,26 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
         }
 
         public DateTime MinExpirationUTC => DateTime.UtcNow.AddDays(2);
+        
+        private DateTime maxExp = DateTime.UtcNow.AddDays(30);
+        public DateTime MaxExpirationUTC
+        {
+            get => maxExp;
+            set => Set(ref maxExp, value);
+        }
 
         private TimeSpan expirationTime;
         public TimeSpan ExpirationTime
         {
             get => expirationTime;
             set => Set(ref expirationTime, value);
+        }
+        
+        private TimeSpan maxExpirationTime;
+        public TimeSpan MaxExpirationTime
+        {
+            get => maxExpirationTime;
+            set => Set(ref maxExpirationTime, value);
         }
 
         private string convoPassword;
@@ -180,6 +194,13 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
 
             CancelCommand = new DelegateCommand(OnCancel);
             CreateCommand = new DelegateCommand(OnClickedCreate);
+            
+            Task.Run(async () =>
+            {
+                int maxDays = await convoService.GetMaximumConvoDurationDays().ConfigureAwait(false);
+                MaxExpirationUTC = maxDays > 0 ? DateTime.UtcNow.AddDays(maxDays) : DateTime.MaxValue;
+                MaxExpirationTime = MaxExpirationUTC.TimeOfDay;
+            });
         }
 
         public void OnAppearing()
