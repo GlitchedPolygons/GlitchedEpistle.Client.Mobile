@@ -268,7 +268,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 if (lastMessages.NotNullNotEmpty())
                 {
                     var decryptedMessages = DecryptMessages(lastMessages).ToArray();
-                    Messages = decryptedMessages.NotNullNotEmpty() ? new ObservableCollection<MessageViewModel>(decryptedMessages.Distinct().OrderBy(_ => _.TimestampDateTimeUTC)) : new ObservableCollection<MessageViewModel>();
+                    Messages = decryptedMessages.NotNullNotEmpty() ? new ObservableCollection<MessageViewModel>(decryptedMessages.Distinct().Where(m => m != null).OrderBy(_ => _.TimestampDateTimeUTC)) : new ObservableCollection<MessageViewModel>();
                 }
 
                 if (Loading)
@@ -518,7 +518,7 @@ namespace GlitchedPolygons.GlitchedEpistle.Client.Mobile.ViewModels
                 return;
             }
 
-            var decryptedMessages = DecryptMessages(fetchedMessages.Distinct()).OrderBy(m => m?.TimestampDateTimeUTC);
+            var decryptedMessages = DecryptMessages(fetchedMessages.Distinct()).Where(m => m != null).OrderBy(m => m.TimestampDateTimeUTC);
 
             if (Loading)
             {

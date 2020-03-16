@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.glitchedpolygons.glitchedepistle.client.mobile" android:versionCode="20200308" android:versionName="3.0.0.1" android:installLocation="preferExternal">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.glitchedpolygons.glitchedepistle.client.mobile" android:versionCode="20200316" android:versionName="3.1.3.0" android:installLocation="preferExternal">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
 	<application android:label="Glitched Epistle" android:icon="@mipmap/launcher_foreground">
 		<provider android:name="android.support.v4.content.FileProvider" android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true">
