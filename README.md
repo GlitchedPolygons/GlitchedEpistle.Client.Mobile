@@ -1,4 +1,13 @@
+> [!IMPORTANT]
+>
+> # **NOTICE:**
+>
+> ## Development of this project has been migrated to: https://codeberg.org/GlitchedPolygons/GlitchedEpistle.Client.Mobile
+>
+> ## All pull requests and issues on GitHub will be ignored from the 16th of August, 2025 onwards.
+
 # Glitched Epistle
+
 ## Mobile Client (Android & iOS)
 
 * Available now for Android on [Google Play Store](https://play.google.com/store/apps/details?id=com.glitchedpolygons.glitchedepistle.client.mobile).
@@ -11,7 +20,7 @@
 * Navigate to a directory where you'd like to store this repo.
 * Open the command line interface in that folder and execute the following command:
 ```
-git clone https://github.com/GlitchedPolygons/GlitchedEpistle.Client.Mobile.git "GlitchedEpistle.Client.Mobile"
+git clone https://codeberg.org/GlitchedPolygons/GlitchedEpistle.Client.Mobile.git "GlitchedEpistle.Client.Mobile"
 ```
 
 | | | |
